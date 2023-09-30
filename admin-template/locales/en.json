@@ -1,0 +1,52 @@
+{
+  "common": {
+    "home": "Homepage",
+    "about": "About Us",
+    "service": "Service",
+    "product": "Product",
+    "news": "News",
+    "recruitment": "Recruitment",
+    "language": "Language",
+    "english": "English",
+    "vietnamese": "Vietnamese",
+    "japanese": "Japanese",
+    "see_all": "See all",
+    "goemon": "GoEMON",
+    "goemon_description": "Support platform - connecting foreigners in Japan",
+    "goemon_detail": "GoEMON is a development platform for foreigners in Japan, supporting foreigners through 3 services ",
+    "goemon_community": "Community to answer questions",
+    "goemon_recruitment": "Job support in Japan",
+    "goemon_home": "Support to rent and buy a house in Japan",
+    "view_goemon": "View GoEMON",
+    "post_news": "Posts - News",
+    "contact_us": "Contact Us",
+    "more_about_us": "More about us",
+    "join_with_us": "Join with us",
+    "join_description": "Become a member of IT Mentor to create value together.",
+    "our_product": "Our products",
+    "see_all_service": "See all services",
+    "see_all_product": "See all products",
+    "see_all_news": "See all news",
+    "see_all_recruitment": "See all recruitment",
+    "service_title": "Advise & Develop high quality and reliable software",
+    "product_title": "Explore and enjoy our products",
+    "recruitment_title": "Job opportunities",
+    "team_activity": "Team activity",
+    "contact_info": "Contact information"
+  },
+  "home": {
+    "title": "IT Mentor",
+    "slogan": "Work together for success",
+    "introduction": "IT Mentor is an Information Technology company based in Da Nang city. We provide software products and services to customers in many countries, especially in Japan. With a team of highly qualified and experienced engineers in the IT industry, we can provide technology solutions as well as help businesses realize ideas and requirements into quality products. and useful for business.",
+    "mobile_development": "Mobile development",
+    "web_development": "Web development",
+    "software_development": "Software development",
+    "machine_learning": "Machine Learning",
+    "deep_learning": "Deep Learning",
+    "microservices": "Microservices"
+  },
+  "about": {
+    "our_company": "Our company",
+    "work_with_us": "Work with us"
+  }
+}

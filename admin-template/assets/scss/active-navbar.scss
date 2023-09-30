@@ -1,0 +1,31 @@
+@import 'variables';
+.sidebar {
+  a {
+    transition: 0.3s ease-out;
+  }
+  a.nuxt-link-active {
+    background: $color-blue;
+    border-radius: 0px 32px 32px 0px;
+    color: $color-white;
+  }
+  a.nuxt-link-exact-active {
+    background: $color-blue;
+    border-radius: 0px 32px 32px 0px;
+    color: $color-white;
+  }
+  // Cusotm active for btn include a tag
+  .btn-blue a.nuxt-link-exact-active {
+    color: $color-white !important;
+    border: none !important;
+    font-weight: 600 !important;
+  }
+  .btn-blue:hover a.nuxt-link-exact-active {
+    background-color: $color-white;
+    color: $color-blue !important;
+  }
+  .btn-blue a.nuxt-link-exact-active:hover {
+    background-color: transparent !important;
+    color: $color-blue !important;
+    border: none !important;
+  }
+}

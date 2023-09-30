@@ -1,0 +1,47 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .page-item {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+
+    a {
+      background-color: $neutral-0;
+      @include text-style(14px, 21px, 600, $neutral-600, 0);
+      padding: 7px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: $neutral-200;
+        @include text-style(14px, 14px, 600, $neutral-700, 0);
+        padding: 7px;
+        border-radius: 5px;
+      }
+    }
+
+    &.active {
+      a {
+        background-color: $secondary-200;
+        @include text-style(14px, 14px, 600, $secondary-500, 0);
+        padding: 7px;
+        border-radius: 5px;
+      }
+    }
+
+    &.disabled {
+      cursor: not-allowed !important;
+
+      a {
+        cursor: not-allowed !important;
+
+        &:hover {
+          background-color: $neutral-0;
+        }
+      }
+    }
+  }
+}

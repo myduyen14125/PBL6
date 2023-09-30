@@ -1,0 +1,9 @@
+{
+  "apps": [
+      {
+          "name": "app_jp_admin",
+          "script": "npm",
+          "args" : "start"
+      }
+  ]
+}

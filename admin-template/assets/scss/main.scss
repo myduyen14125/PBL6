@@ -1,0 +1,558 @@
+@import "variables";
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+a {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+Custom v-slect
+.style-chooser .vs__search::placeholder
+.style-chooser .vs__search::placeholder {
+  color: $color-secondary;
+  font-size: 14px;
+  font-weight: 400;
+}
+.style-chooser .vs__dropdown-toggle,
+.style-chooser .vs__dropdown-menu {
+  background: $color-white;
+  font-weight: 400;
+  font-size: 16px;
+  border: 1px solid $color-gray-lighter;
+  width: 780px;
+}
+.style-chooser .vs__dropdown-toggle {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  width: 780px;
+  font-size: 14px;
+  font-weight: 400;
+  
+}
+.style-chooser .vs__actions {
+  padding-right: 21px !important;
+}
+.style-chooser .vs__dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(71, 79, 98, 0.1);
+  font-size: 14px;
+  font-weight: 400;
+  li {
+    &:hover {
+      background-color: $color-white;
+      color: $color-blue !important;
+    }
+    background-color: white;
+    color: $color-secondary !important;
+  }
+}
+.style-chooser .vs__dropdown-option {
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+.style-chooser .vs__clear {
+  display: none;
+}
+.style-chooser .vs__open-indicator {
+  fill: $color-secondary;
+}
+.style-chooser .vs__search {
+  padding: 12px;
+  opacity: .7;
+  font-size: 14px;
+  font-weight: 400;
+}
+.style-chooser .vs__selected {
+  color: $color-secondary;
+  font-size: 14px;
+  font-weight: 400;
+}
+the following code is used to hide the selected value when the dropdown is open
+.style-chooser .vs--single.vs--loading .vs__selected, .vs--single.vs--open .vs__selected {
+  // opacity: 0;
+  margin-top: 16px;
+}
+// Custom only 1 row for v-select 
+:deep(.vs--single) {
+  transition: 0s;
+  &:not(.vs--open) .vs__selected + .vs__search {
+    // force this to not use any space
+    // we still need it to be rendered for the focus
+    width: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    height: 0;
+    transition: 0s; // for not rolling top down
+  }
+  .vs--open {
+    position: static !important;
+    transition: 0s;
+  }
+
+  .vs__selected-options {
+    // do not allow growing
+    width: 0;
+  }
+
+  .vs__selected {
+    // display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    overflow: hidden;
+  }
+}
+
+
+// Custom input 
+.form-control {
+  color: $color-secondary !important;
+}
+input[type="checkbox"] {
+  width: auto !important;
+}
+input {
+  height: 48px;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 12px;
+  color: $color-primary;
+  background: $color-white;
+  border: 1px solid $color-gray-lighter;
+  border-radius: 8px;
+  box-shadow: none !important;
+  width: 393px;
+  outline: none;
+  transition: 0.3s ease-out;
+  &::placeholder {
+    color: $color-secondary;
+  }
+  &:focus {
+    border: 1px solid $color-blue;
+  }
+}
+.datepicker input {
+  width: 780px;
+  color: $color-secondary;
+  &::placeholder {
+    color: $color-secondary;
+    opacity: 1;
+  }
+}
+textarea {
+  font-size: 14px;
+  background: $color-white;
+  border: 1px solid $color-gray-lighter;
+  border-radius: 8px;
+  box-shadow: none !important;
+  width: 292px;
+}
+
+a {
+	text-decoration: none;
+}
+.img-fluid {
+  height:   revert-layer !important;
+}
+.fit-content {
+  width: fit-content;
+}
+.mt-2-5 {
+  margin-top: 12px;
+}
+.mb-2-5 {
+  margin-bottom: 12px;
+}
+.ml-2-5 {
+  margin-left: 12px;
+}
+.mr-2-5 {
+  margin-right: 12px;
+}
+.pt-2-5 {
+  padding-top: 12px;
+}
+.pb-2-5 {
+  padding-bottom: 12px;
+}
+.pl-2-5 {
+  padding-left: 12px;
+}
+.pr-2-5 {
+  padding-right: 12px;
+}
+.pt-80 {
+  padding-top: 80px;
+}
+.pb-80 {
+  padding-bottom: 80px;
+}
+.py-80 {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.pt-40 {
+  padding-top: 40px;
+}
+.py-40 {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.pb-48 {
+  padding-bottom: 48px;
+}
+.h-90 {
+  height: 67vh;
+}
+.h-38 {
+  height: 38px;
+}
+.h-48 {
+  height: 48px;
+}
+.h-57 {
+  height: 57px;
+}
+.min-h-48 {
+  min-height: 48px;
+}
+.min-h-57 {
+  min-height: 57px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.cursor-default {
+  cursor: default !important;
+}
+.break-word {
+  word-break: break-word;
+}
+.break-all {
+  word-break: break-all;
+}
+.white-space {
+  white-space: pre-wrap;
+}
+.validate-text {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.w-fit-content {
+  width: fit-content;
+}
+.w-10 {
+  width: 10%;
+}
+.w-12 {
+  width: 12%;
+}
+.w-15 {
+  width: 15%;
+}
+.w-20 {
+  width: 20%;
+}
+.w-40 {
+  width: 40%;
+}
+.w-60 {
+  width: 60%;
+}
+.w-60px {
+  width: 60px !important;
+}
+.font-14 {
+  font-size: 14px !important;
+}
+.btn-custom {
+  border-radius: 80px;
+  border: 1px solid $color-blue;
+  height: 40px;
+  min-width: fit-content;
+  padding: 0 24px;
+  transition: 0.3 all ease;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+}
+.btn-blue {
+  background-color: $color-blue;
+  color: $color-white;
+  transition: 0.3s ease-out;
+  a {
+    color: $color-white;
+    transition: 0.3s ease-out;
+  }
+  &:hover {
+    background-color: $color-primary;
+    color: $color-white;
+    a {
+      color: $color-white;
+    }
+  }
+}
+.btn-white {
+  background-color: transparent;
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  transition: 0.3s ease-out;
+  a {
+    color: $color-primary;
+  }
+  &:hover {
+    background-color: $color-primary;
+    color: $color-white;
+    a {
+      color: $color-white;
+    }
+  }
+}
+.btn-disabled {
+  background-color: $color-gray-lighter;
+  color: $color-gray;
+  border: 1px solid $color-gray-lighter;
+  transition: 0.3s ease-out;
+  a {
+    color: $color-gray;
+  }
+  &:hover {
+    background-color: $color-gray-lighter !important;
+    color: $color-gray !important;
+    a {
+      color: $color-gray !important;
+    }
+  }
+}
+.btn-back {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.btn-add {
+  background-color: transparent;
+  border: 1px solid $color-blue;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: $color-blue;
+  font-size: 12px;
+  transition: 0.3s ease-out;
+  &:hover {
+    color: $color-primary;
+  }
+}
+// Custom path 
+.path {
+  font-weight: 400;
+  font-size: 14px;
+  .root {
+    color: $color-secondary;
+    transition: 0.3s ease-out;
+    &:hover {
+      color: $color-blue;
+    }
+  }
+  .child {
+    color: $color-blue;
+  }
+}
+.data-label {
+  color: $color-secondary;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+.title {
+  color: $color-primary;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+}
+.desc {
+  color: $color-secondary;
+  font-weight: 400;
+  font-size: 18px;
+}
+.desc-small {
+  color: $color-secondary;
+  font-weight: 400;
+  font-size: 16px;
+}
+.number-index {
+  width: 24px;
+  height: 24px;
+  background-color: $color-blue;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 400;
+  padding-top: 2px;
+  text-align: center;
+}
+.number-index-bigger {
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  background-color: $color-blue;
+  color: $color-white;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 600;
+  padding-top: 6px;
+}
+
+.status {
+  height: 25px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  font-size: 12px;
+  width: 60px;
+}
+.status-done {
+  background-color: $bg-green;
+  color: $color-green !important;
+}
+.status-todo {
+  background-color: $bg-red;
+  color: $color-red !important;
+}
+.status-doing {
+  background-color: $bg-yellow;
+  color: $color-yellow !important;
+}
+.category {
+  background-color: $bg-gray !important;
+  color: $color-blue !important;
+  border-radius: 6px;
+  font-size: 12px;
+  padding: 4px 8px;
+  width: fit-content !important;
+}
+
+.ellipsed {
+  // text-overflow: ellipsis;
+  // overflow: hidden;
+  // white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; //change number of lines here
+  -webkit-box-orient: vertical;
+}
+.ellipsed-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; //change number of lines here
+  -webkit-box-orient: vertical;
+}
+.ellipsed-2 {
+  // text-overflow: ellipsis;
+  // overflow: hidden;
+  // white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; //change number of lines here
+  -webkit-box-orient: vertical;
+}
+.no-result {
+  position: absolute;
+  top: calc(50% - 100px);
+  left: calc(50% - 100px);
+  p {
+    color: $color-primary;
+  }
+  img {
+    width: 200px;
+    height: 200px;
+  }
+}
+// Custom my toast
+.my-toast {
+  position: fixed;
+  top: 0 !important;
+  right: -105px !important;
+  // width: 472px !important;
+  // height: 90px !important;
+  // background-color: $color-white !important;
+  // color: $color-primary !important;
+  // border-radius: 10px !important;
+  // box-shadow: 0px 16px 24px rgba(71, 79, 98, 0.12) !important;
+  // border-left: 4px solid #08875D;
+}
+
+// Custom toggle publish
+
+// th {
+//   text-align: center !important;
+// }
+// td {
+//   text-align: center !important;
+// }
+
+// animation
+.show {
+  transform: translateX(0%);
+  transition: all .7s ease;
+}
+
+.hide {
+  transform: translateX(120%);
+  transition: all .7s ease;
+}
+
+
+///////////////////////////
+.hiddenBottom {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(50%);
+  transition: all 1s;
+}
+
+.showTop {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}
+
+//////////////////////////////
+.hiddenRight {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(50%);
+  transition: all 1s;
+}
+
+.showLeft {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}
+
+////////////////////////////////////////
+.hiddenLeft {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-50%);
+  transition: all 1s;
+}
+
+.showRight {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}

@@ -1,0 +1,147 @@
+$color-blue: #3563e9;
+$color-blue-darker: #0015d4;
+$color-primary: rgba(9, 26, 117, 0.9); // use for title...
+$color-secondary: #5F6C85; // use  for gray text 
+$color-red: #E02D3C;
+$color-red-2: #E60023;
+$color-white: #fff;
+$color-green: #08875D;
+$color-yellow: #B25E09;
+
+$color-gray: #ADB5BD;;
+$color-gray-lighter: #E1E6EF;
+$color-gray-darker: #94A0B8;
+$color-blue-hover: #DEEBFF;
+
+$bg-blue-lighter: #F3F6FF;
+$bg-gray: #F0F6FF;
+$bg-red: rgba(224, 45, 60, 0.1);
+$bg-black: #23272F;
+$bg-purple: #7C5CFC;
+$bg-dark-1: #1A202C;
+$bg-green: #a0fadc;
+$bg-yellow: #FFF8EB;
+
+
+.color-blue {
+  color: $color-blue;
+}
+.color-blue-darker {
+  color: $color-blue-darker;
+}
+.color-blue-hover {
+  color: $color-blue-hover;
+}
+.color-red {
+  color: $color-red;
+}
+.color-yellow {
+  color: $color-yellow !important;
+}
+.color-gray {
+  color: $color-gray;
+}
+.color-gray-darker {
+  color: #94A0B8;
+}
+.color-white {
+  color: $color-white;
+}
+.color-primary {
+  color: $color-primary;
+}
+.color-secondary {
+  color: $color-secondary;
+}
+.color-gray-lighter {
+  color: $color-gray-lighter;
+}
+.bg-white {
+  background-color: $color-white;
+}
+.bg-blue-lighter {
+  background-color: $bg-blue-lighter;
+}
+.bg-gray {
+  background-color: $bg-gray;
+}
+.bg-black {
+  background-color: $bg-black;
+}
+.bg-purple {
+  background-color: $bg-purple;
+}
+.bg-dark-1 {
+  background-color: $bg-dark-1;
+}
+
+@import './color.scss';
+
+$primary: $cyan-400;
+$border-color: $slate-300;
+$text-color: $slate-600;
+$hot: $rose-700;
+$error-text: $rose-600;
+$success-text: $green-500;
+$background-color: $slate-100;
+$hover-background-color: $slate-300;
+$background-color1: #1a3680;
+$primary-button: $sky-900;
+$hover-primary-button: $sky-800;
+$link-text: $sky-500;
+$hover-link-text: $sky-300;
+
+$background-color: #F3F6FF;
+
+$neutral-0: #ffffff;
+$neutral-100: #f8f9fc;
+$neutral-200: #F1F3F9;
+$neutral-300: #e1e6ef;
+$neutral-600: #5F6C85;
+$neutral-700: #3F444D;
+$neutral-800: #23272F;
+$neutral-900: #1B1F27;
+$neutral-1000: #0A0D14;
+
+$primary-100: #F0F5FF;
+$primary-700: #5F8AF5;
+$primary-800: #3563E9; 
+$primary-900: #2345C2;
+
+$secondary-0:#F0F6FF;
+$secondary-100:#DEEBFF;
+$secondary-200:#B5CFFF;
+$secondary-300:#8CB1FF;
+$secondary-400:#5F8AF5;
+$secondary-500:#3563E9;
+$secondary-600:#2345C2;
+$secondary-700:#142D9C;
+$secondary-800:#091A75;
+$secondary-900:#060E4F;
+
+$success-700: #08875D;
+$success-800: #04724D;
+$success-900: #066042;
+
+$warning-100: #FFF8EB;
+$warning-700: #B25E09;
+$warning-800: #96530F;
+$warning-900: #80460D;
+
+$danger-100: #FEF1F2;
+$danger-700: #E02D3C;
+$danger-800: #BA2532;
+$danger-900: #981B25;
+
+$text-primary: rgba(9, 26, 117, 0.9);
+$text-secondary: rgba(9, 26, 117, 0.6);
+$text-disabled: #94A0B8;
+
+$text-primary1: #FFFFFF;
+$text-secondary1: #CBD2E1;
+$text-disabled1: #CBD2E1;
+
+$elevation1: 0px 2px 4px rgba(0, 0, 0, 0.24);
+$elevation2:  0px 4px 4px rgba(71, 79, 98, 0.1);
+$elevation3:  0px 8px 16px rgba(0, 0, 0, 0.12);
+$elevation4: 0px 16px 24px rgba(71, 79, 98, 0.12);
