@@ -24,5 +24,29 @@
       </clipPath>
     </defs>
   </svg>
+  <svg
+    v-if="icon == types.toggleMenu"
+    class="block h-4 w-4 fill-current"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>Mobile menu</title>
+    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+  </svg>
+  <svg
+    v-if="icon == types.closeMenu"
+    class="h-4 w-4 text-gray-400 cursor-pointer hover:text-gray-500"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M6 18L18 6M6 6l12 12"
+    ></path>
+  </svg>
 </template>
 <script lang="ts" src="./SvgIcon.ts"></script>

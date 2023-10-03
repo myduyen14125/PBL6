@@ -1,8 +1,9 @@
 <template>
+  <Header></Header>
   <div class="content-wrapper">
-    <div class="content-header">
+    <div v-if="$slots.header" class="content-header">
       <div class="container-fluid">
-        <Header></Header>
+        <slot name="header" />
       </div>
     </div>
     <div class="content">

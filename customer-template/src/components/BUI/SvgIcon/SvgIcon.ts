@@ -8,6 +8,8 @@ export default defineComponent({
   setup() {
     const types = {
       calendar: "calendar",
+      toggleMenu: "toggleMenu",
+      closeMenu: "closeMenu",
     };
 
     return {
