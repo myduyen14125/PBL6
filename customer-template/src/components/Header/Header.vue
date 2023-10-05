@@ -3,7 +3,7 @@
     <div class="container">
       <nav class="relative px-4 py-4 flex justify-between items-center">
         <a class="text-3xl font-bold leading-none" href="#">
-          <img :src="logo" alt="Logo" />
+          <img :src="logo" alt="Logo" width="60" height="60" />
         </a>
         <div class="lg:hidden">
           <button class="navbar-burger flex items-center text-primaryColor p-3">
@@ -28,24 +28,22 @@
           </li>
         </ul>
         <router-link to="/sign-in" class="hidden lg:inline-block lg:mr-3">
-          <button class="btn hover:bg-[#138496] hover:border-[#117a8b]">
-            Đăng nhập
-          </button>
+          <button class="btn btn-primary">Đăng nhập</button>
         </router-link>
         <router-link to="/sign-up" class="hidden lg:inline-block">
-          <button class="btn hover:bg-[#138496] hover:border-[#117a8b]">
-            Đăng ký
-          </button>
+          <button class="btn btn-primary">Đăng ký</button>
         </router-link>
       </nav>
       <div class="navbar-menu relative z-50 hidden">
-        <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+        <div
+          class="navbar-backdrop fixed inset-none bg-gray-800 opacity-25"
+        ></div>
         <nav
-          class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm bg-white border-r overflow-y-auto"
+          class="fixed top-0 right-0 bottom-0 flex flex-col w-5/6 max-w-sm bg-white border-r overflow-y-auto"
         >
           <div class="flex items-center mb-8 bg-primaryColor px-6">
             <a class="mr-auto text-3xl font-bold leading-none" href="#">
-              <img :src="logo" alt="Logo" />
+              <img :src="logo" alt="Logo" width="60" height="60" />
             </a>
             <button class="navbar-close p-3">
               <SvgIcon icon="closeMenu" />
@@ -57,7 +55,7 @@
                 <router-link
                   :to="item.path"
                   :class="{
-                    'block p-4 text-primaryColor bg-[#D0DEDB] leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl':
+                    'block p-4 text-primaryColor bg-[#D0DEDB] leading-7 font-[700] rounded-xl':
                       $route.path === item.path,
                     'block p-4 text-gray-600 leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl':
                       $route.path !== item.path,
@@ -72,13 +70,13 @@
             <div class="pt-6 px-6">
               <router-link
                 to="/sign-in"
-                class="block p-4 mb-2 text-center text-primaryColor leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl border-[2px] border-[#D0DEDB]"
+                class="btn btn-outline-primary btn-block mb-2"
               >
                 Đăng nhập
               </router-link>
               <router-link
                 to="/sign-up"
-                class="block p-4 mb-2 text-center text-primaryColor leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl border-[2px] border-[#D0DEDB]"
+                class="btn btn-outline-primary btn-block mb-2"
               >
                 Đăng ký
               </router-link>
@@ -91,3 +89,4 @@
 </template>
 
 <script lang="ts" src="./Header.ts"></script>
+<style scoped lang="css" src="./style.css"></style>

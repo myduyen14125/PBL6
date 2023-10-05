@@ -1,0 +1,35 @@
+.btn {
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 700;
+  text-align: center;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn.btn-block {
+  display: block;
+}
+
+.btn.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border: 1px solid #1d7962;
+}
+
+.btn.btn-primary:hover {
+  background-color: #138496;
+  border: 1px solid #138496;
+}
+
+.btn.btn-outline-primary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid #d0dedb;
+}
+
+.btn.btn-outline-primary:hover {
+  background-color: #d0dedb;
+}
