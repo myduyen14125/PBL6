@@ -7,7 +7,7 @@ async function bootstrap() {
   var cors = require('cors')
 
   app.use(cors())
-  await app.listen(3001);
+  await app.listen(process.env.PORT);
 
 }
 bootstrap();

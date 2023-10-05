@@ -36,7 +36,7 @@ export class BlogService {
     async createBlog(user: User, blog: CreateBlogDto) {
         blog.user = user.id;
         const newBlog = await this.blogRepository.create(blog)
-        return newBlog
+        return newBlog.populate({ path: 'user', select: '-password -refreshToken' })
 
     }
 

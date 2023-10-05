@@ -15,7 +15,7 @@ import { BlogModule } from './blog/blog.module';
     MongooseModule.forRoot(process.env.DB_URI),
 
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppModule],
 })
 export class AppModule { }
