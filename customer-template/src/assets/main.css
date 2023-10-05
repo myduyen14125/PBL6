@@ -84,6 +84,10 @@ section {
   padding-bottom: 75px;
 }
 
+.list-style-none {
+  list-style: none;
+}
+
 @media only screen and (max-width: 1024px) {
   section {
     padding-top: 35px;

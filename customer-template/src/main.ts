@@ -8,6 +8,8 @@ import "./assets/css/button.css";
 import "./assets/index.css";
 import "./assets/main.css";
 import "./style.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const app = createApp(App);
 

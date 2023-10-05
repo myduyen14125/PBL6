@@ -1,11 +1,11 @@
-.btn {
+button {
   border-radius: 10px;
   padding: 10px 20px;
-  font-size: 700;
+  font-weight: 700;
   text-align: center;
 }
 
-.btn:focus {
+button:focus {
   outline: none;
 }
 
@@ -14,9 +14,9 @@
 }
 
 .btn.btn-primary {
-  background-color: var(--primary);
-  color: white;
   border: 1px solid #1d7962;
+  background: #139896;
+  color: white;
 }
 
 .btn.btn-primary:hover {
@@ -30,6 +30,8 @@
   border: 2px solid #d0dedb;
 }
 
-.btn.btn-outline-primary:hover {
-  background-color: #d0dedb;
+.btn.btn-outline-primary:hover,
+.btn.btn-outline-primary:active {
+  border: 2px solid #1d7962 !important;
+  background: #139896 !important;
 }
