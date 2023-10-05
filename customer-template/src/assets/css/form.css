@@ -1,0 +1,18 @@
+.form-control.is-invalid {
+  border-color: #f1416c;
+  background-image: unset;
+}
+
+.error-message {
+  color: #f1416c;
+}
+
+.form-group label {
+  color: #555;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 19.5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}

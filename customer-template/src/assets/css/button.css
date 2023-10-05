@@ -1,0 +1,38 @@
+button {
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+button:focus {
+  outline: none;
+}
+
+.btn.btn-block {
+  width: 100%;
+}
+
+.btn.btn-primary {
+  border: 1px solid #1d7962;
+  background: #139896;
+  color: white;
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:active {
+  background-color: #138496 !important;
+  border: 1px solid #138496 !important;
+}
+
+.btn.btn-outline-primary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid #d0dedb;
+}
+
+.btn.btn-outline-primary:hover,
+.btn.btn-outline-primary:active {
+  border: 2px solid #1d7962 !important;
+  background: #139896 !important;
+}

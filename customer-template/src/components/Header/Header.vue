@@ -1,68 +1,54 @@
 <template>
-  <header class="header flex items-center">
+  <header class="header d-flex align-items-center">
     <div class="container">
-      <nav class="relative px-4 py-4 flex justify-between items-center">
-        <a class="text-3xl font-bold leading-none" href="#">
-          <img :src="logo" alt="Logo" />
+      <nav
+        class="position-relative px-4 py-4 d-flex justify-content-between align-items-center"
+      >
+        <a href="#">
+          <img :src="logo" alt="Logo" width="60" height="60" />
         </a>
-        <div class="lg:hidden">
-          <button class="navbar-burger flex items-center text-primaryColor p-3">
+        <div class="d-lg-none">
+          <button
+            class="navbar-burger d-flex align-items-center text-primaryColor p-3 rounded-3"
+          >
             <SvgIcon icon="toggleMenu" />
           </button>
         </div>
         <ul
-          class="hidden lg:ml-auto lg:mr-5 lg:flex lg:items-center lg:w-auto lg:space-x-6 gap-[1.7rem]"
+          class="d-none ms-lg-auto me-lg-4 d-lg-flex align-items-lg-center w-lg-auto gap-4 mb-lg-0"
         >
-          <li v-for="item in navLinks" :key="item.path">
-            <router-link
-              :to="item.path"
-              :class="{
-                'text-activeNavColor leading-7 font-[700] hover:text-activeNavColor':
-                  $route.path === item.path,
-                'text-white leading-7 font-[700] hover:text-activeNavColor':
-                  $route.path !== item.path,
-              }"
-            >
+          <li v-for="item in navLinks" :key="item.path" class="list-style-none">
+            <router-link :to="item.path" class="router-link">
               {{ item.name }}
             </router-link>
           </li>
         </ul>
-        <router-link to="/sign-in" class="hidden lg:inline-block lg:mr-3">
-          <button class="btn hover:bg-[#138496] hover:border-[#117a8b]">
-            Đăng nhập
-          </button>
+        <router-link to="/sign-in" class="d-none d-lg-inline-block me-lg-4">
+          <button class="btn btn-primary">Đăng nhập</button>
         </router-link>
-        <router-link to="/sign-up" class="hidden lg:inline-block">
-          <button class="btn hover:bg-[#138496] hover:border-[#117a8b]">
-            Đăng ký
-          </button>
+        <router-link to="/sign-up" class="d-none d-lg-inline-block">
+          <button class="btn btn-primary">Đăng ký</button>
         </router-link>
       </nav>
-      <div class="navbar-menu relative z-50 hidden">
-        <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
-        <nav
-          class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm bg-white border-r overflow-y-auto"
-        >
-          <div class="flex items-center mb-8 bg-primaryColor px-6">
+      <div class="navbar-menu position-relative z-50 d-none">
+        <div class="navbar-backdrop position-fixed"></div>
+        <nav class="sidebar">
+          <div class="sidebar-header">
             <a class="mr-auto text-3xl font-bold leading-none" href="#">
-              <img :src="logo" alt="Logo" />
+              <img :src="logo" alt="Logo" width="60" height="60" />
             </a>
-            <button class="navbar-close p-3">
+            <button class="navbar-close p-3 rounded-3">
               <SvgIcon icon="closeMenu" />
             </button>
           </div>
           <div>
-            <ul>
-              <li v-for="item in navLinks" :key="item.path" class="mb-1 px-6">
-                <router-link
-                  :to="item.path"
-                  :class="{
-                    'block p-4 text-primaryColor bg-[#D0DEDB] leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl':
-                      $route.path === item.path,
-                    'block p-4 text-gray-600 leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl':
-                      $route.path !== item.path,
-                  }"
-                >
+            <ul class="pl-0">
+              <li
+                v-for="item in navLinks"
+                :key="item.path"
+                class="mb-1 px-6 list-style-none"
+              >
+                <router-link :to="item.path" class="router-link">
                   {{ item.name }}
                 </router-link>
               </li>
@@ -72,13 +58,13 @@
             <div class="pt-6 px-6">
               <router-link
                 to="/sign-in"
-                class="block p-4 mb-2 text-center text-primaryColor leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl border-[2px] border-[#D0DEDB]"
+                class="btn btn-outline-primary btn-block mb-2"
               >
                 Đăng nhập
               </router-link>
               <router-link
                 to="/sign-up"
-                class="block p-4 mb-2 text-center text-primaryColor leading-7 font-[700] hover:bg-[#D0DEDB] hover:text-primaryColor rounded-xl border-[2px] border-[#D0DEDB]"
+                class="btn btn-outline-primary btn-block mb-2"
               >
                 Đăng ký
               </router-link>
@@ -91,3 +77,4 @@
 </template>
 
 <script lang="ts" src="./Header.ts"></script>
+<style scoped lang="css" src="./style.css"></style>

@@ -5,12 +5,18 @@ import {
 } from "vue-router";
 
 const Home = () => import("../pages/Home/Home.vue");
+const SignIn = () => import("../pages/SignIn/SignIn.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/sign-in",
+    name: "SignIn",
+    component: SignIn,
   },
   // {
   //   path: "/404",
