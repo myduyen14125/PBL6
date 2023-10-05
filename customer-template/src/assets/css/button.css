@@ -36,3 +36,9 @@ button:focus {
   border: 2px solid #1d7962 !important;
   background: #139896 !important;
 }
+
+.btn.btn-primary:disabled {
+  border: 1px solid #1d7962;
+  background: #139896;
+  color: white;
+}

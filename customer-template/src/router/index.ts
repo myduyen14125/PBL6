@@ -6,6 +6,7 @@ import {
 
 const Home = () => import("../pages/Home/Home.vue");
 const SignIn = () => import("../pages/SignIn/SignIn.vue");
+const SignUp = () => import("../pages/SignUp/SignUp.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -17,6 +18,11 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/sign-in",
     name: "SignIn",
     component: SignIn,
+  },
+  {
+    path: "/sign-up",
+    name: "SignUp",
+    component: SignUp,
   },
   // {
   //   path: "/404",

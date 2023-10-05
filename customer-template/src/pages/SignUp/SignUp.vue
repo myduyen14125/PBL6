@@ -37,7 +37,25 @@
               {{ error.email }}
             </p>
           </div>
-          <div className="form-group required">
+          <div className="form-group required mb-3">
+            <label>Họ và tên</label>
+            <input
+              type="text"
+              v-model="form.name"
+              name="name"
+              :className="
+                ['form-control', error.name ? 'is-invalid' : '']
+                  .filter(Boolean)
+                  .join(' ')
+              "
+              placeholder="Nhập họ và tên"
+              @blur="validateRequired('name')"
+            />
+            <p v-if="error.name" class="error-message mt-1">
+              {{ error.name }}
+            </p>
+          </div>
+          <div className="form-group required mb-3">
             <label>Mật khẩu</label>
             <input
               type="password"
@@ -55,8 +73,53 @@
               {{ error.password }}
             </p>
           </div>
-          <div class="text-end mt-3">
-            <a class="link" href="#">Quên mật khẩu</a>
+          <div className="form-group required mb-3">
+            <label>Nhập lại mật khẩu</label>
+            <input
+              type="password"
+              v-model="form.confirmPassword"
+              name="confirmPassword"
+              :className="
+                ['form-control', error.confirmPassword ? 'is-invalid' : '']
+                  .filter(Boolean)
+                  .join(' ')
+              "
+              placeholder="Nhập lại mật khẩu"
+              @blur="validateConfirmPassword"
+            />
+            <p v-if="error.confirmPassword" class="error-message mt-1">
+              {{ error.confirmPassword }}
+            </p>
+          </div>
+          <div className="form-group mb-3">
+            <label>Giới tính</label>
+            <el-select
+              name="gender"
+              v-model="form.gender"
+              class="w-100"
+              placeholder="Chọn giới tính"
+            >
+              <el-option label="Nam" :value="false" />
+              <el-option label="Nữ" :value="true" />
+            </el-select>
+          </div>
+          <div className="form-group mb-3">
+            <label>Ngày sinh</label>
+            <el-date-picker
+              name="birthday"
+              v-model="form.birthday"
+              type="date"
+              placeholder="DD/MM/YYYY"
+              format="DD/MM/YYYY"
+              value-format="DD/MM/YYYY"
+              class="w-100"
+            >
+              <template #default="cell">
+                <div class="cell" :class="{ current: cell.isCurrent }">
+                  <span class="text">{{ cell.text }}</span>
+                </div>
+              </template>
+            </el-date-picker>
           </div>
           <div class="d-flex align-items-center justify-content-center my-4">
             <button
@@ -70,14 +133,14 @@
                 role="status"
                 aria-hidden="true"
               ></span>
-              Đăng nhập
+              Đăng ký
             </button>
           </div>
           <div>
             <span
-              >Bạn chưa có tài khoản?
-              <router-link class="link" to="/sign-up"
-                >Hãy click vào đây để đăng ký</router-link
+              >Bạn đã có tài khoản?
+              <router-link class="link" to="/sign-in"
+                >Hãy click vào đây để đăng nhập</router-link
               >
             </span>
           </div>
@@ -87,5 +150,5 @@
   </div>
 </template>
 
-<script lang="ts" src="./SignIn.ts"></script>
+<script lang="ts" src="./SignUp.ts"></script>
 <style scoped lang="css" src="./style.css"></style>

@@ -7,20 +7,32 @@ import { validate } from "../../ultils/validators";
 
 interface FormData {
   email: string;
+  name: string;
   password: string;
+  confirmPassword: string;
+  gender: boolean | string | null;
+  birthday: string | null;
 }
 
 export default defineComponent({
-  name: "SignIn",
+  name: "SignUp",
   component: { SvgIcon },
   setup() {
     const initialForm: FormData = {
       email: "",
+      name: "",
       password: "",
+      confirmPassword: "",
+      gender: null,
+      birthday: "",
     };
     const initialError: FormData = {
       email: "",
+      name: "",
       password: "",
+      confirmPassword: "",
+      gender: "",
+      birthday: "",
     };
     const form = ref(initialForm);
     const error = ref(initialError);
@@ -37,10 +49,25 @@ export default defineComponent({
       return err;
     };
 
+    const validateConfirmPassword = (): string => {
+      let err = "";
+      if (form.value.confirmPassword == "") {
+        err = "Đây là trường bắt buộc";
+      } else if (form.value.password !== form.value.confirmPassword) {
+        err = "Nhập lại mật khẩu không đúng";
+      }
+
+      error.value.confirmPassword = err;
+
+      return err;
+    };
+
     const validateForm = (): boolean => {
       const arrRes = [];
       arrRes.push(validateRequired("email"));
+      arrRes.push(validateRequired("name"));
       arrRes.push(validateRequired("password"));
+      arrRes.push(validateConfirmPassword);
 
       return arrRes.findIndex((x) => x && x.length > 0) < 0;
     };
@@ -51,7 +78,7 @@ export default defineComponent({
 
       isSubmitting.value = true;
 
-      window.alert("đăng nhập thành công");
+      window.alert("đăng kí thành công");
     };
 
     return {
@@ -63,6 +90,7 @@ export default defineComponent({
       isSubmitting,
       submitForm,
       validateRequired,
+      validateConfirmPassword,
     };
   },
 });
