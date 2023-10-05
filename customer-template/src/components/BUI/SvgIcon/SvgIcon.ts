@@ -10,6 +10,9 @@ export default defineComponent({
       calendar: "calendar",
       toggleMenu: "toggleMenu",
       closeMenu: "closeMenu",
+      facebook: "facebook",
+      youtube: "youtube",
+      messenger: "messenger",
     };
 
     return {

@@ -1,0 +1,38 @@
+footer {
+  background: #252d41;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 26px;
+  border-bottom: 2px solid white;
+  width: fit-content;
+  padding-bottom: 5px;
+}
+
+.social-media {
+  width: 40px;
+  height: 40px;
+  background: #171d2a;
+  margin-right: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+a:hover {
+  color: var(--primary);
+}

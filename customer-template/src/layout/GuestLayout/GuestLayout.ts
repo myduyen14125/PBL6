@@ -1,5 +1,6 @@
 import { defineComponent } from "vue";
 import Header from "../../components/Header/Header.vue";
+import Footer from "../../components/Footer/Footer.vue";
 import { RouterView } from "vue-router";
 
 export default defineComponent({
@@ -7,6 +8,7 @@ export default defineComponent({
   components: {
     Header,
     RouterView,
+    Footer,
   },
   setup() {
     return {};
