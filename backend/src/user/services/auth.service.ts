@@ -19,10 +19,15 @@ export class AuthService {
         delete userObject.refreshToken;
 
         const token = await this._createToken(user);
-        return {
-            user: userObject,
-            ...token,
+
+        const response = {
+            ...userObject,
+            expiresIn: token.expiresIn,
+            accessToken: token.accessToken,
+            refreshToken: token.refreshToken,
         };
+
+        return response;
     }
 
     async login(loginUserDto: LoginUserDto) {
@@ -34,11 +39,16 @@ export class AuthService {
 
         const token = await this._createToken(user);
 
-        return {
-            user: userObject,
-            ...token,
+        const response = {
+            ...userObject,
+            expiresIn: token.expiresIn,
+            accessToken: token.accessToken,
+            refreshToken: token.refreshToken,
         };
+
+        return response;
     }
+
 
     // handling token
 
