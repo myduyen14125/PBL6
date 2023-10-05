@@ -4,21 +4,16 @@ import logo from "../../assets/image/logo.png";
 import facebookLogo from "../../assets/image/facebook.png";
 import gmailLogo from "../../assets/image/gmail.png";
 import { validate } from "../../ultils/validators";
-
-interface FormData {
-  email: string;
-  name: string;
-  password: string;
-  confirmPassword: string;
-  gender: boolean | string | null;
-  birthday: string | null;
-}
+import { SignUpParams } from "../../types/auth";
+import { useAuth } from "../../stores/auth";
+import SwalPopup from "../../ultils/swalPopup";
 
 export default defineComponent({
   name: "SignUp",
   component: { SvgIcon },
   setup() {
-    const initialForm: FormData = {
+    const authStore = useAuth();
+    const initialForm: SignUpParams = {
       email: "",
       name: "",
       password: "",
@@ -26,7 +21,7 @@ export default defineComponent({
       gender: null,
       birthday: "",
     };
-    const initialError: FormData = {
+    const initialError: SignUpParams = {
       email: "",
       name: "",
       password: "",
@@ -34,11 +29,11 @@ export default defineComponent({
       gender: "",
       birthday: "",
     };
-    const form = ref(initialForm);
+    const form = ref<SignUpParams>(initialForm);
     const error = ref(initialError);
     const isSubmitting = ref(false);
 
-    const validateRequired = (fieldName: keyof FormData): string => {
+    const validateRequired = (fieldName: keyof SignUpParams): string => {
       const err = validate(form.value[fieldName], {
         required: true,
         errorsMessage: { required: "Đây là trường bắt buộc" },
@@ -77,6 +72,19 @@ export default defineComponent({
       if (!validateForm()) return;
 
       isSubmitting.value = true;
+
+      // authStore.requestSignUp({
+      //   params: form.value,
+      //   callback: {
+      //     onSuccess: (res) => {},
+      //     onFailure: () => {
+      //       SwalPopup.swalResultPopup(
+      //         "Sorry, looks like there are some errors detected, please try again.",
+      //         "error"
+      //       );
+      //     },
+      //   },
+      // });
 
       window.alert("đăng kí thành công");
     };

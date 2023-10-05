@@ -1,32 +1,33 @@
 import { defineComponent, ref } from "vue";
+import router from "../../router";
+import { RouterNameEnum } from "../../constants/routeName";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import logo from "../../assets/image/logo.png";
 import facebookLogo from "../../assets/image/facebook.png";
 import gmailLogo from "../../assets/image/gmail.png";
 import { validate } from "../../ultils/validators";
-
-interface FormData {
-  email: string;
-  password: string;
-}
+import { SignInParams } from "../../types/auth";
+import { useAuth } from "../../stores/auth";
+import SwalPopup from "../../ultils/swalPopup";
 
 export default defineComponent({
   name: "SignIn",
   component: { SvgIcon },
   setup() {
-    const initialForm: FormData = {
+    const authStore = useAuth();
+    const initialForm: SignInParams = {
       email: "",
       password: "",
     };
-    const initialError: FormData = {
+    const initialError: SignInParams = {
       email: "",
       password: "",
     };
-    const form = ref(initialForm);
+    const form = ref<SignInParams>(initialForm);
     const error = ref(initialError);
     const isSubmitting = ref(false);
 
-    const validateRequired = (fieldName: keyof FormData): string => {
+    const validateRequired = (fieldName: keyof SignInParams): string => {
       const err = validate(form.value[fieldName], {
         required: true,
         errorsMessage: { required: "Đây là trường bắt buộc" },
@@ -50,8 +51,21 @@ export default defineComponent({
       if (!validateForm()) return;
 
       isSubmitting.value = true;
+      // authStore.requestSignIn({
+      //   params: form.value,
+      //   callback: {
+      //     onSuccess: (res) => {},
+      //     onFailure: () => {
+      //       SwalPopup.swalResultPopup(
+      //         "Sorry, looks like there are some errors detected, please try again.",
+      //         "error"
+      //       );
+      //     },
+      //   },
+      // });
 
       window.alert("đăng nhập thành công");
+      router.push({ name: RouterNameEnum.Home });
     };
 
     return {
