@@ -4,7 +4,7 @@
       <nav
         class="position-relative px-4 py-4 d-flex justify-content-between align-items-center"
       >
-        <a href="#">
+        <a href="/">
           <img :src="logo" alt="Logo" width="60" height="60" />
         </a>
         <div class="d-lg-none">
