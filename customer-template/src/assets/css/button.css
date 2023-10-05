@@ -10,7 +10,7 @@ button:focus {
 }
 
 .btn.btn-block {
-  display: block;
+  width: 100%;
 }
 
 .btn.btn-primary {
@@ -19,9 +19,10 @@ button:focus {
   color: white;
 }
 
-.btn.btn-primary:hover {
-  background-color: #138496;
-  border: 1px solid #138496;
+.btn.btn-primary:hover,
+.btn.btn-primary:active {
+  background-color: #138496 !important;
+  border: 1px solid #138496 !important;
 }
 
 .btn.btn-outline-primary {
