@@ -12,7 +12,7 @@ import SwalPopup from "../../ultils/swalPopup";
 
 export default defineComponent({
   name: "SignIn",
-  component: { SvgIcon },
+  components: { SvgIcon },
   setup() {
     const authStore = useAuth();
     const initialForm: SignInParams = {

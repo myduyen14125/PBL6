@@ -13,6 +13,8 @@ export default defineComponent({
       facebook: "facebook",
       youtube: "youtube",
       messenger: "messenger",
+      heartIcon: "heartIcon",
+      birthdayIcon: "birthdayIcon",
     };
 
     return {
