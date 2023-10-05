@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mentor-post">
     <div class="row border-bottom pb-4">
       <div class="col-12 col-sm-4 mt-3">
         <div

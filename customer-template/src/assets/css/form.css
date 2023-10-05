@@ -29,34 +29,32 @@
   opacity: 0.5;
 }
 
-.form-container {
-  .card {
-    max-width: 500px;
-    width: 500px;
-  }
+.form-container .card {
+  max-width: 500px;
+  width: 500px;
+}
 
-  .btn-sign-in {
-    color: #139896;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    border-radius: 30px;
-    background: rgba(178, 223, 219, 0.5);
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-  }
+.form-container .btn-sign-in {
+  color: #139896;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  border-radius: 30px;
+  background: rgba(178, 223, 219, 0.5);
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
 
-  .btn-sign-in span {
-    text-align: center;
-    width: -webkit-fill-available;
-  }
+.form-container .btn-sign-in span {
+  text-align: center;
+  width: -webkit-fill-available;
+}
 
-  .link {
-    text-align: end;
-    text-decoration: none;
-    color: #139896;
-  }
+.form-container .link {
+  text-align: end;
+  text-decoration: none;
+  color: #139896;
 }

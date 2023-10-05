@@ -11,3 +11,7 @@
 .mentor-info span {
   font-size: 16px;
 }
+
+.mentor-post {
+  cursor: pointer;
+}

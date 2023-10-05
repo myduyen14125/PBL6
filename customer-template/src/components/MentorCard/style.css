@@ -1,0 +1,25 @@
+.mentor-card {
+  position: relative;
+}
+
+.mentor-info-card {
+  cursor: pointer;
+}
+
+.mentor-info-card:hover + .mentor-card-info {
+  display: block;
+  z-index: 50;
+}
+
+.mentor-card-info {
+  position: absolute;
+  display: none;
+  width: 250px;
+  position: absolute;
+  top: -5px;
+  left: 80%;
+}
+
+.mentor-card-info li {
+  list-style-type: disc;
+}

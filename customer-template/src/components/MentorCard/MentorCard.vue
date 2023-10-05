@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="card w-100 mt-4">
+  <div class="mentor-card">
+    <div class="card w-100 mt-4 mentor-info-card">
       <div class="d-flex align-items-center justify-content-center">
         <img
           :src="avatar"
@@ -23,6 +23,34 @@
             <img :src="icFollowed" alt="Mentee" width="18" height="18" />
             <span class="ml-2">200</span>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="mentor-card-info">
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title border-bottom pb-2">Giới thiệu bản thân</h5>
+          <p class="card-text">Trần Thị Ngà</p>
+          <h5 class="card-title border-bottom pb-2">Chủ đề mentoring</h5>
+          <ul class="pl-0">
+            <li>
+              <strong>Định hướng và chia sẻ kinh nghiệm nghề nghiệp:</strong>
+              Research Consultant tại WorldQuant VRC
+            </li>
+            <li>
+              <strong>Định hướng và chia sẻ kinh nghiệm nghề nghiệp:</strong>
+              Research Consultant tại WorldQuant VRC
+            </li>
+            <li>
+              <strong>Định hướng và chia sẻ kinh nghiệm nghề nghiệp:</strong>
+              Research Consultant tại WorldQuant VRC
+            </li>
+          </ul>
+          <a
+            class="d-block text-center color-primary text-decoration-none border-top pt-3"
+            href="#"
+            >Xem chi tiết</a
+          >
         </div>
       </div>
     </div>
