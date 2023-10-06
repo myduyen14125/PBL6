@@ -60,6 +60,9 @@
   background-color: #d0dedb;
 }
 
-.message-dropdown {
-  margin-top: 20px !important;
+.dropdown:hover .dropdown-menu.dropdown-menu-end {
+  display: block;
+  margin-top: 0;
+  right: 0;
+  left: auto;
 }

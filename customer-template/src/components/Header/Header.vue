@@ -35,33 +35,27 @@
             </el-tooltip>
           </li>
           <li>
-            <el-tooltip
-              class="box-item"
-              effect="light"
-              content="Tin nhắn"
-              placement="bottom"
-            >
-              <router-link to="#"
-                ><div class="dropdown">
-                  <div
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <SvgIcon icon="messengerMenu" />
-                  </div>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end message-dropdown"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li><h5 class="border-bottom p-3 m-0">Tin nhắn</h5></li>
-                    <li v-for="n in 2" :key="n">
-                      <MessageCard />
-                    </li>
-                  </ul></div
-              ></router-link>
-            </el-tooltip>
+            <div class="dropdown">
+              <div
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <router-link to="#"
+                  ><SvgIcon icon="messengerMenu"
+                /></router-link>
+              </div>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="dropdownMenuButton1"
+              >
+                <li><h5 class="border-bottom p-3 m-0">Tin nhắn</h5></li>
+                <li v-for="n in 2" :key="n">
+                  <MessageCard />
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
 
