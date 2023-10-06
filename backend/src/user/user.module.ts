@@ -10,6 +10,11 @@ import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt.strategy';
+import { BlogSchema } from 'src/blog/models/blog.model';
+import { BlogRepository } from 'src/blog/repositories/blog.repository';
+import { BlogController } from 'src/blog/controllers/blog.controller';
+import { BlogService } from 'src/blog/services/blog.service';
+import { BlogModule } from 'src/blog/blog.module';
 
 
 @Module({
@@ -19,6 +24,10 @@ import { JwtStrategy } from './jwt.strategy';
         name: 'User',
         schema: UserSchema
       },
+      {
+        name: 'Blog',
+        schema: BlogSchema
+      }
 
     ]),
 
@@ -39,7 +48,7 @@ import { JwtStrategy } from './jwt.strategy';
     })
   ],
 
-  controllers: [AuthController, UserController],
-  providers: [UserService, AuthService, UserRepository, JwtStrategy],
+  controllers: [AuthController, UserController, BlogController],
+  providers: [UserService, AuthService, UserRepository, JwtStrategy, BlogRepository, BlogService],
 })
 export class UserModule { }

@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, Length, Min, MinLength } from "class-validator";
+import { IsEmail, IsEnum, IsIn, IsNotEmpty, Length, Min, MinLength } from "class-validator";
 
 export class CreateUserDto {
 
@@ -22,6 +22,7 @@ export class CreateUserDto {
 
     @IsNotEmpty() gender: boolean;
 
+    @IsIn(['mentor', 'mentee'])
     @IsNotEmpty()
     role: string;
 

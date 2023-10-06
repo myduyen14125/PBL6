@@ -1,8 +1,10 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { UserService } from '../services/user.service';
 
 @Controller('user')
 export class UserController {
+    constructor(private readonly userService: UserService) { }
     @UseGuards(AuthGuard())
     @Get('profile')
     async getProfile(@Req() req: any) {
@@ -15,5 +17,10 @@ export class UserController {
     async getBlogs(@Req() req: any) {
         await req.user.populate('blogs')
         return req.user.blogs
+    }
+
+    @Get(':id')
+    getUserById(@Param('id') id: string) {
+        return this.userService.getUserById(id);
     }
 }

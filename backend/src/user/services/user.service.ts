@@ -2,11 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import { BlogRepository } from 'src/blog/repositories/blog.repository';
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
+        private readonly blogRepository: BlogRepository
 
     ) { }
 
@@ -60,5 +62,30 @@ export class UserService {
         return await this.userRepository.findByCondition({
             email: email,
         });
+    }
+
+    async getUserById(id: string) {
+        try {
+            const user = await this.userRepository.findById(id);
+            const blogs = await this.blogRepository.getByCondition({
+                user: id
+            })
+            // await user.populate({ path: 'post', strictPopulate: false })
+            if (user) {
+                const userObject = user.toObject ? user.toObject() : user;
+
+                delete userObject.password;
+                delete userObject.refreshToken;
+                delete userObject.date_of_birth;
+
+                return {
+                    ...userObject,
+                    blogs
+                };
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     }
 }

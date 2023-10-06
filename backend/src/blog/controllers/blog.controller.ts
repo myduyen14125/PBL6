@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
 import { BlogService } from '../services/blog.service';
@@ -19,7 +19,7 @@ export class BlogController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    async createBlog(@Req() req: any, @Body() post: CreateBlogDto) {
+    async createBlog(@Req() req: any, @Body(new ValidationPipe()) post: CreateBlogDto) {
         return this.blogService.createBlog(req.user, post);
     }
 
