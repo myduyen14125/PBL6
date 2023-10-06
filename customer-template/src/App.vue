@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import GuestLayout from "./layout/GuestLayout/GuestLayout.vue";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <GuestLayout />
+  <RouterView />
 </template>
 
 <style scoped></style>

@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-  <RouterView></RouterView>
+  <slot></slot>
   <Footer></Footer>
 </template>
 <script lang="ts" src="./GuestLayout.ts"></script>

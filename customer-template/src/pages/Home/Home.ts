@@ -2,10 +2,11 @@ import { defineComponent } from "vue";
 import heroImg from "../../assets/image/hero-section.png";
 import MentorCard from "../../components/MentorCard/MentorCard.vue";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
+import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 
 export default defineComponent({
   name: "Home",
-  components: { MentorCard, MentorPost },
+  components: { GuestLayout, MentorCard, MentorPost },
   setup() {
     return { heroImg };
   },

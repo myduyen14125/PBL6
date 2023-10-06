@@ -9,10 +9,11 @@ import { validate } from "../../ultils/validators";
 import { SignInParams } from "../../types/auth";
 import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
+import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 
 export default defineComponent({
   name: "SignIn",
-  components: { SvgIcon },
+  components: { GuestLayout, SvgIcon },
   setup() {
     const authStore = useAuth();
     const initialForm: SignInParams = {
