@@ -7,6 +7,7 @@
         <a href="/">
           <img :src="logo" alt="Logo" width="60" height="60" />
         </a>
+
         <ul
           class="d-none ms-lg-auto d-lg-flex align-items-lg-center w-lg-auto gap-4 mb-lg-0"
         >
@@ -16,8 +17,10 @@
             </router-link>
           </li>
         </ul>
+
         <ul
-          class="ms-auto ms-lg-0 me-4 d-flex align-items-center w-auto gap-4 mb-0"
+          v-if="isLogin"
+          class="ms-auto ms-lg-0 d-flex align-items-center w-auto gap-4 mb-0"
         >
           <li>
             <el-tooltip
@@ -53,21 +56,47 @@
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li><h5 class="border-bottom p-3 m-0">Tin nhắn</h5></li>
-                    <l1 v-for="n in 2" :key="n">
+                    <li v-for="n in 2" :key="n">
                       <MessageCard />
-                    </l1>
+                    </li>
                   </ul></div
               ></router-link>
             </el-tooltip>
           </li>
         </ul>
 
-        <router-link to="/sign-in" class="d-none d-lg-inline-block me-lg-4">
+        <router-link to="/sign-in" class="d-none d-lg-inline-block mx-lg-4">
           <button class="btn btn-primary">Đăng nhập</button>
         </router-link>
+
         <router-link to="/sign-up" class="d-none d-lg-inline-block">
           <button class="btn btn-primary">Đăng ký</button>
         </router-link>
+
+        <div v-if="isLogin" class="dropdown ms-4">
+          <div
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            class="dropdown-toggle d-flex align-items-center"
+          >
+            <img
+              :src="avatar"
+              alt="Avatar"
+              class="rounded-circle me-1"
+              width="40"
+              height="40"
+            />
+          </div>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="dropdownMenuButton1"
+          >
+            <li @click="authStore.logout()">Logout</li>
+          </ul>
+        </div>
+
         <div class="d-lg-none">
           <button
             class="navbar-burger d-flex align-items-center text-primaryColor p-3 rounded-3"
