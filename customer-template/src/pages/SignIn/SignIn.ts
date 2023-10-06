@@ -9,10 +9,12 @@ import { validate } from "../../ultils/validators";
 import { SignInParams } from "../../types/auth";
 import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
+import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
+import { setAccessToken } from "../../ultils/cache/cookies";
 
 export default defineComponent({
   name: "SignIn",
-  components: { SvgIcon },
+  components: { GuestLayout, SvgIcon },
   setup() {
     const authStore = useAuth();
     const initialForm: SignInParams = {
@@ -51,6 +53,7 @@ export default defineComponent({
       if (!validateForm()) return;
 
       isSubmitting.value = true;
+      setAccessToken("ok");
       // authStore.requestSignIn({
       //   params: form.value,
       //   callback: {
@@ -63,8 +66,6 @@ export default defineComponent({
       //     },
       //   },
       // });
-
-      window.alert("đăng nhập thành công");
       router.push({ name: RouterNameEnum.Home });
     };
 

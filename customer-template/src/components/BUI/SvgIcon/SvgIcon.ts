@@ -15,6 +15,8 @@ export default defineComponent({
       messenger: "messenger",
       heartIcon: "heartIcon",
       birthdayIcon: "birthdayIcon",
+      calendarMenu: "calendarMenu",
+      messengerMenu: "messengerMenu",
     };
 
     return {

@@ -1,0 +1,21 @@
+.message-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+
+.message-card {
+  cursor: pointer;
+}
+
+.message-card:hover,
+.message-card:focus {
+  background-color: #e8f9f8 !important;
+}
+
+.w-400 {
+  width: 400px;
+}

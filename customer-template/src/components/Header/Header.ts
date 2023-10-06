@@ -1,11 +1,16 @@
 import { defineComponent, onMounted } from "vue";
+import { useAuth } from "./../../stores/auth";
 import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import logo from "../../assets/image/logo.png";
+import avatar from "../../assets/image/avatar.png";
+import MessageCard from "../MessageCard/MessageCard.vue";
 
 export default defineComponent({
   name: "Header",
-  component: { SvgIcon },
+  components: { MessageCard, SvgIcon },
   setup() {
+    const authStore = useAuth();
+    const isLogin = authStore.isLoggedIn();
     const navLinks = [
       {
         path: "/",
@@ -61,7 +66,10 @@ export default defineComponent({
     };
     return {
       logo,
+      avatar,
       navLinks,
+      isLogin,
+      authStore,
     };
   },
 });

@@ -92,6 +92,14 @@ section {
   font-weight: 100;
 }
 
+.fw-400 {
+  font-weight: 400;
+}
+
+.fs-11 {
+  font-size: 11px;
+}
+
 .border-18 {
   border-radius: 18px !important;
 }
@@ -104,9 +112,25 @@ section {
   margin-right: 2rem;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 1024px) {
   section {
     padding-top: 35px;
     padding-bottom: 35px;
   }
+}
+
+p {
+  word-break: break-word !important;
+}
+
+.el-dropdown-menu {
+  padding: unset;
+}
+
+.el-dropdown-menu__item {
+  padding: unset !important;
 }
