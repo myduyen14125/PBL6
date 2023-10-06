@@ -8,6 +8,7 @@ import { useAuth } from "../stores/auth";
 const Home = () => import("../pages/Home/Home.vue");
 const SignIn = () => import("../pages/SignIn/SignIn.vue");
 const SignUp = () => import("../pages/SignUp/SignUp.vue");
+const Mentor = () => import("../pages/Mentor/Mentor.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -25,6 +26,12 @@ const constantRoutes: RouteRecordRaw[] = [
     name: "SignUp",
     component: SignUp,
   },
+  {
+    path: "/mentor",
+    name: "Mentor",
+    component: Mentor,  
+  },
+  
   // {
   //   path: "/404",
   //   component: () => import("../views/error-page/404.vue"),
