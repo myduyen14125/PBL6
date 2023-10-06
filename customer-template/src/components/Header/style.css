@@ -59,3 +59,7 @@
   color: var(--primary);
   background-color: #d0dedb;
 }
+
+.message-dropdown {
+  margin-top: 20px !important;
+}
