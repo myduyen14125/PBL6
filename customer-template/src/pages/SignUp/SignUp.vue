@@ -23,7 +23,7 @@
             <div className="form-group required mb-3">
               <label>Email</label>
               <input
-                type="text"
+                type="email"
                 v-model="form.email"
                 name="email"
                 :className="
@@ -92,7 +92,7 @@
                 {{ error.confirmPassword }}
               </p>
             </div>
-            <div className="form-group mb-3">
+            <div className="form-group required mb-3">
               <label>Giới tính</label>
               <el-select
                 name="gender"
@@ -103,8 +103,11 @@
                 <el-option label="Nam" :value="false" />
                 <el-option label="Nữ" :value="true" />
               </el-select>
+              <p v-if="error.gender" class="error-message mt-1">
+                {{ error.gender }}
+              </p>
             </div>
-            <div className="form-group mb-3">
+            <div className="form-group required mb-3">
               <label>Ngày sinh</label>
               <el-date-picker
                 name="birthday"
@@ -112,7 +115,7 @@
                 type="date"
                 placeholder="DD/MM/YYYY"
                 format="DD/MM/YYYY"
-                value-format="DD/MM/YYYY"
+                value-format="YYYY-MM-DD"
                 class="w-100"
               >
                 <template #default="cell">
@@ -121,6 +124,24 @@
                   </div>
                 </template>
               </el-date-picker>
+              <p v-if="error.birthday" class="error-message mt-1">
+                {{ error.birthday }}
+              </p>
+            </div>
+            <div className="form-group required mb-3">
+              <label>Bạn muốn đăng kí với vai trò</label>
+              <el-select
+                name="role"
+                v-model="form.role"
+                class="w-100"
+                placeholder="Chọn vai trò"
+              >
+                <el-option label="Mentor" value="mentor" />
+                <el-option label="Mentee" value="mentee" />
+              </el-select>
+              <p v-if="error.role" class="error-message mt-1">
+                {{ error.role }}
+              </p>
             </div>
             <div class="d-flex align-items-center justify-content-center my-4">
               <button

@@ -8,12 +8,21 @@ import {
   setAccessToken,
   setRefreshToken,
   setUserInfo,
+  getUserInfo,
 } from "../ultils/cache/cookies.js";
 import router from "../router";
 import { RouterNameEnum } from "../constants/routeName";
 import { Authorization } from "../types/auth.js";
+import { ref } from "vue";
+import { User } from "../types/auth.js";
 
 export const useAuth = defineStore("auth", () => {
+  const userInfo = ref<User | null>(getUserInfo() || null);
+
+  const setUserInfoStore = (info: User | null) => {
+    userInfo.value = info;
+  };
+
   const getToken = () => {
     return getAccessToken();
   };
@@ -24,6 +33,7 @@ export const useAuth = defineStore("auth", () => {
 
   const logout = () => {
     revokeUser();
+    setUserInfoStore(null);
     router.push({ name: RouterNameEnum.SignIn });
   };
 
@@ -50,6 +60,7 @@ export const useAuth = defineStore("auth", () => {
   };
 
   const signInSuccess = (res: Authorization) => {
+    setUserInfoStore(res);
     setAccessToken(res.accessToken);
     setRefreshToken(res.refreshToken);
     setUserInfo(res);
@@ -68,6 +79,7 @@ export const useAuth = defineStore("auth", () => {
 
     try {
       const response = await signUp(params);
+      signInSuccess(response);
       onSuccess(response);
     } catch (error) {
       onFailure(error);
@@ -76,5 +88,12 @@ export const useAuth = defineStore("auth", () => {
     }
   };
 
-  return { requestSignIn, requestSignUp, getToken, isLoggedIn, logout };
+  return {
+    requestSignIn,
+    requestSignUp,
+    getToken,
+    isLoggedIn,
+    logout,
+    userInfo,
+  };
 });

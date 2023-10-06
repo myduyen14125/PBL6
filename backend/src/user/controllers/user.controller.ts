@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards, Param } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards, Param, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../services/user.service';
 
@@ -19,8 +19,17 @@ export class UserController {
         return req.user.blogs
     }
 
+    // @Get('mentors')
+    // getAllMentors(@Query() query) {
+    //     return this.userService.getAllMentors();
+    // }
+
     @Get(':id')
     getUserById(@Param('id') id: string) {
         return this.userService.getUserById(id);
     }
+
+
+
+
 }

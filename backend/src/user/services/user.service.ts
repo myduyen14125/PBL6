@@ -88,4 +88,18 @@ export class UserService {
             throw error;
         }
     }
+
+    async getAllMentors() {
+        const mentors = await this.userRepository.getByCondition(
+            { role: 'mentor' },
+            ['name', 'avatar', '_id', 'email', 'gender', 'phone']
+        );
+
+        return mentors
+    }
+
+
+
+
+
 }

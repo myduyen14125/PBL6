@@ -1,4 +1,4 @@
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { useAuth } from "./../../stores/auth";
 import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import logo from "../../assets/image/logo.png";
@@ -10,7 +10,15 @@ export default defineComponent({
   components: { MessageCard, SvgIcon },
   setup() {
     const authStore = useAuth();
-    const isLogin = authStore.isLoggedIn();
+    const isLogin = ref(authStore.userInfo ? true : false);
+
+    watch(
+      () => authStore.userInfo,
+      function () {
+        isLogin.value = authStore.userInfo ? true : false;
+      }
+    );
+
     const navLinks = [
       {
         path: "/",
