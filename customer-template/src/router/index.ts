@@ -3,6 +3,7 @@ import {
   createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
+import { useAuth } from "../stores/auth";
 
 const Home = () => import("../pages/Home/Home.vue");
 const SignIn = () => import("../pages/SignIn/SignIn.vue");
@@ -45,6 +46,12 @@ const constantRoutes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: constantRoutes,
+});
+
+router.beforeEach((to, from, next) => {
+  const auth = useAuth();
+  if (to.meta.requiresAuth && !auth.isLoggedIn()) next({ name: "SignIn" });
+  else next();
 });
 
 export default router;
