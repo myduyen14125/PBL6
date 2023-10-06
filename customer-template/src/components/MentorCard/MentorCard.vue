@@ -3,8 +3,8 @@
     <div class="card w-100 mt-4 hover-tooltip">
       <div class="d-flex align-items-center justify-content-center">
         <img
-          :src="avatar"
-          class="rounded-circle"
+          :src="mentor.avatar ? mentor.avatar : avatar"
+          class="rounded-circle card-img"
           alt="Mentor avatar"
           width="200"
           height="200"
@@ -12,16 +12,16 @@
       </div>
 
       <div class="card-body">
-        <h5 class="card-title text-center">Trần Thị Ngà</h5>
-        <p class="card-text text-center">Sinh viên tại DUT University.</p>
+        <h5 class="card-title text-center">{{ mentor.name }}</h5>
+        <p class="card-text text-center">{{ mentor.description }}</p>
         <div class="d-flex align-items-center justify-content-between mt-5">
           <div class="d-flex align-items-center">
             <img :src="icMentee" alt="Mentee" width="18" height="18" />
-            <span class="ml-2">41 mentee</span>
+            <span class="ml-2">{{ mentor.numberOfMentees ? mentor.numberOfMentees : 0 }} mentees</span>
           </div>
           <div class="d-flex align-items-center">
             <img :src="icFollowed" alt="Mentee" width="18" height="18" />
-            <span class="ml-2">200</span>
+            <span class="ml-2">{{ mentor.numberOfLikes ? mentor.numberOfLikes : 0 }} likes</span>
           </div>
         </div>
       </div>
