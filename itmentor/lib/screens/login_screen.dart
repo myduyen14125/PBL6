@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:itmentor/services/auth_services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,6 +13,15 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  AuthServices authServices = AuthServices();
+
+  void login() async {
+    authServices.signInUser(
+        ctx: context,
+        email: _usernameController.text,
+        password: _passwordController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                 child: TextFormField(
+                  controller: _usernameController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Đặt góc bo tròn ở đây
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'Tài khoản',
                       labelStyle: const TextStyle(
@@ -62,10 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                 child: TextFormField(
+                  controller: _passwordController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Đặt góc bo tròn ở đây
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'Mật khẩu',
                       labelStyle: const TextStyle(
@@ -90,10 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  );
+                  login();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF1369B2),
@@ -115,10 +122,9 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text(
                 '© IT Mentor',
                 style: TextStyle(
-                  color: Color(0xFF18BEBC), // Đổi màu văn bản thành #18BEBC
-                  fontSize:
-                      19, // Có thể điều chỉnh kích thước văn bản theo ý muốn
-                  fontWeight: FontWeight.bold, // Đặt kiểu văn bản theo ý muốn
+                  color: Color(0xFF18BEBC),
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -130,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    // Giải phóng bộ nhớ khi không cần thiết
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();

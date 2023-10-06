@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:itmentor/screens/login_screen.dart';
+import 'package:itmentor/services/auth_services.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
-
   @override
+  // RegisterScreen createState() => RegisterScreen();
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool isChecked = false;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+
+  final AuthServices authServices = AuthServices();
+
+  void signUpUser() {
+    authServices.signUpUser(
+      context: context,
+      email: _usernameController.text,
+      password: _passwordController.text,
+      // phone: _phoneController.text,
+      phone: '1234567890',
+      avatar: 'avatar',
+      dateOfBirth: '123',
+      firstName: 'hung',
+      lastName: 'ngoc',
+      role: 'mentor',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +46,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
     );
-    bool isChecked = true; // Ban đầu checkbox không được chọn
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: backgroundColor),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 80,
+                height: 40,
               ),
               Center(
                 child: Image.asset(
@@ -48,10 +69,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                 child: TextFormField(
+                  controller: _usernameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // Đặt góc bo tròn ở đây
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'Tài khoản',
                     labelStyle: const TextStyle(
@@ -63,10 +84,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                 child: TextFormField(
+                  controller: _passwordController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // Đặt góc bo tròn ở đây
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'Mật khẩu',
                     labelStyle: const TextStyle(
@@ -78,10 +99,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                 child: TextFormField(
+                  controller: _confirmPasswordController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // Đặt góc bo tròn ở đây
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'Nhập lại mật khẩu',
                     labelStyle: const TextStyle(
@@ -93,10 +114,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                 child: TextFormField(
+                  controller: _phoneController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // Đặt góc bo tròn ở đây
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'Số điện thoại',
                     labelStyle: const TextStyle(
@@ -105,32 +126,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Checkbox(
-                    value: isChecked, // Trạng thái của Checkbox
-                    onChanged: (value) {
-                      setState(() {
-                        isChecked = value!;
-                      });
-                    },
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Checkbox(
+                  value: isChecked,
+                  onChanged: (newValue) {
+                    setState(() {
+                      isChecked = newValue!;
+                    });
+                  },
+                ),
+                const Text(
+                  'Tôi đồng ý với các điều \n khoản dịch vụ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Text(
-                    isChecked
-                        ? 'On'
-                        : 'Off', // Hiển thị 'On' hoặc 'Off' dựa trên trạng thái isChecked
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ]),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: isChecked ? signUpUser : (() {}),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1369B2),
+                  backgroundColor:
+                      isChecked ? const Color(0xFF1369B2) : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -143,8 +160,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Đã có tài khoản?'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => LoginScreen())));
+                    },
+                    child: const Text(
+                      'Đăng nhập',
+                      style: TextStyle(
+                        color: Color(0xFF024075),
+                      ),
+                    ),
+                  )
+                ],
+              ),
               const SizedBox(
-                height: 70,
+                height: 10,
               ),
               const Text(
                 '© IT Mentor',
@@ -163,9 +198,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
-    // Giải phóng bộ nhớ khi không cần thiết
+    super.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
-    super.dispose();
+    _confirmPasswordController.dispose();
+    _phoneController.dispose();
   }
 }
