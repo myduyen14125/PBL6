@@ -8,6 +8,7 @@ import ElementPlus from "element-plus";
 import SvgIcon from "./components/BUI/SvgIcon/SvgIcon.vue";
 import "./assets/css/button.css";
 import "./assets/css/form.css";
+import "./assets/css/tooltip.css";
 import "./assets/index.css";
 import "./assets/main.css";
 import "./style.css";

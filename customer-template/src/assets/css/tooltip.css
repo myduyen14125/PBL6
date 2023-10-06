@@ -1,0 +1,27 @@
+.tooltip-container {
+  position: relative;
+}
+
+.hoverTooltip {
+  cursor: pointer;
+}
+
+.tooltip-mentor-card {
+  visibility: hidden;
+  position: absolute;
+  z-index: 50;
+}
+
+.tooltip-mentor-card.right {
+  top: -5px;
+  left: 80%;
+}
+
+.tooltip-mentor-card.left {
+  top: -5px;
+  right: 80%;
+}
+
+.tooltip-container:hover .tooltip-mentor-card {
+  visibility: visible;
+}

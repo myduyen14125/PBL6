@@ -1,6 +1,6 @@
 <template>
-  <div class="mentor-card">
-    <div class="card w-100 mt-4 mentor-info-card">
+  <div class="mentor-card tooltip-container">
+    <div ref="hoverTooltip" class="card w-100 mt-4 hover-tooltip">
       <div class="d-flex align-items-center justify-content-center">
         <img
           :src="avatar"
@@ -26,7 +26,12 @@
         </div>
       </div>
     </div>
-    <div class="mentor-card-info">
+    <div
+      :class="{
+        'mentor-card-info tooltip-mentor-card right': isTooltipRight,
+        'mentor-card-info tooltip-mentor-card left': !isTooltipRight,
+      }"
+    >
       <div class="card w-100">
         <div class="card-body">
           <h5 class="card-title border-bottom pb-2">Giới thiệu bản thân</h5>
