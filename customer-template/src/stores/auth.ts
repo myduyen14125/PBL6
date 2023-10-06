@@ -8,6 +8,7 @@ import {
   setAccessToken,
   setRefreshToken,
   setUserInfo,
+  getUserInfo,
 } from "../ultils/cache/cookies.js";
 import router from "../router";
 import { RouterNameEnum } from "../constants/routeName";
@@ -16,7 +17,7 @@ import { ref } from "vue";
 import { User } from "../types/auth.js";
 
 export const useAuth = defineStore("auth", () => {
-  const userInfo = ref<User | null>(null);
+  const userInfo = ref<User | null>(getUserInfo() || null);
 
   const setUserInfoStore = (info: User | null) => {
     userInfo.value = info;
