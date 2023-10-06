@@ -53,19 +53,18 @@ export default defineComponent({
       if (!validateForm()) return;
 
       isSubmitting.value = true;
-      setAccessToken("ok");
-      // authStore.requestSignIn({
-      //   params: form.value,
-      //   callback: {
-      //     onSuccess: (res) => {},
-      //     onFailure: () => {
-      //       SwalPopup.swalResultPopup(
-      //         "Sorry, looks like there are some errors detected, please try again.",
-      //         "error"
-      //       );
-      //     },
-      //   },
-      // });
+      authStore.requestSignIn({
+        params: form.value,
+        callback: {
+          onSuccess: (res) => {},
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
       router.push({ name: RouterNameEnum.Home });
     };
 

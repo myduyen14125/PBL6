@@ -5,7 +5,7 @@ export const refreshToken = async (params: any): Promise<any> =>
   httpRequest.post<any, any>("/token", params);
 
 export const signIn = async (params: SignInParams): Promise<any> =>
-  httpRequest.post("/sign-in", params);
+  httpRequest.post("/auth/login", params);
 
 export const signUp = async (params: SignUpParams): Promise<any> =>
-  httpRequest.post("/sign-out", params);
+  httpRequest.post("/auth/register", params);
