@@ -65,11 +65,19 @@
           </li>
         </ul>
 
-        <router-link to="/sign-in" class="d-none d-lg-inline-block mx-lg-4">
+        <router-link
+          v-if="!isLogin"
+          to="/sign-in"
+          class="d-none d-lg-inline-block mx-lg-4"
+        >
           <button class="btn btn-primary">Đăng nhập</button>
         </router-link>
 
-        <router-link to="/sign-up" class="d-none d-lg-inline-block">
+        <router-link
+          v-if="!isLogin"
+          to="/sign-up"
+          class="d-none d-lg-inline-block"
+        >
           <button class="btn btn-primary">Đăng ký</button>
         </router-link>
 

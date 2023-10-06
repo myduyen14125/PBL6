@@ -20,10 +20,12 @@ export interface SignUpParams {
   confirmPassword: string;
   gender: boolean | string | null;
   birthday: string | null;
+  role: string;
+  [elem: string]: any;
 }
 
 export interface Authorization {
-  _id: string;
+  _id?: string;
   first_name: string;
   last_name: string;
   avatar: string;
@@ -38,7 +40,7 @@ export interface Authorization {
 }
 
 export interface User {
-  _id: string;
+  _id?: string;
   first_name: string;
   last_name: string;
   avatar?: string;

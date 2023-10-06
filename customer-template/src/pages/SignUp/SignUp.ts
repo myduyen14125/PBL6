@@ -1,4 +1,6 @@
 import { defineComponent, ref } from "vue";
+import router from "../../router";
+import { RouterNameEnum } from "../../constants/routeName";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import logo from "../../assets/image/logo.png";
 import facebookLogo from "../../assets/image/facebook.png";
@@ -21,7 +23,9 @@ export default defineComponent({
       confirmPassword: "",
       gender: null,
       birthday: "",
+      role: "",
     };
+
     const initialError: SignUpParams = {
       email: "",
       name: "",
@@ -29,6 +33,7 @@ export default defineComponent({
       confirmPassword: "",
       gender: "",
       birthday: "",
+      role: "",
     };
     const form = ref<SignUpParams>(initialForm);
     const error = ref(initialError);
@@ -73,21 +78,26 @@ export default defineComponent({
       if (!validateForm()) return;
 
       isSubmitting.value = true;
+      form.value.first_name = "blank";
+      form.value.last_name = "blank";
+      form.value.avatar = "blank";
 
-      // authStore.requestSignUp({
-      //   params: form.value,
-      //   callback: {
-      //     onSuccess: (res) => {},
-      //     onFailure: () => {
-      //       SwalPopup.swalResultPopup(
-      //         "Sorry, looks like there are some errors detected, please try again.",
-      //         "error"
-      //       );
-      //     },
-      //   },
-      // });
-
-      window.alert("đăng kí thành công");
+      authStore.requestSignUp({
+        params: form.value,
+        callback: {
+          onSuccess: (res) => {
+            router.push({ name: RouterNameEnum.Home });
+            isSubmitting.value = false;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
     };
 
     return {

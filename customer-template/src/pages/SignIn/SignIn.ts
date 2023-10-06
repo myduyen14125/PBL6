@@ -10,7 +10,6 @@ import { SignInParams } from "../../types/auth";
 import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
-import { setAccessToken } from "../../ultils/cache/cookies";
 
 export default defineComponent({
   name: "SignIn",
@@ -53,20 +52,22 @@ export default defineComponent({
       if (!validateForm()) return;
 
       isSubmitting.value = true;
-      setAccessToken("ok");
-      // authStore.requestSignIn({
-      //   params: form.value,
-      //   callback: {
-      //     onSuccess: (res) => {},
-      //     onFailure: () => {
-      //       SwalPopup.swalResultPopup(
-      //         "Sorry, looks like there are some errors detected, please try again.",
-      //         "error"
-      //       );
-      //     },
-      //   },
-      // });
-      router.push({ name: RouterNameEnum.Home });
+      authStore.requestSignIn({
+        params: form.value,
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+            router.push({ name: RouterNameEnum.Home });
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
     };
 
     return {
