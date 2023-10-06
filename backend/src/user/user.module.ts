@@ -15,6 +15,7 @@ import { BlogRepository } from 'src/blog/repositories/blog.repository';
 import { BlogController } from 'src/blog/controllers/blog.controller';
 import { BlogService } from 'src/blog/services/blog.service';
 import { BlogModule } from 'src/blog/blog.module';
+import { MentorController } from './controllers/mentor.controller';
 
 
 @Module({
@@ -48,7 +49,7 @@ import { BlogModule } from 'src/blog/blog.module';
     })
   ],
 
-  controllers: [AuthController, UserController, BlogController],
+  controllers: [AuthController, UserController, BlogController, MentorController],
   providers: [UserService, AuthService, UserRepository, JwtStrategy, BlogRepository, BlogService],
 })
 export class UserModule { }
