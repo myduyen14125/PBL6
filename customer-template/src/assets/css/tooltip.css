@@ -1,8 +1,5 @@
 .tooltip-container {
   position: relative;
-}
-
-.hoverTooltip {
   cursor: pointer;
 }
 

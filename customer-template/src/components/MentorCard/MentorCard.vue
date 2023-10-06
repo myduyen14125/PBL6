@@ -1,6 +1,6 @@
 <template>
-  <div class="mentor-card tooltip-container">
-    <div ref="hoverTooltip" class="card w-100 mt-4 hover-tooltip">
+  <div class="mentor-card tooltip-container" ref="tooltipContainer">
+    <div class="card w-100 mt-4 hover-tooltip">
       <div class="d-flex align-items-center justify-content-center">
         <img
           :src="avatar"

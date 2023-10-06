@@ -9,7 +9,7 @@ export default defineComponent({
   components: { SvgIcon },
   setup() {
     const isTooltipRight = ref(true);
-    const hoverTooltip = ref<HTMLElement | null>(null);
+    const tooltipContainer = ref<HTMLElement | null>(null);
 
     onMounted(() => {
       checkTooltipPosition();
@@ -22,7 +22,7 @@ export default defineComponent({
 
     const checkTooltipPosition = (): void => {
       const hoverTooltipRect =
-        hoverTooltip?.value?.getBoundingClientRect().right;
+        tooltipContainer?.value?.getBoundingClientRect().right;
       const tooltipRect = hoverTooltipRect! + 250;
 
       if (tooltipRect > window.innerWidth) {
@@ -36,7 +36,7 @@ export default defineComponent({
       avatar,
       icMentee,
       icFollowed,
-      hoverTooltip,
+      tooltipContainer,
       isTooltipRight,
     };
   },
