@@ -20,9 +20,9 @@ export default defineComponent({
       email: "",
       name: "",
       password: "",
-      confirmPassword: "",
+      // confirmPassword: "",
       gender: null,
-      birthday: "",
+      date_of_birth: "",
       role: "",
     };
 
@@ -30,9 +30,9 @@ export default defineComponent({
       email: "",
       name: "",
       password: "",
-      confirmPassword: "",
+      // confirmPassword: "",
       gender: "",
-      birthday: "",
+      date_of_birth: "",
       role: "",
     };
     const form = ref<SignUpParams>(initialForm);

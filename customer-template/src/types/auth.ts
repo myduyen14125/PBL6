@@ -17,9 +17,8 @@ export interface SignUpParams {
   email: string;
   name: string;
   password: string;
-  confirmPassword: string;
   gender: boolean | string | null;
-  birthday: string | null;
+  date_of_birth: string | null;
   role: string;
   [elem: string]: any;
 }

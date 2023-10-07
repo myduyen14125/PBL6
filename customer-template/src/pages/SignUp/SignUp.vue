@@ -74,7 +74,7 @@
                 {{ error.password }}
               </p>
             </div>
-            <div className="form-group required mb-3">
+            <!-- <div className="form-group required mb-3">
               <label>Nhập lại mật khẩu</label>
               <input
                 type="password"
@@ -91,7 +91,7 @@
               <p v-if="error.confirmPassword" class="error-message mt-1">
                 {{ error.confirmPassword }}
               </p>
-            </div>
+            </div> -->
             <div className="form-group required mb-3">
               <label>Giới tính</label>
               <el-select
@@ -110,8 +110,8 @@
             <div className="form-group required mb-3">
               <label>Ngày sinh</label>
               <el-date-picker
-                name="birthday"
-                v-model="form.birthday"
+                name="date_of_birth"
+                v-model="form.date_of_birth"
                 type="date"
                 placeholder="DD/MM/YYYY"
                 format="DD/MM/YYYY"
@@ -124,8 +124,8 @@
                   </div>
                 </template>
               </el-date-picker>
-              <p v-if="error.birthday" class="error-message mt-1">
-                {{ error.birthday }}
+              <p v-if="error.date_of_birth" class="error-message mt-1">
+                {{ error.date_of_birth }}
               </p>
             </div>
             <div className="form-group required mb-3">

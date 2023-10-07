@@ -16,8 +16,8 @@ export class CreateUserDto {
 
     @IsNotEmpty() date_of_birth: Date;
 
-    @MinLength(9)
-    @IsNotEmpty() phone: string;
+    
+    phone: string;
 
     @IsNotEmpty() gender: boolean;
 
