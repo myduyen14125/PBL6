@@ -100,6 +100,10 @@ section {
   font-size: 11px;
 }
 
+.fs-12 {
+  font-size: 12px;
+}
+
 .border-18 {
   border-radius: 18px !important;
 }

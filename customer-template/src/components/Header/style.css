@@ -66,3 +66,37 @@
   right: 0;
   left: auto;
 }
+
+.select_user_box {
+  width: 200px;
+}
+
+.select_user_box li {
+  border-bottom: 1px solid #d0dedb;
+  padding: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.select_user_box li a {
+  color: black;
+  text-decoration: none;
+}
+
+.select_user_box li:hover a {
+  color: var(--primary);
+}
+
+.user-info .name {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.user-info a {
+  color: var(--primary) !important;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 12px;
+}

@@ -92,10 +92,43 @@
             />
           </div>
           <ul
-            class="dropdown-menu dropdown-menu-end"
+            class="dropdown-menu dropdown-menu-end select_user_box p-2"
             aria-labelledby="dropdownMenuButton1"
           >
-            <li @click="authStore.logout()">Logout</li>
+            <li class="user-info">
+              <img
+                :src="avatar"
+                alt="Avatar"
+                class="rounded-circle me-3"
+                width="40"
+                height="40"
+              />
+              <div>
+                <p class="mb-1 name">Trần Thị Ngà</p>
+                <p class="mb-0">
+                  <a href="#">Xem hồ sơ của bạn</a>
+                </p>
+              </div>
+            </li>
+            <li>
+              <SvgIcon icon="userInfoIcon" />
+              <p class="mb-0 ml-3"><a href="#">Thông tin cá nhân</a></p>
+            </li>
+            <li>
+              <SvgIcon icon="changePassIcon" />
+              <p class="mb-0 ml-3"><a href="#">Đổi mật khẩu</a></p>
+            </li>
+            <li>
+              <SvgIcon icon="helpIcon" />
+              <p class="mb-0 ml-3"><a href="#">Trợ giúp và hỗ trợ</a></p>
+            </li>
+            <li
+              class="justify-content-center border-0"
+              @click="authStore.logout()"
+            >
+              <!-- <SvgIcon icon="logoutIcon" /> -->
+              <p class="mb-0"><a href="#">Đăng xuất</a></p>
+            </li>
           </ul>
         </div>
 
@@ -154,4 +187,4 @@
 </template>
 
 <script lang="ts" src="./Header.ts"></script>
-<style scoped lang="css" src="./style.css"></style>
+<style lang="css" src="./style.css"></style>
