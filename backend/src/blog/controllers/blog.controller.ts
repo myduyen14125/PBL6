@@ -32,7 +32,7 @@ export class BlogController {
 
     @UseGuards(AuthGuard("jwt"))
     @Patch(':id')
-    async updateBlog(@Req() req: any, @Param('id') id: string, @Body() blog: UpdateBlogDto) {
+    async updateBlog(@Req() req: any, @Param('id') id: string, @Body(new ValidationPipe()) blog: UpdateBlogDto) {
         return this.blogService.updateBlog(req.user, id, blog)
     }
 

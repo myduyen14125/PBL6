@@ -20,6 +20,10 @@ export default defineComponent({
       locationIcon: "locationIcon",
       briefcaseIcon: "briefcaseIcon",
       searchIcon: "searchIcon",
+      userInfoIcon: "userInfoIcon",
+      changePassIcon: "changePassIcon",
+      helpIcon: "helpIcon",
+      logoutIcon: "logoutIcon",
     };
 
     return {
