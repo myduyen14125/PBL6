@@ -105,7 +105,7 @@
               />
               <div>
                 <p class="mb-1 name">
-                  {{ `${getUserInfo().first_name} ${getUserInfo().last_name}` }}
+                  {{ getUserInfo().name || "Trần Thị Ngà" }}
                 </p>
                 <p class="mb-0">
                   <a href="#">Xem hồ sơ của bạn</a>
