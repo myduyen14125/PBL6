@@ -17,6 +17,11 @@ import { BlogService } from 'src/blog/services/blog.service';
 import { BlogModule } from 'src/blog/blog.module';
 import { MentorController } from './controllers/mentor.controller';
 import { AppointmentSchema } from 'src/appointment/models/appointment.model';
+import { RatingSchema } from 'src/rating/models/rating.model';
+import { RatingService } from 'src/rating/services/rating.service';
+import { RatingRepository } from 'src/rating/repositories/rating.repository';
+import { AppointmentRepository } from 'src/appointment/repositories/appointment.repository';
+import { AppointmentModule } from 'src/appointment/appointment.module';
 
 
 @Module({
@@ -33,6 +38,10 @@ import { AppointmentSchema } from 'src/appointment/models/appointment.model';
       {
         name: 'Appointment',
         schema: AppointmentSchema
+      },
+      {
+        name: 'Rating',
+        schema: RatingSchema
       }
 
     ]),
@@ -55,6 +64,6 @@ import { AppointmentSchema } from 'src/appointment/models/appointment.model';
   ],
 
   controllers: [AuthController, UserController, BlogController, MentorController],
-  providers: [UserService, AuthService, UserRepository, JwtStrategy, BlogRepository, BlogService],
+  providers: [UserService, AuthService, UserRepository, JwtStrategy, BlogRepository, BlogService, RatingService, RatingRepository, AppointmentRepository],
 })
 export class UserModule { }

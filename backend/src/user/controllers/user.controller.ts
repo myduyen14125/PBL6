@@ -19,11 +19,6 @@ export class UserController {
         return req.user.blogs
     }
 
-    // @Get('mentors')
-    // getAllMentors(@Query() query) {
-    //     return this.userService.getAllMentors();
-    // }
-
     @Get(':id')
     getUserById(@Param('id') id: string) {
         return this.userService.getUserById(id);

@@ -11,6 +11,10 @@ import { UserService } from 'src/user/services/user.service';
 import { BlogModule } from 'src/blog/blog.module';
 import { BlogService } from 'src/blog/services/blog.service';
 import { BlogRepository } from 'src/blog/repositories/blog.repository';
+import { BlogSchema } from 'src/blog/models/blog.model';
+import { RatingSchema } from 'src/rating/models/rating.model';
+import { RatingRepository } from 'src/rating/repositories/rating.repository';
+import { RatingService } from 'src/rating/services/rating.service';
 
 @Module({
     imports: [
@@ -25,13 +29,17 @@ import { BlogRepository } from 'src/blog/repositories/blog.repository';
             },
             {
                 name: 'Blog',
-                schema: BlogModule
+                schema: BlogSchema
+            },
+            {
+                name: 'Rating',
+                schema: RatingSchema
             }
         ]),
         UserModule,
         BlogModule
     ],
     controllers: [AppointmentController],
-    providers: [AppointmentService, AppointmentRepository, UserService, BlogService, UserRepository, BlogRepository]
+    providers: [AppointmentService, AppointmentRepository, UserService, BlogService, UserRepository, BlogRepository, RatingRepository, RatingService]
 })
 export class AppointmentModule { }

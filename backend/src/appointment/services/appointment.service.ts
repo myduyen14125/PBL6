@@ -16,7 +16,6 @@ export class AppointmentService {
             return true
         }
         return false
-
     }
 
     async checkMentee(mentee_id: string) {

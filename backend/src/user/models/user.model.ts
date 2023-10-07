@@ -37,6 +37,13 @@ UserSchema.virtual('menteeAppointments', {
     justOne: false,
 });
 
+UserSchema.virtual('ratings', {
+    ref: 'Rating',
+    localField: '_id',
+    foreignField: 'mentor',
+    justOne: false,
+});
+
 
 
 export { UserSchema };

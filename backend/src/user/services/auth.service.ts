@@ -15,7 +15,7 @@ export class AuthService {
         const user = await this.userService.createUser(userDto);
         const userObject = user.toObject ? user.toObject() : user;
         // filtered fields
-        delete userObject.password;
+        // delete userObject.password;
         delete userObject.refreshToken;
 
         const token = await this._createToken(user);
@@ -34,7 +34,7 @@ export class AuthService {
         const user = await this.userService.login(loginUserDto);
         const userObject = user.toObject ? user.toObject() : user;
         // filtered fields
-        delete userObject.password;
+        // delete userObject.password;
         delete userObject.refreshToken;
 
         const token = await this._createToken(user);
