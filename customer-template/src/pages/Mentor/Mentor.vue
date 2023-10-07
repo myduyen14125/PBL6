@@ -1,10 +1,7 @@
-
 <template>
   <GuestLayout>
     <div class="mentor-wrapper">
-      <section class="banner-section">
-        Cong dong mentor PBL6 hehehehe
-      </section>
+      <section class="banner-section">Cong dong mentor PBL6 hehehehe</section>
       <section class="mentor-section">
         <div class="container">
           <SearchBar />
@@ -20,7 +17,9 @@
                 </div>
               </div>
               <div class="my-5 text-center">
-                <a class="btn btn-primary px-5 border-18" href="/mentors">Xem thêm</a>
+                <a class="btn btn-primary px-5 border-18" href="/mentors"
+                  >Xem thêm</a
+                >
               </div>
             </div>
           </section>

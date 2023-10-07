@@ -37,11 +37,11 @@
           <h2 class="text-center color-primary mb-5">CỐ VẤN NỔI BẬT</h2>
           <div class="row">
             <div
-              v-for="n in 8"
-              :key="n"
+              v-for="(mentor, index) in mentors"
+              :key="index"
               class="col-12 col-sm-6 col-md-4 col-lg-3"
             >
-              <MentorCard></MentorCard>
+              <MentorCard :mentor="mentor"></MentorCard>
             </div>
           </div>
           <div class="my-5 text-center">

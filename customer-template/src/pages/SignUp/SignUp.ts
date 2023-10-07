@@ -78,9 +78,6 @@ export default defineComponent({
       if (!validateForm()) return;
 
       isSubmitting.value = true;
-      form.value.first_name = "blank";
-      form.value.last_name = "blank";
-      form.value.avatar = "blank";
 
       authStore.requestSignUp({
         params: form.value,

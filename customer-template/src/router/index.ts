@@ -27,11 +27,11 @@ const constantRoutes: RouteRecordRaw[] = [
     component: SignUp,
   },
   {
-    path: "/mentor",
+    path: "/mentors",
     name: "Mentor",
-    component: Mentor,  
+    component: Mentor,
   },
-  
+
   // {
   //   path: "/404",
   //   component: () => import("../views/error-page/404.vue"),
