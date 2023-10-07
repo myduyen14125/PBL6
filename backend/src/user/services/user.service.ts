@@ -3,12 +3,14 @@ import { UserRepository } from '../repositories/user.repository';
 import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { BlogRepository } from 'src/blog/repositories/blog.repository';
+import { RatingRepository } from 'src/rating/repositories/rating.repository';
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly blogRepository: BlogRepository
+        private readonly blogRepository: BlogRepository,
+        private readonly ratingRepository: RatingRepository,
 
     ) { }
 
@@ -70,6 +72,15 @@ export class UserService {
             const blogs = await this.blogRepository.getByCondition({
                 user: id
             })
+
+            const ratings = await this.ratingRepository.getByCondition({
+                mentor: id
+            })
+
+            await Promise.all(ratings.map(async (rating) => {
+                await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+            }));
+
             // await user.populate({ path: 'post', strictPopulate: false })
             if (user) {
                 const userObject = user.toObject ? user.toObject() : user;
@@ -80,7 +91,8 @@ export class UserService {
 
                 return {
                     ...userObject,
-                    blogs
+                    blogs,
+                    ratings
                 };
             }
         } catch (error) {

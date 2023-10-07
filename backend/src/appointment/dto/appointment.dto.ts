@@ -18,7 +18,7 @@ export class CreateAppointmentDto {
 
     note: string;
 
-    @IsIn(['pending', 'confirmed', 'canceled', 'finished'])
+    @IsIn(['pending', 'confirmed', 'canceled', 'finished', 'rated'])
     @IsNotEmpty()
     status: string;
 }
@@ -27,7 +27,7 @@ export class UpdateAppointmentDto {
     id: string;
     note: string;
 
-    @IsIn(['pending', 'confirmed', 'canceled', 'finished'])
+    @IsIn(['pending', 'confirmed', 'canceled', 'finished', 'rated'])
     status: string;
 
     start_at: Date;

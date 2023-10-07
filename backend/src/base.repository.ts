@@ -12,15 +12,18 @@ export class BaseRepository<T extends Document> {
         return this.model.findById(id, option);
     }
 
-    async findByCondition(condition = {}): Promise<T> {
-        return await this.model
-            .findOne({
-                ...condition,
-                deleted_at: null,
-            })
-            .exec();
-    }
+    // async findByCondition(condition = {}): Promise<T> {
+    //     return await this.model
+    //         .findOne({
+    //             ...condition,
+    //             deleted_at: null,
+    //         })
+    //         .exec();
+    // }
 
+    async findByCondition(filter) {
+        return this.model.findOne(filter as FilterQuery<T>);
+    }
 
 
     async getByCondition(
@@ -34,10 +37,6 @@ export class BaseRepository<T extends Document> {
 
     async findAll(): Promise<T[]> {
         return this.model.find();
-    }
-
-    async aggregate(option: any) {
-        return this.model.aggregate(option);
     }
 
     async populate(result: T[], option: any) {

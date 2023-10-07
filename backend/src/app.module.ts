@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlogModule } from './blog/blog.module';
 import { AppointmentModule } from './appointment/appointment.module';
+import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AppointmentModule } from './appointment/appointment.module';
     AppointmentModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DB_URI),
+    RatingModule,
 
 
   ],
