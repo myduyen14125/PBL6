@@ -11,10 +11,10 @@ import { AppointmentModule } from './appointment/appointment.module';
   imports: [
     UserModule,
     BlogModule,
-
+    AppointmentModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DB_URI),
-    AppointmentModule,
+
 
   ],
   controllers: [],

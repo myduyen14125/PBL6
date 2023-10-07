@@ -16,6 +16,7 @@ import { BlogController } from 'src/blog/controllers/blog.controller';
 import { BlogService } from 'src/blog/services/blog.service';
 import { BlogModule } from 'src/blog/blog.module';
 import { MentorController } from './controllers/mentor.controller';
+import { AppointmentSchema } from 'src/appointment/models/appointment.model';
 
 
 @Module({
@@ -28,6 +29,10 @@ import { MentorController } from './controllers/mentor.controller';
       {
         name: 'Blog',
         schema: BlogSchema
+      },
+      {
+        name: 'Appointment',
+        schema: AppointmentSchema
       }
 
     ]),

@@ -22,14 +22,21 @@ const UserSchema = new Schema(
     }
 )
 
-UserSchema.virtual('blogs',
-    {
-        ref: 'Blog',
-        localField: '_id',
-        foreignField: 'user',
-        justOne: false,
-    }
-)
+UserSchema.virtual('mentorAppointments', {
+    ref: 'Appointment',
+    localField: '_id',
+    foreignField: 'mentor',
+    justOne: false,
+});
+
+// Virtual field for mentee appointments
+UserSchema.virtual('menteeAppointments', {
+    ref: 'Appointment',
+    localField: '_id',
+    foreignField: 'mentee',
+    justOne: false,
+});
+
 
 
 export { UserSchema };
