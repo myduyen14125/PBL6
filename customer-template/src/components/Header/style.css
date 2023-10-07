@@ -10,12 +10,12 @@
 }
 
 .header .router-link:hover {
-  color: #9e9e96;
+  color: #262626;
 }
 
 .header .router-link-active {
   line-height: 1.75rem;
-  color: #9e9e96;
+  color: #222222;
   font-weight: 700;
 }
 
