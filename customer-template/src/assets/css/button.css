@@ -42,3 +42,9 @@ button:focus {
   background: #139896;
   color: white;
 }
+
+
+.btn-location {
+  outline: none;
+  border: none;
+}

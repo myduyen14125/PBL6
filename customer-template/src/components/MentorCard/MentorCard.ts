@@ -8,13 +8,6 @@ export default defineComponent({
   name: "MentorCard",
   components: { SvgIcon },
   props: {
-    // props mentor with this attributes:
-    // name: "Tran Thi Nga",
-    // description: "Sinh viên tại DUT University. ",
-    // avatar: "https://picsum.photos/200/300",
-    // numberOfMentees: 12,
-    // numberOfLikes: 100,
-    // freeTime: "14:30, Monday"
     mentor: {
       type: Object,
       required: true,
