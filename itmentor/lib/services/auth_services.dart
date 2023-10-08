@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:itmentor/models/user.dart';
 import 'package:itmentor/providers/user_provider.dart';
-import 'package:itmentor/screens/homepage_screen.dart';
+import 'package:itmentor/screens/auth_screens/login_screen.dart';
+import 'package:itmentor/screens/homepage_navigation_screen.dart';
+import 'package:itmentor/screens/home_screens/homepage_screen.dart';
+import 'package:itmentor/screens/welcome_screen.dart';
+import 'package:itmentor/utils/constant.dart';
 import 'package:itmentor/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,31 +19,31 @@ class AuthServices {
     required BuildContext context,
     required String email,
     required String password,
-    required String phone,
-    required String firstName,
-    required String lastName,
-    required String avatar,
+    required String name,
+    required bool gender,
     required String dateOfBirth,
+    required String phone,
+    required String avatar,
     required String role,
   }) async {
     try {
       User user = User(
-          firstName: firstName,
-          lastName: lastName,
-          avatar: avatar,
-          email: email,
-          password: password,
-          dateOfBirth: dateOfBirth,
-          gender: false,
-          phone: phone,
-          role: role,
-          id: '',
-          expiresIn: '',
-          accessToken: '',
-          refreshToken: '');
+        email: email,
+        password: password,
+        name: name,
+        gender: gender,
+        dateOfBirth: dateOfBirth,
+        phone: phone,
+        avatar: avatar,
+        role: role,
+        id: '',
+        expiresIn: '',
+        accessToken: '',
+        refreshToken: '',
+      );
 
       http.Response res = await http.post(
-          Uri.parse('http://10.0.2.2:5000/auth/register'),
+          Uri.parse('${Constants.uri}/auth/register'),
           body: user.toJson(),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=utf-8'
@@ -50,10 +54,14 @@ class AuthServices {
           response: res,
           context: context,
           onSuccess: (() {
-            showSnackBar(context, 'Success');
+            showSnackBar(context, 'Đăng ký thành công');
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const WelcomeScreen(),
+              ),
+              (route) => false,
+            );
           }));
-
-      print('success');
     } catch (e) {
       showSnackBar(context, e.toString());
       print(e.toString());
@@ -69,7 +77,7 @@ class AuthServices {
       var userProvider = Provider.of<UserProvider>(ctx, listen: false);
       final navigator = Navigator.of(ctx);
       http.Response res = await http.post(
-        Uri.parse('http://10.0.2.2:5000/auth/login'),
+        Uri.parse('${Constants.uri}/auth/login'),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -86,7 +94,6 @@ class AuthServices {
           userProvider.setUser(res.body);
           await prefs.setString(
               'x-auth-token', jsonDecode(res.body)['accessToken']);
-
           navigator.pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (context) => const HomepageScreen(),
@@ -102,4 +109,18 @@ class AuthServices {
       showSnackBar(ctx, e.toString());
     }
   }
+
+  Future<List<dynamic>> fetchMentors() async {
+    final response = await http.get(Uri.parse('${Constants.uri}/mentor'));
+
+    if (response.statusCode == 200) {
+      // Chuyển đổi dữ liệu JSON thành danh sách mentors
+      List<dynamic> data = json.decode(response.body);
+      return data;
+    } else {
+      // Nếu có lỗi trong quá trình gọi API, bạn có thể xử lý ở đây
+      throw Exception('Failed to load mentors');
+    }
+  }
+
 }

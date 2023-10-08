@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:itmentor/screens/auth_screens/register_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
+import 'package:itmentor/utils/constant.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,20 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = LinearGradient(
-      colors: [
-        Color(0xFF18BEBC),
-        Color(0x6618BEBC),
-        Colors.white,
-      ],
-      stops: [0.0, 0.3, 1.0],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-    );
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: backgroundColor),
+        decoration: const BoxDecoration(gradient: Constants.backgroundColor),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -73,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                 child: TextFormField(
                   controller: _passwordController,
+                  obscureText: true,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -94,7 +87,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: (() {}),
                       child: const Text(
                         'Bấm tại đây',
-                        style: TextStyle(decoration: TextDecoration.underline),
+                      ))
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Chưa có tài khoản? '),
+                  TextButton(
+                      onPressed: (() {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => RegisterScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      }),
+                      child: const Text(
+                        'Đăng kí tại đây',
                       ))
                 ],
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itmentor/providers/user_provider.dart';
-import 'package:itmentor/screens/splash_screen.dart';
+import 'package:itmentor/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {

@@ -67,7 +67,22 @@ flutter:
     - assets/images/logo.png
     - assets/images/google.png
     - assets/images/mobile.png
+    - assets/images/female_avatar.png
+    - assets/images/male_avatar.jpg
   #   - images/a_dot_ham.jpeg
+    - assets/icons/ai_icon.png
+    - assets/icons/big_data_icon.png
+    - assets/icons/computer_science_icon.png
+    - assets/icons/information_security_icon.png
+    - assets/icons/networking_icon.png
+    - assets/icons/software_icon.png
+
+    - assets/course_icon/cplusplus_icon.png
+    - assets/course_icon/csharp_icon.png
+    - assets/course_icon/css_icon.png
+    - assets/course_icon/java_icon.png
+    - assets/course_icon/javascript_icon.png
+    - assets/course_icon/python_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -3,19 +3,19 @@ import 'package:itmentor/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
   User _user = User(
-      firstName: '',
-      lastName: '',
-      avatar: '',
-      email: '',
-      password: '',
-      dateOfBirth: '',
-      gender: false,
-      phone: '',
-      role: '',
-      id: '',
-      expiresIn: '',
-      accessToken: '',
-      refreshToken: '');
+    email: '',
+    password: '',
+    name: '',
+    gender: false,
+    dateOfBirth: '',
+    phone: '',
+    avatar: '',
+    role: '',
+    id: '',
+    expiresIn: '',
+    accessToken: '',
+    refreshToken: '',
+  );
 
   User get user => _user;
 

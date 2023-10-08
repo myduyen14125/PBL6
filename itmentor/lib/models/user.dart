@@ -2,14 +2,13 @@
 import 'dart:convert';
 
 class User {
-  String firstName;
-  String lastName;
-  String avatar;
   String email;
   String password;
-  String dateOfBirth;
+  String name;
   bool gender;
+  String dateOfBirth;
   String phone;
+  String avatar;
   String role;
   String id;
   String expiresIn;
@@ -17,8 +16,6 @@ class User {
   String refreshToken;
 
   User({
-    required this.firstName,
-    required this.lastName,
     required this.avatar,
     required this.email,
     required this.password,
@@ -30,20 +27,18 @@ class User {
     required this.expiresIn,
     required this.accessToken,
     required this.refreshToken,
+    required this.name
   });
-
-  
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'first_name': firstName,
-      'last_name': lastName,
-      'avatar': avatar,
       'email': email,
       'password': password,
-      'date_of_birth': dateOfBirth,
+      'name': name,
       'gender': gender,
+      'date_of_birth': dateOfBirth,
       'phone': phone,
+      'avatar': avatar,
       'role': role,
       'expiresIn': expiresIn,
       'accessToken': accessToken,
@@ -53,13 +48,12 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      firstName: map['first_name'] ?? '',
-      lastName: map['last_name'] ?? '',
-      avatar: map['avatar'] ?? '',
       email: map['email'] ?? '',
       password: map['password'] ?? '',
-      dateOfBirth: map['date_of_birth'] ?? '',
+      name: map['name'] ?? '',
       gender: map['gender'] ?? '',
+      dateOfBirth: map['date_of_birth'] ?? '',
+      avatar: map['avatar'] ?? '',
       phone: map['phone'] ?? '',
       role: map['role'] ?? '',
       id: map['_id'] ?? '',
@@ -71,5 +65,6 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
 }

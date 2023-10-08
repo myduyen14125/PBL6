@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:itmentor/screens/auth_screens/login_screen.dart';
+import 'package:itmentor/screens/auth_screens/register_screen.dart';
+import 'package:itmentor/utils/constant.dart';
 
-import 'package:itmentor/screens/login_screen.dart';
-import 'package:itmentor/screens/register_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key});
@@ -13,21 +14,12 @@ class WelcomeScreen extends StatefulWidget {
 class _LoginScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = LinearGradient(
-      colors: [
-        Color(0xFF18BEBC),
-        Color(0x6618BEBC),
-        Colors.white,
-      ],
-      stops: [0.0, 0.3, 1.0],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-    );
+    
     String selectedLanguage = 'Tiếng Anh';
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: backgroundColor),
+        decoration: const BoxDecoration(gradient: Constants.backgroundColor),
         child: Column(
           children: [
             const SizedBox(
@@ -140,10 +132,9 @@ class _LoginScreenState extends State<WelcomeScreen> {
                 const SizedBox(
                   width: 10,
                 ),
-                // Dropdown menu
                 DropdownButton<String>(
                   value:
-                      selectedLanguage, // Giá trị mặc định và giá trị hiện tại
+                      selectedLanguage, 
                   icon: const Icon(Icons.arrow_drop_down),
                   iconSize: 24,
                   elevation: 16,
@@ -156,7 +147,6 @@ class _LoginScreenState extends State<WelcomeScreen> {
                     color: Colors.blue[400],
                   ),
                   onChanged: (String? newValue) {
-                    // Cập nhật giá trị khi lựa chọn thay đổi
                     setState(() {
                       selectedLanguage = newValue!;
                     });
@@ -177,10 +167,10 @@ class _LoginScreenState extends State<WelcomeScreen> {
             const Text(
               '© IT Mentor',
               style: TextStyle(
-                color: Color(0xFF18BEBC), // Đổi màu văn bản thành #18BEBC
+                color: Color(0xFF18BEBC), 
                 fontSize:
-                    19, // Có thể điều chỉnh kích thước văn bản theo ý muốn
-                fontWeight: FontWeight.bold, // Đặt kiểu văn bản theo ý muốn
+                    19, 
+                fontWeight: FontWeight.bold, 
               ),
             ),
           ],

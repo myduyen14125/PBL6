@@ -20,11 +20,22 @@ void httpErrorHandle({
       onSuccess();
       break;
     case 400:
-      print(response.body);
-      showSnackBar(context, response.body);
+      try {
+        final jsonResponse = jsonDecode(response.body);
+        final message = jsonResponse['message'] as String;
+        showSnackBar(context, message);
+      } catch (e) {
+        showSnackBar(context, 'Không thể đăng ký');
+      }
       break;
     case 500:
-      showSnackBar(context, response.body);
+      try {
+        final jsonResponse = jsonDecode(response.body);
+        final message = jsonResponse['message'] as String;
+        showSnackBar(context, message);
+      } catch (e) {
+        showSnackBar(context, 'Không thể đăng ký');
+      }
       break;
     default:
       showSnackBar(context, response.body);
