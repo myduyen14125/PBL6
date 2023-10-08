@@ -1,9 +1,9 @@
 // axios1: attact token
 // axios2: no token
 export default (axios1, axios2) => ({
-  getListContact: async (queryObj = {}) => {
+  getListMentor: async (queryObj = {}) => {
     const { page = 1, paging = 10, subject = '', content = '', status = ''} = queryObj
-    return await axios1.get(`/contacts?page=${page}&paging=${paging}&subject_id=${subject ?? ""}&content=${content ?? ""}&status=${status ?? ""}`)
+    return await axios1.get(`/mentor?page=${page}&paging=${paging}&subject_id=${subject ?? ""}&content=${content ?? ""}&status=${status ?? ""}`)
   },
   getContactById: async (id) => {
     return await axios1.get(`/contacts/${id}`)
@@ -17,7 +17,7 @@ export default (axios1, axios2) => ({
   markDoingContact: async (id) => {
     return await axios1.patch(`/contacts/${id}/mark-doing`)
   },
-  getNotificationCount: async () => {
-    return await axios1.get(`/contacts/count`)
-  }
+  // getNotificationCount: async () => {
+  //   return await axios1.get(`/contacts/count`)
+  // }
 })

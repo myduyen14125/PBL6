@@ -1,5 +1,5 @@
 import Upload from "~/api/upload";
-import Contact from "~/api/contact"
+import Contact from "~/api/mentor"
 import News from "~/api/news";
 import Product from "~/api/product";
 import Activity from "~/api/activity";
