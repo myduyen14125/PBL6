@@ -9,6 +9,7 @@ const Home = () => import("../pages/Home/Home.vue");
 const SignIn = () => import("../pages/SignIn/SignIn.vue");
 const SignUp = () => import("../pages/SignUp/SignUp.vue");
 const Mentor = () => import("../pages/Mentor/Mentor.vue");
+const Appointment = () => import("../pages/Appointment/Appointment.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -30,6 +31,11 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/mentors",
     name: "Mentor",
     component: Mentor,
+  },
+  {
+    path: "/appointments",
+    name: "Appointment",
+    component: Appointment,
   },
 
   // {
