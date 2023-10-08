@@ -115,7 +115,7 @@ export default {
 
   methods: {
     handleLogin() {
-      this.$router.push('/contact')
+      this.$router.push('/mentor')
       // try {
       //   this.$refs.form.validate()
       //   this.$auth

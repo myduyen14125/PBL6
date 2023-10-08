@@ -65,11 +65,11 @@ export default {
     return {
       menu: [
         {
-          title: 'Contact',
+          title: 'Mentors',
           // icon: 'fa-solid fa-address-book',
-          iconSrc: '/icons/contact-gray.svg',
-          iconSrcActive: '/icons/contact-white.svg',
-          link: '/contact',
+          iconSrc: '/icons/job-gray.svg',
+          iconSrcActive: '/icons/job-white.svg',
+          link: '/mentor',
           isToggleSubItem: true,
           subMenu: [
             {
@@ -82,7 +82,24 @@ export default {
           count: 0
         },
         {
-          title: 'News',
+          title: 'Mentees',
+          // icon: 'fa-solid fa-address-book',
+          iconSrc: '/icons/job-gray.svg',
+          iconSrcActive: '/icons/job-white.svg',
+          link: '/mentee',
+          isToggleSubItem: true,
+          subMenu: [
+            {
+              title: 'Contact subject',
+              icon: 'fa-solid fa-circle',
+              link: '/contact-subject',
+            },
+          ],
+          isShowTitle: false,
+          count: 0
+        },
+        {
+          title: 'Blogs',
           // icon: 'fa-solid fa-table-list',
           iconSrc: '/icons/news-gray.svg',
           iconSrcActive: '/icons/news-white.svg',
@@ -98,7 +115,7 @@ export default {
           isShowTitle: false,
         },
         {
-          title: 'Product',
+          title: 'Appointment',
           // icon: 'fa-solid fa-shield',
           iconSrc: '/icons/product-gray.svg',
           iconSrcActive: '/icons/product-white.svg',
@@ -114,15 +131,7 @@ export default {
           isShowTitle: false,
         },
         {
-          title: 'Jobs',
-          // icon: 'fa-solid fa-briefcase',
-          iconSrc: '/icons/job-gray.svg',
-          iconSrcActive: '/icons/job-white.svg',
-          link: '/job',
-          isShowTitle: false,
-        },
-        {
-          title: 'Recruitment',
+          title: 'Statistic',
           // icon: 'fa-solid fa-gear',
           iconSrc: '/icons/recruitment-gray.svg',
           iconSrcActive: '/icons/recruitment-white.svg',
@@ -160,9 +169,9 @@ export default {
   },
   mounted() {
     // Call the API and update the value of item.count in the callback
-    this.getNotification('contact')
-    this.getNotification('service')
-    this.getNotification('application')
+    // this.getNotification('contact')
+    // this.getNotification('service')
+    // this.getNotification('application')
     this.deactiveToggleSubItem()
   },
   methods: {

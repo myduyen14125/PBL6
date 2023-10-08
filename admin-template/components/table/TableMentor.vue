@@ -17,7 +17,7 @@
         />
       </div>
       <SearchInput @search="handleSearch"/>
-      <!-- <nuxt-link to="/contact/create">
+      <!-- <nuxt-link to="/mentor/create">
         <button class="btn-custom btn-blue" >
           Create contact
         </button>
@@ -32,8 +32,8 @@
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
-            <th scope="col">Content</th>
-            <th scope="col">Subject</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Major</th>
             <th scope="col">Date</th>
             <th scope="col">Status</th>
           </tr>
@@ -42,7 +42,7 @@
           <tr v-for="(item, index) in data" :key="index" class="cursor-pointer table-row" @click="handleRouting(item.id)">
             <td class="color-primary d-flex justify-content-center">
               <span class="td-content">
-                <nuxt-link :to="`/contact/${item.id}`" class="cursor-pointer color-primary">{{ item.name.trim() }}</nuxt-link>
+                <nuxt-link :to="`/mentor/${item.id}`" class="cursor-pointer color-primary">{{ item.name }}</nuxt-link>
               </span>
             </td>
             <td class="color-secondary">
@@ -52,7 +52,7 @@
               <span class="td-content">{{ item.phone }}</span>
             </td>
             <td class="color-secondary">
-              <span class="td-content">{{ item.content.trim() }}</span>
+              <span class="td-content">{{ item.gender ? 'Female' : 'Male' }}</span>
             </td>
             <td class="color-secondary">
               <span class="td-subject">{{ getSubjectName(item.subject_id) }}</span>
@@ -96,7 +96,7 @@ export default {
     },
     title: {
       type: String,
-      default: 'Contact'
+      default: 'Quản lý mentor'
     }
   },
   data() {
@@ -130,7 +130,7 @@ export default {
       fetchSubjectList: 'subject/fetchList'
     }),
     handleRouting(id) {
-      this.$router.push(`/contact/${id}`);
+      this.$router.push(`/mentor/${id}`);
     },
     getSubjectName(id) {
       const subject = this.subjectList.find(item => item.id === id);

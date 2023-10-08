@@ -1,14 +1,14 @@
 <template>
   <div class="main-wrapper h-100 position-relative">
-    <TableJob ref="table" :data="jobs" @searchContent="onSearchContent" @selectType="onSelectType"/>
-    <div v-if="jobs.length == 0" class="d-flex justify-content-center align-items-center no-result">
+    <TableContact ref="table" :data="contacts" @searchContent="onSearchContent" @selectCategory="onSelectCategory" @selectStatus="onSelectStatus"/>
+    <div v-if="contacts.length == 0" class="d-flex justify-content-center align-items-center no-result">
       <div>
-        <p class="text-center">There are no results!</p>
+        <p class="text-center">Không có kết quả phù hợp!</p>
         <img class="mt-4" src="~/assets/images/no-result.png" alt="">
       </div>
     </div>
     <pagination 
-      v-if="jobs.length > 0"
+      v-if="contacts.length > 0"
       :current-page="params.page" 
       :total-pages="meta.total_pages" 
       @page-changed="changePage"
@@ -17,45 +17,48 @@
 </template>
 
 <script>
-import TableJob from '~/components/table/TableJob.vue'
+import TableContact from '~/components/table/TableMentor.vue'
 import Pagination from '@/components/common/Pagination.vue'
 
 export default {
+  name: 'MentorManagement',
   components: {
-    TableJob,
+    TableContact,
     Pagination,
   },
   layout: 'secret',
   data() {
     return {
-      jobs: [],
+      contacts: [],
       params: {
         page: this.$route.query.page ? this.$route.query.page : 1,
         // paging: 10,
+        subject: this.$route.query.subject ? this.$route.query.subject : '',
         content: this.$route.query.content ? this.$route.query.content : '',
-        type: this.$route.query.type ? this.$route.query.type : '',
+        status: this.$route.query.status ? this.$route.query.status : '',
       },
       meta: {
-        total_pages: '', 
-        total_count: '',
-      }
+        total_pages: 1, 
+        total_count: '', 
+      },
     }
   },
-  created() {
-    this.getListJob(this.params)
+  mounted() {
+    this.getListMentor(this.params)
   },
   methods: {
-    getListJob(params) {
-      this.$api.job.getListJob(params).then((res) => {
-        this.jobs = res.data.data
+    getListMentor(params) {
+      this.$api.mentor.getListMentor(params).then((res) => {
+        this.contacts = res.data.data
         this.meta.total_pages = parseInt(res.data.meta.total_pages)
+        console.log("totalpages: ", this.meta.total_pages)
         this.meta.total_count = res.data.meta.total_count
       })
       this.$router.push({ query: this.params })
     },
     changePage(pageNumber) {
       this.params.page = pageNumber
-      this.getListJob(this.params)
+      this.getListMentor(this.params)
       this.$nextTick(() => {
         this.$refs.table.scrollToTop();
       });
@@ -63,12 +66,17 @@ export default {
     onSearchContent(content) {
       this.params.content = content
       this.params.page = 1 // Reset page to 1 when searching
-      this.getListJob(this.params)
+      this.getListMentor(this.params)
     },
-    onSelectType(type) {
-      this.params.type = type
+    onSelectCategory(id) {
+      this.params.subject = id
       this.params.page = 1 // Reset page to 1 when searching
-      this.getListJob(this.params)
+      this.getListMentor(this.params)
+    },
+    onSelectStatus(status) {
+      this.params.status = status
+      this.params.page = 1 // Reset page to 1 when searching
+      this.getListMentor(this.params)
     },
   },
 }

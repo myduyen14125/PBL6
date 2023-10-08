@@ -3,7 +3,7 @@
     <TableService ref="table" :data="services" @searchContent="onSearchContent" @selectCategory="onSelectCategory" @selectStatus="onSelectStatus"/>
     <div v-if="services.length == 0" class="d-flex justify-content-center align-items-center no-result">
       <div>
-        <p class="text-center">There are no results!</p>
+        <p class="text-center">Không có kết quả phù hợp!</p>
         <img class="mt-4" src="~/assets/images/no-result.png" alt="">
       </div>
     </div>

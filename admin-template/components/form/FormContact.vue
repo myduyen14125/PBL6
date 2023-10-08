@@ -129,7 +129,7 @@ export default {
       this.$api.contact.createNewContact(this.data)
       .then((res) => {
         alert('Create new contact successfully')
-        this.$router.push('/contact')
+        this.$router.push('/mentor')
       })
     },
   },
