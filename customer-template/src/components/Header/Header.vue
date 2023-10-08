@@ -29,7 +29,7 @@
               content="Lịch hẹn của tôi"
               placement="bottom"
             >
-              <router-link to="#"
+              <router-link to="/appointments"
                 ><span><SvgIcon icon="calendarMenu" /></span
               ></router-link>
             </el-tooltip>
