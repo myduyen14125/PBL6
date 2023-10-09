@@ -1,7 +1,7 @@
 <template>
   <div class="search-wrapper w-fit rounded py-6">
-    <div class="search-bar flex justify-center items-center">
-      <div class="search-location relative">
+    <div class="search-bar flex flex-wrap items-center">
+      <div class="search-location mt-4 me-4 relative">
         <button
           @click="toggleLocationSelector"
           class="btn-location h-12 flex items-center space-x-2 pl-3 rounded-lg bg-gray-100 w-48 focus:outline-none hover:outline-none"
@@ -28,12 +28,12 @@
           </ul>
         </div>
       </div>
-      <div class="search-input ml-4 relative">
+      <div class="search-input mt-4 relative">
         <input
           type="text"
           v-model="searchText"
           placeholder="Tìm kiếm mentor hoặc lĩnh vực mong muốn"
-          class="w-[400px] h-12 px-3 py-2 rounded-lg border-0 focus:outline-none"
+          class="w-[350px] h-12 px-3 py-2 rounded-lg border-0 focus:outline-none"
           @focus="showMajorDropdown = true"
           @blur="showMajorDropdown = false"
           @keydown.enter="onSearchMentor"

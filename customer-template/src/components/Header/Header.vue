@@ -75,7 +75,7 @@
           <button class="btn btn-primary">Đăng ký</button>
         </router-link>
 
-        <div v-if="isLogin" class="dropdown ms-4">
+        <div v-if="isLogin" class="dropdown mx-4">
           <div
             type="button"
             id="dropdownMenuButton1"

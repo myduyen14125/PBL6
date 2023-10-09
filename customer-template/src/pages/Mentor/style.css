@@ -1,3 +1,7 @@
 .banner-section {
   background: linear-gradient(135deg, #79e2d6 0%, #bee4e3 100%);
 }
+
+.banner-section .row {
+  width: -webkit-fill-available;
+}

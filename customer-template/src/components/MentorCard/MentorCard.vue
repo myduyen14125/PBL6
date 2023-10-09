@@ -47,7 +47,7 @@
       <div class="card w-100">
         <div class="card-body">
           <h5 class="card-title border-bottom pb-2">Giới thiệu bản thân</h5>
-          <p class="card-text">Trần Thị Ngà</p>
+          <p class="card-text">{{ mentor.name }}</p>
           <h5 class="card-title border-bottom pb-2">Chủ đề mentoring</h5>
           <ul class="pl-0">
             <li>
