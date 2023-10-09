@@ -10,6 +10,8 @@ const SignIn = () => import("../pages/SignIn/SignIn.vue");
 const SignUp = () => import("../pages/SignUp/SignUp.vue");
 const Mentor = () => import("../pages/Mentor/Mentor.vue");
 const Appointment = () => import("../pages/Appointment/Appointment.vue");
+const MentorInformation = () =>
+  import("../pages/Mentor/_id/MentorInformation.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -36,6 +38,12 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/appointments",
     name: "Appointment",
     component: Appointment,
+  },
+
+  {
+    path: "/mentor-infor",
+    name: "MentorInformation",
+    component: MentorInformation,
   },
 
   // {
