@@ -40,4 +40,5 @@ export function revokeUser(): void {
   };
   cookie.remove(CacheKey.TOKEN, options);
   cookie.remove(CacheKey.REFRESH_TOKEN, options);
+  cookie.remove(CacheKey.USER_INFO, options);
 }

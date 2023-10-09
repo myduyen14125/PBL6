@@ -3,6 +3,7 @@ import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import avatar from "../../assets/image/avatar.png";
 import icMentee from "../../assets/image/ic-mentee.png";
 import icFollowed from "../../assets/image/followed.png";
+import router from "../../router";
 
 export default defineComponent({
   name: "MentorCard",
@@ -11,8 +12,7 @@ export default defineComponent({
     mentor: {
       type: Object,
       required: true,
-      default: () => ({
-      }),
+      default: () => ({}),
     },
   },
   setup() {
@@ -46,6 +46,7 @@ export default defineComponent({
       icFollowed,
       tooltipContainer,
       isTooltipRight,
+      router,
     };
   },
 });

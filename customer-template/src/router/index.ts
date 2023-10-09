@@ -38,12 +38,13 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/appointments",
     name: "Appointment",
     component: Appointment,
+    meta: { requiresAuth: true },
   },
-
   {
-    path: "/mentor-infor",
+    path: "/mentors/:id",
     name: "MentorInformation",
     component: MentorInformation,
+    props: true,
   },
 
   // {

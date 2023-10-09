@@ -1,9 +1,14 @@
 <template>
-  <div class="mentor-card tooltip-container" ref="tooltipContainer">
+  <div
+    class="mentor-card tooltip-container"
+    ref="tooltipContainer"
+    @click="() => router.push(`/mentors/${mentor._id}`)"
+  >
     <div class="card w-100 mt-4 hover-tooltip">
       <div class="d-flex align-items-center justify-content-center">
+        <!-- :src="mentor.avatar ? mentor.avatar : avatar" -->
         <img
-          :src="mentor.avatar ? mentor.avatar : avatar"
+          src="https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-anh-anime-nu-1.jpg"
           class="rounded-circle card-img"
           alt="Mentor avatar"
           width="200"
@@ -17,11 +22,18 @@
         <div class="d-flex align-items-center justify-content-between mt-5">
           <div class="d-flex align-items-center">
             <img :src="icMentee" alt="Mentee" width="18" height="18" />
-            <span class="ml-2">{{ mentor.numberOfMentees ? mentor.numberOfMentees : 0 }} mentees</span>
+            <span class="ml-2"
+              >{{
+                mentor.numberOfMentees ? mentor.numberOfMentees : 0
+              }}
+              mentees</span
+            >
           </div>
           <div class="d-flex align-items-center">
             <img :src="icFollowed" alt="Mentee" width="18" height="18" />
-            <span class="ml-2">{{ mentor.numberOfLikes ? mentor.numberOfLikes : 0 }} likes</span>
+            <span class="ml-2"
+              >{{ mentor.numberOfLikes ? mentor.numberOfLikes : 0 }} likes</span
+            >
           </div>
         </div>
       </div>

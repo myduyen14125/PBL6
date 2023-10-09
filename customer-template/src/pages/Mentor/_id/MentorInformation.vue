@@ -13,7 +13,7 @@
                   </div>
                   <div class="col-6 d-flex flex-column text-left p-4">
                     <div class="basic-intro">
-                      <div class="username">TRẦN NGỌC LINH</div>
+                      <div class="username">{{ mentorInfo?.name || "" }}</div>
                       <div class="position-user">HR Manager taị VNG</div>
                     </div>
                   </div>
@@ -91,7 +91,9 @@
           </div>
           <div class="box" v-if="selectedOption === 'profile'">
             <div class="program">
-              <div class="mentor-infor-header text">CHƯƠNG TRÌNH MENTOR CỦA USERNAME</div>
+              <div class="mentor-infor-header text text-uppercase">
+                {{ `CHƯƠNG TRÌNH MENTOR CỦA ${mentorInfo?.name || ""}` }}
+              </div>
 
               <div class="content-program">
                 <div class="card">
