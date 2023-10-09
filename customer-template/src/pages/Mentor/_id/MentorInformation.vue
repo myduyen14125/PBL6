@@ -91,7 +91,8 @@
           </div>
           <div class="box" v-if="selectedOption === 'profile'">
             <div class="program">
-              <div class="header text">CHƯƠNG TRÌNH MENTOR CỦA USERNAME</div>
+              <div class="mentor-infor-header text">CHƯƠNG TRÌNH MENTOR CỦA USERNAME</div>
+
               <div class="content-program">
                 <div class="card">
                   <span class="text-span">Kỹ năng mềm</span>
@@ -116,7 +117,8 @@
             </div>
             <hr />
             <div class="introduce">
-              <div class="header text">GIỚI THIỆU BẢN THÂN</div>
+              <div class="mentor-infor-header text">GIỚI THIỆU BẢN THÂN</div>
+
               <div class="content-introduce">
                 Hello young talent, I am happy to have a chance to talk and
                 sharing with you about the career orientation and job mentoring.
@@ -187,7 +189,8 @@
               </a>
             </div>
             <div class="recommendation pt-5">
-              <div class="header text">Có thể bạn quan tâm</div>
+              <div class="mentor-infor-header text">Có thể bạn quan tâm</div>
+
               <div class="recommendation-content">
                 <div class="sub-card">
                   <a href="#">
