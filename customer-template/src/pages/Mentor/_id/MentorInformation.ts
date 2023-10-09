@@ -25,7 +25,6 @@ export default defineComponent({
     const mentorInfo = ref();
 
     onMounted(() => {
-      console.log(props.id);
       getMentorInfo(props.id);
     });
 
@@ -34,7 +33,6 @@ export default defineComponent({
         id: props.id,
         callback: {
           onSuccess: (res) => {
-            console.log(res);
             mentorInfo.value = res;
           },
           onFailure: () => {
