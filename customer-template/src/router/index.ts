@@ -10,8 +10,8 @@ const SignIn = () => import("../pages/SignIn/SignIn.vue");
 const SignUp = () => import("../pages/SignUp/SignUp.vue");
 const Mentor = () => import("../pages/Mentor/Mentor.vue");
 const Appointment = () => import("../pages/Appointment/Appointment.vue");
-const MentorInformation = () =>
-  import("../pages/Mentor/_id/MentorInformation.vue");
+const UserInformation = () =>
+  import("../pages/UserInformation/UserInformation.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -41,9 +41,9 @@ const constantRoutes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/mentors/:id",
-    name: "MentorInformation",
-    component: MentorInformation,
+    path: "/user/:id",
+    name: "UserInformation",
+    component: UserInformation,
     props: true,
   },
 

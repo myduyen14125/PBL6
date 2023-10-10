@@ -2,7 +2,7 @@
   <div
     class="mentor-card tooltip-container"
     ref="tooltipContainer"
-    @click="() => router.push(`/mentors/${mentor._id}`)"
+    @click="() => router.push(`/user/${mentor._id}`)"
   >
     <div class="card w-100 mt-4 hover-tooltip">
       <div class="d-flex align-items-center justify-content-center">

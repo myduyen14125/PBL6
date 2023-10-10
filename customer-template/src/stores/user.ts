@@ -1,11 +1,13 @@
 import { get, noop } from "lodash";
 import { defineStore } from "pinia";
-import { getAllMentors } from "../api/mentors";
+import { getUserInfo } from "../api/user";
 
-export const useMentors = defineStore("mentors", () => {
-  const requestGetAllMentors = async ({
+export const useUser = defineStore("user", () => {
+  const requestGetUserInfo = async ({
+    id,
     callback,
   }: {
+    id: string;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);
@@ -13,7 +15,7 @@ export const useMentors = defineStore("mentors", () => {
     const onFinish = get(callback, "onFinish", noop);
 
     try {
-      const response = await getAllMentors();
+      const response = await getUserInfo(id);
       onSuccess(response);
     } catch (error) {
       onFailure(error);
@@ -23,6 +25,6 @@ export const useMentors = defineStore("mentors", () => {
   };
 
   return {
-    requestGetAllMentors,
+    requestGetUserInfo,
   };
 });

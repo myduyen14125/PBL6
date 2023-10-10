@@ -29,6 +29,8 @@ export default defineComponent({
       userInfoIcon: "userInfoIcon",
       toggleMenu: "toggleMenu",
       youtube: "youtube",
+      edit: "edit",
+      delete: "delete",
     };
 
     return {

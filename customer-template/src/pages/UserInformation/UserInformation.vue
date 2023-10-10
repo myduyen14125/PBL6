@@ -1,0 +1,243 @@
+<template>
+  <GuestLayout>
+    <div class="container py-lg-5 py-3">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="box">
+            <div class="profile-cover">
+              <img :src="coverImg" class="coverImg" />
+              <div class="overlay">
+                <div class="flex-center-center p-3">
+                  <img :src="avatarImg" class="avatarImg" />
+                </div>
+                <div class="px-4 d-flex flex-column justify-content-center">
+                  <div class="username">{{ userInfo?.name || "" }}</div>
+                  <div class="position-user">HR Manager taị VNG</div>
+                </div>
+              </div>
+            </div>
+            <div
+              v-if="userInfo?.role == 'mentor'"
+              class="pt-3 d-flex flex-wrap align-items-center"
+            >
+              <div class="flex-fill">
+                <div class="d-flex flex-wrap align-items-center">
+                  <div class="info-icon">
+                    <img :src="personLogo" class="icon" />
+                    <span class="text-action"> 65 mentee</span>
+                  </div>
+                  <div class="info-icon">
+                    <img :src="hourLogo" class="icon" />
+                    <span class="text-action"> 74h </span>
+                  </div>
+                </div>
+                <div class="d-flex flex-wrap align-items-center">
+                  <div class="info-icon">
+                    <img :src="ratingLogo" class="icon" />
+                    <span class="text-action"> 4.9/5</span>
+                  </div>
+                  <div class="info-icon">
+                    <img :src="heartLogo" class="icon" />
+                    <span class="text-action"> 281</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <button
+                    className="btn btn-primary px-4 action-button my-2"
+                    type="submit"
+                  >
+                    Đặt lịch ngay
+                  </button>
+                </div>
+                <div>
+                  <button
+                    className="btn btn-primary px-4 action-button"
+                    type="submit"
+                  >
+                    Theo dõi
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="user-action">
+            <label class="tab px-4 text">
+              <input
+                type="radio"
+                name="radio-action"
+                value="profile"
+                v-model="selectedOption"
+                :class="{
+                  active: selectedOption == 'profile',
+                }"
+              /><span>Hồ sơ</span>
+            </label>
+            <label class="tab px-4 text">
+              <input
+                type="radio"
+                name="radio-action"
+                value="evaluation"
+                v-model="selectedOption"
+                :class="{
+                  active: selectedOption == 'evaluation',
+                }"
+              /><span>Đánh giá</span>
+            </label>
+            <template v-if="userInfo?.role == 'mentor'">
+              <label class="tab px-4 text">
+                <input
+                  type="radio"
+                  name="radio-action"
+                  value="recommend"
+                  v-model="selectedOption"
+                  :class="{
+                    active: selectedOption == 'recommend',
+                  }"
+                /><span>Đề xuất</span>
+              </label>
+              <label class="tab px-4 text">
+                <input
+                  type="radio"
+                  name="radio-action"
+                  value="post"
+                  v-model="selectedOption"
+                  :class="{
+                    active: selectedOption == 'post',
+                  }"
+                /><span>Bài đăng</span>
+              </label>
+            </template>
+          </div>
+          <div class="box" v-if="selectedOption === 'profile'">
+            <div class="user-section">
+              <div class="flex-center-between">
+                <h5>
+                  {{ `CHƯƠNG TRÌNH MENTOR CỦA ${userInfo?.name || ""}` }}
+                </h5>
+                <p class="cursor-pointer">Cập nhật</p>
+              </div>
+              <div>
+                <el-carousel :interval="4000" height="200px">
+                  <el-carousel-item v-for="item in 6" :key="item">
+                    <div class="card d-block w-100">
+                      <span class="text-span"
+                        >Định hướng và chia sẻ kinh nghiệm nghề nghiệp</span
+                      >
+                      <div class="content-card text">
+                        Management Trainee - Talent Acquistion & Employer
+                        Branding | People Development tại L'Oreal Việt Nam
+                      </div>
+                      <br />
+                      <a href="#">Xem thêm</a>
+                    </div>
+                  </el-carousel-item>
+                </el-carousel>
+              </div>
+            </div>
+            <div class="user-section">
+              <div class="flex-center-between">
+                <h5>GIỚI THIỆU BẢN THÂN</h5>
+                <p class="btn btn-primary px-3">Thêm</p>
+              </div>
+
+              <div>
+                Hello young talent, I am happy to have a chance to talk and
+                sharing with you about the career orientation and job mentoring.
+                If you want to connect with me, feel free to add my fb:
+                fb.com/linh.le.1237
+              </div>
+            </div>
+            <div class="user-section">
+              <div class="flex-center-between">
+                <h5>KINH NGHIỆM LÀM VIỆC</h5>
+                <p class="btn btn-primary px-3">Thêm</p>
+              </div>
+              <div>
+                <ExperienceCard />
+                <ExperienceCard />
+              </div>
+            </div>
+            <div class="user-section">
+              <div class="flex-center-between">
+                <h5>QUÁ TRÌNH HỌC TẬP</h5>
+                <p class="btn btn-primary px-3">Thêm</p>
+              </div>
+              <div>
+                <ExperienceCard />
+                <ExperienceCard />
+              </div>
+            </div>
+            <div class="user-section">
+              <div class="flex-center-between">
+                <h5>KỸ NĂNG & CHỨNG CHỈ</h5>
+                <p class="btn btn-primary px-3">Thêm</p>
+              </div>
+              <div>
+                <p>Programming: Python, PHP, Javascript, SQL ...</p>
+                <p>Programming: Python, PHP, Javascript, SQL ...</p>
+              </div>
+            </div>
+          </div>
+          <div class="box" v-else-if="selectedOption === 'evaluation'">
+            <div v-for="n in 2" :key="n" class="w-100 border-bottom mb-3">
+              <div class="row">
+                <div class="col-2 flex-center-center">
+                  <img :src="hourLogo" class="mini-ava" />
+                </div>
+                <div class="col-6">
+                  <div class="basic-intro">
+                    <div>Minh Nguyệt</div>
+                    <span class="text-span"
+                      >English Teacher (full-time) tại ULIS Middle School (UMS),
+                      ULIS</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="content-comment">
+                Buổi cố vấn thật ý nghĩa với mình trong lúc mình cảm thấy vô
+                cùng peer pressure và trống rỗng. Em cảm ơn chị Linh vì đã đưa
+                ra những phân tích và lời khuyên đúng đắn cho em. Chị rất nhiệt
+                tình và tâm huyết để giúp mình tìm được giải pháp và hướng đi
+                tiếp theo.
+              </div>
+            </div>
+          </div>
+          <div class="box" v-else-if="selectedOption === 'recommend'"></div>
+          <div class="box" v-else-if="selectedOption === 'post'">
+            <!-- <MentorPost :blog="{}" /> -->
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="advertisement">
+            <a href="#" target="_blank">
+              <img class="w-100" :src="advertisementImg" alt="Advertisement" />
+            </a>
+          </div>
+          <div class="pt-5">
+            <h5 class="ps-2">Có thể bạn quan tâm</h5>
+            <div class="row py-2 cursor-pointer" v-for="n in 2" :key="2">
+              <div class="col-3 flex-center-center">
+                <img :src="hourLogo" class="mini-ava" />
+              </div>
+              <div class="col-9">
+                <div class="basic-intro">
+                  <div>Minh Nguyệt</div>
+                  <span class="text-span"
+                    >English Teacher (full-time) tại ULIS Middle School (UMS),
+                    ULIS</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </GuestLayout>
+</template>
+
+<script lang="ts" src="./UserInformation.ts"></script>
+<style scoped lang="css" src="./style.css"></style>
