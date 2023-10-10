@@ -5,28 +5,28 @@
         <div
           class="post-img d-flex align-items-center justify-content-center w-100"
         >
-          <img :src="postImg" alt="Post" />
+          <img :src="blog?.avatar || postImg" alt="Post" />
         </div>
       </div>
       <div class="col-12 col-sm-8 p-3">
-        <h4>TỔNG QUAN VỀ NGÀNH TÀI CHÍNH (FUNCTION AND INDUSTRY)</h4>
+        <h4>{{ blog?.title || "" }}</h4>
         <div class="px-3 d-flex align-items-center mentor-info my-4">
           <img
-            :src="avatar"
+            :src="blog?.user?.avatar || avatar"
             alt="Mentor avatar"
             width="50"
             height="50"
             class="rounded-circle"
           />
-          <span class="color-primary mx-3">Trần Thị Ngà</span>
+          <span class="color-primary mx-3">{{ blog?.user?.name || "" }}</span>
           <SvgIcon icon="birthdayIcon" />
-          <span class="color-primary ml-2">17/08/2002</span>
+          <span class="color-primary ml-2">{{
+            formatDate(blog?.user?.date_of_birth, "DD/MM/YYYY") || ""
+          }}</span>
         </div>
         <div>
-          <span>Bài viết gồm 3 phần chính:</span><br />
           <span>
-            1 - Mô hình kinh doanh, 2 - Các loại bảo hiểm, 3 - Cơ hội nghề
-            nghiệp
+            {{ blog?.content || "" }}
           </span>
         </div>
       </div>

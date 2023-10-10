@@ -57,8 +57,8 @@
             Bài viết chia sẻ từ các chuyên gia
           </h2>
           <div class="row">
-            <div v-for="n in 3" :key="n" class="col-12">
-              <MentorPost />
+            <div v-for="blog in blogs" :key="blog._id" class="col-12">
+              <MentorPost :blog="blog" />
             </div>
           </div>
           <div class="my-5 text-center">

@@ -4,6 +4,7 @@ import MentorCard from "../../components/MentorCard/MentorCard.vue";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import { useMentors } from "../../stores/mentors";
+import { useBlog } from "./../../stores/blog";
 import SwalPopup from "../../ultils/swalPopup";
 
 export default defineComponent({
@@ -11,10 +12,13 @@ export default defineComponent({
   components: { GuestLayout, MentorCard, MentorPost },
   setup() {
     const mentorsStore = useMentors();
+    const blogStore = useBlog();
     const mentors = ref([]);
+    const blogs = ref([]);
 
     onMounted(() => {
       getAllMentors();
+      getAllBlogs();
     });
 
     const getAllMentors = () => {
@@ -33,6 +37,22 @@ export default defineComponent({
       });
     };
 
-    return { heroImg, mentors };
+    const getAllBlogs = () => {
+      blogStore.requestGetAllBlogs({
+        callback: {
+          onSuccess: (res) => {
+            blogs.value = res;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
+    return { heroImg, mentors, blogs };
   },
 });
