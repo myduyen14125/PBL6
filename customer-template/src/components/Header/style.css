@@ -13,6 +13,11 @@
   color: #262626;
 }
 
+.header .router-link:hover path,
+.header .router-link-active .calender path {
+  fill: #262626;
+}
+
 .header .router-link-active {
   line-height: 1.75rem;
   color: #222222;

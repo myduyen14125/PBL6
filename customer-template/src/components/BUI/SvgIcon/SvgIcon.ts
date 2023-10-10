@@ -4,6 +4,10 @@ export default defineComponent({
   name: "SvgIcon",
   props: {
     icon: String,
+    class: {
+      type: String,
+      default: "",
+    },
   },
   setup() {
     const types = {

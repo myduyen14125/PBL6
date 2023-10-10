@@ -29,8 +29,8 @@
               content="Lịch hẹn của tôi"
               placement="bottom"
             >
-              <router-link to="/appointments"
-                ><span><SvgIcon icon="calendarMenu" /></span
+              <router-link to="/appointments" class="router-link"
+                ><span><SvgIcon icon="calendarMenu" class="calender" /></span
               ></router-link>
             </el-tooltip>
           </li>
@@ -42,7 +42,7 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <router-link to="#"
+                <router-link to="#" class="router-link"
                   ><SvgIcon icon="messengerMenu"
                 /></router-link>
               </div>
