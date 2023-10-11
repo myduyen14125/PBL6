@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class User {
@@ -51,7 +50,7 @@ class User {
       email: map['email'] ?? '',
       password: map['password'] ?? '',
       name: map['name'] ?? '',
-      gender: map['gender'] ?? '',
+      gender: map['gender'] ?? false,
       dateOfBirth: map['date_of_birth'] ?? '',
       avatar: map['avatar'] ?? '',
       phone: map['phone'] ?? '',

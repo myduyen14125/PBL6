@@ -42,8 +42,10 @@ class AuthServices {
         refreshToken: '',
       );
 
-      http.Response res = await http.post(
-          Uri.parse('${Constants.uri}/auth/register'),
+      final uri =
+          Uri.https(Constants.uri, '/auth/register');
+
+      http.Response res = await http.post(uri,
           body: user.toJson(),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=utf-8'
@@ -63,7 +65,7 @@ class AuthServices {
             );
           }));
     } catch (e) {
-      showSnackBar(context, e.toString());
+      showSnackBar(context, 'Không thể đăng kí');
       print(e.toString());
     }
   }
@@ -76,8 +78,13 @@ class AuthServices {
     try {
       var userProvider = Provider.of<UserProvider>(ctx, listen: false);
       final navigator = Navigator.of(ctx);
+
+      // Tạo một Uri sử dụng Uri.https thay vì Uri.http
+      final uri =
+          Uri.https(Constants.uri, '/auth/login');
+
       http.Response res = await http.post(
-        Uri.parse('${Constants.uri}/auth/login'),
+        uri,
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -86,6 +93,8 @@ class AuthServices {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+
+      print(res.statusCode);
       httpErrorHandle(
         response: res,
         context: ctx,
@@ -96,31 +105,45 @@ class AuthServices {
               'x-auth-token', jsonDecode(res.body)['accessToken']);
           navigator.pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const HomepageScreen(),
+              builder: (context) => const HomepageNavigationScreen(),
             ),
             (route) => false,
           );
         },
       );
+
       print(res.body);
       print(res.statusCode);
     } catch (e) {
       print(e.toString());
-      showSnackBar(ctx, e.toString());
+      showSnackBar(ctx, 'Sai tài khoản hoặc mật khẩu');
     }
   }
 
   Future<List<dynamic>> fetchMentors() async {
-    final response = await http.get(Uri.parse('${Constants.uri}/mentor'));
+    final uri = Uri.https(Constants.uri, '/mentor');
+    final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      // Chuyển đổi dữ liệu JSON thành danh sách mentors
       List<dynamic> data = json.decode(response.body);
       return data;
     } else {
-      // Nếu có lỗi trong quá trình gọi API, bạn có thể xử lý ở đây
       throw Exception('Failed to load mentors');
     }
   }
 
+  Future<List<dynamic>> fetchBlogs() async {
+    final uri = Uri.https(Constants.uri, '/blog');
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      print(data);
+      return data;
+    } else {
+      throw Exception('Failed to load blogs');
+    }
+  }
+
+  
 }
