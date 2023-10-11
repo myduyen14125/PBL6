@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:itmentor/providers/user_provider.dart';
-import 'package:itmentor/screens/home_screens/category_screen.dart';
+import 'package:itmentor/screens/home_screens/category/category_screen.dart';
 import 'package:itmentor/screens/home_screens/course_list/course_list_screen.dart';
 import 'package:itmentor/screens/home_screens/latest_news_screen.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/all_mentor_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentor_list_screen.dart';
+import 'package:itmentor/screens/home_screens/profile_screens/profile_screen.dart';
+import 'package:itmentor/screens/home_screens/related_fields_screen.dart';
 import 'package:itmentor/utils/constant.dart';
 import 'package:provider/provider.dart';
 
@@ -71,7 +74,13 @@ class _HomepageScreenState extends State<HomepageScreen>
                             onPressed: (() {}),
                             icon: const Icon(Icons.notifications)),
                         IconButton(
-                            onPressed: (() {}), icon: const Icon(Icons.face)),
+                            onPressed: (() {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileScreen()),
+                              );
+                            }), icon: const Icon(Icons.face)),
                       ],
                     ),
                   ],
@@ -131,7 +140,22 @@ class _HomepageScreenState extends State<HomepageScreen>
                     ],
                   ),
                 ),
-                
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AllMentorsScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1369B2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  child: const Text('Xem thêm mentor'),
+                ),
                 Container(
                   margin: const EdgeInsets.only(left: 20),
                   child: const Align(
@@ -143,176 +167,7 @@ class _HomepageScreenState extends State<HomepageScreen>
                             fontWeight: FontWeight.bold,
                           ))),
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/ai_icon.png',
-                                  width: 50,
-                                  height: 100,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Trí tuệ\nnhân tạo',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/big_data_icon.png',
-                                  width: 50,
-                                  height: 100,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Big Data',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/computer_science_icon.png',
-                                  width: 50,
-                                  height: 100,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Khoa học\nmáy tính',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/information_security_icon.png',
-                                  width: 50,
-                                  height: 100,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'An toàn\nthông tin',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/networking_icon.png',
-                                  width: 50,
-                                  height: 100,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Mạng \nmáy tính',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/software_icon.png',
-                                  width: 50,
-                                  height: 100,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Công nghệ\nphần mềm',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                const RelatedFieldScreen(),
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

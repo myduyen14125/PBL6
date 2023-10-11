@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:itmentor/screens/auth_screens/login_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -33,7 +36,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isMentee = false;
   bool isRoleSelected = false;
 
+  bool isAvatarSelected = false;
+
   final AuthServices authServices = AuthServices();
+
+  File? _image;
+
+  Future<void> _getImageFromGallery() async {
+    final picker = ImagePicker();
+    final imageFile = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 90,
+    );
+    if (imageFile == null) {
+      return;
+    }
+
+    setState(() {
+      _image = File(imageFile.path);
+      isAvatarSelected = true;
+    });
+  }
+
+  Future _getImageFromCamera() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (image != null) {
+        _image = File(image.path);
+      }
+    });
+  }
 
   void signUpUser() {
     authServices.signUpUser(
@@ -369,6 +402,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _image == null
+                        ? Text('Chưa chọn ảnh')
+                        : Image.file(_image!),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Chọn ảnh từ:'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Thư viện ảnh'),
+                                  onPressed: () {
+                                    _getImageFromGallery();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Mở camera'),
+                                  onPressed: () {
+                                    _getImageFromCamera();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Text('Chọn Avatar'),
+                    ),
+                  ],
+                ),
+                isAvatarSelected
+                    ? Image.asset('assets/images/male_avatar.jpg')
+                    : const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

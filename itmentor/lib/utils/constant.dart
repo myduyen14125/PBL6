@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Constants {
-  static String uri = 'http://10.0.2.2:3001';
+  static String uri = 'busy-pear-scorpion-garb.cyclic.app';
   static const backgroundColor = LinearGradient(
     colors: [
       Color(0xFF18BEBC),
@@ -12,4 +13,11 @@ class Constants {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  static String formatDateString(String inputDateString) {
+    DateTime dateTime = DateTime.parse(inputDateString);
+    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    String formattedDateString = dateFormat.format(dateTime);
+    return formattedDateString;
+  }
 }
