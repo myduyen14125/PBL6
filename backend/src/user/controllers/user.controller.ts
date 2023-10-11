@@ -8,8 +8,7 @@ export class UserController {
     @UseGuards(AuthGuard())
     @Get('profile')
     async getProfile(@Req() req: any) {
-        console.log(req.user);
-        return req.user;
+        return this.userService.getProfile(req.user);
     }
 
     @UseGuards(AuthGuard('jwt'))
