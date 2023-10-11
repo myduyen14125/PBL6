@@ -42,30 +42,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   File? _image;
 
-  Future<void> _getImageFromGallery() async {
-    final picker = ImagePicker();
-    final imageFile = await picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 90,
-    );
-    if (imageFile == null) {
-      return;
-    }
+  final imagePicker = ImagePicker();
 
-    setState(() {
-      _image = File(imageFile.path);
-      isAvatarSelected = true;
-    });
+  Future getImageFromGallery() async {
+    final image = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+    }
   }
 
-  Future _getImageFromCamera() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    setState(() {
-      if (image != null) {
+  Future getImageFromCamera() async {
+    final image = await imagePicker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
         _image = File(image.path);
-      }
-    });
+      });
+    }
   }
 
   void signUpUser() {
@@ -76,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       name: _nameController.text,
       gender: isMale == true ? true : false,
       phone: _phoneController.text,
-      avatar: _avatarController.text,
+      avatar: '',
       dateOfBirth: selectedDate.toString(),
       role: isMentor == true ? 'mentor' : 'mentee',
     );
@@ -420,14 +414,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 TextButton(
                                   child: Text('Thư viện ảnh'),
                                   onPressed: () {
-                                    _getImageFromGallery();
+                                    getImageFromGallery();
                                     Navigator.of(context).pop();
                                   },
                                 ),
                                 TextButton(
                                   child: Text('Mở camera'),
                                   onPressed: () {
-                                    _getImageFromCamera();
+                                    getImageFromCamera();
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -441,7 +435,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 isAvatarSelected
-                    ? Image.asset('assets/images/male_avatar.jpg')
+                    ? Image.file(
+                        _image!,
+                        cacheHeight: 66,
+                        cacheWidth: 50,
+                      )
                     : const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
