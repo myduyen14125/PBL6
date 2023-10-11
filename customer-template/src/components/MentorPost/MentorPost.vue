@@ -2,9 +2,7 @@
   <div class="mentor-post">
     <div class="row border-bottom pb-4">
       <div class="col-12 col-sm-4 mt-3">
-        <div
-          class="post-img d-flex align-items-center justify-content-center w-100"
-        >
+        <div class="post-img d-flex justify-content-center w-100">
           <img :src="blog?.avatar || postImg" alt="Post" />
         </div>
       </div>

@@ -83,7 +83,7 @@
                 :class="{
                   active: selectedOption == 'evaluation',
                 }"
-              /><span>Đánh giá</span>
+              /><span>Đánh giá(2)</span>
             </label>
             <template v-if="userInfo?.role == 'mentor'">
               <label class="tab px-4 text">
@@ -106,7 +106,7 @@
                   :class="{
                     active: selectedOption == 'post',
                   }"
-                /><span>Bài đăng</span>
+                /><span>{{ `Bài đăng (${userInfo?.blogs.length})` }}</span>
               </label>
             </template>
           </div>
@@ -116,7 +116,6 @@
                 <h5>
                   {{ `CHƯƠNG TRÌNH MENTOR CỦA ${userInfo?.name || ""}` }}
                 </h5>
-                <p class="cursor-pointer">Cập nhật</p>
               </div>
               <div>
                 <el-carousel :interval="4000" height="200px">
@@ -139,7 +138,7 @@
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>GIỚI THIỆU BẢN THÂN</h5>
-                <p class="btn btn-primary px-3">Thêm</p>
+                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
               </div>
 
               <div>
@@ -152,27 +151,27 @@
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>KINH NGHIỆM LÀM VIỆC</h5>
-                <p class="btn btn-primary px-3">Thêm</p>
+                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
               </div>
               <div>
-                <ExperienceCard />
-                <ExperienceCard />
+                <ExperienceCard :showEdit="showEdit" />
+                <ExperienceCard :showEdit="showEdit" />
               </div>
             </div>
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>QUÁ TRÌNH HỌC TẬP</h5>
-                <p class="btn btn-primary px-3">Thêm</p>
+                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
               </div>
               <div>
-                <ExperienceCard />
-                <ExperienceCard />
+                <ExperienceCard :showEdit="showEdit" />
+                <ExperienceCard :showEdit="showEdit" />
               </div>
             </div>
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>KỸ NĂNG & CHỨNG CHỈ</h5>
-                <p class="btn btn-primary px-3">Thêm</p>
+                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
               </div>
               <div>
                 <p>Programming: Python, PHP, Javascript, SQL ...</p>
@@ -207,7 +206,9 @@
           </div>
           <div class="box" v-else-if="selectedOption === 'recommend'"></div>
           <div class="box" v-else-if="selectedOption === 'post'">
-            <!-- <MentorPost :blog="{}" /> -->
+            <div v-for="blog in userInfo.blogs" :key="blog._id" class="p-3">
+              <MentorPost :blog="blog" />
+            </div>
           </div>
         </div>
         <div class="col-lg-3">

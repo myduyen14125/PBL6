@@ -114,7 +114,9 @@
             </li>
             <li>
               <SvgIcon icon="userInfoIcon" />
-              <p class="mb-0 ml-3"><a href="#">Thông tin cá nhân</a></p>
+              <p class="mb-0 ml-3">
+                <a :href="`/user/${getUserInfo()?._id}`">Thông tin cá nhân</a>
+              </p>
             </li>
             <li>
               <SvgIcon icon="changePassIcon" />

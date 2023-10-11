@@ -17,7 +17,10 @@
       </div>
       <div class="col-md-3 text-end">
         <p>09/2019 - Hiện tại</p>
-        <div class="d-flex align-items-center justify-content-end">
+        <div
+          v-if="showEdit"
+          class="d-flex align-items-center justify-content-end"
+        >
           <el-tooltip
             class="box-item"
             effect="light"
@@ -48,6 +51,13 @@ import coverImg from "../../../assets/image/cover.jpg";
 export default {
   components: {
     SvgIcon,
+  },
+  props: {
+    showEdit: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   setup() {
     return {

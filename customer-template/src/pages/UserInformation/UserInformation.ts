@@ -7,10 +7,11 @@ import coverImg from "../../assets/image/cover.jpg";
 import avatarImg from "../../assets/image/cover.jpg";
 import advertisementImg from "../../assets/image/advertisement.jpg";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
-import MentorPost from "../../components/MentorPost/MentorPost";
+import MentorPost from "../../components/MentorPost/MentorPost.vue";
 import ExperienceCard from "./element/ExperienceCard.vue";
 import { useUser } from "../../stores/user";
 import SwalPopup from "../../ultils/swalPopup";
+import { getUserInfo } from "../../ultils/cache/localStorage";
 
 export default defineComponent({
   name: "UserInformation",
@@ -25,12 +26,13 @@ export default defineComponent({
     const userStore = useUser();
     const selectedOption = ref("profile");
     const userInfo = ref();
+    const showEdit = getUserInfo()._id == props.id;
 
     onMounted(() => {
-      getUserInfo(props.id);
+      getUserInformation(props.id);
     });
 
-    const getUserInfo = (id: string) => {
+    const getUserInformation = (id: string) => {
       userStore.requestGetUserInfo({
         id: props.id,
         callback: {
@@ -57,6 +59,7 @@ export default defineComponent({
       advertisementImg,
       selectedOption,
       userInfo,
+      showEdit,
     };
   },
 });
