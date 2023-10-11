@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentor_profile_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:itmentor/utils/constant.dart';
-
 
 class AllMentorsScreen extends StatefulWidget {
   const AllMentorsScreen({super.key});
@@ -41,7 +41,10 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                       icon: const Icon(Icons.arrow_back)),
                   const Expanded(
                     child: Center(
-                      child: Text('Danh sách mentor', style: TextStyle(fontSize: 20),),
+                      child: Text(
+                        'Danh sách mentor',
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ],
@@ -61,16 +64,27 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                         itemBuilder: (context, index) {
                           final mentor = mentorsData[index];
                           final gender = mentorsData[index]['gender'];
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: ListTile(
-                              leading: gender == true
-                                  ? Image.asset('assets/images/male_avatar.jpg')
-                                  : Image.asset(
-                                      'assets/images/female_avatar.png'),
-                              title: Text(mentor['name'] ?? mentor['email']),
-                              subtitle: Text(mentor['email']),
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        MentorProfileDetail(id: mentor['_id'],)),
+                              );
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              child: ListTile(
+                                leading: gender == true
+                                    ? Image.asset(
+                                        'assets/images/male_avatar.jpg')
+                                    : Image.asset(
+                                        'assets/images/female_avatar.png'),
+                                title: Text(mentor['name'] ?? mentor['email']),
+                                subtitle: Text(mentor['email']),
+                              ),
                             ),
                           );
                         },
