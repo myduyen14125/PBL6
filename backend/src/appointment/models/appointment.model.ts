@@ -1,4 +1,5 @@
 import { Schema, Document } from "mongoose";
+import { Schedule } from "src/schedule/models/schedule.model";
 import { User } from "src/user/models/user.model";
 
 const AppointmentSchema = new Schema(
@@ -14,8 +15,11 @@ const AppointmentSchema = new Schema(
             ref: 'User'
         },
 
-        start_at: Date,
-        end_at: Date,
+        schedule: {
+            type: Schema.Types.ObjectId,
+            ref: 'Schedule'
+        },
+
         status: String
 
     },
@@ -31,7 +35,6 @@ export interface Appointment extends Document {
     note: string;
     mentee: User;
     mentor: User;
-    start_at: Date;
-    end_at: Date;
+    schedule: Schedule
     status: String;
 }

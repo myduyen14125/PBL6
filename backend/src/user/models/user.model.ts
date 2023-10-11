@@ -22,6 +22,21 @@ const UserSchema = new Schema(
     }
 )
 
+UserSchema.virtual('blogs', {
+    ref: 'Blog',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: false,
+});
+
+UserSchema.virtual('schedules', {
+    ref: 'Schedule',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: false,
+});
+
+
 UserSchema.virtual('mentorAppointments', {
     ref: 'Appointment',
     localField: '_id',

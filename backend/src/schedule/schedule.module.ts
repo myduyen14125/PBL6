@@ -4,22 +4,22 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserRepository } from 'src/user/repositories/user.repository';
 import { UserModule } from 'src/user/user.module';
 import { UserSchema } from 'src/user/models/user.model';
-import { BlogController } from './controllers/blog.controller';
-import { BlogService } from './services/blog.service';
-import { BlogRepository } from './repositories/blog.repository';
-import { BlogSchema } from './models/blog.model';
 import { AppointmentSchema } from 'src/appointment/models/appointment.model';
-import { RatingSchema } from 'src/rating/models/rating.model';
+import { ScheduleSchema } from './models/schedule.model';
+import { ScheduleController } from './controllers/schedule.controller';
+import { ScheduleService } from './services/schedule.service';
+import { ScheduleRepository } from './repositories/schedule.repository';
+import { BlogSchema } from 'src/blog/models/blog.model';
+import { BlogRepository } from 'src/blog/repositories/blog.repository';
 import { RatingRepository } from 'src/rating/repositories/rating.repository';
-import { ScheduleSchema } from 'src/schedule/models/schedule.model';
-import { ScheduleRepository } from 'src/schedule/repositories/schedule.repository';
+import { RatingSchema } from 'src/rating/models/rating.model';
 
 @Module({
     imports: [
         MongooseModule.forFeature([
             {
-                name: 'Blog',
-                schema: BlogSchema
+                name: 'Schedule',
+                schema: ScheduleSchema
             },
             {
                 name: 'User',
@@ -30,17 +30,17 @@ import { ScheduleRepository } from 'src/schedule/repositories/schedule.repositor
                 schema: AppointmentSchema
             },
             {
-                name: 'Rating',
-                schema: RatingSchema
+                name: 'Blog',
+                schema: BlogSchema
             },
             {
-                name: 'Schedule',
-                schema: ScheduleSchema
-            },
+                name: 'Rating',
+                schema: RatingSchema
+            }
         ]),
         UserModule
     ],
-    controllers: [BlogController],
-    providers: [BlogService, BlogRepository, UserService, UserRepository, RatingRepository, ScheduleRepository]
+    controllers: [ScheduleController],
+    providers: [ScheduleService, ScheduleRepository, UserService, UserRepository, BlogRepository, RatingRepository]
 })
-export class BlogModule { }
+export class ScheduleModule { }
