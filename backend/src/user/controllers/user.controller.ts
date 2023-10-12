@@ -23,7 +23,4 @@ export class UserController {
         return this.userService.getUserById(id);
     }
 
-
-
-
 }

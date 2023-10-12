@@ -153,6 +153,20 @@ export class UserService {
         return mentors
     }
 
+    async searchMentor(keyword: string) {
+        keyword = keyword.toLowerCase();
+
+        const mentors = await this.userRepository.getByCondition(
+            {
+                role: 'mentor',
+                name: { $regex: new RegExp(keyword, 'i') }, // Case-insensitive search
+            },
+            ['name', 'avatar', '_id', 'email', 'gender', 'phone']
+        );
+
+        return mentors;
+    }
+
 
 
 

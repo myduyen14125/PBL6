@@ -10,4 +10,8 @@ export class MentorController {
         return this.userService.getAllMentors();
     }
 
+    @Get('search')
+    async searchMentors(@Query('name') keyword: string) {
+        return await this.userService.searchMentor(keyword);
+    }
 }
