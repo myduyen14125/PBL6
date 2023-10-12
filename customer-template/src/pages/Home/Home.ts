@@ -25,7 +25,7 @@ export default defineComponent({
       mentorsStore.requestGetAllMentors({
         callback: {
           onSuccess: (res) => {
-            mentors.value = res;
+            mentors.value = res.slice(0, 8);
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -41,7 +41,7 @@ export default defineComponent({
       blogStore.requestGetAllBlogs({
         callback: {
           onSuccess: (res) => {
-            blogs.value = res;
+            blogs.value = res.slice(0, 3);
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(

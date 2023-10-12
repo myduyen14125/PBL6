@@ -181,3 +181,8 @@ label:last-child {
 .advertisement {
   margin: 20px 0px;
 }
+
+.author {
+  font-weight: 600;
+  color: var(--primary);
+}

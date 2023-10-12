@@ -14,9 +14,9 @@ button:focus {
 }
 
 .btn.btn-primary {
-  border: 1px solid #1d7962;
-  background: #139896;
-  color: white;
+  border: 1px solid #1d7962 !important;
+  background: #139896 !important;
+  color: white !important;
 }
 
 .btn.btn-primary:hover,
@@ -42,7 +42,6 @@ button:focus {
   background: #139896;
   color: white;
 }
-
 
 .btn-location {
   outline: none;

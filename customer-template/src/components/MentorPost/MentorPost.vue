@@ -1,13 +1,13 @@
 <template>
-  <div class="mentor-post">
+  <div class="mentor-post" @click="() => router.push(`/blogs/${blog._id}`)">
     <div class="row border-bottom pb-4">
       <div class="col-12 col-sm-4 mt-3">
         <div class="post-img d-flex justify-content-center w-100">
           <img :src="blog?.avatar || postImg" alt="Post" />
         </div>
       </div>
-      <div class="col-12 col-sm-8 p-3">
-        <h4>{{ blog?.title || "" }}</h4>
+      <div class="col-12 col-sm-8 p-4 p-sm-3">
+        <h4 class="text-uppercase">{{ blog?.title || "" }}</h4>
         <div class="px-3 d-flex align-items-center mentor-info my-4">
           <img
             :src="blog?.user?.avatar || avatar"
@@ -19,7 +19,7 @@
           <span class="color-primary mx-3">{{ blog?.user?.name || "" }}</span>
           <SvgIcon icon="birthdayIcon" />
           <span class="color-primary ml-2">{{
-            formatDate(blog?.user?.date_of_birth, "DD/MM/YYYY") || ""
+            formatDate(blog?.createdAt, "DD/MM/YYYY") || ""
           }}</span>
         </div>
         <div>
