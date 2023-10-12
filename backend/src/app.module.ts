@@ -8,6 +8,7 @@ import { BlogModule } from './blog/blog.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { RatingModule } from './rating/rating.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { BioModule } from './bio/bio.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ScheduleModule } from './schedule/schedule.module';
     ScheduleModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DB_URI),
+    BioModule,
 
 
 
