@@ -15,6 +15,8 @@ import { BlogSchema } from 'src/blog/models/blog.model';
 import { RatingSchema } from 'src/rating/models/rating.model';
 import { RatingRepository } from 'src/rating/repositories/rating.repository';
 import { RatingService } from 'src/rating/services/rating.service';
+import { ScheduleSchema } from 'src/schedule/models/schedule.model';
+import { ScheduleRepository } from 'src/schedule/repositories/schedule.repository';
 
 @Module({
     imports: [
@@ -34,12 +36,16 @@ import { RatingService } from 'src/rating/services/rating.service';
             {
                 name: 'Rating',
                 schema: RatingSchema
-            }
+            },
+            {
+                name: 'Schedule',
+                schema: ScheduleSchema
+            },
         ]),
         UserModule,
         BlogModule
     ],
     controllers: [AppointmentController],
-    providers: [AppointmentService, AppointmentRepository, UserService, BlogService, UserRepository, BlogRepository, RatingRepository, RatingService]
+    providers: [AppointmentService, AppointmentRepository, ScheduleRepository, UserRepository, BlogRepository, RatingRepository, RatingService]
 })
 export class AppointmentModule { }

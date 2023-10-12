@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:itmentor/screens/home_screens/category/blogs/all_blogs_screen.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/all_mentor_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -30,10 +32,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     children: [
                       SizedBox(
                         width: 100,
-                        height: 50.0, 
+                        height: 50.0,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              100.0), 
+                          borderRadius: BorderRadius.circular(100.0),
                           child: Card(
                             child: DropdownButton<String>(
                               value: selectedValue1,
@@ -59,10 +60,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                       SizedBox(
                         width: 100,
-                        height: 50.0, 
+                        height: 50.0,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              100.0), 
+                          borderRadius: BorderRadius.circular(100.0),
                           child: Card(
                             child: DropdownButton<String>(
                               value: selectedValue2,
@@ -88,10 +88,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                       SizedBox(
                         width: 100,
-                        height: 50.0, 
+                        height: 50.0,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              100.0), 
+                          borderRadius: BorderRadius.circular(100.0),
                           child: Card(
                             child: DropdownButton<String>(
                               value: selectedValue3,
@@ -149,8 +148,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                     child: ElevatedButton(
                                       onPressed: () {},
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(
-                                            0xFF195A94), 
+                                        backgroundColor: Color(0xFF195A94),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                               20.0), // Đặt bán kính bo tròn
@@ -173,6 +171,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllBlogsScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1369B2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    child: const Text('Xem thêm bài viết'),
                   ),
                 ],
               ),

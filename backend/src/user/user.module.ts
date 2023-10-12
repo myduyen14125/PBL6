@@ -22,6 +22,8 @@ import { RatingService } from 'src/rating/services/rating.service';
 import { RatingRepository } from 'src/rating/repositories/rating.repository';
 import { AppointmentRepository } from 'src/appointment/repositories/appointment.repository';
 import { AppointmentModule } from 'src/appointment/appointment.module';
+import { ScheduleSchema } from 'src/schedule/models/schedule.model';
+import { ScheduleRepository } from 'src/schedule/repositories/schedule.repository';
 
 
 @Module({
@@ -42,7 +44,11 @@ import { AppointmentModule } from 'src/appointment/appointment.module';
       {
         name: 'Rating',
         schema: RatingSchema
-      }
+      },
+      {
+        name: 'Schedule',
+        schema: ScheduleSchema
+      },
 
     ]),
 
@@ -64,6 +70,6 @@ import { AppointmentModule } from 'src/appointment/appointment.module';
   ],
 
   controllers: [AuthController, UserController, BlogController, MentorController],
-  providers: [UserService, AuthService, UserRepository, JwtStrategy, BlogRepository, BlogService, RatingService, RatingRepository, AppointmentRepository],
+  providers: [UserService, AuthService, BlogService, UserRepository, JwtStrategy, BlogRepository, RatingRepository, AppointmentRepository, ScheduleRepository],
 })
 export class UserModule { }

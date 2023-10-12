@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/all_mentor_screen.dart';
+import 'package:itmentor/services/auth_services.dart';
+import 'package:itmentor/utils/utils.dart';
 
 class MentorListScreen extends StatefulWidget {
   const MentorListScreen({super.key});
@@ -13,6 +15,16 @@ class MentorListScreen extends StatefulWidget {
 class _MentorListScreenState extends State<MentorListScreen> {
   String selectedValue1 = 'Lĩnh vực';
   String selectedValue2 = 'Đánh giá';
+
+  final AuthServices authServices = AuthServices();
+
+  late Future<List<dynamic>> mentors;
+
+  @override
+  void initState() {
+    super.initState();
+    mentors = authServices.fetchMentors();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +39,9 @@ class _MentorListScreenState extends State<MentorListScreen> {
                 children: [
                   SizedBox(
                     width: 100,
-                    height: 50.0, 
+                    height: 50.0,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          100.0), 
+                      borderRadius: BorderRadius.circular(100.0),
                       child: Card(
                         child: DropdownButton<String>(
                           value: selectedValue1,
@@ -56,10 +67,9 @@ class _MentorListScreenState extends State<MentorListScreen> {
                   ),
                   SizedBox(
                     width: 100,
-                    height: 50.0, 
+                    height: 50.0,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          100.0), 
+                      borderRadius: BorderRadius.circular(100.0),
                       child: Card(
                         child: DropdownButton<String>(
                           value: selectedValue2,
@@ -86,48 +96,56 @@ class _MentorListScreenState extends State<MentorListScreen> {
                 ],
               ),
             ),
-            // call api get all mentor
-            // hard code first
-            Column(
-              children: [
-                Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: ListTile(
-                    leading: Image.asset(
-                      'assets/images/male_avatar.jpg',
-                      width: 48, 
-                      height: 48,
-                    ),
-                    title: const Text('Trần Nhật Nghi'),
-                    subtitle: Row(
-                      children: const [
-                        Text('Senior Front-end tại NashTech'),
-                        Spacer(),
-                        Text('Chi tiết', style: TextStyle(color: Colors.green)),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AllMentorsScreen()),
-                );
+            FutureBuilder<List<dynamic>>(
+              future: mentors,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  List<dynamic>? mentorData = snapshot.data;
+                  int itemCount = mentorData!.length < 3
+                      ? mentorData.length
+                      : 3; // Giới hạn chỉ hiển thị 3 mentors hoặc ít hơn nếu có ít hơn 3 mentors.
+
+                  return ListView.builder(
+                    shrinkWrap: true, // Để tránh lỗi layout trong Column
+                    itemCount: itemCount,
+                    itemBuilder: (context, index) {
+                      final mentor = mentorData[index];
+                      return Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          leading: Image.asset(
+                            mentor['gender'] == true
+                                ? 'assets/images/male_avatar.jpg'
+                                : 'assets/images/female_avatar.png',
+                            width: 48,
+                            height: 48,
+                          ),
+                          title: Text('${mentor['name']}'),
+                          subtitle: Row(
+                            children: [
+                              Text('${mentor['email']}'),
+                              Spacer(),
+                              Text(
+                                'Chi tiết',
+                                style: TextStyle(color: Colors.green),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1369B2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-              child: const Text('Xem thêm mentor'),
             ),
+            
           ],
         ),
       ),

@@ -4,6 +4,8 @@ import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { BlogRepository } from 'src/blog/repositories/blog.repository';
 import { RatingRepository } from 'src/rating/repositories/rating.repository';
+import { User } from '../models/user.model';
+import { ScheduleRepository } from 'src/schedule/repositories/schedule.repository';
 
 @Injectable()
 export class UserService {
@@ -11,6 +13,7 @@ export class UserService {
         private readonly userRepository: UserRepository,
         private readonly blogRepository: BlogRepository,
         private readonly ratingRepository: RatingRepository,
+        private readonly scheduleRepository: ScheduleRepository,
 
     ) { }
 
@@ -77,6 +80,10 @@ export class UserService {
                 mentor: id
             })
 
+            const schedules = await this.scheduleRepository.getByCondition({
+                user: id
+            })
+
             await Promise.all(ratings.map(async (rating) => {
                 await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
             }));
@@ -88,6 +95,42 @@ export class UserService {
                 delete userObject.password;
                 delete userObject.refreshToken;
                 delete userObject.date_of_birth;
+
+                return {
+                    ...userObject,
+                    blogs,
+                    schedules,
+                    ratings,
+                };
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async getProfile(user: User) {
+        try {
+            if (user.role === "mentee") {
+                return await this.userRepository.findById(user.id);
+            }
+            const returnUser = await this.userRepository.findById(user.id);
+
+            const blogs = await this.blogRepository.getByCondition({
+                user: user.id
+            })
+
+            const ratings = await this.ratingRepository.getByCondition({
+                mentor: user.id
+            })
+
+            await Promise.all(ratings.map(async (rating) => {
+                await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+            }));
+
+            // await returnUser.populate({ path: 'post', strictPopulate: false })
+            if (returnUser) {
+                const userObject = user.toObject ? user.toObject() : user;
 
                 return {
                     ...userObject,

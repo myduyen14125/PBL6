@@ -13,23 +13,13 @@ class AppointmentScreen extends StatefulWidget {
 class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = LinearGradient(
-      colors: [
-        Color(0xFF18BEBC),
-        Color(0x6618BEBC),
-        Colors.white,
-      ],
-      stops: [0.0, 0.3, 1.0],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-    );
-
     return Scaffold(
       body: SafeArea(
-        child: Column(children: [
-          Text('Đặt lịch', style: TextStyle(color: Colors.black, fontSize: 20),)
-        ]),
-      ),
+          child: Center(
+        child: Text(
+          'Appointment',
+        ),
+      )),
     );
   }
 }

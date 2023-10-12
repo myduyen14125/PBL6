@@ -11,15 +11,11 @@ export class CreateAppointmentDto {
     mentor: string;
 
     @IsNotEmpty()
-    start_at: Date;
-
-    @IsNotEmpty()
-    end_at: Date;
+    schedule: string
 
     note: string;
 
-    @IsIn(['pending', 'confirmed', 'canceled', 'finished', 'rated'])
-    @IsNotEmpty()
+    // @IsIn(['pending', 'confirmed', 'canceled', 'finished', 'rated'])
     status: string;
 }
 
@@ -27,10 +23,6 @@ export class UpdateAppointmentDto {
     id: string;
     note: string;
 
-    @IsIn(['pending', 'confirmed', 'canceled', 'finished', 'rated'])
+    @IsIn(['confirmed', 'canceled', 'finished', 'rated'])
     status: string;
-
-    start_at: Date;
-
-    end_at: Date;
 }
