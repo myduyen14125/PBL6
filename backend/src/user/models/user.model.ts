@@ -14,6 +14,7 @@ const UserSchema = new Schema(
         facebook_link: String,
         skype_link: String,
 
+        number_of_mentees: Number,
         refreshToken: String,
 
     },
@@ -77,5 +78,7 @@ export interface User extends Document {
 
 
     refreshToken: string;
+
+    number_of_mentees: number;
 
 }
