@@ -99,6 +99,10 @@ section {
   font-weight: 400;
 }
 
+.fw-600 {
+  font-weight: 600;
+}
+
 .fs-11 {
   font-size: 11px;
 }
@@ -140,4 +144,8 @@ p {
 
 .el-dropdown-menu__item {
   padding: unset !important;
+}
+
+.el-carousel__indicators {
+  display: none;
 }

@@ -118,7 +118,7 @@
                 </h5>
               </div>
               <div>
-                <el-carousel :interval="4000" height="200px">
+                <el-carousel :interval="4000" height="200px" arrow="always">
                   <el-carousel-item v-for="item in 6" :key="item">
                     <div class="card d-block w-100">
                       <span class="text-span"
@@ -219,13 +219,18 @@
           </div>
           <div class="pt-5">
             <h5 class="ps-2">Có thể bạn quan tâm</h5>
-            <div class="row py-2 cursor-pointer" v-for="n in 2" :key="2">
-              <div class="col-3 flex-center-center">
+            <div
+              class="row py-2 cursor-pointer"
+              v-for="mentor in mentors"
+              :key="mentor?._id"
+              @click="router.push(`/user/${mentor?._id}`)"
+            >
+              <div class="col-3">
                 <img :src="hourLogo" class="mini-ava" />
               </div>
               <div class="col-9">
                 <div class="basic-intro">
-                  <div>Minh Nguyệt</div>
+                  <div class="author">{{ mentor?.name || "" }}</div>
                   <span class="text-span"
                     >English Teacher (full-time) tại ULIS Middle School (UMS),
                     ULIS</span

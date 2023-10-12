@@ -12,6 +12,8 @@ const Mentor = () => import("../pages/Mentor/Mentor.vue");
 const Appointment = () => import("../pages/Appointment/Appointment.vue");
 const UserInformation = () =>
   import("../pages/UserInformation/UserInformation.vue");
+const Blog = () => import("../pages/Blog/Blog.vue");
+const BlogInformation = () => import("../pages/Blog/_id/index.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -33,6 +35,17 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/mentors",
     name: "Mentor",
     component: Mentor,
+  },
+  {
+    path: "/blogs",
+    name: "Blog",
+    component: Blog,
+  },
+  {
+    path: "/blogs/:id",
+    name: "BlogInformation",
+    component: BlogInformation,
+    props: true,
   },
   {
     path: "/appointments",
@@ -72,6 +85,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  window.scrollTo(0, 0);
   const auth = useAuth();
   if (to.meta.requiresAuth && !auth.isLoggedIn()) next({ name: "SignIn" });
   else next();

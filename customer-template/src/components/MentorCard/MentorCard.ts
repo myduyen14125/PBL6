@@ -14,18 +14,27 @@ export default defineComponent({
       required: true,
       default: () => ({}),
     },
+    hover: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
-  setup() {
+  setup(props) {
     const isTooltipRight = ref(true);
     const tooltipContainer = ref<HTMLElement | null>(null);
 
     onMounted(() => {
       checkTooltipPosition();
-      window.addEventListener("resize", checkTooltipPosition);
+      if (props.hover) {
+        window.addEventListener("resize", checkTooltipPosition);
+      }
     });
 
     onBeforeUnmount(() => {
-      window.removeEventListener("resize", checkTooltipPosition);
+      if (props.hover) {
+        window.removeEventListener("resize", checkTooltipPosition);
+      }
     });
 
     const checkTooltipPosition = (): void => {

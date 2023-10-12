@@ -62,7 +62,7 @@
             </div>
           </div>
           <div class="my-5 text-center">
-            <a class="btn btn-primary px-5 border-18" href="#">Xem thêm</a>
+            <a class="btn btn-primary px-5 border-18" href="/blogs">Xem thêm</a>
           </div>
         </div>
       </section>
