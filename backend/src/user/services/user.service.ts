@@ -147,7 +147,7 @@ export class UserService {
     async getAllMentors() {
         const mentors = await this.userRepository.getByCondition(
             { role: 'mentor' },
-            ['name', 'avatar', '_id', 'email', 'gender', 'phone']
+            ['name', 'avatar', '_id', 'email', 'gender', 'phone', 'number_of_mentees']
         );
 
         return mentors
@@ -161,7 +161,7 @@ export class UserService {
                 role: 'mentor',
                 name: { $regex: new RegExp(keyword, 'i') }, // Case-insensitive search
             },
-            ['name', 'avatar', '_id', 'email', 'gender', 'phone']
+            ['name', 'avatar', '_id', 'email', 'gender', 'phone', 'number_of_mentees']
         );
 
         return mentors;

@@ -16,7 +16,7 @@ export class CreateUserDto {
 
     @IsNotEmpty() date_of_birth: Date;
 
-    
+
     phone: string;
 
     @IsNotEmpty() gender: boolean;
@@ -24,6 +24,8 @@ export class CreateUserDto {
     @IsIn(['mentor', 'mentee'])
     @IsNotEmpty()
     role: string;
+
+    number_of_mentees: number;
 
     facebook_link: string;
     skype_link: string;

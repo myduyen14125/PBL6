@@ -12,6 +12,9 @@ export class AuthService {
     ) { }
 
     async register(userDto: CreateUserDto) {
+        if (userDto.role === "mentor") {
+            userDto.number_of_mentees = 0;
+        }
         const user = await this.userService.createUser(userDto);
         const userObject = user.toObject ? user.toObject() : user;
         // filtered fields

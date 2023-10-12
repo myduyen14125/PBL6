@@ -5,6 +5,7 @@ import { CreateAppointmentDto, UpdateAppointmentDto } from "../dto/appointment.d
 import { UserRepository } from "src/user/repositories/user.repository";
 import { ScheduleRepository } from "src/schedule/repositories/schedule.repository";
 
+
 @Injectable()
 export class AppointmentService {
     constructor(private readonly appointmentRepository: AppointmentRepository,
@@ -39,6 +40,13 @@ export class AppointmentService {
 
                 // check if schedule is taken
                 const schedule = await this.scheduleRepository.findById(appointment.schedule)
+                const { ObjectId } = require('mongodb')
+                // console.log(schedule);
+                console.log(schedule.user);
+                console.log(new ObjectId(appointment.mentor));
+
+                if (!schedule.user.equals(new ObjectId(appointment.mentor))) throw new HttpException('Invalid schedule', HttpStatus.BAD_REQUEST);
+
                 if (!schedule.status) throw new HttpException('Schedule is already taken', HttpStatus.BAD_REQUEST);
 
                 appointment.mentee = mentee._id;
@@ -89,7 +97,7 @@ export class AppointmentService {
 
             return appointment
         } else {
-            throw new NotFoundException("Only participants can view this appointment");
+            throw new HttpException('Only participants can view this appointment', HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -109,11 +117,16 @@ export class AppointmentService {
                 })
             }
 
+            if (appointment.status === "confirmed") {
+                await this.userRepository.findByIdAndUpdate(mentor._id, { $inc: { number_of_mentees: 1 } });
+            }
+
+
             return updatedAppointment;
 
         }
         else {
-            throw new NotFoundException("Only mentors can modify an appointment");
+            throw new HttpException('Only mentors can modify an appointment', HttpStatus.BAD_REQUEST);
         }
     }
 }
