@@ -1,19 +1,23 @@
-.container {
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+.personal-info-page {
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
 }
 
 label {
-    width: 30%;
+  width: 30%;
+  font-size: 14px;
+  color: #212529;
+  text-transform: capitalize;
+  font-weight: 400;
+  letter-spacing: unset;
 }
 
-.input {
-    width: 50%;
-    border-radius: 4px;
-    padding: 8px;
-    border: 1px solid #555;
-    display: inline-block;
+.email {
+  width: 50%;
+  padding: 8px;
+  display: inline-block;
 }
 
-p {
-    height: 40px;
+.form-control {
+  width: 50%;
+  display: inline-block;
 }

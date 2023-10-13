@@ -25,8 +25,7 @@ export interface SignUpParams {
 
 export interface Authorization {
   _id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   avatar: string;
   email: string;
   date_of_birth: string;
@@ -40,15 +39,15 @@ export interface Authorization {
 
 export interface User {
   _id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   avatar?: string;
   email: string;
   date_of_birth?: string;
-  gender?: boolean;
+  gender?: boolean | null;
   phone?: string;
-  role: string;
+  role?: string;
   facebook_link?: string;
   skype_link?: string;
   bio_id?: string;
+  address?: string;
 }
