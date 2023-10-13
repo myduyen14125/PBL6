@@ -37,6 +37,13 @@
           <h2 class="text-center color-primary mb-5">CỐ VẤN NỔI BẬT</h2>
           <div class="row">
             <div
+              v-if="isLoadingMentor"
+              class="col-12 d-flex align-items-center justify-content-center"
+            >
+              <div class="spinner-border text-info" role="status"></div>
+            </div>
+            <div
+              v-else
               v-for="(mentor, index) in mentors"
               :key="index"
               class="col-12 col-sm-6 col-md-4 col-lg-3"
@@ -57,7 +64,13 @@
             Bài viết chia sẻ từ các chuyên gia
           </h2>
           <div class="row">
-            <div v-for="blog in blogs" :key="blog._id" class="col-12">
+            <div
+              v-if="isLoadingBlog"
+              class="col-12 d-flex align-items-center justify-content-center"
+            >
+              <div class="spinner-border text-info" role="status"></div>
+            </div>
+            <div v-else v-for="blog in blogs" :key="blog._id" class="col-12">
               <MentorPost :blog="blog" />
             </div>
           </div>

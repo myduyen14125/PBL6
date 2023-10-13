@@ -1,16 +1,23 @@
-import { defineComponent, onMounted, ref, onBeforeUnmount } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  ref,
+  onBeforeUnmount,
+  type PropType,
+} from "vue";
 import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import avatar from "../../assets/image/avatar.png";
 import icMentee from "../../assets/image/ic-mentee.png";
 import icFollowed from "../../assets/image/followed.png";
 import router from "../../router";
+import { Blog } from "../../types/blog";
 
 export default defineComponent({
   name: "MentorCard",
   components: { SvgIcon },
   props: {
     mentor: {
-      type: Object,
+      type: Object as PropType<Blog>,
       required: true,
       default: () => ({}),
     },

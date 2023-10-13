@@ -15,6 +15,8 @@ export default defineComponent({
     const blogStore = useBlog();
     const mentors = ref([]);
     const blogs = ref([]);
+    const isLoadingMentor = ref(false);
+    const isLoadingBlog = ref(false);
 
     onMounted(() => {
       getAllMentors();
@@ -22,9 +24,11 @@ export default defineComponent({
     });
 
     const getAllMentors = () => {
+      isLoadingMentor.value = true;
       mentorsStore.requestGetAllMentors({
         callback: {
           onSuccess: (res) => {
+            isLoadingMentor.value = false;
             mentors.value = res.slice(0, 8);
           },
           onFailure: () => {
@@ -32,15 +36,18 @@ export default defineComponent({
               "Sorry, looks like there are some errors detected, please try again.",
               "error"
             );
+            isLoadingMentor.value = false;
           },
         },
       });
     };
 
     const getAllBlogs = () => {
+      isLoadingBlog.value = true;
       blogStore.requestGetAllBlogs({
         callback: {
           onSuccess: (res) => {
+            isLoadingBlog.value = false;
             blogs.value = res.slice(0, 3);
           },
           onFailure: () => {
@@ -48,11 +55,12 @@ export default defineComponent({
               "Sorry, looks like there are some errors detected, please try again.",
               "error"
             );
+            isLoadingBlog.value = false;
           },
         },
       });
     };
 
-    return { heroImg, mentors, blogs };
+    return { heroImg, mentors, blogs, isLoadingBlog, isLoadingMentor };
   },
 });

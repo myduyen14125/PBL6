@@ -11,10 +11,9 @@
             <div class="my-5">
               <div
                 v-if="isLoadingBlogs"
-                class="spinner-border text-info"
-                role="status"
+                class="col-12 d-flex align-items-center justify-content-center"
               >
-                <span class="visually-hidden">Loading...</span>
+                <div class="spinner-border text-info" role="status"></div>
               </div>
               <div v-else v-for="blog in blogs" :key="blog?._id">
                 <MentorPost :blog="blog" />

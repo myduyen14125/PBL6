@@ -50,4 +50,5 @@ export interface User {
   skype_link?: string;
   bio_id?: string;
   address?: string;
+  [elem: string]: any;
 }

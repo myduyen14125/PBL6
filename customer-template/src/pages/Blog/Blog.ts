@@ -8,6 +8,7 @@ import { useBlog } from "./../../stores/blog";
 import { useMentors } from "./../../stores/mentors";
 import SwalPopup from "../../ultils/swalPopup";
 import router from "../../router";
+import { Blog } from "../../types/blog";
 
 export default defineComponent({
   name: "Blog",
@@ -15,7 +16,7 @@ export default defineComponent({
   setup() {
     const mentorsStore = useMentors();
     const blogStore = useBlog();
-    const blogs = ref([]);
+    const blogs = ref<Blog[]>([]);
     const mentors = ref([]);
     const isLoadingBlogs = ref(false);
 
