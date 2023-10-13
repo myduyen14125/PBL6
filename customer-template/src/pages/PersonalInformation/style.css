@@ -1,0 +1,19 @@
+.container {
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+label {
+    width: 30%;
+}
+
+.input {
+    width: 50%;
+    border-radius: 4px;
+    padding: 8px;
+    border: 1px solid #555;
+    display: inline-block;
+}
+
+p {
+    height: 40px;
+}

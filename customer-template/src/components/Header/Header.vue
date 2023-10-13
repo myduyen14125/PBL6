@@ -108,14 +108,14 @@
                   {{ getUserInfo()?.name || "Trần Thị Ngà" }}
                 </p>
                 <p class="mb-0">
-                  <a href="#">Xem hồ sơ của bạn</a>
+                  <a :href="`/user/${getUserInfo()?._id}`">Xem hồ sơ của bạn</a>
                 </p>
               </div>
             </li>
             <li>
               <SvgIcon icon="userInfoIcon" />
               <p class="mb-0 ml-3">
-                <a :href="`/user/${getUserInfo()?._id}`">Thông tin cá nhân</a>
+                <a :href="`/personal-infor/${getUserInfo()?._id}`">Thông tin cá nhân</a>
               </p>
             </li>
             <li>
