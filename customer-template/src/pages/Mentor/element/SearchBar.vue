@@ -39,7 +39,11 @@
           @keydown.enter="onSearchMentor"
         />
         <div class="absolute inset-y-0 right-0 flex items-center pr-4">
-          <SvgIcon icon="searchIcon" />
+          <SvgIcon
+            icon="searchIcon"
+            class="cursor-pointer"
+            @click="onSearchMentor"
+          />
         </div>
         <div
           v-if="showMajorDropdown"
@@ -87,7 +91,8 @@ export default {
   components: {
     SvgIcon,
   },
-  setup() {
+  emits: ["clickSearch"],
+  setup(props, { emit }) {
     // Define reactive data properties using ref()
     const showLocationSelector = ref(false);
     const showMajorDropdown = ref(false);
@@ -126,6 +131,8 @@ export default {
         keyword: searchText.value,
         location: chosenLocation.value,
       };
+
+      emit("clickSearch", searchText.value);
     };
 
     return {

@@ -18,7 +18,7 @@
                   <button class="btn btn-primary !text-lg px-4 py-3 mb-3">
                     Đăng ký tư vấn ngay
                   </button>
-                  <SearchBar />
+                  <SearchBar @clickSearch="searchMentor" />
                 </div>
               </div>
             </div>
@@ -42,8 +42,16 @@
           <div class="container">
             <div class="row">
               <div
+                v-if="isLoading"
+                class="spinner-border text-info"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div
+                v-else
                 v-for="mentor in mentors"
-                :key="mentor.name"
+                :key="mentor._id"
                 class="col-12 col-sm-6 col-md-4 col-lg-3"
               >
                 <MentorCard :mentor="mentor"></MentorCard>

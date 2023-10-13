@@ -14,15 +14,18 @@ export default defineComponent({
   setup() {
     const mentorsStore = useMentors();
     const mentors = ref([]);
+    const isLoading = ref(false);
 
     onMounted(() => {
       getAllMentors();
     });
 
     const getAllMentors = () => {
+      isLoading.value = true;
       mentorsStore.requestGetAllMentors({
         callback: {
           onSuccess: (res) => {
+            isLoading.value = false;
             mentors.value = res;
           },
           onFailure: () => {
@@ -30,6 +33,27 @@ export default defineComponent({
               "Sorry, looks like there are some errors detected, please try again.",
               "error"
             );
+            isLoading.value = false;
+          },
+        },
+      });
+    };
+
+    const searchMentor = (name: string) => {
+      isLoading.value = true;
+      mentorsStore.requestGetSearchMentor({
+        name: name,
+        callback: {
+          onSuccess: (res) => {
+            isLoading.value = false;
+            mentors.value = res;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isLoading.value = false;
           },
         },
       });
@@ -39,6 +63,8 @@ export default defineComponent({
       mentors,
       majors,
       imageSaler,
+      searchMentor,
+      isLoading,
     };
   },
 });
