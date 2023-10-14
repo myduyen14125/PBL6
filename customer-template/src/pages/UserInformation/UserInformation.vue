@@ -42,7 +42,7 @@
                   </div>
                 </div>
               </div>
-              <div>
+              <div v-if="!showEdit">
                 <div>
                   <button
                     className="btn btn-primary px-4 action-button my-2"

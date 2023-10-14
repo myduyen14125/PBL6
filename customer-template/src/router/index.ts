@@ -59,7 +59,6 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/user/:id",
     name: "UserInformation",
     component: UserInformation,
-    meta: { requiresAuth: true },
     props: true,
   },
   {

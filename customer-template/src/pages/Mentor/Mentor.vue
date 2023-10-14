@@ -43,10 +43,9 @@
             <div class="row">
               <div
                 v-if="isLoading"
-                class="spinner-border text-info"
-                role="status"
+                class="col-12 d-flex align-items-center justify-content-center"
               >
-                <span class="visually-hidden">Loading...</span>
+                <div class="spinner-border text-info" role="status"></div>
               </div>
               <div
                 v-else

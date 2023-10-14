@@ -30,7 +30,7 @@ export default defineComponent({
     const selectedOption = ref("profile");
     const userInfo = ref();
     const mentors = ref([]);
-    const showEdit = getUserInfo()._id == props.id;
+    const showEdit = getUserInfo()?._id == props.id;
 
     onMounted(() => {
       getUserInformation(props.id);
@@ -65,7 +65,9 @@ export default defineComponent({
       mentorsStore.requestGetAllMentors({
         callback: {
           onSuccess: (res) => {
-            mentors.value = res.slice(0, 5);
+            mentors.value = res
+              .filter((item: any) => item._id != props?.id)
+              .slice(0, 5);
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -90,6 +92,7 @@ export default defineComponent({
       showEdit,
       mentors,
       router,
+      getUserInfo,
     };
   },
 });
