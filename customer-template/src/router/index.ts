@@ -14,8 +14,8 @@ const UserInformation = () =>
   import("../pages/UserInformation/UserInformation.vue");
 const Blog = () => import("../pages/Blog/Blog.vue");
 const BlogInformation = () => import("../pages/Blog/_id/index.vue");
-const PersonalInformation = () =>
-  import("../pages/PersonalInformation/PersonalInformation.vue");
+const PersonalInformation = () => import("../pages/PersonalInformation/PersonalInformation.vue");
+const CreateBlog = () => import("../pages/Blog/CreateBlog/CreateBlog.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -47,6 +47,11 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/blogs/:id",
     name: "BlogInformation",
     component: BlogInformation,
+    props: true,
+  }, {
+    path: "/create-blog",
+    name: "CreateBlog",
+    component: CreateBlog,
     props: true,
   },
   {
