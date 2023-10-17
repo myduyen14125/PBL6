@@ -7,7 +7,7 @@ import {
   revokeUser,
   setAccessToken,
   setRefreshToken,
-} from "./cache/cookies";
+} from "./cache/localStorage";
 import { shouldRefreshToken } from "./token";
 import type {
   AxiosInstance,
@@ -23,7 +23,7 @@ import { StatusCode } from "../constants/statusCode";
 
 const headers: Readonly<Record<string, string | boolean>> = {
   Accept: "application/json",
-  "Content-Type": "application/x-www-form-urlencoded",
+  "Content-Type": "application/json",
 };
 
 const AxiosRequest = (

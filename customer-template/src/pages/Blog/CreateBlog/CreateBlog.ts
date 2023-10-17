@@ -4,9 +4,9 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { useBlog } from "../../../stores/blog";
 import { CreateBlogParams } from "../../../types/blog";
-import router from "../../../router";
-import { RouterNameEnum } from "../../../constants/routeName";
 import SwalPopup from "../../../ultils/swalPopup";
+import { validate } from "../../../ultils/validators";
+import Swal from "sweetalert2";
 
 export default defineComponent({
   name: "CreateBlog",
@@ -14,43 +14,108 @@ export default defineComponent({
 
   setup() {
     const authStore = useBlog();
-    const content = ref("");
-    const title = ref("");
-    const initialData: CreateBlogParams = {
+    const form = ref<CreateBlogParams>({
       title: "",
       content: "",
-    };
+    });
+    const error = ref<CreateBlogParams>({
+      title: "",
+      content: "",
+    });
+    const isSubmitting = ref(false);
+    const myEditor = ref();
 
-    const initialError: CreateBlogParams = {
-      title: "",
-      content: "",
-    };
     onMounted(() => {});
 
+    const resetData = () => {
+      form.value = {
+        title: "",
+        content: "",
+      };
+
+      error.value = {
+        title: "",
+        content: "",
+      };
+
+      myEditor.value?.setHTML("");
+    };
+
+    const validateRequired = (fieldName: keyof CreateBlogParams): string => {
+      const err = validate(form.value[fieldName], {
+        required: true,
+        errorsMessage: { required: "Đây là trường bắt buộc" },
+      });
+
+      error.value[fieldName] = err;
+
+      return err;
+    };
+
+    const validateForm = (): boolean => {
+      const arrRes = [];
+      arrRes.push(validateRequired("title"));
+      arrRes.push(validateRequired("content"));
+
+      return arrRes.findIndex((x) => x && x.length > 0) < 0;
+    };
+
     const submitContent = () => {
-      console.log(content.value);
-      console.log(title.value);
+      console.log(form.value);
+
+      if (!validateForm()) return;
+
+      isSubmitting.value = true;
 
       authStore.requestCreateBlog({
-        params: [title, content],
+        params: form.value,
         callback: {
           onSuccess: (res) => {
-            router.push({ name: RouterNameEnum.Home });
+            isSubmitting.value = false;
+            showToast(`/blogs/${res?._id}`);
+            resetData();
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
               "Sorry, looks like there are some errors detected, please try again.",
               "error"
             );
+            isSubmitting.value = false;
           },
         },
       });
     };
 
+    const showToast = (link: string) => {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "Tạo blog thành công.",
+        html:
+          "Bấm vào " +
+          `<a class="color-primary" href="${link}">link</a> ` +
+          " này để xem bài viết.",
+      });
+    };
+
     return {
-      title,
-      content,
+      form,
+      error,
+      isSubmitting,
+      myEditor,
       submitContent,
+      validateRequired,
       editorToolbar: "full",
       editorOptions: {
         modules: {

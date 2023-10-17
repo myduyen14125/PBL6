@@ -1,18 +1,23 @@
 .container {
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.5);
 }
 
 input {
-    outline: none;
+  outline: none;
 }
 
 .title {
-    text-align: center;
-    opacity: 0.7;
-    text-transform: uppercase;
+  text-align: center;
+  opacity: 0.7;
+  text-transform: uppercase;
 }
 
 .title-input {
-    width: 100%;
-    margin-bottom: 20px;
+  width: 100%;
+  font-size: 1.75rem;
+}
+
+.is-invalid {
+  border-bottom: 1px solid #f1416c;
+  background-image: unset;
 }

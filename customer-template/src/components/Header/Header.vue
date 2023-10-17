@@ -118,6 +118,12 @@
                 <a href="/personal-info">Thông tin cá nhân</a>
               </p>
             </li>
+            <li v-if="getUserInfo()?.role == 'mentor'">
+              <SvgIcon icon="blogIcon" />
+              <p class="mb-0 ml-4">
+                <a href="/create-blog">Quản lý blog</a>
+              </p>
+            </li>
             <li>
               <SvgIcon icon="changePassIcon" />
               <p class="mb-0 ml-3"><a href="#">Đổi mật khẩu</a></p>

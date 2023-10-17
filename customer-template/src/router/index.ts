@@ -4,6 +4,7 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 import { useAuth } from "../stores/auth";
+import { getUserInfo } from "../ultils/cache/localStorage";
 
 const Home = () => import("../pages/Home/Home.vue");
 const SignIn = () => import("../pages/SignIn/SignIn.vue");
@@ -14,7 +15,8 @@ const UserInformation = () =>
   import("../pages/UserInformation/UserInformation.vue");
 const Blog = () => import("../pages/Blog/Blog.vue");
 const BlogInformation = () => import("../pages/Blog/_id/index.vue");
-const PersonalInformation = () => import("../pages/PersonalInformation/PersonalInformation.vue");
+const PersonalInformation = () =>
+  import("../pages/PersonalInformation/PersonalInformation.vue");
 const CreateBlog = () => import("../pages/Blog/CreateBlog/CreateBlog.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
@@ -48,11 +50,12 @@ const constantRoutes: RouteRecordRaw[] = [
     name: "BlogInformation",
     component: BlogInformation,
     props: true,
-  }, {
+  },
+  {
     path: "/create-blog",
     name: "CreateBlog",
     component: CreateBlog,
-    props: true,
+    meta: { requiresAuth: true, role: "mentor" },
   },
   {
     path: "/appointments",
@@ -100,6 +103,8 @@ router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0);
   const auth = useAuth();
   if (to.meta.requiresAuth && !auth.isLoggedIn()) next({ name: "SignIn" });
+  if (to.meta.role && getUserInfo()?.role != to.meta.role)
+    next({ name: "ErrorPage" });
   else next();
 });
 

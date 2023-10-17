@@ -33,6 +33,7 @@ export default defineComponent({
       delete: "delete",
       closeModal: "closeModal",
       handIcon: "handIcon",
+      blogIcon: "blogIcon",
     };
 
     return {
