@@ -23,9 +23,7 @@
           }}</span>
         </div>
         <div>
-          <span>
-            {{ blog?.content || "" }}
-          </span>
+          <span v-if="blog?.content" v-html="blog?.content"></span>
         </div>
       </div>
     </div>

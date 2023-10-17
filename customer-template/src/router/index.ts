@@ -41,15 +41,15 @@ const constantRoutes: RouteRecordRaw[] = [
     component: Mentor,
   },
   {
-    path: "/blogs",
-    name: "Blog",
-    component: Blog,
-  },
-  {
     path: "/blogs/:id",
     name: "BlogInformation",
     component: BlogInformation,
     props: true,
+  },
+  {
+    path: "/blogs",
+    name: "Blog",
+    component: Blog,
   },
   {
     path: "/create-blog",
