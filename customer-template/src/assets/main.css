@@ -82,6 +82,10 @@ html {
   );
 }
 
+.background-primary {
+  background-color: var(--primary) !important;
+}
+
 section {
   padding-top: 50px;
   padding-bottom: 50px;

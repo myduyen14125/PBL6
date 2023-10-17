@@ -31,6 +31,8 @@ export default defineComponent({
       youtube: "youtube",
       edit: "edit",
       delete: "delete",
+      closeModal: "closeModal",
+      handIcon: "handIcon",
     };
 
     return {

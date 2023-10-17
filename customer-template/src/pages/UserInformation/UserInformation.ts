@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch, type Ref } from "vue";
 import personLogo from "../../assets/image/ic-mentee.png";
 import heartLogo from "../../assets/image/followed.png";
 import ratingLogo from "../../assets/image/rating.png";
@@ -11,26 +11,32 @@ import MentorPost from "../../components/MentorPost/MentorPost.vue";
 import ExperienceCard from "./element/ExperienceCard.vue";
 import { useUser } from "../../stores/user";
 import { useMentors } from "../../stores/mentors";
+import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import router from "../../router";
+import AppointmentModal from "./element/AppointmentModal/index.vue";
 
 export default defineComponent({
   name: "UserInformation",
-  components: { GuestLayout, MentorPost, ExperienceCard },
+  components: { GuestLayout, MentorPost, ExperienceCard, AppointmentModal },
   props: {
     id: {
       type: String,
       required: true,
     },
   },
-  setup(props) {
+  setup(props: any) {
     const userStore = useUser();
     const mentorsStore = useMentors();
+    const authStore = useAuth();
     const selectedOption = ref("profile");
     const userInfo = ref();
     const mentors = ref([]);
     const showEdit = getUserInfo()?._id == props.id;
+    const appointmentModal: Ref<any> = ref<typeof AppointmentModal | null>(
+      null
+    );
 
     onMounted(() => {
       getUserInformation(props.id);
@@ -79,6 +85,15 @@ export default defineComponent({
       });
     };
 
+    const bookAppointment = () => {
+      if (authStore.isLoggedIn()) {
+        router.push({ hash: "#step=1" });
+        appointmentModal?.value?.show();
+      } else {
+        router.push("/sign-in");
+      }
+    };
+
     return {
       personLogo,
       heartLogo,
@@ -92,7 +107,9 @@ export default defineComponent({
       showEdit,
       mentors,
       router,
+      appointmentModal,
       getUserInfo,
+      bookAppointment,
     };
   },
 });

@@ -46,16 +46,13 @@
                 <div>
                   <button
                     className="btn btn-primary px-4 action-button my-2"
-                    type="submit"
+                    @click="bookAppointment"
                   >
                     Đặt lịch ngay
                   </button>
                 </div>
                 <div>
-                  <button
-                    className="btn btn-primary px-4 action-button"
-                    type="submit"
-                  >
+                  <button className="btn btn-primary px-4 action-button">
                     Theo dõi
                   </button>
                 </div>
@@ -242,6 +239,7 @@
         </div>
       </div>
     </div>
+    <AppointmentModal ref="appointmentModal" />
   </GuestLayout>
 </template>
 
