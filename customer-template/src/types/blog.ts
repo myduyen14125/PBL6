@@ -6,3 +6,7 @@ export interface Blog {
   user: User;
   [elem: string]: any;
 }
+export interface CreateBlogParams {
+  title: string;
+  content: string;
+}
