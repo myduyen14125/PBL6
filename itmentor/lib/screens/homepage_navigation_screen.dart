@@ -19,10 +19,10 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
   PageController _pageController = PageController();
 
   final List<Widget> _pages = [
-    HomepageScreen(),
-    AppointmentScreen(),
-    CommunicationScreen(),
-    AccountSettingsScreen(),
+    const HomepageScreen(),
+    const AppointmentScreen(),
+    const CommunicationScreen(),
+    const AccountSettingsScreen(),
   ];
 
   @override

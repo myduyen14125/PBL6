@@ -3,8 +3,8 @@ import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/category/category_screen.dart';
 import 'package:itmentor/screens/home_screens/course_list/course_list_screen.dart';
 import 'package:itmentor/screens/home_screens/latest_news_screen.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/all_mentor_screen.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/mentor_list_screen.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_list_screen.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/profile_screen.dart';
 import 'package:itmentor/screens/home_screens/related_fields_screen.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -78,7 +78,7 @@ class _HomepageScreenState extends State<HomepageScreen>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProfileScreen()),
+                                    builder: (context) => const ProfileScreen()),
                               );
                             }), icon: const Icon(Icons.face)),
                       ],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/all_mentor_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/utils.dart';
 
@@ -100,17 +102,16 @@ class _MentorListScreenState extends State<MentorListScreen> {
               future: mentors,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   List<dynamic>? mentorData = snapshot.data;
-                  int itemCount = mentorData!.length < 3
-                      ? mentorData.length
-                      : 3; // Giới hạn chỉ hiển thị 3 mentors hoặc ít hơn nếu có ít hơn 3 mentors.
+                  int itemCount =
+                      mentorData!.length < 3 ? mentorData.length : 3;
 
                   return ListView.builder(
-                    shrinkWrap: true, // Để tránh lỗi layout trong Column
+                    shrinkWrap: true,
                     itemCount: itemCount,
                     itemBuilder: (context, index) {
                       final mentor = mentorData[index];
@@ -120,6 +121,15 @@ class _MentorListScreenState extends State<MentorListScreen> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MentorProfileDetail(
+                                        id: mentor['_id'],
+                                      )),
+                            );
+                          },
                           leading: Image.asset(
                             mentor['gender'] == true
                                 ? 'assets/images/male_avatar.jpg'
@@ -131,8 +141,8 @@ class _MentorListScreenState extends State<MentorListScreen> {
                           subtitle: Row(
                             children: [
                               Text('${mentor['email']}'),
-                              Spacer(),
-                              Text(
+                              const Spacer(),
+                              const Text(
                                 'Chi tiết',
                                 style: TextStyle(color: Colors.green),
                               ),
@@ -145,7 +155,6 @@ class _MentorListScreenState extends State<MentorListScreen> {
                 }
               },
             ),
-            
           ],
         ),
       ),
