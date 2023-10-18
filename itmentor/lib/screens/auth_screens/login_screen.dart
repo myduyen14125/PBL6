@@ -15,19 +15,39 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
   AuthServices authServices = AuthServices();
+  bool _isLoggingIn = false; // Biến để kiểm soát trạng thái đăng nhập
 
   void login() async {
-    authServices.signInUser(
+    setState(() {
+      _isLoggingIn =
+          true; // Bắt đầu đăng nhập, hiển thị circular progress indicator
+    });
+
+    try {
+      // Gọi phương thức đăng nhập ở đây
+      await authServices.signInUser(
         ctx: context,
         email: _usernameController.text,
-        password: _passwordController.text);
+        password: _passwordController.text,
+      );
+
+      // Đăng nhập thành công
+      // Đặt _isLoggingIn thành false để ẩn circular progress indicator
+      setState(() {
+        _isLoggingIn = false;
+      });
+    } catch (e) {
+      // Xử lý lỗi đăng nhập ở đây
+      // Đặt _isLoggingIn thành false để ẩn circular progress indicator
+      setState(() {
+        _isLoggingIn = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: Constants.backgroundColor),
@@ -52,13 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextFormField(
                   controller: _usernameController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'Tài khoản',
-                      labelStyle: const TextStyle(
-                        color: Color(0xFF1BB55C),
-                      )),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Tài khoản',
+                    labelStyle: const TextStyle(
+                      color: Color(0xFF1BB55C),
+                    ),
+                  ),
                 ),
               ),
               Container(
@@ -67,13 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'Mật khẩu',
-                      labelStyle: const TextStyle(
-                        color: Color(0xFF1BB55C),
-                      )),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Mật khẩu',
+                    labelStyle: const TextStyle(
+                      color: Color(0xFF1BB55C),
+                    ),
+                  ),
                 ),
               ),
               Row(
@@ -84,10 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 20,
                   ),
                   TextButton(
-                      onPressed: (() {}),
-                      child: const Text(
-                        'Bấm tại đây',
-                      ))
+                    onPressed: (() {}),
+                    child: const Text(
+                      'Bấm tại đây',
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -95,19 +118,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Text('Chưa có tài khoản? '),
                   TextButton(
-                      onPressed: (() {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => RegisterScreen(),
-                          ),
-                          (route) => false,
-                        );
-                      }),
-                      child: const Text(
-                        'Đăng kí tại đây',
-                      ))
+                    onPressed: (() {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => RegisterScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    }),
+                    child: const Text(
+                      'Đăng kí tại đây',
+                    ),
+                  ),
                 ],
               ),
+              if (_isLoggingIn) // Hiển thị circular progress indicator nếu isLoading là true
+                const CircularProgressIndicator(),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   login();
@@ -121,9 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text(
                   'ĐĂNG NHẬP',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(

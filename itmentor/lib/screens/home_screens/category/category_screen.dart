@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/all_blogs_screen.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/all_mentor_screen.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});

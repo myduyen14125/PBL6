@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/providers/user_provider.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/all_mentor_screen.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/create_post_screen.dart';
 import 'package:itmentor/screens/welcome_screen.dart';
 import 'package:itmentor/utils/constant.dart';

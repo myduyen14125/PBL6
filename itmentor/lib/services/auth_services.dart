@@ -70,7 +70,7 @@ class AuthServices {
     }
   }
 
-  void signInUser({
+  Future<void> signInUser({
     required BuildContext ctx,
     required String email,
     required String password,
@@ -79,7 +79,6 @@ class AuthServices {
       var userProvider = Provider.of<UserProvider>(ctx, listen: false);
       final navigator = Navigator.of(ctx);
 
-      // Tạo một Uri sử dụng Uri.https thay vì Uri.http
       final uri =
           Uri.https(Constants.uri, '/auth/login');
 

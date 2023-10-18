@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/mentor_profile_detail.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:itmentor/utils/constant.dart';

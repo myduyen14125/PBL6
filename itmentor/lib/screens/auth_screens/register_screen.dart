@@ -36,6 +36,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isMentee = false;
   bool isRoleSelected = false;
 
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
   bool isAvatarSelected = false;
 
   final AuthServices authServices = AuthServices();
@@ -127,6 +130,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
+
+  void _toggleConfirmPasswordVisibility() {
+    setState(() {
+      _obscureConfirmPassword = !_obscureConfirmPassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                   child: TextFormField(
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -191,6 +206,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       labelText: 'Mật khẩu',
                       labelStyle: const TextStyle(
                         color: Color(0xFF1BB55C),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: _togglePasswordVisibility,
                       ),
                     ),
                     validator: (value) {
@@ -209,7 +232,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                   child: TextFormField(
                     controller: _confirmPasswordController,
-                    obscureText: true,
+                    obscureText: _obscureConfirmPassword,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -217,6 +240,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       labelText: 'Nhập lại mật khẩu',
                       labelStyle: const TextStyle(
                         color: Color(0xFF1BB55C),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: _toggleConfirmPasswordVisibility,
                       ),
                     ),
                     validator: (value) {
@@ -396,51 +427,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _image == null
-                        ? Text('Chưa chọn ảnh')
-                        : Image.file(_image!),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Chọn ảnh từ:'),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Thư viện ảnh'),
-                                  onPressed: () {
-                                    getImageFromGallery();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('Mở camera'),
-                                  onPressed: () {
-                                    getImageFromCamera();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      child: Text('Chọn Avatar'),
-                    ),
-                  ],
-                ),
-                isAvatarSelected
-                    ? Image.file(
-                        _image!,
-                        cacheHeight: 66,
-                        cacheWidth: 50,
-                      )
-                    : const SizedBox(),
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: <Widget>[
+                //     _image == null
+                //         ? Text('Chưa chọn ảnh')
+                //         : Image.file(_image!),
+                //     SizedBox(height: 20),
+                //     ElevatedButton(
+                //       onPressed: () {
+                //         showDialog(
+                //           context: context,
+                //           builder: (BuildContext context) {
+                //             return AlertDialog(
+                //               title: Text('Chọn ảnh từ:'),
+                //               actions: <Widget>[
+                //                 TextButton(
+                //                   child: Text('Thư viện ảnh'),
+                //                   onPressed: () {
+                //                     getImageFromGallery();
+                //                     Navigator.of(context).pop();
+                //                   },
+                //                 ),
+                //                 TextButton(
+                //                   child: Text('Mở camera'),
+                //                   onPressed: () {
+                //                     getImageFromCamera();
+                //                     Navigator.of(context).pop();
+                //                   },
+                //                 ),
+                //               ],
+                //             );
+                //           },
+                //         );
+                //       },
+                //       child: Text('Chọn Avatar'),
+                //     ),
+                //   ],
+                // ),
+                // isAvatarSelected
+                //     ? Image.file(
+                //         _image!,
+                //         cacheHeight: 66,
+                //         cacheWidth: 50,
+                //       )
+                //     : const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

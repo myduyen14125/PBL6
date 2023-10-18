@@ -19,13 +19,13 @@ void httpErrorHandle({
     case 201:
       onSuccess();
       break;
-    case 400:
+    case 401:
       try {
         final jsonResponse = jsonDecode(response.body);
         final message = jsonResponse['message'] as String;
-        showSnackBar(context, message);
+        showSnackBar(context, 'Sai tài khoản hoặc mật khẩu');
       } catch (e) {
-        showSnackBar(context, 'Không thể đăng ký');
+        showSnackBar(context, 'Lỗi hệ thống');
       }
       break;
     case 500:

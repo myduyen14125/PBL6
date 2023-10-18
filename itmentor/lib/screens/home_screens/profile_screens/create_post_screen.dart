@@ -51,9 +51,6 @@ class _CreateBlogState extends State<CreateBlog> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Nhập Thông Tin'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -78,7 +75,7 @@ class _CreateBlogState extends State<CreateBlog> {
                 print('Tên: $title');
                 print('Email: $content');
 
-                createBlogPost(context,user, title, content);
+                createBlogPost(context, user, title, content);
               },
               child: const Text('Lưu'),
             ),
