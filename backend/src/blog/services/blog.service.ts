@@ -53,7 +53,11 @@ export class BlogService {
             return null;
         }
         return (await this.blogRepository.findByIdAndUpdate(id, blog)).populate({ path: 'user', select: '-password -refreshToken' })
-
-
+    }
+    ///////////////////////////////////////////////////////////////
+    async getAllBlogsByUserId(id: string) {
+        return await this.blogRepository.getByCondition({
+            user: id
+        })
     }
 }

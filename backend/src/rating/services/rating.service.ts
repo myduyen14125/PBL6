@@ -1,24 +1,17 @@
-import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
-import { AppointmentRepository } from "src/appointment/repositories/appointment.repository";
+import { HttpStatus, Injectable, NotFoundException, forwardRef, Inject } from "@nestjs/common";
 import { User } from "src/user/models/user.model";
-import { UserRepository } from "src/user/repositories/user.repository";
 import { CreateRatingDto } from "../dto/rating.dto";
 import { RatingRepository } from "../repositories/rating.repository";
+import { AppointmentService } from "src/appointment/services/appointment.service";
 
 @Injectable()
 export class RatingService {
-    constructor(private readonly ratingRepository: RatingRepository,
-        private readonly userRepository: UserRepository,
-        private readonly appointmentRepository: AppointmentRepository
+    constructor(
+        private readonly ratingRepository: RatingRepository,
+        private readonly appointmentService: AppointmentService
     ) { }
 
-    async checkMentee(mentee_id: string) {
-        const mentor = await this.userRepository.findById(mentee_id);
-        if (mentor && mentor.role == "mentee") {
-            return true
-        }
-        return false
-    }
+
 
     async createRating(user: User, rating: CreateRatingDto) {
 
@@ -35,12 +28,7 @@ export class RatingService {
 
 
         // access #1 - participants that is mentee only
-        const checkAppointment = await this.appointmentRepository.findById(
-            rating.appointment
-        )
-
-        console.log(checkAppointment.status);
-        console.log(user._id);
+        const checkAppointment = await this.appointmentService.getAppointmentById(user, rating.appointment)
 
         // fix reponse http res
         if (!checkAppointment) {
@@ -58,9 +46,7 @@ export class RatingService {
 
         // update appointment status to rated
 
-        await this.appointmentRepository.findByIdAndUpdate(checkAppointment._id, {
-            status: "rated"
-        })
+        await this.appointmentService.updateRatedAppointment(checkAppointment._id, "rated")
 
         // create rating
         rating.mentee = user._id
@@ -68,10 +54,18 @@ export class RatingService {
 
         return newRating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
 
-
-
-
-
+    }
+    ///////////////////////////////////////
+    async getAllRatingsByUserId(id: string) {
+        return await this.ratingRepository.getByCondition({
+            mentor: id
+        })
     }
 
 }
+
+// UserService uses its repository and BlogService, ScheduleService, RatingService
+// BlogService uses its repository
+// AppointmentService uses  its repository and UserService and ScheduleService
+// RatingService uses its repository AppointmentService
+// ScheduleService uses its repository

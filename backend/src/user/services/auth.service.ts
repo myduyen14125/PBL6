@@ -17,8 +17,6 @@ export class AuthService {
         }
         const user = await this.userService.createUser(userDto);
         const userObject = user.toObject ? user.toObject() : user;
-        // filtered fields
-        // delete userObject.password;
         delete userObject.refreshToken;
 
         const token = await this._createToken(user);
@@ -36,8 +34,6 @@ export class AuthService {
     async login(loginUserDto: LoginUserDto) {
         const user = await this.userService.login(loginUserDto);
         const userObject = user.toObject ? user.toObject() : user;
-        // filtered fields
-        // delete userObject.password;
         delete userObject.refreshToken;
 
         const token = await this._createToken(user);
@@ -51,9 +47,6 @@ export class AuthService {
 
         return response;
     }
-
-
-    // handling token
 
     private async _createToken({ email }) {
         const accessToken = this.jwtService.sign({ email })
@@ -76,7 +69,7 @@ export class AuthService {
 
     async handleVerifyToken(token) {
         try {
-            const payload = this.jwtService.verify(token); // this.configService.get('SECRETKEY')
+            const payload = this.jwtService.verify(token);
             return payload['email'];
         } catch (e) {
             throw new HttpException(
@@ -89,7 +82,6 @@ export class AuthService {
             );
         }
     }
-
 
     async logout(user: User) {
         await this.userService.updateUser(

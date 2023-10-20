@@ -35,5 +35,17 @@ export class ScheduleService {
         return schedule
     }
 
+    ////////////////////////////////////
+    async getAllSchedulesByUserId(id: string) {
+        return await this.scheduleRepository.getByCondition({
+            user: id
+        })
+    }
+
+    async updateScheduleStatus(id: string, newStatus: boolean) {
+        return await this.scheduleRepository.findByIdAndUpdate(id, {
+            status: newStatus
+        })
+    }
 
 }
