@@ -1,19 +1,19 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, forwardRef, Inject } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
-import { BlogRepository } from 'src/blog/repositories/blog.repository';
-import { RatingRepository } from 'src/rating/repositories/rating.repository';
 import { User } from '../models/user.model';
-import { ScheduleRepository } from 'src/schedule/repositories/schedule.repository';
+import { BlogService } from 'src/blog/services/blog.service';
+import { ScheduleService } from 'src/schedule/services/schedule.service';
+import { RatingService } from 'src/rating/services/rating.service';
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly blogRepository: BlogRepository,
-        private readonly ratingRepository: RatingRepository,
-        private readonly scheduleRepository: ScheduleRepository,
+        @Inject(forwardRef(() => BlogService)) private readonly blogService: BlogService,
+        @Inject(forwardRef(() => ScheduleService)) private readonly scheduleService: ScheduleService,
+        @Inject(forwardRef(() => RatingService)) private readonly ratingService: RatingService,
 
     ) { }
 
@@ -72,23 +72,14 @@ export class UserService {
     async getUserById(id: string) {
         try {
             const user = await this.userRepository.findById(id);
-            const blogs = await this.blogRepository.getByCondition({
-                user: id
-            })
-
-            const ratings = await this.ratingRepository.getByCondition({
-                mentor: id
-            })
-
-            const schedules = await this.scheduleRepository.getByCondition({
-                user: id
-            })
+            const blogs = await this.blogService.getAllBlogsByUserId(id)
+            const ratings = await this.ratingService.getAllRatingsByUserId(id)
+            const schedules = await this.scheduleService.getAllSchedulesByUserId(id)
 
             await Promise.all(ratings.map(async (rating) => {
                 await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
             }));
 
-            // await user.populate({ path: 'post', strictPopulate: false })
             if (user) {
                 const userObject = user.toObject ? user.toObject() : user;
 
@@ -116,19 +107,14 @@ export class UserService {
             }
             const returnUser = await this.userRepository.findById(user.id);
 
-            const blogs = await this.blogRepository.getByCondition({
-                user: user.id
-            })
+            const blogs = await this.blogService.getAllBlogsByUserId(user.id)
 
-            const ratings = await this.ratingRepository.getByCondition({
-                mentor: user.id
-            })
+            const ratings = await this.ratingService.getAllRatingsByUserId(user.id)
 
             await Promise.all(ratings.map(async (rating) => {
                 await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
             }));
 
-            // await returnUser.populate({ path: 'post', strictPopulate: false })
             if (returnUser) {
                 const userObject = user.toObject ? user.toObject() : user;
 
@@ -159,7 +145,7 @@ export class UserService {
         const mentors = await this.userRepository.getByCondition(
             {
                 role: 'mentor',
-                name: { $regex: new RegExp(keyword, 'i') }, // Case-insensitive search
+                name: { $regex: new RegExp(keyword, 'i') },
             },
             ['name', 'avatar', '_id', 'email', 'gender', 'phone', 'number_of_mentees']
         );
@@ -167,6 +153,25 @@ export class UserService {
         return mentors;
     }
 
+    async checkMentee(mentee_id: string) {
+        const mentor = await this.userRepository.findById(mentee_id);
+        if (mentor && mentor.role == "mentee") {
+            return true
+        }
+        return false
+    }
+
+    async checkMentor(mentor_id: string) {
+        const mentor = await this.userRepository.findById(mentor_id);
+        if (mentor && mentor.role == "mentor") {
+            return true
+        }
+        return false
+    }
+
+    async updateUserNumberOfMentees(id: string) {
+        return await this.userRepository.findByIdAndUpdate(id, { $inc: { number_of_mentees: 1 } });
+    }
 
 
 

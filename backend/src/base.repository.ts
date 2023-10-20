@@ -12,19 +12,9 @@ export class BaseRepository<T extends Document> {
         return this.model.findById(id, option);
     }
 
-    // async findByCondition(condition = {}): Promise<T> {
-    //     return await this.model
-    //         .findOne({
-    //             ...condition,
-    //             deleted_at: null,
-    //         })
-    //         .exec();
-    // }
-
     async findByCondition(filter) {
         return this.model.findOne(filter as FilterQuery<T>);
     }
-
 
     async getByCondition(
         filter,

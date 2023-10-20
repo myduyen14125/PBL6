@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AppointmentService } from '../services/appointment.service';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateAppointmentDto, UpdateAppointmentDto } from '../dto/appointment.dto';
+import { AuthGuard } from '@nestjs/passport';
+
 
 
 @Controller('appointment')

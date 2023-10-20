@@ -1,18 +1,18 @@
-import { Module } from '@nestjs/common';
-import { UserService } from 'src/user/services/user.service';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserRepository } from 'src/user/repositories/user.repository';
-import { UserModule } from 'src/user/user.module';
-import { UserSchema } from 'src/user/models/user.model';
-import { AppointmentSchema } from 'src/appointment/models/appointment.model';
-import { ScheduleSchema } from './models/schedule.model';
 import { ScheduleController } from './controllers/schedule.controller';
 import { ScheduleService } from './services/schedule.service';
 import { ScheduleRepository } from './repositories/schedule.repository';
-import { BlogSchema } from 'src/blog/models/blog.model';
-import { BlogRepository } from 'src/blog/repositories/blog.repository';
-import { RatingRepository } from 'src/rating/repositories/rating.repository';
+import { UserSchema } from 'src/user/models/user.model';
+import { ScheduleSchema } from 'src/schedule/models/schedule.model';
 import { RatingSchema } from 'src/rating/models/rating.model';
+import { BlogSchema } from 'src/blog/models/blog.model';
+import { AppointmentSchema } from 'src/appointment/models/appointment.model';
+import { UserModule } from 'src/user/user.module';
+import { BlogModule } from 'src/blog/blog.module';
+import { RatingModule } from 'src/rating/rating.module';
+import { AppointmentModule } from 'src/appointment/appointment.module';
+
 
 @Module({
     imports: [
@@ -20,27 +20,19 @@ import { RatingSchema } from 'src/rating/models/rating.model';
             {
                 name: 'Schedule',
                 schema: ScheduleSchema
-            },
-            {
-                name: 'User',
-                schema: UserSchema
-            },
-            {
-                name: 'Appointment',
-                schema: AppointmentSchema
-            },
-            {
-                name: 'Blog',
-                schema: BlogSchema
-            },
-            {
-                name: 'Rating',
-                schema: RatingSchema
             }
         ]),
-        UserModule
+        forwardRef(() => UserModule),
+        forwardRef(() => BlogModule),
+        // forwardRef(() => ScheduleModule),
+        forwardRef(() => RatingModule),
+        forwardRef(() => BlogModule),
+        forwardRef(() => AppointmentModule),
+
     ],
+
     controllers: [ScheduleController],
-    providers: [ScheduleService, ScheduleRepository, UserService, UserRepository, BlogRepository, RatingRepository]
+    providers: [ScheduleService, ScheduleRepository],
+    exports: [ScheduleService]
 })
 export class ScheduleModule { }
