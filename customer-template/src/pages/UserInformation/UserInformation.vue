@@ -44,9 +44,10 @@
               </div>
               <div v-if="!showEdit">
                 <div>
+                  <!-- @click="bookAppointment" -->
                   <button
                     className="btn btn-primary px-4 action-button my-2"
-                    @click="bookAppointment"
+                    @click="() => router.push(`/book-appointment/${userInfo._id}`)"
                   >
                     Đặt lịch ngay
                   </button>
