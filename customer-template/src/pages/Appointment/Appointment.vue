@@ -11,18 +11,29 @@
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="Đang xử lý" name="first">
                 <div class="flex flex-wrap gap-4 list-card">
-                  <div v-for="n in 6" key="n">
-                    <AppointmentCard />
+                  <div
+                    v-if="isLoadingAppointment"
+                    class="col-12 d-flex align-items-center justify-content-center"
+                  >
+                    <div class="spinner-border text-info" role="status"></div>
+                  </div>
+                  <div
+                    v-else
+                    v-for="appointment in appointments"
+                    :key="appointment?._id"
+                  >
+                    <AppointmentCard :appointment="appointment" />
                   </div>
                 </div>
               </el-tab-pane>
-              <el-tab-pane label="Đã xác nhận" name="second">Config</el-tab-pane>
+              <el-tab-pane label="Đã xác nhận" name="second"
+                >Config</el-tab-pane
+              >
               <el-tab-pane label="Đã hoàn tất" name="third">Role</el-tab-pane>
               <el-tab-pane label="Đã hủy" name="fourth">Task</el-tab-pane>
             </el-tabs>
           </div>
         </div>
-        
       </div>
     </div>
   </GuestLayout>
