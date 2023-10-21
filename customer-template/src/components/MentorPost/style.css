@@ -15,3 +15,21 @@
 .mentor-post {
   cursor: pointer;
 }
+
+.bg-edit {
+  background-color: #17a2b8;
+}
+
+.button {
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bg-delete {
+  background-color: #dc3545;
+}
+
+.title-action {
+  display: flex;
+  justify-content: space-between;
+}

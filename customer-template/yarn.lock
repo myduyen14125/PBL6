@@ -107,6 +107,35 @@
   "resolved" "https://registry.npmjs.org/@fullcalendar/vue3/-/vue3-6.1.9.tgz"
   "version" "6.1.9"
 
+"@fullcalendar/core@^6.1.9", "@fullcalendar/core@~6.1.9":
+  version "6.1.9"
+  resolved "https://registry.npmjs.org/@fullcalendar/core/-/core-6.1.9.tgz"
+  integrity sha512-eeG+z9BWerdsU9Ac6j16rpYpPnE0wxtnEHiHrh/u/ADbGTR3hCOjCD9PxQOfhOTHbWOVs7JQunGcksSPu5WZBQ==
+  dependencies:
+    preact "~10.12.1"
+
+"@fullcalendar/daygrid@^6.1.9", "@fullcalendar/daygrid@~6.1.9":
+  version "6.1.9"
+  resolved "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-6.1.9.tgz"
+  integrity sha512-o/6joH/7lmVHXAkbaa/tUbzWYnGp/LgfdiFyYPkqQbjKEeivNZWF1WhHqFbhx0zbFONSHtrvkjY2bjr+Ef2quQ==
+
+"@fullcalendar/interaction@^6.1.9":
+  version "6.1.9"
+  resolved "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-6.1.9.tgz"
+  integrity sha512-I3FGnv0kKZpIwujg3HllbKrciNjTqeTYy3oJG226oAn7lV6wnrrDYMmuGmA0jPJAGN46HKrQqKN7ItxQRDec4Q==
+
+"@fullcalendar/timegrid@^6.1.9":
+  version "6.1.9"
+  resolved "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-6.1.9.tgz"
+  integrity sha512-le7UV05wVE1Trdr054kgJXTwa+A1pEI8nlCBnPWdcyrL+dTLoPvQ4AWEVCnV7So+4zRYaCqnqGXfCJsj0RQa0g==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.1.9"
+
+"@fullcalendar/vue3@^6.1.9":
+  version "6.1.9"
+  resolved "https://registry.npmjs.org/@fullcalendar/vue3/-/vue3-6.1.9.tgz"
+  integrity sha512-nuEEb/6uRhD0AH3PzU4Mtod3dD7S729nA1oYorMdCYMgUvXoHJlz2wOKK8w4LGZIn6K2R8Yzo8ol33ElBjHo3A==
+
 "@heroicons/vue@^2.0.18":
   "integrity" "sha512-BcTC9nq2TkwNSfQuqo96J7ehx4etezypc2YeTq7KsXWxrcrerhkgjLrxGRBnStN0wrXo0Gv4BInybqz5uBG6Cw=="
   "resolved" "https://registry.npmjs.org/@heroicons/vue/-/vue-2.0.18.tgz"
@@ -1181,20 +1210,15 @@
     "picocolors" "^1.0.0"
     "source-map-js" "^1.0.2"
 
-"preact@~10.12.1":
-  "integrity" "sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg=="
-  "resolved" "https://registry.npmjs.org/preact/-/preact-10.12.1.tgz"
-  "version" "10.12.1"
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
-"proxy-from-env@^1.1.0":
-  "integrity" "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg=="
-  "resolved" "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz"
-  "version" "1.1.0"
-
-"qalendar@^3.5.0":
-  "integrity" "sha512-u4w7N2i6h9ZQnmjBN/GwxL/YYzf7u9hD918apcBINmil6K/fzuBK97BKh8Mmi17kw44OqUsHaM9V5Li/17rCVA=="
-  "resolved" "https://registry.npmjs.org/qalendar/-/qalendar-3.5.0.tgz"
-  "version" "3.5.0"
+qalendar@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.npmjs.org/qalendar/-/qalendar-3.5.0.tgz"
+  integrity sha512-u4w7N2i6h9ZQnmjBN/GwxL/YYzf7u9hD918apcBINmil6K/fzuBK97BKh8Mmi17kw44OqUsHaM9V5Li/17rCVA==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.3.0"
     "@fortawesome/free-regular-svg-icons" "^6.3.0"
@@ -1490,10 +1514,10 @@
     "@vue/compiler-sfc" "2.7.14"
     "csstype" "^3.1.0"
 
-"vue@^2.6.14 || ^3.3.0", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.11", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.41", "vue@^3.3.4", "vue@>= 3", "vue@>= 3.0.0 < 4", "vue@3.3.4":
-  "integrity" "sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw=="
-  "resolved" "https://registry.npmjs.org/vue/-/vue-3.3.4.tgz"
-  "version" "3.3.4"
+"vue@^2.6.14 || ^3.3.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.41, vue@^3.3.4, "vue@>= 3", "vue@>= 3.0.0 < 4", vue@3.3.4:
+  version "3.3.4"
+  resolved "https://registry.npmjs.org/vue/-/vue-3.3.4.tgz"
+  integrity sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==
   dependencies:
     "@vue/compiler-dom" "3.3.4"
     "@vue/compiler-sfc" "3.3.4"
