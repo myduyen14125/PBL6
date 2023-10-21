@@ -2,13 +2,13 @@
   <BModal
     v-model:modal="modal"
     id="book_appointment"
-    :title="`Đặt lịch hẹn với Ngà`"
-    size="lg"
+    :title="`Đặt lịch hẹn với Mentor`"
+    size="xl"
     animation="fade"
     :noCloseOnBackdrop="true"
-    ><template v-slot:body>
+    >
+    <template v-slot:body>
       <Step1 />
-      <TestCalendar />
     </template>
     <template v-slot:footer>
       <button type="submit" classes="btn btn-primary">Add label</button>
@@ -20,7 +20,6 @@
 import { ref, onMounted, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import Step1 from "./Step1.vue";
-import TestCalendar from "./TestCalendar.vue"; 
 import BModal from "../../../../components/BUI/BModal/BModal.vue";
 
 export default {
@@ -55,4 +54,5 @@ export default {
 };
 </script>
 
-<style scoped lang="css"></style>
+<style scoped lang="css">
+</style>
