@@ -7,7 +7,30 @@
         </div>
       </div>
       <div class="col-12 col-sm-8 p-4 p-sm-3">
-        <h4 class="text-uppercase">{{ blog?.title || "" }}</h4>
+        <div class="title-action">
+          <h4 class="text-uppercase">{{ blog?.title || "" }}</h4>
+          <div
+            v-if="getUserInfo()?._id == blog.user"
+            class="d-flex align-items-center justify-content-end"
+          >
+            <el-tooltip
+              class="box-item"
+              effect="light"
+              content="Chỉnh sửa"
+              placement="bottom"
+            >
+              <SvgIcon icon="edit" class="p-2 mr-2 bg-edit button" />
+            </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="light"
+              content="Xóa"
+              placement="bottom"
+            >
+              <SvgIcon icon="delete" class="p-2 bg-delete button" />
+            </el-tooltip>
+          </div>
+        </div>
         <div class="px-3 d-flex align-items-center mentor-info my-4">
           <img
             :src="blog?.user?.avatar || avatar"

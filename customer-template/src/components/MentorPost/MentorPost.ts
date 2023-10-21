@@ -4,6 +4,7 @@ import avatar from "../../assets/image/avatar.png";
 import postImg from "../../assets/image/post-img.png";
 import { formatDate } from "../../ultils/date";
 import router from "../../router";
+import { getUserInfo } from "../../ultils/cache/localStorage";
 
 export default defineComponent({
   name: "MentorPost",
@@ -14,6 +15,11 @@ export default defineComponent({
       required: true,
       default: () => ({}),
     },
+    showEdit: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   setup() {
     return {
@@ -21,6 +27,7 @@ export default defineComponent({
       postImg,
       router,
       formatDate,
+      getUserInfo,
     };
   },
 });

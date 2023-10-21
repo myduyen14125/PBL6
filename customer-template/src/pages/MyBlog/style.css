@@ -1,0 +1,9 @@
+.page-title {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 60px;
+}
+
+.create-button {
+  display: block;
+}
