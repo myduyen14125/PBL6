@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/account_settings_screen/account_settings_screen.dart';
 import 'package:itmentor/screens/appointment_screen/appointment_screen.dart';
 import 'package:itmentor/screens/communication_screen/communication_screen.dart';
 import 'package:itmentor/screens/home_screens/homepage_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomepageNavigationScreen extends StatefulWidget {
   const HomepageNavigationScreen({super.key});
@@ -18,12 +20,7 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
   int _currentIndex = 0;
   PageController _pageController = PageController();
 
-  final List<Widget> _pages = [
-    const HomepageScreen(),
-    const AppointmentScreen(),
-    const CommunicationScreen(),
-    const AccountSettingsScreen(),
-  ];
+  
 
   @override
   void dispose() {
@@ -33,6 +30,14 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
+    final List<Widget> _pages = [
+      const HomepageScreen(),
+      AppointmentScreen(user: user,),
+      const CommunicationScreen(),
+      const AccountSettingsScreen(),
+    ];
+
     return Scaffold(
       
       body: PageView(

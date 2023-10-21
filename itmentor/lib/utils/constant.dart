@@ -20,4 +20,8 @@ class Constants {
     String formattedDateString = dateFormat.format(dateTime);
     return formattedDateString;
   }
+
+  static String result =
+      '95% cố vấn sẽ xem rất kĩ Hồ sơ của bạn trước khi đồng ý lịch hẹn';
+  static String result2 = 'Trong lúc chờ cố vấn xác nhận, hãy cập nhật và hoàn thiện hồ sơ của bản thân ngay nhé!';
 }
