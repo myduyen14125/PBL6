@@ -7,3 +7,9 @@ export interface Appointment {
   user: User;
   status: string;
 }
+
+export interface CreateAppointmentParams {
+  mentor: string;
+  schedule: string;
+  note: string;
+}
