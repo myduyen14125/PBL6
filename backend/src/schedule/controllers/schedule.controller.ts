@@ -13,6 +13,13 @@ export class ScheduleController {
         return this.scheduleService.createSchedule(req.user, schedule);
     }
 
+    @Post('create-schedules')
+    @UseGuards(AuthGuard('jwt'))
+    async createSchedules(@Req() req: any, @Body(new ValidationPipe()) schedules: CreateScheduleDto[]) {
+        return this.scheduleService.createSchedules(req.user, schedules);
+    }
+
+
     @Get()
     @UseGuards(AuthGuard('jwt'))
     async getUserSchedule(@Req() req: any) {

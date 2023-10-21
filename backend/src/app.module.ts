@@ -7,6 +7,8 @@ import { RatingModule } from './rating/rating.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { BioModule } from './bio/bio.module';
 import { ConfigModule } from '@nestjs/config';
+import { EventModule } from './event/event.module';
+import { ChatModule } from './chat/chat.module';
 
 
 @Module({
@@ -18,6 +20,8 @@ import { ConfigModule } from '@nestjs/config';
     AppointmentModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DB_URI),
+    EventModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [],
