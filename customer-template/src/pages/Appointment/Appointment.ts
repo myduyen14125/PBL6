@@ -4,7 +4,13 @@ import AppointmentCard from "../../components/AppointmentCard/AppointmentCard.vu
 import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
 import { Appointment } from "../../types/appointment";
-import { formatDate } from "../../ultils/date";
+
+interface AllAppointment {
+  pending: Appointment[];
+  confirmed: Appointment[];
+  canceled: Appointment[];
+  finished: Appointment[];
+}
 
 export default defineComponent({
   name: "Appointment",
@@ -12,7 +18,12 @@ export default defineComponent({
   setup() {
     const appointmentsStore = useAppointment();
     const isLoadingAppointment = ref(false);
-    const appointments = ref<Appointment[]>([]);
+    const appointments = ref<AllAppointment>({
+      pending: [],
+      confirmed: [],
+      canceled: [],
+      finished: [],
+    });
     const handleClick = (tab: any, event: any) => {
       console.log(tab, event);
     };
@@ -26,9 +37,18 @@ export default defineComponent({
       appointmentsStore.requestGetAllUserAppointment({
         callback: {
           onSuccess: (res) => {
-            appointments.value = res;
+            res.map((appointment: Appointment) => {
+              if (appointment?.status == "pending") {
+                appointments.value.pending.push(appointment);
+              } else if (appointment?.status == "confirmed") {
+                appointments.value.confirmed.push(appointment);
+              } else if (appointment?.status == "canceled") {
+                appointments.value.canceled.push(appointment);
+              } else {
+                appointments.value.finished.push(appointment);
+              }
+            });
             isLoadingAppointment.value = false;
-            console.log(appointments.value);
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -46,7 +66,6 @@ export default defineComponent({
       handleClick,
       isLoadingAppointment,
       appointments,
-      formatDate,
     };
   },
 });

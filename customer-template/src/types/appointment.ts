@@ -5,5 +5,5 @@ export interface Appointment {
   start_at: string;
   end_at: string;
   user: User;
-  status: boolean;
+  status: string;
 }

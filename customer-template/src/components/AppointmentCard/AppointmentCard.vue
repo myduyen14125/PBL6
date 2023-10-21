@@ -7,7 +7,7 @@
         <div class="appointment-card__header__title">
           <h4 class="font-bold text-xl">Lịch hẹn tư vấn nghề nghiệp</h4>
           <p class="text-gray-500 text-md">
-            {{ formatDate(appointment?.schedule.start_at || "", "DD MM YYYY") }}
+            {{ formatDate(appointment?.schedule.start_at, "DD/MM/YYYY") }}
           </p>
           <div
             class="appointment-card__header__status bg-yellow-500 w-fit px-2 rounded absolute right-3 top-12"

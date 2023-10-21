@@ -19,7 +19,7 @@
                   </div>
                   <div
                     v-else
-                    v-for="appointment in appointments"
+                    v-for="appointment in appointments.pending"
                     :key="appointment?._id"
                   >
                     <AppointmentCard :appointment="appointment" />
@@ -27,10 +27,47 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="Đã xác nhận" name="second"
-                >Config</el-tab-pane
-              >
-              <el-tab-pane label="Đã hoàn tất" name="third">Role</el-tab-pane>
-              <el-tab-pane label="Đã hủy" name="fourth">Task</el-tab-pane>
+                ><div
+                  v-if="isLoadingAppointment"
+                  class="col-12 d-flex align-items-center justify-content-center"
+                >
+                  <div class="spinner-border text-info" role="status"></div>
+                </div>
+                <div
+                  v-else
+                  v-for="appointment in appointments.confirmed"
+                  :key="appointment?._id"
+                >
+                  <AppointmentCard :appointment="appointment" /></div
+              ></el-tab-pane>
+              <el-tab-pane label="Đã hoàn tất" name="third"
+                ><div
+                  v-if="isLoadingAppointment"
+                  class="col-12 d-flex align-items-center justify-content-center"
+                >
+                  <div class="spinner-border text-info" role="status"></div>
+                </div>
+                <div
+                  v-else
+                  v-for="appointment in appointments.canceled"
+                  :key="appointment?._id"
+                >
+                  <AppointmentCard :appointment="appointment" /></div
+              ></el-tab-pane>
+              <el-tab-pane label="Đã hủy" name="fourth"
+                ><div
+                  v-if="isLoadingAppointment"
+                  class="col-12 d-flex align-items-center justify-content-center"
+                >
+                  <div class="spinner-border text-info" role="status"></div>
+                </div>
+                <div
+                  v-else
+                  v-for="appointment in appointments.finished"
+                  :key="appointment?._id"
+                >
+                  <AppointmentCard :appointment="appointment" /></div
+              ></el-tab-pane>
             </el-tabs>
           </div>
         </div>
