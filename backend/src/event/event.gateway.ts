@@ -1,11 +1,13 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
+import { ServerToClientEvents } from './types/event';
+import { Message } from 'src/chat/models/message.model';
 
 @WebSocketGateway()
 export class EventGateway {
 
   @WebSocketServer()
-  server: Server;
+  server: Server<any, ServerToClientEvents>;
 
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
@@ -15,8 +17,8 @@ export class EventGateway {
 
   ////////////////////////
 
-  sendMessage() {
-    this.server.emit('newMessage', 'helloWorld')
+  sendMessage(message: Message) {
+    this.server.emit('newMessage', message)
   }
 
 }

@@ -5,4 +5,5 @@ export class CreateMessageDto {
     text: string;
     @IsNotEmpty()
     chat: string;
+    sender: string;
 }

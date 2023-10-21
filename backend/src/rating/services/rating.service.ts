@@ -50,6 +50,7 @@ export class RatingService {
 
         // create rating
         rating.mentee = user._id
+        rating.mentor = checkAppointment.mentor._id
         const newRating = await this.ratingRepository.create(rating)
 
         return newRating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
