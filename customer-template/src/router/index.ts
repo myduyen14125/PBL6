@@ -19,6 +19,7 @@ const PersonalInformation = () =>
   import("../pages/PersonalInformation/PersonalInformation.vue");
 const CreateBlog = () => import("../pages/Blog/CreateBlog/CreateBlog.vue");
 const BookAppointment = () => import("../pages/BookAppointment/index.vue");
+const MyAppointment = () => import("../pages/MyAppointment/index.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -81,6 +82,12 @@ const constantRoutes: RouteRecordRaw[] = [
     name: "BookAppointment",
     component: BookAppointment,
     props: true,
+  },
+  {
+    path: "/my-appointments",
+    name: "MyAppointment",
+    component: MyAppointment,
+    meta: { requiresAuth: true, role: "mentor" },
   },
 
   // {

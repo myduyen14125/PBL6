@@ -6,3 +6,8 @@ export interface SearchParams {
   location: string;
   rating: number;
 }
+
+export interface CreateScheduleParams {
+  start_at: string;
+  end_at: string;
+}
