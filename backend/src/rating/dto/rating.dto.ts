@@ -3,8 +3,6 @@ import { IsNotEmpty, IsIn } from "class-validator";
 export class CreateRatingDto {
 
     mentee: string;
-
-    @IsNotEmpty()
     mentor: string;
 
     @IsNotEmpty()
