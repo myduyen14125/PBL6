@@ -21,6 +21,24 @@ export class ScheduleService {
         return await this.scheduleRepository.create(schedule)
     }
 
+    async createSchedules(user: User, schedules: CreateScheduleDto[]) {
+        if (user.role === "mentee") {
+            return HttpStatus.BAD_REQUEST;
+        }
+
+        const createdSchedules = [];
+
+        for (const schedule of schedules) {
+            schedule.user = user.id;
+            schedule.status = true;
+            const createdSchedule = await this.scheduleRepository.create(schedule);
+            createdSchedules.push(createdSchedule);
+        }
+
+        return createdSchedules;
+    }
+
+
     async getUserSchedule(user: User) {
         // console.log(user._id);
 
