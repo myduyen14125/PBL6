@@ -5,10 +5,8 @@ import { CreateAppointmentParams } from "../types/appointment.js";
 
 export const useAppointment = defineStore("appointment", () => {
   const requestGetAllUserAppointment = async ({
-    params,
     callback,
   }: {
-    params: CreateAppointmentParams;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);
@@ -16,7 +14,7 @@ export const useAppointment = defineStore("appointment", () => {
     const onFinish = get(callback, "onFinish", noop);
 
     try {
-      const response = await createAppointment(params);
+      const response = await getAllUserAppointment();
       onSuccess(response);
     } catch (error) {
       onFailure(error);
