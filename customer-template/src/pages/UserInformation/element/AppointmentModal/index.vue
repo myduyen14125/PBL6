@@ -8,6 +8,7 @@
     :noCloseOnBackdrop="true"
     ><template v-slot:body>
       <Step1 />
+      <TestCalendar />
     </template>
     <template v-slot:footer>
       <button type="submit" classes="btn btn-primary">Add label</button>
@@ -19,6 +20,7 @@
 import { ref, onMounted, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import Step1 from "./Step1.vue";
+import TestCalendar from "./TestCalendar.vue"; 
 import BModal from "../../../../components/BUI/BModal/BModal.vue";
 
 export default {
