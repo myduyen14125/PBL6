@@ -1,13 +1,13 @@
 <template>
   <div
-    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg hover:shadow-md"
+    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg hover:shadow-md min-w-[300px]"
   >
     <div class="appointment-card__header">
       <div class="appointment-card__header">
         <div class="appointment-card__header__title">
           <h4 class="font-bold text-xl">Lịch hẹn tư vấn nghề nghiệp</h4>
           <p class="text-gray-500 text-md">
-            {{ formatDate(appointment?.schedule.start_at, "DD/MM/YYYY") }}
+            {{ formatDate(appointment?.schedule?.start_at, "DD/MM/YYYY") }}
           </p>
           <div
             class="appointment-card__header__status bg-yellow-500 w-fit px-2 rounded absolute right-3 top-12"
@@ -32,19 +32,24 @@
         </div>
         <div class="appointment-card__body__top__info mt-2">
           <h4 class="font-bold text-xl m-0">
-            {{ appointment?.mentee.name || "" }}
+            {{ appointment?.mentor.name || "" }}
           </h4>
           <p class="text-gray-500 m-0">Chuyên gia tư vấn nghề nghiệp</p>
         </div>
       </div>
       <div class="appointment-card__body__bottom mt-3 flex">
-        <div class="appointment-card__body__bottom__time w-1/2">
+        <div class="appointment-card__body__bottom__time w-2/3">
           <p class="text-gray-500 my-1">Thời gian</p>
           <p class="font-bold m-0">
-            {{ formatDate(appointment?.schedule.start_at || "", "hh:ss") }}
+            {{
+              `${formatDate(
+                appointment?.schedule?.start_at,
+                "hh:ss a"
+              )} - ${formatDate(appointment?.schedule?.end_at, "hh:ss a")}`
+            }}
           </p>
         </div>
-        <div class="appointment-card__body__bottom__time w-1/2">
+        <div class="appointment-card__body__bottom__time w-1/3">
           <p class="text-gray-500 my-1">Địa điểm</p>
           <p class="font-bold">Online</p>
         </div>
