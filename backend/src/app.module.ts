@@ -9,6 +9,7 @@ import { BioModule } from './bio/bio.module';
 import { ConfigModule } from '@nestjs/config';
 import { EventModule } from './event/event.module';
 import { ChatModule } from './chat/chat.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -22,6 +23,7 @@ import { ChatModule } from './chat/chat.module';
     MongooseModule.forRoot(process.env.DB_URI),
     EventModule,
     ChatModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

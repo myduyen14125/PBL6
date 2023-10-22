@@ -18,4 +18,10 @@ export class ChatController {
     async getUserChats(@Req() req: any) {
         return this.chatService.getUserChats(req.user);
     }
+
+    @Get(':id')
+    @UseGuards(AuthGuard('jwt'))
+    async getAllMessageByChatId(@Req() req: any, @Param('id') id: string) {
+        return this.chatService.getAllMessageByChatId(req.user, id);
+    }
 }

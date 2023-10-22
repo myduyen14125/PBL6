@@ -2,10 +2,12 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { User } from "src/user/models/user.model";
 import { ChatRepository } from "../repositories/chat.repository";
 import { CreateChatDto } from "../dto/chat.dto";
+import { MessageRepository } from "../repositories/message.repository";
 
 @Injectable()
 export class ChatService {
     constructor(private readonly chatRepository: ChatRepository,
+        private readonly messageRepository: MessageRepository
     ) { }
 
 
@@ -45,4 +47,18 @@ export class ChatService {
         return chats
     }
 
+    async getAllMessageByChatId(user: User, id: string) {
+        // participants only
+
+        const chatCheck = await this.chatRepository.findById(id)
+        const isParticipant = chatCheck.participants.some(participant => participant._id.toString() === user._id.toString());
+        if (!isParticipant) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+
+        const messages = await this.messageRepository.getByCondition({
+            chat: id
+        },
+            null, null,
+            { path: 'sender', select: 'name avatar' })
+        return messages
+    }
 }

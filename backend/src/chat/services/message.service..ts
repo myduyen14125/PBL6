@@ -18,7 +18,7 @@ export class MessageService {
         message.sender = user._id
         const createdMessage = await this.messageRepository.create(message)
 
-        this.eventGateway.sendMessage(createdMessage)
+        this.eventGateway.sendNewMessage(createdMessage)
         return createdMessage
     }
 
