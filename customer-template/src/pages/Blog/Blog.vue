@@ -15,8 +15,21 @@
               >
                 <div class="spinner-border text-info" role="status"></div>
               </div>
-              <div v-else v-for="blog in blogs" :key="blog?._id">
-                <MentorPost :blog="blog" />
+              <div v-else>
+                <div v-for="blog in blogs" :key="blog?._id">
+                  <MentorPost :blog="blog" />
+                </div>
+                <div class="my-5 d-flex">
+                  <el-pagination
+                    class="ms-auto"
+                    v-model:current-page="currentPage"
+                    :page-size="limit"
+                    background
+                    layout="prev, pager, next"
+                    :total="totalElement"
+                    @current-change="getBlogs"
+                  />
+                </div>
               </div>
             </div>
           </div>

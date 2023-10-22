@@ -16,7 +16,7 @@ import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import router from "../../router";
 import AppointmentModal from "./element/AppointmentModal/index.vue";
-import { GetMentorsParams } from "../../types/mentor";
+import { GetPaginationParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "UserInformation",
@@ -33,6 +33,7 @@ export default defineComponent({
     const authStore = useAuth();
     const selectedOption = ref("profile");
     const userInfo = ref();
+    const userBlogs = ref([]);
     const mentors = ref([]);
     const showEdit = getUserInfo()?._id == props.id;
     const appointmentModal: Ref<any> = ref<typeof AppointmentModal | null>(
@@ -42,6 +43,7 @@ export default defineComponent({
     onMounted(() => {
       getUserInformation(props.id);
       getMentors();
+      getUserBlogs(props.id);
     });
 
     const getUserInformation = (id: string) => {
@@ -50,6 +52,24 @@ export default defineComponent({
         callback: {
           onSuccess: (res) => {
             userInfo.value = res;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
+    const getUserBlogs = (id: string) => {
+      userStore.requestGetUserBlogs({
+        id: props.id,
+        params: { page: 1, limit: 5 } as GetPaginationParams,
+        callback: {
+          onSuccess: (res) => {
+            userBlogs.value = res.blogs;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -70,7 +90,7 @@ export default defineComponent({
 
     const getMentors = () => {
       mentorsStore.requestGetMentors({
-        params: { page: 1, limit: 5 } as GetMentorsParams,
+        params: { page: 1, limit: 5 } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
             mentors.value = res.mentors.filter(
@@ -106,6 +126,7 @@ export default defineComponent({
       advertisementImg,
       selectedOption,
       userInfo,
+      userBlogs,
       showEdit,
       mentors,
       router,

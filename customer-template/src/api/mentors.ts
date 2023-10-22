@@ -2,7 +2,7 @@ import httpRequest from "../ultils/httpRequest";
 import {
   SearchParams,
   CreateScheduleParams,
-  GetMentorsParams,
+  GetPaginationParams,
   SearchMentorsParams,
 } from "../types/mentor";
 
@@ -10,7 +10,7 @@ export const getMentors = async (params: SearchParams): Promise<any> =>
   httpRequest.get<any>("/mentors", { params });
 
 export const getMentorsPagination = async (
-  params: GetMentorsParams
+  params: GetPaginationParams
 ): Promise<any> => httpRequest.get<any>("/mentor", { params });
 
 export const getSearchMentor = async (

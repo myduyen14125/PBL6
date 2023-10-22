@@ -12,7 +12,7 @@ export interface CreateScheduleParams {
   end_at: string;
 }
 
-export interface GetMentorsParams {
+export interface GetPaginationParams {
   page: number;
   limit?: number;
 }

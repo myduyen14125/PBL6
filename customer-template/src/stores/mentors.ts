@@ -7,7 +7,7 @@ import {
 } from "../api/mentors";
 import {
   CreateScheduleParams,
-  GetMentorsParams,
+  GetPaginationParams,
   SearchMentorsParams,
 } from "../types/mentor";
 
@@ -16,7 +16,7 @@ export const useMentors = defineStore("mentors", () => {
     params,
     callback,
   }: {
-    params: GetMentorsParams;
+    params: GetPaginationParams;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);

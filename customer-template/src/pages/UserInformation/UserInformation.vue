@@ -106,7 +106,7 @@
                   :class="{
                     active: selectedOption == 'post',
                   }"
-                /><span>{{ `Bài đăng (1)` }}</span>
+                /><span>{{ `Bài đăng (${userBlogs.length})` }}</span>
               </label>
             </template>
           </div>
@@ -206,9 +206,9 @@
           </div>
           <div class="box" v-else-if="selectedOption === 'recommend'"></div>
           <div class="box" v-else-if="selectedOption === 'post'">
-            <!-- <div v-for="blog in userInfo.blogs" :key="blog._id" class="p-3">
+            <div v-for="blog in userBlogs" :key="blog._id" class="p-3">
               <MentorPost :blog="blog" />
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="col-lg-3">
