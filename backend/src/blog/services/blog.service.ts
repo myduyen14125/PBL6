@@ -28,7 +28,7 @@ export class BlogService {
 
 
         return {
-            countPage, blogs
+            count, countPage, blogs
         }
     }
 
@@ -84,6 +84,7 @@ export class BlogService {
             },
             { path: 'user', select: 'name avatar email role number_of_mentees' });
         return {
+            count,
             countPage,
             blogs
         }

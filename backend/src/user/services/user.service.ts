@@ -156,7 +156,7 @@ export class UserService {
             },
         );
 
-        return { countPage, mentors }
+        return { count, countPage, mentors }
     }
 
     async searchMentor(keyword: string, page: number, limit: number = 10) {
@@ -181,7 +181,7 @@ export class UserService {
             },
         );
 
-        return { countPage, mentors }
+        return { count, countPage, mentors }
     }
 
     async checkMentee(mentee_id: string) {
