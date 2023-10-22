@@ -217,4 +217,21 @@ export class UserService {
 
     }
 
+    async getUserByRefresh(refresh_token, email) {
+        const user = await this.findByEmail(email);
+        if (!user) {
+            throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+        }
+        const is_equal = await bcrypt.compare(
+            this.reverse(refresh_token),
+            user.refreshToken,
+        );
+
+        if (!is_equal) {
+            throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+        }
+
+        return user;
+    }
+
 }
