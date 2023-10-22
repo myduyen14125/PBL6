@@ -9,6 +9,7 @@ import { useMentors } from "./../../stores/mentors";
 import SwalPopup from "../../ultils/swalPopup";
 import router from "../../router";
 import { Blog } from "../../types/blog";
+import { GetPaginationParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "Blog",
@@ -19,19 +20,27 @@ export default defineComponent({
     const blogs = ref<Blog[]>([]);
     const mentors = ref([]);
     const isLoadingBlogs = ref(false);
+    const currentPage = ref(1);
+    const totalElement = ref(0);
+    const limit = 8;
 
     onMounted(() => {
-      getAllBlogs();
-      getAllMentors();
+      getBlogs();
+      getMentors();
     });
 
-    const getAllBlogs = () => {
+    const getBlogs = () => {
       isLoadingBlogs.value = true;
 
-      blogStore.requestGetAllBlogs({
+      blogStore.requestGetBlogs({
+        params: {
+          page: currentPage.value,
+          limit: limit,
+        } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
-            blogs.value = res;
+            blogs.value = res.blogs;
+            totalElement.value = res.count;
             isLoadingBlogs.value = false;
           },
           onFailure: () => {
@@ -45,11 +54,12 @@ export default defineComponent({
       });
     };
 
-    const getAllMentors = () => {
-      mentorsStore.requestGetAllMentors({
+    const getMentors = () => {
+      mentorsStore.requestGetMentors({
+        params: { page: 1, limit: 5 } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
-            mentors.value = res.slice(0, 5);
+            mentors.value = res.mentors;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -69,6 +79,10 @@ export default defineComponent({
       avatar,
       router,
       mentors,
+      currentPage,
+      totalElement,
+      limit,
+      getBlogs,
     };
   },
 });

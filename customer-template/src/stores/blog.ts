@@ -1,12 +1,15 @@
 import { get, noop } from "lodash";
 import { defineStore } from "pinia";
-import { getAllBlogs, createBlog, getBlogById } from "./../api/blog";
-import { CreateBlogParams } from "../types/blog.js";
+import { getBlogPagination, createBlog, getBlogById } from "./../api/blog";
+import { CreateBlogParams } from "../types/blog";
+import { GetPaginationParams } from "../types/mentor";
 
 export const useBlog = defineStore("blog", () => {
-  const requestGetAllBlogs = async ({
+  const requestGetBlogs = async ({
+    params,
     callback,
   }: {
+    params: GetPaginationParams;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);
@@ -14,7 +17,7 @@ export const useBlog = defineStore("blog", () => {
     const onFinish = get(callback, "onFinish", noop);
 
     try {
-      const response = await getAllBlogs();
+      const response = await getBlogPagination(params);
       onSuccess(response);
     } catch (error) {
       onFailure(error);
@@ -66,7 +69,7 @@ export const useBlog = defineStore("blog", () => {
   };
 
   return {
-    requestGetAllBlogs,
+    requestGetBlogs,
     requestCreateBlog,
     requestGetBlogById,
   };

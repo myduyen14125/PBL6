@@ -126,15 +126,16 @@ export default {
     const blogDetail = ref();
 
     onMounted(() => {
-      getAllMentors();
+      getMentors();
       getBlogDetail();
     });
 
-    const getAllMentors = () => {
-      mentorsStore.requestGetAllMentors({
+    const getMentors = () => {
+      mentorsStore.requestGetMentors({
+        params: { page: 1, limit: 15 },
         callback: {
           onSuccess: (res) => {
-            mentors.value = res;
+            mentors.value = res.mentors;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(

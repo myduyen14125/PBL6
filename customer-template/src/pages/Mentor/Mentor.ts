@@ -7,6 +7,7 @@ import { majors } from "../../mockData";
 import imageSaler from "../../assets/image/saler.png";
 import { useMentors } from "../../stores/mentors";
 import SwalPopup from "../../ultils/swalPopup";
+import { SearchMentorsParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "Mentor",
@@ -15,18 +16,28 @@ export default defineComponent({
     const mentorsStore = useMentors();
     const mentors = ref([]);
     const isLoading = ref(false);
+    const currentPage = ref(1);
+    const totalElement = ref(0);
+    const limit = 8;
+    const searchValue = ref("");
 
     onMounted(() => {
-      getAllMentors();
+      searchMentor();
     });
 
-    const getAllMentors = () => {
+    const searchMentor = () => {
       isLoading.value = true;
-      mentorsStore.requestGetAllMentors({
+      mentorsStore.requestGetSearchMentor({
+        params: {
+          page: currentPage.value,
+          limit: limit,
+          name: searchValue.value,
+        } as SearchMentorsParams,
         callback: {
           onSuccess: (res) => {
             isLoading.value = false;
-            mentors.value = res;
+            mentors.value = res.mentors;
+            totalElement.value = res.count;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -39,32 +50,22 @@ export default defineComponent({
       });
     };
 
-    const searchMentor = (name: string) => {
-      isLoading.value = true;
-      mentorsStore.requestGetSearchMentor({
-        name: name,
-        callback: {
-          onSuccess: (res) => {
-            isLoading.value = false;
-            mentors.value = res;
-          },
-          onFailure: () => {
-            SwalPopup.swalResultPopup(
-              "Sorry, looks like there are some errors detected, please try again.",
-              "error"
-            );
-            isLoading.value = false;
-          },
-        },
-      });
+    const getSearchText = (text: string) => {
+      currentPage.value = 1;
+      searchValue.value = text;
+      searchMentor();
     };
 
     return {
       mentors,
       majors,
       imageSaler,
-      searchMentor,
+      limit,
+      totalElement,
+      currentPage,
       isLoading,
+      searchMentor,
+      getSearchText,
     };
   },
 });

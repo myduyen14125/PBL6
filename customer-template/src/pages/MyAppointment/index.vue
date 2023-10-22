@@ -32,9 +32,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
-import { useMentors } from "../../stores/mentors";
-import { useUser } from "../../stores/user";
-import { getUserInfo } from "../../ultils/cache/localStorage";
+import { useSchedule } from "../../stores/schedule";
 import { formatDate } from "../../ultils/date";
 import SwalPopup from "../../ultils/swalPopup";
 import Swal from "sweetalert2";
@@ -150,8 +148,8 @@ export default {
 
     createSchedule: function (params) {
       this.isSubmitting = true;
-      const mentorStore = useMentors();
-      mentorStore.requestCreateSchedule({
+      const scheduleStore = useSchedule();
+      scheduleStore.requestCreateSchedule({
         params: params,
         callback: {
           onSuccess: (res) => {
@@ -172,12 +170,11 @@ export default {
     },
 
     getMySchedule: function (params) {
-      const userStore = useUser();
-      userStore.requestGetUserInfo({
-        id: getUserInfo()?._id,
+      const scheduleStore = useSchedule();
+      scheduleStore.requestGetMySchedules({
         callback: {
           onSuccess: (res) => {
-            this.existSchedules = res?.schedules.map((item) => {
+            this.existSchedules = res?.map((item) => {
               return {
                 id: item._id,
                 title: item.status
