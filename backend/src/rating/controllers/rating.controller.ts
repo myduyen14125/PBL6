@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RatingService } from '../services/rating.service';
-import { CreateRatingDto } from '../dto/rating.dto';
+import { CreateRatingDto, PaginationRatingDto } from '../dto/rating.dto';
 
 
 @Controller('rating')
@@ -14,6 +14,14 @@ export class RatingController {
 
         return this.ratingService.createRating(req.user, rating);
     }
+
+    @Get()
+    @UseGuards(AuthGuard('jwt'))
+    async getAllRatingsByUserId(@Req() req: any, @Query() { page, limit }: PaginationRatingDto) {
+
+        return this.ratingService.getAllRatingsByUserId(req.user._id, page, limit);
+    }
+
 
 
 

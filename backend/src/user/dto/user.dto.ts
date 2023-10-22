@@ -39,3 +39,10 @@ export class LoginUserDto {
 
     @IsNotEmpty() password: string;
 }
+
+export class PaginationMentorDto {
+    @IsNotEmpty()
+    page: number;
+    @IsNotEmpty()
+    limit: number;
+}

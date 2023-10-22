@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
+import { CreateBlogDto, PaginationPostDto, UpdateBlogDto } from '../dto/blog.dto';
 import { BlogService } from '../services/blog.service';
 
 @Controller('blog')
@@ -8,8 +8,8 @@ export class BlogController {
     constructor(private readonly blogService: BlogService) { }
 
     @Get()
-    getAllBlogs(@Query() query) {
-        return this.blogService.getAllBlogs();
+    getAllBlogs(@Query() { page, limit }: PaginationPostDto) {
+        return this.blogService.getAllBlogs(page, limit);
     }
 
     @Get(':id')
