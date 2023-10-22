@@ -75,7 +75,7 @@ export class RatingService {
                 limit: limit
             },
             { path: 'mentee', select: 'name avatar email role' })
-        return { countPage, ratings }
+        return { count, countPage, ratings }
     }
 
 }
