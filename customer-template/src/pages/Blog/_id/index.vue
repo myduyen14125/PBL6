@@ -106,7 +106,6 @@ import { useMentors } from "../../../stores/mentors";
 import { useBlog } from "../../../stores/blog";
 import SwalPopup from "../../../ultils/swalPopup";
 import { formatDate } from "../../../ultils/date";
-import { GetPaginationParams } from "../../../types/mentor";
 
 export default {
   components: {
@@ -133,7 +132,7 @@ export default {
 
     const getMentors = () => {
       mentorsStore.requestGetMentors({
-        params: { page: 1, limit: 15 } as GetPaginationParams,
+        params: { page: 1, limit: 15 },
         callback: {
           onSuccess: (res) => {
             mentors.value = res.mentors;
