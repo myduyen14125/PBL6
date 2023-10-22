@@ -13,16 +13,9 @@ export class ChatController {
         return this.chatService.createChat(req.user, chat);
     }
 
-    // @Get()
-    // @UseGuards(AuthGuard('jwt'))
-    // async getUserSchedule(@Req() req: any) {
-    //     return this.scheduleService.getUserSchedule(req.user);
-    // }
-
-    // @Get(':id')
-    // @UseGuards(AuthGuard('jwt'))
-    // async getScheduleById(@Req() req: any, @Param('id') id: string) {
-    //     return this.scheduleService.getScheduleById(req.user, id);
-    // }
-
+    @Get()
+    @UseGuards(AuthGuard('jwt'))
+    async getUserChats(@Req() req: any) {
+        return this.chatService.getUserChats(req.user);
+    }
 }

@@ -53,20 +53,30 @@ export class RatingService {
         rating.mentor = checkAppointment.mentor._id
         const newRating = await this.ratingRepository.create(rating)
 
-        return newRating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+        return newRating.populate({ path: 'mentee', select: 'name avatar email role' });
 
     }
     ///////////////////////////////////////
-    async getAllRatingsByUserId(id: string) {
-        return await this.ratingRepository.getByCondition({
+    async getAllRatingsByUserId(id: string, page: number, limit: number = 10) {
+        const count = await this.ratingRepository.countDocuments({
             mentor: id
-        })
+        },)
+        const countPage = Math.ceil(count / limit)
+
+        const ratings = await this.ratingRepository.getByCondition({
+            mentor: id
+        },
+            null,
+            {
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            { path: 'mentee', select: 'name avatar email role' })
+        return { countPage, ratings }
     }
 
 }
 
-// UserService uses its repository and BlogService, ScheduleService, RatingService
-// BlogService uses its repository
-// AppointmentService uses  its repository and UserService and ScheduleService
-// RatingService uses its repository AppointmentService
-// ScheduleService uses its repository

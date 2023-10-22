@@ -72,28 +72,37 @@ export class UserService {
     async getUserById(id: string) {
         try {
             const user = await this.userRepository.findById(id);
-            const blogs = await this.blogService.getAllBlogsByUserId(id)
-            const ratings = await this.ratingService.getAllRatingsByUserId(id)
-            const schedules = await this.scheduleService.getAllSchedulesByUserId(id)
-
-            await Promise.all(ratings.map(async (rating) => {
-                await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
-            }));
-
             if (user) {
                 const userObject = user.toObject ? user.toObject() : user;
 
                 delete userObject.password;
                 delete userObject.refreshToken;
                 delete userObject.date_of_birth;
-
-                return {
-                    ...userObject,
-                    blogs,
-                    schedules,
-                    ratings,
-                };
+                return userObject
             }
+
+            // const blogs = await this.blogService.getAllBlogsByUserId(id)
+            // const ratings = await this.ratingService.getAllRatingsByUserId(id)
+            // const schedules = await this.scheduleService.getAllSchedulesByUserId(id)
+
+            // await Promise.all(ratings.map(async (rating) => {
+            //     await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+            // }));
+
+            // if (user) {
+            //     const userObject = user.toObject ? user.toObject() : user;
+
+            //     delete userObject.password;
+            //     delete userObject.refreshToken;
+            //     delete userObject.date_of_birth;
+
+            //     return {
+            //         ...userObject,
+            //         blogs,
+            //         schedules,
+            //         ratings,
+            //     };
+            // }
         } catch (error) {
             console.error(error);
             throw error;
@@ -101,56 +110,78 @@ export class UserService {
     }
 
     async getProfile(user: User) {
-        try {
-            if (user.role === "mentee") {
-                return await this.userRepository.findById(user.id);
-            }
-            const returnUser = await this.userRepository.findById(user.id);
+        return await this.userRepository.findById(user.id);
 
-            const blogs = await this.blogService.getAllBlogsByUserId(user.id)
+        // try {
+        //     if (user.role === "mentee") {
+        //         return await this.userRepository.findById(user.id);
 
-            const ratings = await this.ratingService.getAllRatingsByUserId(user.id)
+        // const returnUser = await this.userRepository.findById(user.id);
 
-            await Promise.all(ratings.map(async (rating) => {
-                await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
-            }));
+        // const blogs = await this.blogService.getAllBlogsByUserId(user.id)
 
-            if (returnUser) {
-                const userObject = user.toObject ? user.toObject() : user;
+        // const ratings = await this.ratingService.getAllRatingsByUserId(user.id)
 
-                return {
-                    ...userObject,
-                    blogs,
-                    ratings
-                };
-            }
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
+        // await Promise.all(ratings.map(async (rating) => {
+        //     await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+        // }));
+
+        // if (returnUser) {
+        //     const userObject = user.toObject ? user.toObject() : user;
+
+        //     return {
+        //         ...userObject,
+        //         blogs,
+        //         ratings
+        //     };
+        // }
+        // } catch (error) {
+        //     console.error(error);
+        //     throw error;
+        // }
     }
 
-    async getAllMentors() {
+    async getAllMentors(page: number, limit: number = 10) {
+        const count = await this.userRepository.countDocuments({ role: 'mentor' })
+        const countPage = Math.ceil(count / limit)
         const mentors = await this.userRepository.getByCondition(
             { role: 'mentor' },
-            ['name', 'avatar', '_id', 'email', 'gender', 'phone', 'number_of_mentees']
+            ['name', 'avatar', 'email', 'gender', 'phone', 'number_of_mentees'],
+            {
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
         );
 
-        return mentors
+        return { countPage, mentors }
     }
 
-    async searchMentor(keyword: string) {
-        keyword = keyword.toLowerCase();
+    async searchMentor(keyword: string, page: number, limit: number = 10) {
+        const count = await this.userRepository.countDocuments({
+            role: 'mentor',
+            name: { $regex: new RegExp(keyword, 'i') },
+        },)
+        const countPage = Math.ceil(count / limit)
 
         const mentors = await this.userRepository.getByCondition(
             {
                 role: 'mentor',
                 name: { $regex: new RegExp(keyword, 'i') },
             },
-            ['name', 'avatar', '_id', 'email', 'gender', 'phone', 'number_of_mentees']
+            ['name', 'avatar', 'email', 'gender', 'phone', 'number_of_mentees'],
+            {
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
         );
 
-        return mentors;
+        return { countPage, mentors }
     }
 
     async checkMentee(mentee_id: string) {
@@ -173,7 +204,17 @@ export class UserService {
         return await this.userRepository.findByIdAndUpdate(id, { $inc: { number_of_mentees: 1 } });
     }
 
+    async getAllBlogsByUserId(id: string, page: number, limit: number) {
+        return await this.blogService.getAllBlogsByUserId(id, page, limit)
+    }
 
+    async getAllSchedulesByUserId(id: string) {
+        return await this.scheduleService.getAllSchedulesByUserId(id)
+    }
 
+    async getAllRatingsByUserId(id: string, page: number, limit: number) {
+        return await this.ratingService.getAllRatingsByUserId(id, page, limit)
+
+    }
 
 }

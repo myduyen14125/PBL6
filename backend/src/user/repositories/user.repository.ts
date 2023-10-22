@@ -12,4 +12,7 @@ export class UserRepository extends BaseRepository<User> {
     ) {
         super(userModel);
     }
+    async countDocuments(filter) {
+        return this.userModel.countDocuments(filter);
+    }
 }

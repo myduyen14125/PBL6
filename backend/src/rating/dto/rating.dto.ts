@@ -16,3 +16,10 @@ export class CreateRatingDto {
     @IsNotEmpty()
     stars: number;
 }
+
+export class PaginationRatingDto {
+    @IsNotEmpty()
+    page: number;
+    @IsNotEmpty()
+    limit: number;
+}

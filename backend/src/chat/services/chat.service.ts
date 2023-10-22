@@ -32,8 +32,17 @@ export class ChatService {
 
     }
 
-    // search chat
+    // get Chat
+    async getUserChats(user: User) {
+        const chats = await this.chatRepository.getByCondition({
+            participants: {
+                $elemMatch: { $eq: user._id }
+            },
 
-
+        }, null,
+            null,
+            { path: 'participants', select: 'name avatar' })
+        return chats
+    }
 
 }
