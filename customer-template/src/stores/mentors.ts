@@ -1,12 +1,22 @@
 import { get, noop } from "lodash";
 import { defineStore } from "pinia";
-import { getAllMentors, getSearchMentor, createSchedule } from "../api/mentors";
-import { CreateScheduleParams } from "../types/mentor";
+import {
+  getMentorsPagination,
+  getSearchMentor,
+  createSchedule,
+} from "../api/mentors";
+import {
+  CreateScheduleParams,
+  GetMentorsParams,
+  SearchMentorsParams,
+} from "../types/mentor";
 
 export const useMentors = defineStore("mentors", () => {
-  const requestGetAllMentors = async ({
+  const requestGetMentors = async ({
+    params,
     callback,
   }: {
+    params: GetMentorsParams;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);
@@ -14,7 +24,7 @@ export const useMentors = defineStore("mentors", () => {
     const onFinish = get(callback, "onFinish", noop);
 
     try {
-      const response = await getAllMentors();
+      const response = await getMentorsPagination(params);
       onSuccess(response);
     } catch (error) {
       onFailure(error);
@@ -24,10 +34,10 @@ export const useMentors = defineStore("mentors", () => {
   };
 
   const requestGetSearchMentor = async ({
-    name,
+    params,
     callback,
   }: {
-    name: string;
+    params: SearchMentorsParams;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);
@@ -35,7 +45,7 @@ export const useMentors = defineStore("mentors", () => {
     const onFinish = get(callback, "onFinish", noop);
 
     try {
-      const response = await getSearchMentor(name);
+      const response = await getSearchMentor(params);
       onSuccess(response);
     } catch (error) {
       onFailure(error);
@@ -66,7 +76,7 @@ export const useMentors = defineStore("mentors", () => {
   };
 
   return {
-    requestGetAllMentors,
+    requestGetMentors,
     requestGetSearchMentor,
     requestCreateSchedule,
   };

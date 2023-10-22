@@ -9,6 +9,7 @@ import { useMentors } from "./../../stores/mentors";
 import SwalPopup from "../../ultils/swalPopup";
 import router from "../../router";
 import { Blog } from "../../types/blog";
+import { GetMentorsParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "Blog",
@@ -22,7 +23,7 @@ export default defineComponent({
 
     onMounted(() => {
       getAllBlogs();
-      getAllMentors();
+      getMentors();
     });
 
     const getAllBlogs = () => {
@@ -45,11 +46,12 @@ export default defineComponent({
       });
     };
 
-    const getAllMentors = () => {
-      mentorsStore.requestGetAllMentors({
+    const getMentors = () => {
+      mentorsStore.requestGetMentors({
+        params: { page: 1, limit: 5 } as GetMentorsParams,
         callback: {
           onSuccess: (res) => {
-            mentors.value = res.slice(0, 5);
+            mentors.value = res.mentors;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(

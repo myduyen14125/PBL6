@@ -16,6 +16,7 @@ import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import router from "../../router";
 import AppointmentModal from "./element/AppointmentModal/index.vue";
+import { GetMentorsParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "UserInformation",
@@ -40,7 +41,7 @@ export default defineComponent({
 
     onMounted(() => {
       getUserInformation(props.id);
-      getAllMentors();
+      getMentors();
     });
 
     const getUserInformation = (id: string) => {
@@ -67,13 +68,14 @@ export default defineComponent({
       }
     );
 
-    const getAllMentors = () => {
-      mentorsStore.requestGetAllMentors({
+    const getMentors = () => {
+      mentorsStore.requestGetMentors({
+        params: { page: 1, limit: 5 } as GetMentorsParams,
         callback: {
           onSuccess: (res) => {
-            mentors.value = res
-              .filter((item: any) => item._id != props?.id)
-              .slice(0, 5);
+            mentors.value = res.mentors.filter(
+              (item: any) => item._id != props?.id
+            );
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(

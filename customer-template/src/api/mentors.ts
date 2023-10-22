@@ -1,14 +1,21 @@
 import httpRequest from "../ultils/httpRequest";
-import { SearchParams, CreateScheduleParams } from "../types/mentor";
+import {
+  SearchParams,
+  CreateScheduleParams,
+  GetMentorsParams,
+  SearchMentorsParams,
+} from "../types/mentor";
 
 export const getMentors = async (params: SearchParams): Promise<any> =>
   httpRequest.get<any>("/mentors", { params });
 
-export const getAllMentors = async (): Promise<any> =>
-  httpRequest.get<any>("/mentor");
+export const getMentorsPagination = async (
+  params: GetMentorsParams
+): Promise<any> => httpRequest.get<any>("/mentor", { params });
 
-export const getSearchMentor = async (name: String): Promise<any> =>
-  httpRequest.get<any>(`/mentor/search?name=${name}`);
+export const getSearchMentor = async (
+  params: SearchMentorsParams
+): Promise<any> => httpRequest.get<any>("/mentor/search", { params });
 
 export const createSchedule = async (
   params: CreateScheduleParams[]

@@ -47,7 +47,9 @@
                   <!-- @click="bookAppointment" -->
                   <button
                     className="btn btn-primary px-4 action-button my-2"
-                    @click="() => router.push(`/book-appointment/${userInfo._id}`)"
+                    @click="
+                      () => router.push(`/book-appointment/${userInfo._id}`)
+                    "
                   >
                     Đặt lịch ngay
                   </button>
@@ -104,7 +106,7 @@
                   :class="{
                     active: selectedOption == 'post',
                   }"
-                /><span>{{ `Bài đăng (${userInfo?.blogs.length})` }}</span>
+                /><span>{{ `Bài đăng (1)` }}</span>
               </label>
             </template>
           </div>
@@ -204,9 +206,9 @@
           </div>
           <div class="box" v-else-if="selectedOption === 'recommend'"></div>
           <div class="box" v-else-if="selectedOption === 'post'">
-            <div v-for="blog in userInfo.blogs" :key="blog._id" class="p-3">
+            <!-- <div v-for="blog in userInfo.blogs" :key="blog._id" class="p-3">
               <MentorPost :blog="blog" />
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-lg-3">
