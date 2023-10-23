@@ -15,6 +15,7 @@ import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
+    BioModule,
     UserModule,
     BlogModule,
     RatingModule,
