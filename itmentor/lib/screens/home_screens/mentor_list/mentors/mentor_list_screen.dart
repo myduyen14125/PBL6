@@ -125,9 +125,10 @@ class _MentorListScreenState extends State<MentorListScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MentorProfileDetail(
-                                        id: mentor['_id'],
-                                      )),
+                                builder: (context) => MentorProfileDetail(
+                                  id: mentor['_id'],
+                                ),
+                              ),
                             );
                           },
                           leading: Image.asset(
