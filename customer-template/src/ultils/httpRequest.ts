@@ -117,7 +117,6 @@ class HttpRequest {
   ): InternalAxiosRequestConfig => {
     const isRefreshToken = shouldRefreshToken();
     if (isRefreshToken && !this.isRefreshing) {
-      window.alert("refresh time.");
       this.handleRefreshToken();
     }
     return config;
@@ -128,7 +127,6 @@ class HttpRequest {
     this.isRefreshing = true;
     refreshToken({ refresh_token: oldRefreshToken })
       .then(({ accessToken: newToken, refreshToken: newRefreshToken }) => {
-        console.log({ accessToken: newToken, refreshToken: newRefreshToken });
         const onSuccess = get(callback, "onSuccess");
         if (onSuccess) {
           onSuccess(newToken);
