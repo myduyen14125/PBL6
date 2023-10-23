@@ -46,3 +46,12 @@ export class PaginationMentorDto {
     @IsNotEmpty()
     limit: number;
 }
+
+export class UpdateUserDto {
+    date_of_birth: Date;
+    avatar: string;
+    phone: string;
+    gender: boolean;
+    facebook_link: string;
+    skype_link: string;
+}
