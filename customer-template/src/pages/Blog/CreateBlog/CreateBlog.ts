@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import GuestLayout from "../../../layout/GuestLayout/GuestLayout.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -11,9 +11,15 @@ import Swal from "sweetalert2";
 export default defineComponent({
   name: "CreateBlog",
   components: { GuestLayout, QuillEditor },
-
-  setup() {
-    const authStore = useBlog();
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: "",
+    },
+  },
+  setup(props) {
+    const blogStore = useBlog();
     const form = ref<CreateBlogParams>({
       title: "",
       content: "",
@@ -25,7 +31,18 @@ export default defineComponent({
     const isSubmitting = ref(false);
     const myEditor = ref();
 
-    onMounted(() => {});
+    onMounted(() => {
+      if (props?.id) {
+        getBlogDetail();
+      }
+    });
+
+    watch(
+      () => props.id,
+      () => {
+        getBlogDetail();
+      }
+    );
 
     const resetData = () => {
       form.value = {
@@ -60,14 +77,40 @@ export default defineComponent({
       return arrRes.findIndex((x) => x && x.length > 0) < 0;
     };
 
+    const getBlogDetail = () => {
+      blogStore.requestGetBlogById({
+        id: props?.id,
+        callback: {
+          onSuccess: (res) => {
+            form.value.content = res?.content;
+            form.value.title = res?.title;
+            myEditor.value?.setHTML(form.value.content);
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
     const submitContent = () => {
       console.log(form.value);
 
       if (!validateForm()) return;
+      if (props?.id) {
+        editBlog();
+      } else {
+        createBlog();
+      }
+    };
 
+    const createBlog = () => {
       isSubmitting.value = true;
 
-      authStore.requestCreateBlog({
+      blogStore.requestCreateBlog({
         params: form.value,
         callback: {
           onSuccess: (res) => {
@@ -81,6 +124,29 @@ export default defineComponent({
               "error"
             );
             isSubmitting.value = false;
+          },
+        },
+      });
+    };
+
+    const editBlog = () => {
+      isSubmitting.value = true;
+
+      blogStore.requestUpdateBlog({
+        id: props?.id,
+        params: form.value,
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+            showToast(`/blogs/${props?.id}`);
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+            getBlogDetail();
           },
         },
       });
@@ -101,7 +167,9 @@ export default defineComponent({
 
       Toast.fire({
         icon: "success",
-        title: "Tạo blog thành công.",
+        title: props?.id
+          ? "Chỉnh sửa bài viết thành công"
+          : "Tạo bài viết thành công.",
         html:
           "Bấm vào " +
           `<a class="color-primary" href="${link}">link</a> ` +

@@ -1,12 +1,18 @@
 <template>
-  <div class="mentor-post" @click="() => router.push(`/blogs/${blog._id}`)">
-    <div class="row border-bottom pb-4">
-      <div class="col-12 col-sm-4 mt-3">
+  <div class="mentor-post border-bottom">
+    <div class="row pb-4">
+      <div
+        class="col-12 col-sm-4 mt-3"
+        @click="() => router.push(`/blogs/${blog._id}`)"
+      >
         <div class="post-img d-flex justify-content-center w-100">
           <img :src="blog?.avatar || postImg" alt="Post" />
         </div>
       </div>
-      <div class="col-12 col-sm-8 p-4 p-sm-3">
+      <div
+        class="col-12 col-sm-6 p-4 p-sm-3"
+        @click="() => router.push(`/blogs/${blog._id}`)"
+      >
         <div class="title-action">
           <h4 class="text-uppercase">{{ blog?.title || "" }}</h4>
           <div
@@ -46,7 +52,38 @@
           }}</span>
         </div>
         <div>
-          <span v-if="blog?.content" v-html="blog?.content"></span>
+          <span v-if="blog?.content" v-html="demoContent"></span>
+        </div>
+      </div>
+      <div class="col-12 col-sm-2">
+        <div
+          v-if="showEdit"
+          class="d-flex flex-wrap align-items-center justify-content-end"
+        >
+          <el-tooltip
+            class="box-item"
+            effect="light"
+            content="Chỉnh sửa"
+            placement="bottom"
+          >
+            <SvgIcon
+              icon="edit"
+              class="p-2 m-1 bg-edit button"
+              @click="editBlog"
+            />
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="light"
+            content="Xóa"
+            placement="bottom"
+          >
+            <SvgIcon
+              icon="delete"
+              class="p-2 m-1 bg-delete button"
+              @click="deleteBlog"
+            />
+          </el-tooltip>
         </div>
       </div>
     </div>
