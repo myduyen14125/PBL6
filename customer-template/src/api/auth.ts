@@ -2,7 +2,7 @@ import httpRequest from "../ultils/httpRequest";
 import { SignInParams, SignUpParams } from "./../types/auth";
 
 export const refreshToken = async (params: any): Promise<any> =>
-  httpRequest.post<any, any>("/token", params);
+  httpRequest.post<any, any>("/auth/refresh", params);
 
 export const signIn = async (params: SignInParams): Promise<any> =>
   httpRequest.post("/auth/login", params);

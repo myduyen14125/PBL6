@@ -37,7 +37,6 @@ export default defineComponent({
         const div = document.createElement("div");
         div.innerHTML = props.blog?.content;
         const firstParagraph = div.querySelector("p");
-        console.log(firstParagraph);
         return firstParagraph ? firstParagraph.innerHTML : props.blog?.content;
       }
       return "";

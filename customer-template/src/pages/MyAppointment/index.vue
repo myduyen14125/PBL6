@@ -109,7 +109,6 @@ export default {
         );
         this.newSchedules.splice(deleteItem, 1);
       } else {
-        console.log(this.existSchedules[deleteItem]);
         if (this.existSchedules[deleteItem].status) {
           this.existSchedules.splice(deleteItem, 1);
           /// call delete api

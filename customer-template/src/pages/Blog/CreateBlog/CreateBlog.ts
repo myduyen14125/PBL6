@@ -97,8 +97,6 @@ export default defineComponent({
     };
 
     const submitContent = () => {
-      console.log(form.value);
-
       if (!validateForm()) return;
       if (props?.id) {
         editBlog();

@@ -51,7 +51,6 @@ export default defineComponent({
     };
 
     const deleteBlog = (id: string, blogTitle: string) => {
-      console.log(id);
       SwalPopup.swalDeletePopup(
         "",
         {
