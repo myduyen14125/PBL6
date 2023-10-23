@@ -18,19 +18,24 @@ export default class SwalPopup extends Vue {
   public static swalDeletePopup(
     title: string,
     callback: { onConfirmed?: () => void; onCanceled?: () => void },
-    options: { confirmButtonText?: string; cancelButtonText?: string } | null = null,
+    options: {
+      confirmButtonText?: string;
+      cancelButtonText?: string;
+      html?: string;
+    } | null = null
   ): void {
     Swal.fire({
       text: `${title}`,
       icon: "warning",
+      html: options?.html,
       buttonsStyling: false,
       showCancelButton: true,
       focusCancel: true,
-      confirmButtonText: options?.confirmButtonText || "Yes, delete!",
-      cancelButtonText: options?.cancelButtonText || "No, cancel",
+      confirmButtonText: options?.confirmButtonText || "Xóa",
+      cancelButtonText: options?.cancelButtonText || "Hủy",
       customClass: {
         confirmButton: "btn btn-danger",
-        cancelButton: "btn btn-light btn-active-light-primary",
+        cancelButton: "btn btn-secondary ms-3",
       },
     }).then((result: any) => {
       if (result.isConfirmed) {
@@ -47,7 +52,7 @@ export default class SwalPopup extends Vue {
       confirmButtonText?: string;
       cancelButtonText?: string;
       callback: { onConfirmed?: () => void; onCanceled?: () => void };
-    } | null = null,
+    } | null = null
   ): void {
     Swal.fire({
       text: `${title}`,

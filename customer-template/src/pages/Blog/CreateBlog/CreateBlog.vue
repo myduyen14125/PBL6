@@ -3,7 +3,9 @@
     <div class="container">
       <div class="m-5 p-5">
         <div class="mb-10">
-          <h3 class="title">Tạo bài viết</h3>
+          <h3 class="title">
+            {{ id ? "Chỉnh sửa bài viết" : "Tạo bài viết" }}
+          </h3>
         </div>
         <div>
           <div class="mb-4">
@@ -44,7 +46,7 @@
             type="submit"
             @click="submitContent"
           >
-            Tạo bài viết
+            {{ id ? "Chỉnh sửa bài viết" : "Tạo bài viết" }}
             <span
               v-if="isSubmitting"
               className="spinner-border spinner-border-sm ms-2"

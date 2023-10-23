@@ -61,7 +61,14 @@ const constantRoutes: RouteRecordRaw[] = [
     meta: { requiresAuth: true, role: "mentor" },
   },
   {
-    path: "/my-blog",
+    path: "/edit-blog/:id",
+    name: "EditBlog",
+    component: CreateBlog,
+    meta: { requiresAuth: true, role: "mentor" },
+    props: true,
+  },
+  {
+    path: "/my-blogs",
     name: "MyBlog",
     component: MyBlog,
     meta: { requiresAuth: true, role: "mentor" },

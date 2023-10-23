@@ -121,7 +121,7 @@
             <li v-if="getUserInfo()?.role == 'mentor'">
               <SvgIcon icon="blogIcon" />
               <p class="mb-0 ml-4">
-                <a href="/create-blog">Quản lý blog</a>
+                <a href="/my-blogs">Quản lý blog</a>
               </p>
             </li>
             <li v-if="getUserInfo()?.role == 'mentor'">

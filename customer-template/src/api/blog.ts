@@ -11,3 +11,11 @@ export const createBlog = async (params: CreateBlogParams): Promise<any> =>
 
 export const getBlogById = async (id: string): Promise<any> =>
   httpRequest.get<any>(`/blog/${id}`);
+
+export const deleteBlog = async (id: string): Promise<any> =>
+  httpRequest.delete<any>(`/blog/${id}`);
+
+export const updateBlog = async (
+  id: string,
+  params: CreateBlogParams
+): Promise<any> => httpRequest.patch<any>(`/blog/${id}`, params);

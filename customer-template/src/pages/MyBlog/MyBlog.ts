@@ -2,54 +2,42 @@ import { defineComponent, onMounted, ref } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import SwalPopup from "../../ultils/swalPopup";
 import { useUser } from "../../stores/user";
+import { useBlog } from "../../stores/blog";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
 import { getUserInfo } from "../../ultils/cache/localStorage";
-import { User } from "../../types/auth";
 import { Blog } from "../../types/blog";
+import { GetPaginationParams } from "../../types/mentor";
+import router from "../../router";
 
 export default defineComponent({
   name: "MyBlog",
   components: { GuestLayout, MentorPost },
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+  setup() {
     const userStore = useUser();
+    const blogStore = useBlog();
     const isLoadingBlog = ref(false);
-    const initialUser: User = {
-      email: "",
-      name: "",
-      address: "",
-      phone: "",
-      date_of_birth: "",
-      gender: null,
-      facebook_link: "",
-      skype_link: "",
-    };
-    const initialBlog: Blog = {
-      _id: "",
-      title: "",
-      content: "",
-      user: "",
-    };
-    const userInfo = ref<User>(initialUser);
-    const blogs = ref<Blog>(initialBlog);
+    const blogs = ref<Blog>();
+    const currentPage = ref(1);
+    const totalElement = ref(0);
+    const limit = 8;
 
     onMounted(() => {
       getAllBlogsByMentorId();
     });
+
     const getAllBlogsByMentorId = () => {
       isLoadingBlog.value = true;
-      userStore.requestGetUserInfo({
+      userStore.requestGetUserBlogs({
         id: getUserInfo()._id,
+        params: {
+          page: currentPage.value,
+          limit: limit,
+        } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
-            userInfo.value = res;
-            blogs.value = res.blogs;
             isLoadingBlog.value = false;
+            totalElement.value = res.count;
+            blogs.value = res.blogs;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -62,11 +50,54 @@ export default defineComponent({
       });
     };
 
+    const deleteBlog = (id: string, blogTitle: string) => {
+      console.log(id);
+      SwalPopup.swalDeletePopup(
+        "",
+        {
+          onConfirmed: () => {
+            requestDeleteBlog(id);
+          },
+        },
+        {
+          html:
+            "Bạn có chắc chắn xóa bài viết " +
+            `<span class="color-primary">${blogTitle}</span>` +
+            " ?",
+        }
+      );
+    };
+
+    const editBlog = (id: string) => {
+      router.push(`/edit-blog/${id}`);
+    };
+
+    const requestDeleteBlog = (id: string) => {
+      blogStore.requestDeleteBlog({
+        id: id,
+        callback: {
+          onSuccess: (res) => {
+            getAllBlogsByMentorId();
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
     return {
-      getAllBlogsByMentorId,
-      userInfo,
       blogs,
       isLoadingBlog,
+      currentPage,
+      totalElement,
+      limit,
+      getAllBlogsByMentorId,
+      deleteBlog,
+      editBlog,
     };
   },
 });

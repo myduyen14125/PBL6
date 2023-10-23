@@ -16,7 +16,7 @@
                   <p class="mb-0">
                     {{
                       `Đăng ngày ${
-                        formatDate(blogDetail?.createAt, "DD/MM/YYYY") || ""
+                        formatDate(blogDetail?.createdAt, "DD/MM/YYYY") || ""
                       }`
                     }}
                   </p>
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import SvgIcon from "../../../components/BUI/SvgIcon/SvgIcon.vue";
 import avatar from "../../../assets/image/avatar.png";
 import advertisementImg from "../../../assets/image/advertisement.jpg";
@@ -129,6 +129,13 @@ export default {
       getMentors();
       getBlogDetail();
     });
+
+    watch(
+      () => props.id,
+      (newId, oldId) => {
+        getBlogDetail();
+      }
+    );
 
     const getMentors = () => {
       mentorsStore.requestGetMentors({
