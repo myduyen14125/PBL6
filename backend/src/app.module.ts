@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EventModule } from './event/event.module';
 import { ChatModule } from './chat/chat.module';
 import { AuthModule } from './auth/auth.module';
+import { MediaModule } from './media/media.module';
 
 
 @Module({
@@ -24,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     EventModule,
     ChatModule,
     AuthModule,
+    MediaModule,
   ],
   controllers: [],
   providers: [],
