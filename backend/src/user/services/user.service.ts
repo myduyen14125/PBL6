@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, forwardRef, Inject } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
-import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { User } from '../models/user.model';
 import { BlogService } from 'src/blog/services/blog.service';
@@ -59,6 +59,10 @@ export class UserService {
         return await this.userRepository.findByConditionAndUpdate(filter, update);
     }
 
+    async updateUserInfo(user: User, data: UpdateUserDto) {
+        return await this.userRepository.findByIdAndUpdate(user.id, data);
+    }
+
     private reverse(s) {
         return s.split('').reverse().join('');
     }
@@ -80,29 +84,6 @@ export class UserService {
                 delete userObject.date_of_birth;
                 return userObject
             }
-
-            // const blogs = await this.blogService.getAllBlogsByUserId(id)
-            // const ratings = await this.ratingService.getAllRatingsByUserId(id)
-            // const schedules = await this.scheduleService.getAllSchedulesByUserId(id)
-
-            // await Promise.all(ratings.map(async (rating) => {
-            //     await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
-            // }));
-
-            // if (user) {
-            //     const userObject = user.toObject ? user.toObject() : user;
-
-            //     delete userObject.password;
-            //     delete userObject.refreshToken;
-            //     delete userObject.date_of_birth;
-
-            //     return {
-            //         ...userObject,
-            //         blogs,
-            //         schedules,
-            //         ratings,
-            //     };
-            // }
         } catch (error) {
             console.error(error);
             throw error;
@@ -111,34 +92,6 @@ export class UserService {
 
     async getProfile(user: User) {
         return await this.userRepository.findById(user.id);
-
-        // try {
-        //     if (user.role === "mentee") {
-        //         return await this.userRepository.findById(user.id);
-
-        // const returnUser = await this.userRepository.findById(user.id);
-
-        // const blogs = await this.blogService.getAllBlogsByUserId(user.id)
-
-        // const ratings = await this.ratingService.getAllRatingsByUserId(user.id)
-
-        // await Promise.all(ratings.map(async (rating) => {
-        //     await rating.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
-        // }));
-
-        // if (returnUser) {
-        //     const userObject = user.toObject ? user.toObject() : user;
-
-        //     return {
-        //         ...userObject,
-        //         blogs,
-        //         ratings
-        //     };
-        // }
-        // } catch (error) {
-        //     console.error(error);
-        //     throw error;
-        // }
     }
 
     async getAllMentors(page: number, limit: number = 10) {

@@ -1,8 +1,9 @@
-import { Controller, Get, Req, UseGuards, Param, Query } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards, Param, Query, Patch, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../services/user.service';
 import { PaginationPostDto } from 'src/blog/dto/blog.dto';
 import { PaginationRatingDto } from 'src/rating/dto/rating.dto';
+import { UpdateUserDto } from '../dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -38,6 +39,12 @@ export class UserController {
     @Get(':id/ratings')
     getAllRatingsByUserId(@Param('id') id: string, @Query() { page, limit }: PaginationRatingDto) {
         return this.userService.getAllRatingsByUserId(id, page, limit);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Patch()
+    async updateUserInfo(@Req() req: any, @Body() user: UpdateUserDto) {
+        return this.userService.updateUserInfo(req.user, user);
     }
 
 }
