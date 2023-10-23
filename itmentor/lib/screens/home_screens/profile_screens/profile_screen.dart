@@ -5,17 +5,21 @@ import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/create_post_screen.dart';
 import 'package:itmentor/screens/welcome_screen.dart';
+import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
 import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
+  void signOutUser(BuildContext context) {
+    AuthServices().signOut(context);
+  }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+  // ListTile(
+  //               title: Text(
+  //                   'Ngày Sinh: ${Constants.formatDateString(user.dateOfBirth)}'),
+  //             ),
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -55,8 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 title: Text('Email: ${user.email}'),
               ),
               ListTile(
-                title: Text(
-                    'Ngày Sinh: ${Constants.formatDateString(user.dateOfBirth)}'),
+                title: Text('Ngày Sinh: ${Constants.formatDateString(user.dateOfBirth)}'),
               ),
               ListTile(
                 title: Text('Giới Tính: $genderText'),
@@ -93,17 +96,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const WelcomeScreen(),
-                                ),
-                                (route) => false,
-                              );
+                              signOutUser(context);
                             },
                             child: const Text(
-                              'Yes',
+                              'Có',
                               style: TextStyle(
                                 color: Colors.red,
                               ),
@@ -113,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('No'),
+                            child: const Text('Không'),
                           ),
                         ],
                       );

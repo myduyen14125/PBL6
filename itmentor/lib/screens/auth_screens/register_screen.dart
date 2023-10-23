@@ -43,40 +43,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final AuthServices authServices = AuthServices();
 
-  File? _image;
+  // void signUpUser() {
+  //   authServices.signUpUser(
+  //     context: context,
+  //     email: _emailController.text,
+  //     password: _passwordController.text,
+  //     name: _nameController.text,
+  //     gender: isMale == true ? true : false,
+  //     phone: _phoneController.text,
+  //     avatar: '',
+  //     dateOfBirth: selectedDate.toString(),
+  //     role: isMentor == true ? 'mentor' : 'mentee',
+  //   );
+  // }
 
-  final imagePicker = ImagePicker();
+  bool _isRegistering = false;
 
-  Future getImageFromGallery() async {
-    final image = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
+  void signUpUser() async {
+    setState(() {
+      _isRegistering = true;
+    });
+
+    try {
+      await authServices.signUpUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+        name: _nameController.text,
+        gender: isMale == true ? true : false,
+        phone: _phoneController.text,
+        avatar: '',
+        dateOfBirth: selectedDate.toString(),
+        role: isMentor == true ? 'mentor' : 'mentee',
+      );
+
       setState(() {
-        _image = File(image.path);
+        _isRegistering = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isRegistering = false;
       });
     }
-  }
-
-  Future getImageFromCamera() async {
-    final image = await imagePicker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
-    }
-  }
-
-  void signUpUser() {
-    authServices.signUpUser(
-      context: context,
-      email: _emailController.text,
-      password: _passwordController.text,
-      name: _nameController.text,
-      gender: isMale == true ? true : false,
-      phone: _phoneController.text,
-      avatar: '',
-      dateOfBirth: selectedDate.toString(),
-      role: isMentor == true ? 'mentor' : 'mentee',
-    );
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -362,6 +370,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                   child: TextFormField(
                     controller: _phoneController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -492,6 +501,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ],
                 ),
+                if (_isRegistering) const CircularProgressIndicator(),
                 ElevatedButton(
                   onPressed: isChecked ? submitForm : (() {}),
                   style: ElevatedButton.styleFrom(
