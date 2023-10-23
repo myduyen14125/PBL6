@@ -6,6 +6,7 @@ import { User } from '../models/user.model';
 import { BlogService } from 'src/blog/services/blog.service';
 import { ScheduleService } from 'src/schedule/services/schedule.service';
 import { RatingService } from 'src/rating/services/rating.service';
+import { BioService } from 'src/bio/services/bio.service';
 
 @Injectable()
 export class UserService {
@@ -14,6 +15,7 @@ export class UserService {
         @Inject(forwardRef(() => BlogService)) private readonly blogService: BlogService,
         @Inject(forwardRef(() => ScheduleService)) private readonly scheduleService: ScheduleService,
         @Inject(forwardRef(() => RatingService)) private readonly ratingService: RatingService,
+        @Inject(forwardRef(() => BioService)) private readonly bioService: BioService,
 
     ) { }
 
@@ -30,7 +32,9 @@ export class UserService {
 
         }
 
-        return await this.userRepository.create(userDto)
+        const newUser = await this.userRepository.create(userDto)
+        await this.bioService.createBio(newUser)
+        return newUser
     }
 
     async login({ email, password }: LoginUserDto) {
@@ -82,7 +86,13 @@ export class UserService {
                 delete userObject.password;
                 delete userObject.refreshToken;
                 delete userObject.date_of_birth;
-                return userObject
+
+                const bio = await this.bioService.getUserBio(user.id)
+                const result = {
+                    ...userObject,
+                    bio: bio
+                };
+                return result
             }
         } catch (error) {
             console.error(error);
@@ -91,7 +101,17 @@ export class UserService {
     }
 
     async getProfile(user: User) {
-        return await this.userRepository.findById(user.id);
+
+        const returnUser = await this.userRepository.findById(user.id);
+        const bio = await this.bioService.getUserBio(user.id)
+        const userData = returnUser.toObject();
+        const result = {
+            ...userData,
+            bio: bio
+        };
+
+
+        return result
     }
 
     async getAllMentors(page: number, limit: number = 10) {
