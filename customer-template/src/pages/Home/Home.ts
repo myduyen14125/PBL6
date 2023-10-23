@@ -6,6 +6,7 @@ import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import { useMentors } from "../../stores/mentors";
 import { useBlog } from "./../../stores/blog";
 import SwalPopup from "../../ultils/swalPopup";
+import { GetPaginationParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "Home",
@@ -19,17 +20,18 @@ export default defineComponent({
     const isLoadingBlog = ref(false);
 
     onMounted(() => {
-      getAllMentors();
-      getAllBlogs();
+      getMentors();
+      getBlogs();
     });
 
-    const getAllMentors = () => {
+    const getMentors = () => {
       isLoadingMentor.value = true;
-      mentorsStore.requestGetAllMentors({
+      mentorsStore.requestGetMentors({
+        params: { page: 1, limit: 8 } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
             isLoadingMentor.value = false;
-            mentors.value = res.slice(0, 8);
+            mentors.value = res.mentors;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -42,13 +44,14 @@ export default defineComponent({
       });
     };
 
-    const getAllBlogs = () => {
+    const getBlogs = () => {
       isLoadingBlog.value = true;
-      blogStore.requestGetAllBlogs({
+      blogStore.requestGetBlogs({
+        params: { page: 1, limit: 3 } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
             isLoadingBlog.value = false;
-            blogs.value = res.slice(0, 3);
+            blogs.value = res.blogs;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(

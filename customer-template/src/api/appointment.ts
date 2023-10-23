@@ -5,5 +5,3 @@ export const getAllUserAppointment = async (): Promise<any> =>
 
 export const createAppointment = async (data: any): Promise<any> =>
   httpRequest.post<any>("/appointment", data);
-  
-

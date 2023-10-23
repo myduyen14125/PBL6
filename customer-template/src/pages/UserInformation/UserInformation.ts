@@ -16,6 +16,7 @@ import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import router from "../../router";
 import AppointmentModal from "./element/AppointmentModal/index.vue";
+import { GetPaginationParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "UserInformation",
@@ -32,6 +33,7 @@ export default defineComponent({
     const authStore = useAuth();
     const selectedOption = ref("profile");
     const userInfo = ref();
+    const userBlogs = ref([]);
     const mentors = ref([]);
     const showEdit = getUserInfo()?._id == props.id;
     const appointmentModal: Ref<any> = ref<typeof AppointmentModal | null>(
@@ -40,7 +42,8 @@ export default defineComponent({
 
     onMounted(() => {
       getUserInformation(props.id);
-      getAllMentors();
+      getMentors();
+      getUserBlogs(props.id);
     });
 
     const getUserInformation = (id: string) => {
@@ -60,6 +63,24 @@ export default defineComponent({
       });
     };
 
+    const getUserBlogs = (id: string) => {
+      userStore.requestGetUserBlogs({
+        id: props.id,
+        params: { page: 1, limit: 5 } as GetPaginationParams,
+        callback: {
+          onSuccess: (res) => {
+            userBlogs.value = res.blogs;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
     watch(
       () => props.id,
       (newId, oldId) => {
@@ -67,13 +88,14 @@ export default defineComponent({
       }
     );
 
-    const getAllMentors = () => {
-      mentorsStore.requestGetAllMentors({
+    const getMentors = () => {
+      mentorsStore.requestGetMentors({
+        params: { page: 1, limit: 5 } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
-            mentors.value = res
-              .filter((item: any) => item._id != props?.id)
-              .slice(0, 5);
+            mentors.value = res.mentors.filter(
+              (item: any) => item._id != props?.id
+            );
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -104,6 +126,7 @@ export default defineComponent({
       advertisementImg,
       selectedOption,
       userInfo,
+      userBlogs,
       showEdit,
       mentors,
       router,

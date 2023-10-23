@@ -18,7 +18,7 @@
                   <button class="btn btn-primary !text-lg px-4 py-3 mb-3">
                     Đăng ký tư vấn ngay
                   </button>
-                  <SearchBar @clickSearch="searchMentor" />
+                  <SearchBar @clickSearch="getSearchText" />
                 </div>
               </div>
             </div>
@@ -56,10 +56,16 @@
                 <MentorCard :mentor="mentor"></MentorCard>
               </div>
             </div>
-            <div class="my-5 text-center">
-              <a class="btn btn-primary px-5 border-18" href="/mentors"
-                >Xem thêm</a
-              >
+            <div class="my-5 d-flex" v-if="!isLoading">
+              <el-pagination
+                class="ms-auto"
+                v-model:current-page="currentPage"
+                :page-size="limit"
+                background
+                layout="prev, pager, next"
+                :total="totalElement"
+                @current-change="searchMentor"
+              />
             </div>
           </div>
         </section>

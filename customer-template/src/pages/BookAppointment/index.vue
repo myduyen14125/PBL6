@@ -3,8 +3,14 @@
     <div class="appointment-wrapper">
       <div class="container py-14 text-lg">
         <div class="progress">
-          <div class="progress-bar background-primary progress-bar-striped" role="progressbar" style="width: 25%"
-            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+          <div
+            class="progress-bar background-primary progress-bar-striped"
+            role="progressbar"
+            style="width: 25%"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
             25%
           </div>
         </div>
@@ -13,26 +19,28 @@
           <h5 class="color-primary mb-0">Chọn thời gian</h5>
         </div>
         <div class="calendar-wrapper">
-          <FullCalendar :options="calendarOptions" class="full-calendar"/>
+          <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
         <div class="d-flex justify-content-center mt-5 gap-4">
           <span style="color: red">Lịch chọn: {{ selectedScheduleId }}</span>
           <button class="btn btn-primary btn-lg">Tiếp tục</button>
-          <button class="btn btn-primary btn-lg" @click="bookAppointment">Đặt lịch</button>
+          <button class="btn btn-primary btn-lg" @click="bookAppointment">
+            Đặt lịch
+          </button>
         </div>
       </div>
-    </div>  
+    </div>
   </GuestLayout>
 </template>
 
 <script>
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
-import FullCalendar from '@fullcalendar/vue3'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import { useUser } from "../../stores/user";
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { useSchedule } from "../../stores/schedule";
 import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
 
@@ -48,40 +56,37 @@ export default {
     return {
       calendarOptions: {
         plugins: [timeGridPlugin, interactionPlugin],
-        initialView: 'timeGridWeek',
+        initialView: "timeGridWeek",
         headerToolbar: {
-          left: 'prev,next',
-          center: 'title',
-          right: 'timeGridWeek,timeGridDay' // user can switch between the two
+          left: "prev,next",
+          center: "title",
+          right: "timeGridWeek,timeGridDay", // user can switch between the two
         },
         dateClick: this.handleDateClick,
         eventClick: this.handleSelectSchedule,
         events: [],
-        slotDuration: '00:30:00',
+        slotDuration: "00:30:00",
         slotMinTime: "06:00:00",
         slotMaxTime: "24:00:00",
       },
-      userInfo: {},
       userSchedules: [],
       selectedScheduleId: {},
-    }
+    };
   },
   methods: {
     handleDateClick: function (arg) {
-      alert('date click! ' + arg.dateStr)
+      alert("date click! " + arg.dateStr);
     },
     handleSelectSchedule: function (arg) {
-      alert('event click! ' + arg.event.id + ' ' + arg.event.startStr)
+      alert("event click! " + arg.event.id + " " + arg.event.startStr);
       this.selectedScheduleId = arg.event.id;
     },
     getUserInformation: function () {
-      const userStore = useUser();
-      userStore.requestGetUserInfo({
-        id: this.id,
+      const scheduleStore = useSchedule();
+      scheduleStore.requestGetMySchedules({
         callback: {
           onSuccess: (res) => {
-            this.userInfo = res;
-            this.userSchedules = this.userInfo.schedules;
+            this.userSchedules = res;
             this.setUserSchedules();
           },
           onFailure: () => {
@@ -113,10 +118,7 @@ export default {
         },
         callback: {
           onSuccess: (res) => {
-            SwalPopup.swalResultPopup(
-              "Đặt lịch thành công",
-              "success"
-            );
+            SwalPopup.swalResultPopup("Đặt lịch thành công", "success");
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -126,12 +128,12 @@ export default {
           },
         },
       });
-    }
+    },
   },
   async mounted() {
     await this.getUserInformation();
     this.setUserSchedules();
-  }
+  },
 };
 </script>
 
