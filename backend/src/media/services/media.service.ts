@@ -59,6 +59,8 @@ export class MediaService {
         const name = arr_name.join('.');
         const key = objectId + '/' + this.slug(name) + '.' + extension;
         const url = await this.uploadS3(file.buffer, key, file.mimetype);
+        const cleanUrl = (url as string).split('?')[0];
+
         const data = {
             _id: objectId,
             name: name,
@@ -68,7 +70,7 @@ export class MediaService {
             key: key,
         };
         await this.mediaRepository.create(data);
-        return { url };
+        return { url: cleanUrl };
     }
 
 
