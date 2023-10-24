@@ -26,7 +26,7 @@ export class MediaService {
         return s3.getSignedUrl('getObject', {
             Key: media_key,
             Bucket: this.publicBucketName,
-            Expires: 60 * 60 * 12,
+            Expires: 60 * 60 * 24 * 365,
         });
     }
 
