@@ -11,6 +11,7 @@ import { EventModule } from './event/event.module';
 import { ChatModule } from './chat/chat.module';
 import { AuthModule } from './auth/auth.module';
 import { MediaModule } from './media/media.module';
+import { ExpertiseModule } from './expertise/expertise.module';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { MediaModule } from './media/media.module';
     ChatModule,
     AuthModule,
     MediaModule,
+    ExpertiseModule,
   ],
   controllers: [],
   providers: [],

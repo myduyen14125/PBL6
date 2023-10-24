@@ -64,7 +64,10 @@ export class UserService {
     }
 
     async updateUserInfo(user: User, data: UpdateUserDto) {
-        return await this.userRepository.findByIdAndUpdate(user.id, data);
+        if (user.role === 'mentee') {
+            delete data.expertise;
+        }
+        return (await this.userRepository.findByIdAndUpdate(user.id, data)).populate({ path: 'expertise', select: 'name' });
     }
 
     private reverse(s) {
@@ -81,6 +84,7 @@ export class UserService {
         try {
             const user = await this.userRepository.findById(id);
             if (user) {
+                await user.populate({ path: 'expertise', select: 'name' })
                 const userObject = user.toObject ? user.toObject() : user;
 
                 delete userObject.password;
@@ -103,6 +107,7 @@ export class UserService {
     async getProfile(user: User) {
 
         const returnUser = await this.userRepository.findById(user.id);
+        await returnUser.populate({ path: 'expertise', select: 'name' })
         const bio = await this.bioService.getUserBio(user.id)
         const userData = returnUser.toObject();
         const result = {
@@ -127,15 +132,17 @@ export class UserService {
                 skip: (page - 1) * limit,
                 limit: limit
             },
+            { path: 'expertise', select: 'name' },
         );
 
         return { count, countPage, mentors }
     }
 
-    async searchMentor(keyword: string, page: number, limit: number = 10) {
+    async searchMentor(keyword: string, keyword2: string, page: number, limit: number = 10) {
         const count = await this.userRepository.countDocuments({
             role: 'mentor',
             name: { $regex: new RegExp(keyword, 'i') },
+            expertise: keyword2
         },)
         const countPage = Math.ceil(count / limit)
 
@@ -143,6 +150,7 @@ export class UserService {
             {
                 role: 'mentor',
                 name: { $regex: new RegExp(keyword, 'i') },
+                expertise: keyword2
             },
             ['name', 'avatar', 'email', 'gender', 'phone', 'number_of_mentees'],
             {
@@ -152,6 +160,7 @@ export class UserService {
                 skip: (page - 1) * limit,
                 limit: limit
             },
+            { path: 'expertise', select: 'name' }
         );
 
         return { count, countPage, mentors }
