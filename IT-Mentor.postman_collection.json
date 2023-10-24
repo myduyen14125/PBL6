@@ -201,7 +201,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"danghoaiphuong@gmail.com\",\r\n    \"password\": \"danghoaiphuong\",\r\n    \"name\": \"danghoaiphuong\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"1999-11-11\",\r\n    \"avatar\": \"blank\",\r\n    \"role\": \"mentor\"\r\n}",
+							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"tiendatphan21\",\r\n    \"name\": \"Mentor Dat Fake\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"avatar\": \"blank\",\r\n    \"role\": \"mentor\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -602,14 +602,14 @@
 					"response": []
 				},
 				{
-					"name": "Create Appointment",
+					"name": "Book Appointment",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZXRlc3QxQGdtYWlsLmNvbSIsImlhdCI6MTY5Nzg5Nzk1MCwiZXhwIjoxNjk3OTAwNTQyfQ.knDJkUiXZqTMoC3L_md_dOe44Bub7c9CSnuEC5uyZY4",
+									"value": "{{mentee}}",
 									"type": "string"
 								}
 							]
@@ -618,7 +618,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mentor\": \"6533dd7a14b70faf5d768e2d\",\r\n    \"schedule\": \"6533e02714b70faf5d768e77\",\r\n    \"note\": \"comfirmit\"\r\n}",
+							"raw": "{\r\n    \"mentor\": \"6537803f0a03d311350aca11\",\r\n    \"schedule\": \"653784e9e0a958dc3253b962\",\r\n    \"note\": \"Confirm it now\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -638,14 +638,14 @@
 					"response": []
 				},
 				{
-					"name": "Update Appointment",
+					"name": "Cancel Appointment",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3ODk3ODYwLCJleHAiOjE2OTc5MDA0NTJ9.5el7Xekszlf_xrXOR5AyhAutm2lyWObsQlLJQLpoKr4",
+									"value": "{{mentee}}",
 									"type": "string"
 								}
 							]
@@ -654,7 +654,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"note\": \"hi again\",\r\n    \"status\": \"finished\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -662,13 +662,90 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment/6533e04e14b70faf5d768e7d",
+							"raw": "{{host}}/appointment/653788032f302fd52778ee4a/cancel",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
-								"6533e04e14b70faf5d768e7d"
+								"653788032f302fd52778ee4a",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/65378a6d7c6574e9bafd4f55/confirm",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"65378a6d7c6574e9bafd4f55",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finished Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/65378a6d7c6574e9bafd4f55/finish",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"65378a6d7c6574e9bafd4f55",
+								"finish"
 							]
 						}
 					},
@@ -771,7 +848,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3ODk3ODYwLCJleHAiOjE2OTc5MDA0NTJ9.5el7Xekszlf_xrXOR5AyhAutm2lyWObsQlLJQLpoKr4",
+									"value": "{{mentor}}",
 									"type": "string"
 								}
 							]
@@ -780,7 +857,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"start_at\": \"2023-10-10\",\r\n    \"end_at\": \"2023-10-18\"\r\n}",
+							"raw": "{\r\n    \"start_at\": \"2023-10-24T16:00:00\",\r\n    \"end_at\": \"2023-10-24T16:30:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
