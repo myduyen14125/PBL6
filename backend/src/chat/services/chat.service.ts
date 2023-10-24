@@ -3,11 +3,13 @@ import { User } from "src/user/models/user.model";
 import { ChatRepository } from "../repositories/chat.repository";
 import { CreateChatDto } from "../dto/chat.dto";
 import { MessageRepository } from "../repositories/message.repository";
+import { EventGateway } from "src/event/event.gateway";
 
 @Injectable()
 export class ChatService {
     constructor(private readonly chatRepository: ChatRepository,
-        private readonly messageRepository: MessageRepository
+        private readonly messageRepository: MessageRepository,
+        private eventGateway: EventGateway,
     ) { }
 
 
@@ -60,5 +62,22 @@ export class ChatService {
             null, null,
             { path: 'sender', select: 'name avatar' })
         return messages
+    }
+
+
+    // seen status
+    async setSeenLatestMessage(user: User, id: string) {
+        const chatCheck = await this.chatRepository.findById(id)
+        const isParticipant = chatCheck.participants.some(participant => participant._id.toString() === user._id.toString());
+        if (!isParticipant) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+
+        // must be other user
+
+        const chat = await this.chatRepository.findByIdAndUpdate(id, {
+            seen: true
+        })
+
+        this.eventGateway.seenStatus(chat)
+        return chat
     }
 }

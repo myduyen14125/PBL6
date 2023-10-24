@@ -11,6 +11,7 @@ import { ServerToClientEvents } from './types/event';
 import { Message } from 'src/chat/models/message.model';
 import { WsJwtAuthGuard } from 'src/auth/ws-jwt.guard';
 import { SocketAuthMiddleware } from 'src/auth/ws.mw';
+import { Chat } from 'src/chat/models/chat.model';
 
 @WebSocketGateway({ namespace: 'event' })
 // @UseGuards(WsJwtAuthGuard)
@@ -32,5 +33,9 @@ export class EventGateway {
 
   sendNewMessage(message: Message) {
     this.server.emit('newMessage', message)
+  }
+
+  seenStatus(chat: Chat) {
+    this.server.emit('seenStatus', chat)
   }
 }
