@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"danghoaiphuong@gmail.com\",\r\n    \"password\": \"danghoaiphuong\"\r\n}",
+							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"tiendatphan21\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1048,7 +1048,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3ODczMzg3LCJleHAiOjE2OTc4NzU5Nzl9.mW-aJ4DnQR3Nlz6-9FAZ1eOVhFbk3cJJ_gt0aaRCU7k",
+									"value": "{{mentor}}",
 									"type": "string"
 								}
 							]
@@ -1057,7 +1057,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"participants\": [\r\n        \"652815af6722878fba963460\",\r\n        \"6521732790bfeee1ba56f620\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"participants\": [\r\n        \"6537803f0a03d311350aca11\",\r\n        \"65377bcec525b0308f3aa4d2\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1071,6 +1071,43 @@
 							],
 							"path": [
 								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Seen Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/chat/6537e6debeb2022c4114e2af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"chat",
+								"6537e6debeb2022c4114e2af"
 							]
 						}
 					},
@@ -1156,14 +1193,14 @@
 					"response": []
 				},
 				{
-					"name": "Create Message",
+					"name": "Send Message",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTUzNDMzLCJleHAiOjE2OTc5NTYwMjV9.Ed2hW_R-HHShIniCVGpRV9CzoKf6zsTZoavwKfyOfRE",
+									"value": "{{mentor}}",
 									"type": "string"
 								}
 							]
@@ -1172,7 +1209,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"text\": \"hi tthis is new\",\r\n    \"chat\": \"653381ab8a2be128ee964694\"\r\n}",
+							"raw": "{\r\n    \"text\": \"This is your mentor\",\r\n    \"chat\": \"6537e6debeb2022c4114e2af\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
