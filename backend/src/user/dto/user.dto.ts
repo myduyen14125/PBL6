@@ -29,6 +29,8 @@ export class CreateUserDto {
 
     facebook_link: string;
     skype_link: string;
+    expertise: string;
+
 
 }
 
@@ -54,4 +56,5 @@ export class UpdateUserDto {
     gender: boolean;
     facebook_link: string;
     skype_link: string;
+    expertise: string;
 }
