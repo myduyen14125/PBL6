@@ -18,5 +18,6 @@ import { ConfigModule } from '@nestjs/config';
     ],
     controllers: [MediaController],
     providers: [MediaService, MediaRepository],
+    exports: [MediaService]
 })
 export class MediaModule { }

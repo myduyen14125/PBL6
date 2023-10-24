@@ -1,8 +1,9 @@
-import { Controller, Get, Req, UseGuards, Param, Query, Patch, Body } from '@nestjs/common';
+import { Controller, UseInterceptors, Get, Req, UseGuards, Param, Query, UploadedFile, Patch, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../services/user.service';
 import { PaginationPostDto } from 'src/blog/dto/blog.dto';
 import { PaginationRatingDto } from 'src/rating/dto/rating.dto';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { UpdateUserDto } from '../dto/user.dto';
 
 @Controller('user')
@@ -45,6 +46,13 @@ export class UserController {
     @Patch()
     async updateUserInfo(@Req() req: any, @Body() user: UpdateUserDto) {
         return this.userService.updateUserInfo(req.user, user);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Patch('update-avatar')
+    @UseInterceptors(FileInterceptor('avatar'))
+    async updateUserAvatar(@Req() req: any, @UploadedFile() file) {
+        return this.userService.updateAvatar(req.user, file);
     }
 
 }
