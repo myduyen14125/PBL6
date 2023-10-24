@@ -7,6 +7,7 @@ import { BlogService } from 'src/blog/services/blog.service';
 import { ScheduleService } from 'src/schedule/services/schedule.service';
 import { RatingService } from 'src/rating/services/rating.service';
 import { BioService } from 'src/bio/services/bio.service';
+import { MediaService } from 'src/media/services/media.service';
 
 @Injectable()
 export class UserService {
@@ -16,6 +17,8 @@ export class UserService {
         @Inject(forwardRef(() => ScheduleService)) private readonly scheduleService: ScheduleService,
         @Inject(forwardRef(() => RatingService)) private readonly ratingService: RatingService,
         @Inject(forwardRef(() => BioService)) private readonly bioService: BioService,
+        @Inject(forwardRef(() => MediaService)) private readonly mediaService: MediaService,
+
 
     ) { }
 
@@ -214,6 +217,13 @@ export class UserService {
         }
 
         return user;
+    }
+
+    async updateAvatar(user: User, file) {
+        const avatar = await this.mediaService.upload(file)
+        return await this.userRepository.findByIdAndUpdate(user.id, {
+            avatar: avatar.url
+        })
     }
 
 }

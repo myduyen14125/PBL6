@@ -16,6 +16,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { AppointmentModule } from 'src/appointment/appointment.module';
 import { RatingModule } from 'src/rating/rating.module';
 import { BioModule } from 'src/bio/bio.module';
+import { MediaModule } from 'src/media/media.module';
 
 @Module({
     imports: [
@@ -43,6 +44,7 @@ import { BioModule } from 'src/bio/bio.module';
             inject: [ConfigService]
         }),
         forwardRef(() => BioModule),
+        forwardRef(() => MediaModule),
         forwardRef(() => BlogModule),
         forwardRef(() => ScheduleModule),
         forwardRef(() => RatingModule),

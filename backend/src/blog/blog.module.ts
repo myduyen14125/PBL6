@@ -8,6 +8,7 @@ import { UserModule } from 'src/user/user.module';
 import { ScheduleModule } from 'src/schedule/schedule.module';
 import { RatingModule } from 'src/rating/rating.module';
 import { AppointmentModule } from 'src/appointment/appointment.module';
+import { MediaModule } from 'src/media/media.module';
 
 @Module({
     imports: [
@@ -18,7 +19,7 @@ import { AppointmentModule } from 'src/appointment/appointment.module';
             }
         ]),
         forwardRef(() => UserModule),
-        // forwardRef(() => BlogModule),
+        forwardRef(() => MediaModule),
         forwardRef(() => ScheduleModule),
         forwardRef(() => RatingModule),
         forwardRef(() => BlogModule),

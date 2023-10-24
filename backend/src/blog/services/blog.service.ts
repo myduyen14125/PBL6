@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
 import { User } from 'src/user/models/user.model';
 import { BlogRepository } from '../repositories/blog.repository';
+import { MediaService } from 'src/media/services/media.service';
 
 @Injectable()
 export class BlogService {
     constructor(
         private readonly blogRepository: BlogRepository,
+        @Inject(forwardRef(() => MediaService)) private readonly mediaService: MediaService,
+
     ) { }
 
     async getAllBlogs(page: number, limit: number = 10) {
@@ -45,8 +48,12 @@ export class BlogService {
         }
     }
 
-    async createBlog(user: User, blog: CreateBlogDto) {
+    async createBlog(user: User, file, blog: CreateBlogDto) {
+        const image = await this.mediaService.upload(file)
         blog.user = user.id;
+        blog.image = String(image.url)
+        // console.log(String(image.url));
+
         const newBlog = await this.blogRepository.create(blog)
         return newBlog.populate({ path: 'user', select: 'name avatar email role number_of_mentees' })
 

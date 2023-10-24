@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"gen1mentee1@gmail.com\",\r\n    \"password\": \"gen1mentee1\"\r\n}",
+							"raw": "{\r\n    \"email\": \"danghoaiphuong@gmail.com\",\r\n    \"password\": \"danghoaiphuong\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -100,7 +100,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"expertise\": \"6536b3c642d7d685c6ea8f35\",\r\n    \"avatar\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65373d568472a9e2c6fb5e12/doge.jpg?AWSAccessKeyId=AKIA56YWDAGDCIPTP34L&Expires=1698162198&Signature=3iuBTh9y9pzi4iAcQKfEFq0ljZE%3D\"\r\n}",
+							"raw": "{\r\n    \"expertise\": \"6536b3c642d7d685c6ea8f35\",\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -114,6 +114,44 @@
 							],
 							"path": [
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODEyMTU3MiwiZXhwIjoxNjk4MTI0MTY0fQ.mzWyLrhtGhZpR-ijtHhZ2lXUo7q4ceYcnCFdbTDdI3Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/PC/Downloads/cat.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/user/update-avatar",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"update-avatar"
 							]
 						}
 					},
@@ -313,7 +351,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODExODkxNSwiZXhwIjoxNjk4MTIxNTA3fQ.YmQEnmok0b2DZDKL6QMqA1Z0JgTBFgyvLWUltPWNGOk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODEyMTU3MiwiZXhwIjoxNjk4MTI0MTY0fQ.mzWyLrhtGhZpR-ijtHhZ2lXUo7q4ceYcnCFdbTDdI3Y",
 									"type": "string"
 								}
 							]
@@ -321,13 +359,24 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"This is my first blog\",\r\n    \"content\": \"Content of its\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65373d568472a9e2c6fb5e12/doge.jpg?AWSAccessKeyId=AKIA56YWDAGDCIPTP34L&Expires=1698162198&Signature=3iuBTh9y9pzi4iAcQKfEFq0ljZE%3D\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "C# By DHP",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Code 123",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/PC/Downloads/cat.png"
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{host}}/blog",
