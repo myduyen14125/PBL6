@@ -8,6 +8,7 @@ import { ScheduleService } from 'src/schedule/services/schedule.service';
 import { RatingService } from 'src/rating/services/rating.service';
 import { BioService } from 'src/bio/services/bio.service';
 import { MediaService } from 'src/media/services/media.service';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UserService {
@@ -18,6 +19,7 @@ export class UserService {
         @Inject(forwardRef(() => RatingService)) private readonly ratingService: RatingService,
         @Inject(forwardRef(() => BioService)) private readonly bioService: BioService,
         @Inject(forwardRef(() => MediaService)) private readonly mediaService: MediaService,
+        private mailerService: MailerService
 
 
     ) { }
@@ -37,6 +39,16 @@ export class UserService {
 
         const newUser = await this.userRepository.create(userDto)
         await this.bioService.createBio(newUser)
+
+        await this.mailerService.sendMail({
+            to: userDto.email,
+            subject: 'Welcome to IT-Mentor Community!',
+            template: `./register`,
+            context: {
+                name: userDto.name
+            }
+        })
+
         return newUser
     }
 
