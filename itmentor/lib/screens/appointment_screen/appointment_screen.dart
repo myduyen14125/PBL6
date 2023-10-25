@@ -47,6 +47,56 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     fetchData(widget.user);
   }
 
+  Future<void> deleteAppointment(String appointmentId) async {
+    final apiUrl =
+        Uri.https(Constants.uri, '/appointment/$appointmentId/cancel');
+    final headers = {
+      'Content-Length': '0',
+      'Connection': 'keep-alive',
+      'Authorization': 'Bearer ${widget.user.accessToken}',
+    };
+
+    final response = await http.patch(apiUrl, headers: headers);
+
+    if (response.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Blog deleted successfully'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Failed'),
+            content: Text('Delete fail'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -67,56 +117,79 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       DateTime.parse(appointment['schedule']['end_at']);
                   final status = appointment['status'];
                   final appointmentId = appointment['_id'];
-                  print('appointment id: ${appointmentId}');
-                  print("mentorName: $mentorName");
 
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: ((context) {
-                            return AppointmentDetailScreen(
-                              accessToken: user.accessToken,
-                              scheduleId: appointmentId,
-                            );
-                          }),
-                        ),
-                      );
+                  return Dismissible(
+                    key: UniqueKey(),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    secondaryBackground: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (direction) {
+                      if (direction == DismissDirection.endToStart) {
+                        // Handle delete API call here
+                        deleteAppointment(appointmentId);
+                        // Remove the appointment from the list
+                        setState(() {
+                          appointments.removeAt(index);
+                        });
+                      }
                     },
-                    child: Card(
-                      margin: const EdgeInsets.all(10),
-                      elevation: 4,
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(16),
-                        tileColor: Colors.white,
-                        title: Text(
-                          'Mentor: $mentorName',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: ((context) {
+                              return AppointmentDetailScreen(
+                                accessToken: user.accessToken,
+                                scheduleId: appointmentId,
+                              );
+                            }),
                           ),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Start Date: ${DateFormat('dd/MM/yyyy').format(startAt)}',
-                              style: const TextStyle(fontSize: 16),
+                        );
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.all(10),
+                        elevation: 4,
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(16),
+                          tileColor: Colors.white,
+                          title: Text(
+                            'Mentor: $mentorName',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              'End Date: ${DateFormat('dd/MM/yyyy').format(endAt)}',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            Text(
-                              'Status: $status',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: status == 'pending'
-                                    ? Colors.orange
-                                    : Colors.green,
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Start Date: ${DateFormat('dd/MM/yyyy').format(startAt)}',
+                                style: const TextStyle(fontSize: 16),
                               ),
-                            ),
-                          ],
+                              Text(
+                                'End Date: ${DateFormat('dd/MM/yyyy').format(endAt)}',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                'Status: $status',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: status == 'pending'
+                                      ? Colors.orange
+                                      : Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -22,28 +22,61 @@ class _CreateBlogState extends State<CreateBlog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  Future<void> createBlogPost(
-      BuildContext ctx, User user, String title, String content) async {
-    final uri = Uri.https(Constants.uri, '/blog');
+  Future<void> createBlog(User user) async {
+    final url = Uri.https(Constants.uri, '/blog');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${user.accessToken}'
+    };
+    final body = jsonEncode({
+      'title': _titleController.text,
+      'content': _contentController.text,
+    });
 
-    final Map<String, dynamic> data = {"title": title, "content": content};
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Connection': 'keep-alive',
-        'Authorization': 'Bearer ${user.accessToken}'
-      },
-      body: jsonEncode(data),
-    );
+    final response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 201) {
-      print('Bài viết đã được tạo thành công.');
-      showSnackBar(ctx, 'Bài viết đã được tạo thành công');
+      // Blog post created successfully
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Blog post created successfully'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      setState(() {
+        _titleController.text = '';
+        _contentController.text = '';
+      });
     } else {
-      print(
-          'Có lỗi xảy ra khi tạo bài viết. Mã trạng thái: ${response.statusCode}');
-      print('Nội dung lỗi: ${response.body}');
+      // Handle error
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to create the blog post'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -51,33 +84,29 @@ class _CreateBlogState extends State<CreateBlog> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
-      body: SingleChildScrollView(
+      appBar: AppBar(
+        title: Text('Create Blog Post'),
+      ),
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Tiêu đề bài viết'),
+              decoration: InputDecoration(labelText: 'Title'),
             ),
-            const SizedBox(height: 20),
             TextFormField(
               controller: _contentController,
-              decoration: const InputDecoration(labelText: 'Nội dung'),
+              decoration: InputDecoration(labelText: 'Content'),
             ),
-            const SizedBox(height: 20),
+            SizedBox(
+              height: 20.0,
+            ),
             ElevatedButton(
               onPressed: () {
-                // Xử lý thông tin sau khi người dùng nhấn nút
-                String title = _titleController.text;
-                String content = _contentController.text;
-                // Thực hiện xử lý thông tin ở đây
-                print('Tên: $title');
-                print('Email: $content');
-
-                createBlogPost(context, user, title, content);
+                createBlog(user);
               },
-              child: const Text('Lưu'),
+              child: Text('Create Blog'),
             ),
           ],
         ),

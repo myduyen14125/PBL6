@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/blog_detail_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class AllBlogsScreen extends StatefulWidget {
   @override
@@ -12,41 +14,11 @@ class _BlogScreenState extends State<AllBlogsScreen> {
   late Future<List<dynamic>> blogs;
   final AuthServices authServices = AuthServices();
 
-  Future<void> deleteBlogPost(String blogId) async {
-    final apiUrl = Uri.http('localhost:5000', '/blog/$blogId');
-
-    try {
-      final response = await http.delete(
-        apiUrl,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          // Thêm các header khác nếu cần thiết
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // Xóa thành công, thực hiện xử lý sau khi xóa nếu cần
-        print('Bài viết đã được xóa thành công.');
-      } else {
-        // Xóa không thành công, xử lý lỗi nếu cần
-        print(
-            'Có lỗi xảy ra khi xóa bài viết. Mã trạng thái: ${response.statusCode}');
-        print('Nội dung lỗi: ${response.body}');
-      }
-    } catch (e) {
-      // Xử lý lỗi nếu có
-      print('Đã xảy ra lỗi: $e');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    blogs = authServices.fetchBlogs();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
+    blogs = authServices.fetchBlogs(user);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -82,10 +54,11 @@ class _BlogScreenState extends State<AllBlogsScreen> {
                       itemCount: blogsData!.length,
                       itemBuilder: (context, index) {
                         final blog = blogsData[index];
+                        final avatarUrl = blog['user']['avatar'];
                         return GestureDetector(
                           onTap: () {
                             print('item clicked');
-                            print(blog['title']);
+                            print(blog['_id']);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -95,36 +68,21 @@ class _BlogScreenState extends State<AllBlogsScreen> {
                               ),
                             );
                           },
-                          child: Dismissible(
-                            key: UniqueKey(),
-                            direction: DismissDirection.horizontal,
-                            background: Container(
-                              color: Colors.red,
-                              child: const Center(
-                                child: Text(
-                                  'Delete',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            onDismissed: (direction) {
-                              // Xoá blog khỏi danh sách
-                            },
-                            child: Card(
+                          child: Card(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
                               child: ListTile(
-                                leading: blog['user']['gender']
-                                    ? Image.asset(
-                                        'assets/images/male_avatar.jpg')
-                                    : Image.asset(
-                                        'assets/images/female_avatar.png'),
+                                leading: Image.asset(
+                                  'assets/images/female_avatar.png',
+                                  width: 48, 
+                                  height: 48, 
+                                ),
                                 title: Text(blog['title']),
                                 subtitle: Text(
-                                    '${blog['content']}\nWritten by ${blog['user']['name']}'),
-                              ),
-                            ),
-                          ),
+                                  '${blog['content']}\nWritten by ${blog['user']['name']}',
+                                ),
+                              )),
                         );
                       },
                     );

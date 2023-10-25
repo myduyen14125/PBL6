@@ -13,8 +13,9 @@ import 'package:provider/provider.dart';
 class ChooseScheduleDetailScreen extends StatefulWidget {
   final String mentorId;
   final String scheduleId;
+  final String mentorName;
   const ChooseScheduleDetailScreen(
-      {super.key, required this.mentorId, required this.scheduleId});
+      {super.key, required this.mentorId, required this.scheduleId, required this.mentorName});
 
   @override
   State<ChooseScheduleDetailScreen> createState() =>
@@ -113,9 +114,9 @@ class _ChooseScheduleDetailScreenState
                       ),
                     ],
                   ),
-                  const ListTile(
+                  ListTile(
                     leading: Icon(Icons.star),
-                    title: Text('mentor'),
+                    title: Text(widget.mentorName),
                     subtitle: Text('Chief Technology Officer tại Mentori'),
                   ),
                 ],

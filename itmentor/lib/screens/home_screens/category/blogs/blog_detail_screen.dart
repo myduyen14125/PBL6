@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:itmentor/utils/constant.dart';
+
+import 'package:flutter/material.dart';
 
 class BlogDetailScreen extends StatefulWidget {
   final String blogId;
@@ -17,7 +21,12 @@ class BlogDetailScreen extends StatefulWidget {
 class _BlogDetailScreenState extends State<BlogDetailScreen> {
   String title = '';
   String content = '';
-  bool isLoading = true; // Biến kiểm soát hiển thị "Loading" widget
+  bool isLoading = true;
+
+  String blogImage = '';
+  String authorName = '';
+  String authorAvatar = '';
+  String createdAt = '';
 
   Future<void> getBlogDetail(String blogId) async {
     final apiUrl = Uri.https(Constants.uri, '/blog/$blogId');
@@ -27,7 +36,6 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
         apiUrl,
         headers: <String, String>{
           'Content-Type': 'application/json',
-          // Thêm các header khác nếu cần thiết
         },
       );
 
@@ -36,10 +44,18 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
         final blogTitle = responseData['title'];
         final blogContent = responseData['content'];
 
+        print("blog detail: $responseData");
+
         setState(() {
           title = blogTitle;
           content = blogContent;
-          isLoading = false; // Tắt hiển thị "Loading" khi load xong
+          // blogImage = responseData['image'];
+          var user = responseData['user'];
+          authorName = user['name'];
+          // authorAvatar = user['avatar'];
+          createdAt = responseData['createdAt'];
+          isLoading = false;
+          // print("author avatar: ${user['avatar']}");
         });
       } else {
         print(
@@ -64,42 +80,95 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
         child: Stack(
           children: [
             SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: (() {
-                            Navigator.pop(context);
-                          }),
-                          icon: const Icon(Icons.arrow_back),
-                        ),
-                        const Expanded(
-                          child: Center(
-                            child: Text(
-                              'Chi tiết blog',
-                              style: TextStyle(fontSize: 20),
-                            ),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back),
+                      ),
+                      const Expanded(
+                        child: Center(
+                          child: Text(
+                            'Chi tiết blog',
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(
-                      height: 100,
+                  ),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    authorName,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
                     ),
-                    Text('$title'),
-                    Text('$content'),
-                  ],
-                ),
+                  ),
+                  Text(
+                    createdAt,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  // Image.network(
+                  //   blogImage,
+                  //   width: double.infinity, // Set the width to fill the screen
+                  //   height: 200, // Set the desired height
+                  //   fit: BoxFit.cover, // Adjust the fit as needed
+                  // ),
+                  // CachedNetworkImage(
+                  //   imageUrl: blogImage,
+                  //   placeholder: (context, url) =>
+                  //       new CircularProgressIndicator(),
+                  //   errorWidget: (context, url, error) => new Icon(Icons.error),
+                  // ),
+                  // FadeInImage(
+                  //   image: NetworkImage(blogImage),
+                  //   placeholder: AssetImage("assets/images/female_avatar.png"),
+                  //   imageErrorBuilder: (context, error, stackTrace) {
+                  //     return Image.asset('assets/images/female_avatar.png',
+                  //         fit: BoxFit.fitWidth);
+                  //   },
+                  //   fit: BoxFit.fitWidth,
+                  // ),
+                  const SizedBox(height: 16.0),
+                  // Image.network(
+                  //   authorAvatar,
+                  //   width: 100, // Set the desired width
+                  //   height: 100, // Set the desired height
+                  //   fit: BoxFit.cover, // Adjust the fit as needed
+                  // ),
+                  // CachedNetworkImage(
+                  //   imageUrl: authorAvatar,
+                  //   placeholder: (context, url) =>
+                  //       new CircularProgressIndicator(),
+                  //   errorWidget: (context, url, error) => new Icon(Icons.error),
+                  // ),
+                  const SizedBox(height: 16.0),
+                  Text(content),
+                ],
               ),
             ),
-            // "Loading" widget ở giữa màn hình
             Visibility(
               visible: isLoading,
-              child: Center(
-                child:
-                    CircularProgressIndicator(), // Hoặc bất kỳ widget "Loading" khác
+              child: const Center(
+                child: CircularProgressIndicator(),
               ),
             ),
           ],
@@ -108,4 +177,3 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
     );
   }
 }
-
