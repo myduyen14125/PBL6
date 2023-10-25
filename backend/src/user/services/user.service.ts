@@ -9,6 +9,7 @@ import { RatingService } from 'src/rating/services/rating.service';
 import { BioService } from 'src/bio/services/bio.service';
 import { MediaService } from 'src/media/services/media.service';
 import { MailerService } from '@nestjs-modules/mailer';
+import { query } from 'express';
 
 @Injectable()
 export class UserService {
@@ -154,19 +155,23 @@ export class UserService {
     }
 
     async searchMentor(keyword: string, keyword2: string, page: number, limit: number = 10) {
-        const count = await this.userRepository.countDocuments({
-            role: 'mentor',
-            name: { $regex: new RegExp(keyword, 'i') },
-            expertise: keyword2
-        },)
+        let query: { role: string; name?: { $regex: RegExp }; expertise?: string } = {
+            role: 'mentor'
+        };
+
+        if (keyword) {
+            query.name = { $regex: new RegExp(keyword, 'i') };
+        }
+
+        if (keyword2) {
+            query.expertise = keyword2;
+        }
+
+        const count = await this.userRepository.countDocuments(query)
         const countPage = Math.ceil(count / limit)
 
         const mentors = await this.userRepository.getByCondition(
-            {
-                role: 'mentor',
-                name: { $regex: new RegExp(keyword, 'i') },
-                expertise: keyword2
-            },
+            query,
             ['name', 'avatar', 'email', 'gender', 'phone', 'number_of_mentees'],
             {
                 sort: {
