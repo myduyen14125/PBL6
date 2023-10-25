@@ -20,9 +20,8 @@ export class BlogController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    @UseInterceptors(FileInterceptor('image'))
-    async createBlog(@Req() req: any, @UploadedFile() file, @Body(new ValidationPipe()) post: CreateBlogDto) {
-        return this.blogService.createBlog(req.user, file, post);
+    async createBlog(@Req() req: any, @Body(new ValidationPipe()) post: CreateBlogDto) {
+        return this.blogService.createBlog(req.user, post);
     }
 
 

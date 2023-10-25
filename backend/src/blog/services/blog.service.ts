@@ -48,10 +48,8 @@ export class BlogService {
         }
     }
 
-    async createBlog(user: User, file, blog: CreateBlogDto) {
-        const image = await this.mediaService.upload(file)
+    async createBlog(user: User, blog: CreateBlogDto) {
         blog.user = user.id;
-        blog.image = String(image.url)
         // console.log(String(image.url));
 
         const newBlog = await this.blogRepository.create(blog)
