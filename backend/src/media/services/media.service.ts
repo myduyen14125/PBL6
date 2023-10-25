@@ -33,7 +33,7 @@ export class MediaService {
     async updateACL(media_id) {
         const media = await this.mediaRepository.findById(media_id);
         const s3 = this.getS3();
-        s3.putObjectAcl(
+        s3.upload(
             {
                 Bucket: this.publicBucketName,
                 Key: media.key,
