@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/models/user.dart';
 import 'package:itmentor/providers/user_provider.dart';
+import 'package:itmentor/screens/home_screens/category/blogs/blog_detail_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/schedule/choose_schedule_screen.dart';
 import 'package:itmentor/utils/constant.dart';
 
@@ -21,14 +22,32 @@ class MentorProfileDetail extends StatefulWidget {
 
 class _MentorProfileDetailState extends State<MentorProfileDetail> {
   Map<String, dynamic> userData = {};
-  // late List<dynamic> schedules = [];
-  // late List<dynamic> blogs = [];
+  List<Map<String, dynamic>> blogs = [];
 
   @override
   void initState() {
     super.initState();
     fetchUserData();
+    fetchBlogs();
     print(widget.id);
+  }
+
+  Future<void> fetchBlogs() async {
+    final url = Uri.https(
+        'pbl6-test-production.up.railway.app', '/user/${widget.id}/blogs');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final List<dynamic> blogList = data['blogs'];
+
+      setState(() {
+        blogs = blogList.cast<Map<String, dynamic>>();
+      });
+    } else {
+      throw Exception('Failed to load blogs');
+    }
   }
 
   Future<void> fetchUserData() async {
@@ -39,12 +58,10 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
       final data = json.decode(response.body);
       setState(() {
         userData = data;
-        // schedules = data['schedules'];
-        // blogs = data['blogs'];
+        print('userData: $userData');
       });
       print(data);
       print(data['number_of_mentees']);
-      // print(blogs.length);
     } else {
       throw Exception('Failed to load user data');
     }
@@ -55,9 +72,9 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
     final user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-      body: SafeArea(
-        child: userData.isNotEmpty
-            ? SingleChildScrollView(
+      body: userData.isNotEmpty
+          ? SafeArea(
+              child: SingleChildScrollView(
                 child: Center(
                   child: Column(
                     children: [
@@ -154,17 +171,6 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   Text('Đánh giá'),
                                 ],
                               ),
-                              // Column(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Text(
-                              //       '${blogs.length}',
-                              //       style:
-                              //           TextStyle(fontWeight: FontWeight.bold),
-                              //     ),
-                              //     Text('Số bài đăng'),
-                              //   ],
-                              // ),
                             ],
                           ),
                         ),
@@ -177,14 +183,15 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => ChooseSchedule(
-                              //         mentorId: userData['_id'],
-                              //         schedules: schedules),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChooseSchedule(
+                                    mentorId: userData['_id'],
+                                    mentorName: userData['name'],
+                                  ),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF1369B2),
@@ -205,10 +212,10 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              // todo add onpressed
+                              // Implement the action for the "Yêu thích" button
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey[200],
+                              backgroundColor: Colors.red[100],
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
@@ -218,7 +225,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 Icon(
                                   Icons.favorite,
                                   size: 24,
-                                  color: Colors.black,
+                                  color: Colors.red,
                                 ),
                                 SizedBox(width: 8),
                                 Text(
@@ -230,7 +237,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              // todo add onpressed
+                              // Implement the action for the "Nhắn tin" button
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey[200],
@@ -272,10 +279,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 decoration: const BoxDecoration(
                                   color: Colors.teal,
                                   borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(
-                                        12.0), // Make the bottom-left corner circular
-                                    bottomRight: Radius.circular(
-                                        12.0), // Make the bottom-right corner circular
+                                    bottomLeft: Radius.circular(12.0),
+                                    bottomRight: Radius.circular(12.0),
                                   ),
                                 ),
                                 padding: const EdgeInsets.all(16.0),
@@ -289,13 +294,11 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.all(
-                                    16.0), // Add padding around text
+                                padding: EdgeInsets.all(16.0),
                                 child: Text(
-                                  'Dừng lại là thất bại.',
+                                  'My bio.',
                                   style: TextStyle(
-                                    fontSize:
-                                        18, // You can adjust the font size as needed
+                                    fontSize: 18,
                                   ),
                                 ),
                               ),
@@ -437,9 +440,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 onTap: () {},
                               ),
                               Container(
-                                decoration: BoxDecoration(
-                                  color: Colors
-                                      .teal, // Change the color to your desired color
+                                decoration: const BoxDecoration(
+                                  color: Colors.teal,
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(12.0),
                                     bottomRight: Radius.circular(12.0),
@@ -455,6 +457,64 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   ),
                                 ),
                               ),
+                              ListTile(
+                                leading: const Icon(Icons.star,
+                                    color: Colors.yellow),
+                                title: const Text(
+                                  'Python',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle:
+                                    const Text('Giảng viên\n08/2016 - 02/2017'),
+                                onTap: () {},
+                              ),
+                              Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.teal,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(12.0),
+                                    bottomRight: Radius.circular(12.0),
+                                  ),
+                                ),
+                                padding: EdgeInsets.all(16.0),
+                                child: Text(
+                                  'Blogs',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: blogs.length,
+                                itemBuilder: (context, index) {
+                                  final blog = blogs[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: ((context) {
+                                            return BlogDetailScreen(
+                                                blogId: blog['_id']);
+                                          }),
+                                        ),
+                                      );
+                                    },
+                                    child: Card(
+                                      margin: EdgeInsets.all(8),
+                                      child: ListTile(
+                                        title: Text(blog['title']),
+                                        subtitle: Text('${blog['content']}'),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -462,11 +522,11 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                     ],
                   ),
                 ),
-              )
-            : const Center(
-                child: CircularProgressIndicator(),
               ),
-      ),
+            )
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 }

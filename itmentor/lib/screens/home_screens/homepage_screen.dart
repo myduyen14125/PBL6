@@ -7,6 +7,7 @@ import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_scr
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_list_screen.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/profile_screen.dart';
 import 'package:itmentor/screens/home_screens/related_fields_screen.dart';
+import 'package:itmentor/screens/home_screens/search_mentors/search_mentor_screen.dart';
 import 'package:itmentor/utils/constant.dart';
 import 'package:provider/provider.dart';
 
@@ -51,6 +52,7 @@ class _HomepageScreenState extends State<HomepageScreen>
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    print('homepage user: ${user.name}');
 
     return Scaffold(
       body: Container(
@@ -75,32 +77,28 @@ class _HomepageScreenState extends State<HomepageScreen>
                             icon: const Icon(Icons.notifications)),
                         IconButton(
                             onPressed: (() {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: ((context) {
+                                    return SearchMentor();
+                                  }),
+                                ),
+                              );
+                            }),
+                            icon: const Icon(Icons.search)),
+                        IconButton(
+                            onPressed: (() {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ProfileScreen()),
+                                    builder: (context) =>
+                                        const ProfileScreen()),
                               );
-                            }), icon: const Icon(Icons.face)),
+                            }),
+                            icon: const Icon(Icons.face)),
                       ],
                     ),
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: "Tìm Kiếm",
-                      prefixIcon: const Icon(Icons.search, color: Colors.black),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 10.0),
-                    ),
-                  ),
                 ),
                 const SizedBox(
                   height: 10,

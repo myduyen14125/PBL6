@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile_detail.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile/mentor_profile_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/utils.dart';
 

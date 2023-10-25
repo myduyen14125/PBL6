@@ -132,14 +132,25 @@ class AuthServices {
     }
   }
 
-  Future<List<dynamic>> fetchBlogs() async {
+  Future<List<dynamic>> fetchBlogs(User user) async {
+    // final uri = Uri.https(Constants.uri, '/blog');
+    // final response = await http.get(uri);
+    List<dynamic> blogs = [];
+
     final uri = Uri.https(Constants.uri, '/blog');
-    final response = await http.get(uri);
+
+    http.Response response = await http.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${user.accessToken}'
+      },
+    );
 
     if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      print(data);
-      return data;
+      blogs = json.decode(response.body)['blogs'];
+      print(blogs);
+      return blogs;
     } else {
       throw Exception('Failed to load blogs');
     }

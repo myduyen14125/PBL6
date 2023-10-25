@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Constants {
-  static String uri = 'busy-pear-scorpion-garb.cyclic.app';
+  static String uri = 'pbl6-test-production.up.railway.app';
   static const backgroundColor = LinearGradient(
     colors: [
       Color(0xFF18BEBC),
