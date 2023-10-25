@@ -6,6 +6,9 @@ import { User } from '../models/user.model';
 import { BlogService } from 'src/blog/services/blog.service';
 import { ScheduleService } from 'src/schedule/services/schedule.service';
 import { RatingService } from 'src/rating/services/rating.service';
+import { BioService } from 'src/bio/services/bio.service';
+import { MediaService } from 'src/media/services/media.service';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UserService {
@@ -14,6 +17,10 @@ export class UserService {
         @Inject(forwardRef(() => BlogService)) private readonly blogService: BlogService,
         @Inject(forwardRef(() => ScheduleService)) private readonly scheduleService: ScheduleService,
         @Inject(forwardRef(() => RatingService)) private readonly ratingService: RatingService,
+        @Inject(forwardRef(() => BioService)) private readonly bioService: BioService,
+        @Inject(forwardRef(() => MediaService)) private readonly mediaService: MediaService,
+        private mailerService: MailerService
+
 
     ) { }
 
@@ -30,7 +37,19 @@ export class UserService {
 
         }
 
-        return await this.userRepository.create(userDto)
+        const newUser = await this.userRepository.create(userDto)
+        await this.bioService.createBio(newUser)
+
+        await this.mailerService.sendMail({
+            to: userDto.email,
+            subject: 'Welcome to IT-Mentor Community!',
+            template: `./register`,
+            context: {
+                name: userDto.name
+            }
+        })
+
+        return newUser
     }
 
     async login({ email, password }: LoginUserDto) {
@@ -60,7 +79,10 @@ export class UserService {
     }
 
     async updateUserInfo(user: User, data: UpdateUserDto) {
-        return await this.userRepository.findByIdAndUpdate(user.id, data);
+        if (user.role === 'mentee') {
+            delete data.expertise;
+        }
+        return (await this.userRepository.findByIdAndUpdate(user.id, data)).populate({ path: 'expertise', select: 'name' });
     }
 
     private reverse(s) {
@@ -77,12 +99,19 @@ export class UserService {
         try {
             const user = await this.userRepository.findById(id);
             if (user) {
+                await user.populate({ path: 'expertise', select: 'name' })
                 const userObject = user.toObject ? user.toObject() : user;
 
                 delete userObject.password;
                 delete userObject.refreshToken;
                 delete userObject.date_of_birth;
-                return userObject
+
+                const bio = await this.bioService.getUserBio(user.id)
+                const result = {
+                    ...userObject,
+                    bio: bio
+                };
+                return result
             }
         } catch (error) {
             console.error(error);
@@ -91,7 +120,18 @@ export class UserService {
     }
 
     async getProfile(user: User) {
-        return await this.userRepository.findById(user.id);
+
+        const returnUser = await this.userRepository.findById(user.id);
+        await returnUser.populate({ path: 'expertise', select: 'name' })
+        const bio = await this.bioService.getUserBio(user.id)
+        const userData = returnUser.toObject();
+        const result = {
+            ...userData,
+            bio: bio
+        };
+
+
+        return result
     }
 
     async getAllMentors(page: number, limit: number = 10) {
@@ -107,15 +147,17 @@ export class UserService {
                 skip: (page - 1) * limit,
                 limit: limit
             },
+            { path: 'expertise', select: 'name' },
         );
 
         return { count, countPage, mentors }
     }
 
-    async searchMentor(keyword: string, page: number, limit: number = 10) {
+    async searchMentor(keyword: string, keyword2: string, page: number, limit: number = 10) {
         const count = await this.userRepository.countDocuments({
             role: 'mentor',
             name: { $regex: new RegExp(keyword, 'i') },
+            expertise: keyword2
         },)
         const countPage = Math.ceil(count / limit)
 
@@ -123,6 +165,7 @@ export class UserService {
             {
                 role: 'mentor',
                 name: { $regex: new RegExp(keyword, 'i') },
+                expertise: keyword2
             },
             ['name', 'avatar', 'email', 'gender', 'phone', 'number_of_mentees'],
             {
@@ -132,6 +175,7 @@ export class UserService {
                 skip: (page - 1) * limit,
                 limit: limit
             },
+            { path: 'expertise', select: 'name' }
         );
 
         return { count, countPage, mentors }
@@ -185,6 +229,13 @@ export class UserService {
         }
 
         return user;
+    }
+
+    async updateAvatar(user: User, file) {
+        const avatar = await this.mediaService.upload(file)
+        return await this.userRepository.findByIdAndUpdate(user.id, {
+            avatar: avatar.url
+        })
     }
 
 }

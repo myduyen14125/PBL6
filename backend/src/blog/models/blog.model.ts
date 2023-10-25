@@ -5,6 +5,7 @@ const BlogSchema = new Schema(
     {
         title: String,
         content: String,
+        image: String,
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User'
@@ -23,4 +24,5 @@ export interface Blog extends Document {
     title: string;
     content: string;
     user: User;
+    image: String;
 }

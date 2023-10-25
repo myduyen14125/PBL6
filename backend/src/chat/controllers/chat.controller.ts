@@ -24,4 +24,11 @@ export class ChatController {
     async getAllMessageByChatId(@Req() req: any, @Param('id') id: string) {
         return this.chatService.getAllMessageByChatId(req.user, id);
     }
+
+    @Patch(':id')
+    @UseGuards(AuthGuard('jwt'))
+    async setSeenLatestMessage(@Req() req: any, @Param('id') id: string) {
+        return this.chatService.setSeenLatestMessage(req.user, id);
+    }
+
 }

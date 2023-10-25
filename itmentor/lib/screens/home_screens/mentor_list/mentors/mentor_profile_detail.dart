@@ -21,13 +21,14 @@ class MentorProfileDetail extends StatefulWidget {
 
 class _MentorProfileDetailState extends State<MentorProfileDetail> {
   Map<String, dynamic> userData = {};
-  late List<dynamic> schedules = [];
-  late List<dynamic> blogs = [];
+  // late List<dynamic> schedules = [];
+  // late List<dynamic> blogs = [];
 
   @override
   void initState() {
     super.initState();
     fetchUserData();
+    print(widget.id);
   }
 
   Future<void> fetchUserData() async {
@@ -38,12 +39,12 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
       final data = json.decode(response.body);
       setState(() {
         userData = data;
-        schedules = data['schedules'];
-        blogs = data['blogs'];
+        // schedules = data['schedules'];
+        // blogs = data['blogs'];
       });
       print(data);
       print(data['number_of_mentees']);
-      print(blogs.length);
+      // print(blogs.length);
     } else {
       throw Exception('Failed to load user data');
     }
@@ -153,17 +154,17 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   Text('Đánh giá'),
                                 ],
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${blogs.length}',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text('Số bài đăng'),
-                                ],
-                              ),
+                              // Column(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Text(
+                              //       '${blogs.length}',
+                              //       style:
+                              //           TextStyle(fontWeight: FontWeight.bold),
+                              //     ),
+                              //     Text('Số bài đăng'),
+                              //   ],
+                              // ),
                             ],
                           ),
                         ),
@@ -176,14 +177,14 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChooseSchedule(
-                                      mentorId: userData['_id'],
-                                      schedules: schedules),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => ChooseSchedule(
+                              //         mentorId: userData['_id'],
+                              //         schedules: schedules),
+                              //   ),
+                              // );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF1369B2),

@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateBlogDto, PaginationPostDto, UpdateBlogDto } from '../dto/blog.dto';
 import { BlogService } from '../services/blog.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('blog')
 export class BlogController {

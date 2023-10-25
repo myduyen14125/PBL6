@@ -3,6 +3,7 @@ import { IsNotEmpty } from "class-validator";
 export class CreateBlogDto {
     @IsNotEmpty() title: string;
     @IsNotEmpty() content: string;
+    image: string;
     user: any;
 }
 

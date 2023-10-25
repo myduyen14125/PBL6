@@ -1,0 +1,2103 @@
+{
+	"info": {
+		"_postman_id": "ee7045e8-b821-4718-bfb4-2d8c00282d58",
+		"name": "IT-Mentor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29618107"
+	},
+	"item": [
+		{
+			"name": "User / Mentor",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZUBnbWFpbC5jb20iLCJpYXQiOjE2OTcwMzE0OTMsImV4cCI6MTY5NzAzNDA4NX0.TSe8SDerDBZWwXFc0QbAtSKjAYKDlNdKIFb4ZcuJorY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"tiendatphan21\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZUBnbWFpbC5jb20iLCJpYXQiOjE2OTcwMzE0OTMsImV4cCI6MTY5NzAzNDA4NX0.TSe8SDerDBZWwXFc0QbAtSKjAYKDlNdKIFb4ZcuJorY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"gen1mentee1@gmail.com\",\r\n    \"password\": \"gen1mentee1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODExODkxNSwiZXhwIjoxNjk4MTIxNTA3fQ.YmQEnmok0b2DZDKL6QMqA1Z0JgTBFgyvLWUltPWNGOk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"expertise\": \"6536b3c642d7d685c6ea8f35\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODEyMTU3MiwiZXhwIjoxNjk4MTI0MTY0fQ.mzWyLrhtGhZpR-ijtHhZ2lXUo7q4ceYcnCFdbTDdI3Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/PC/Downloads/cat.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/user/update-avatar",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"update-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZUBnbWFpbC5jb20iLCJpYXQiOjE2OTcwMzE0OTMsImV4cCI6MTY5NzAzNDA4NX0.TSe8SDerDBZWwXFc0QbAtSKjAYKDlNdKIFb4ZcuJorY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTc4MDc3LCJleHAiOjE2OTc5ODA2Njl9.QkUMZO-qE2GP68qVx2UF2MijEQy5-B3emBLnaDI-deI\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/refresh",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"tiendatphan21\",\r\n    \"name\": \"Mentor Dat Fake\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"avatar\": \"blank\",\r\n    \"role\": \"mentor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODExODkxNSwiZXhwIjoxNjk4MTIxNTA3fQ.YmQEnmok0b2DZDKL6QMqA1Z0JgTBFgyvLWUltPWNGOk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/6536b5c83d5fb427d47d9817",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"6536b5c83d5fb427d47d9817"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Mentors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/mentor/search?name=dang&expertise=6536b3c642d7d685c6ea8f35",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mentor",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "dang"
+								},
+								{
+									"key": "expertise",
+									"value": "6536b3c642d7d685c6ea8f35"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Mentors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "Ha",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/mentor",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mentor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blog",
+			"item": [
+				{
+					"name": "Create Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODEyMTU3MiwiZXhwIjoxNjk4MTI0MTY0fQ.mzWyLrhtGhZpR-ijtHhZ2lXUo7q4ceYcnCFdbTDdI3Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "C# By DHP",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Code 123",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/PC/Downloads/cat.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/blog",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Blogs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/blog",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Blogs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODExODkxNSwiZXhwIjoxNjk4MTIxNTA3fQ.YmQEnmok0b2DZDKL6QMqA1Z0JgTBFgyvLWUltPWNGOk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/blogs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blog By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/blog/6524284619001bd106899365",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog",
+								"6524284619001bd106899365"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Id/Blogs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/652815af6722878fba963460/blogs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"652815af6722878fba963460",
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQwNjA4NiwiZXhwIjoxNjk2NDA4Njc4fQ.3syFcOrIbKMmJxSHnc0_sacZe1isLlvg5JnIuMRSd5I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Updated post\",\r\n    \"title\": \"Modified\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/blog/651d1b1479b9b2797396164c",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog",
+								"651d1b1479b9b2797396164c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQwNjA4NiwiZXhwIjoxNjk2NDA4Njc4fQ.3syFcOrIbKMmJxSHnc0_sacZe1isLlvg5JnIuMRSd5I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Updated post\",\r\n    \"title\": \"Modified\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/blog/651d1b1479b9b2797396164c",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog",
+								"651d1b1479b9b2797396164c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "CurrentUser/Appointment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentee}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mentor\": \"6537803f0a03d311350aca11\",\r\n    \"schedule\": \"653784e9e0a958dc3253b962\",\r\n    \"note\": \"Confirm it now\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentee}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/653788032f302fd52778ee4a/cancel",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"653788032f302fd52778ee4a",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/65378a6d7c6574e9bafd4f55/confirm",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"65378a6d7c6574e9bafd4f55",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finished Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/65378a6d7c6574e9bafd4f55/finish",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"65378a6d7c6574e9bafd4f55",
+								"finish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Appointment By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3ODk3ODYwLCJleHAiOjE2OTc5MDA0NTJ9.5el7Xekszlf_xrXOR5AyhAutm2lyWObsQlLJQLpoKr4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/appointment/65281b6580f69b56d5739207",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"65281b6580f69b56d5739207"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedule",
+			"item": [
+				{
+					"name": "CurrentUser/Schedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/schedule",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Id/Schedules",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjNAZ21haWwuY29tIiwiaWF0IjoxNjk3ODc4Nzc3LCJleHAiOjE2OTc4ODEzNjl9.c4K7zetguggcuDNKgcrhxsLb4ruU8qbYXRQV3UcRMlI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/652815af6722878fba963460/schedules",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"652815af6722878fba963460",
+								"schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Schedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"start_at\": \"2023-10-24T16:00:00\",\r\n    \"end_at\": \"2023-10-24T16:30:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/schedule",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Many Schedules",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjNAZ21haWwuY29tIiwiaWF0IjoxNjk3ODc4Nzc3LCJleHAiOjE2OTc4ODEzNjl9.c4K7zetguggcuDNKgcrhxsLb4ruU8qbYXRQV3UcRMlI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"start_at\": \"2023-10-10\",\r\n        \"end_at\": \"2023-10-18\"\r\n    },\r\n    {\r\n        \"start_at\": \"2023-10-11\",\r\n        \"end_at\": \"2023-10-19\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/schedule/create-schedules",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schedule",
+								"create-schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Schedule By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3NTQ5NDc3LCJleHAiOjE2OTc1NTIwNjl9.BbKRV6UrHKxEGOQKafp0tHr3UygvhvOaPff_iRr5Ziw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/schedule/65281853a0ce292bf409d024",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schedule",
+								"65281853a0ce292bf409d024"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rating",
+			"item": [
+				{
+					"name": "Create Rating",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZXRlc3QxQGdtYWlsLmNvbSIsImlhdCI6MTY5Nzg5Nzk1MCwiZXhwIjoxNjk3OTAwNTQyfQ.knDJkUiXZqTMoC3L_md_dOe44Bub7c9CSnuEC5uyZY4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"suc mah bols\",\r\n    \"appointment\": \"6533e04e14b70faf5d768e7d\",\r\n    \"stars\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/rating",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Id/Ratings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/6533dd7a14b70faf5d768e2d/ratings",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"6533dd7a14b70faf5d768e2d",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Ratings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQzMzI1LCJleHAiOjE2OTc5NDU5MTd9.eGoWYDNVkN1FHl46aSI4HVVwtnSot6yUpHnVnjewgTI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rating",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rating"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Create Chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"participants\": [\r\n        \"6537803f0a03d311350aca11\",\r\n        \"65377bcec525b0308f3aa4d2\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/chat",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Seen Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/chat/6537e6debeb2022c4114e2af",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"chat",
+								"6537e6debeb2022c4114e2af"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Message By Chat Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ4Mzc4LCJleHAiOjE2OTc5NTA5NzB9.sSTMaVC11l1Iw_JotzR9z5-w09w1UPRspqlv3cA2RQk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/chat/653381ab8a2be128ee964694",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"chat",
+								"653381ab8a2be128ee964694"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chats",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ4Mzc4LCJleHAiOjE2OTc5NTA5NzB9.sSTMaVC11l1Iw_JotzR9z5-w09w1UPRspqlv3cA2RQk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"participants\": [\r\n        \"652815af6722878fba963460\",\r\n        \"6521732790bfeee1ba56f620\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/chat",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"This is your mentor\",\r\n    \"chat\": \"6537e6debeb2022c4114e2af\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/message",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"message"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User By Id",
+			"item": [
+				{
+					"name": "Get User By Id Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/65264b0e614ff103aad5d699",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"65264b0e614ff103aad5d699"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Id/Blogs Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/652815af6722878fba963460/blogs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"652815af6722878fba963460",
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Id/Schedules Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjNAZ21haWwuY29tIiwiaWF0IjoxNjk3ODc4Nzc3LCJleHAiOjE2OTc4ODEzNjl9.c4K7zetguggcuDNKgcrhxsLb4ruU8qbYXRQV3UcRMlI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/652815af6722878fba963460/schedules",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"652815af6722878fba963460",
+								"schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Id/Ratings Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/6533dd7a14b70faf5d768e2d/ratings",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"6533dd7a14b70faf5d768e2d",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Current User",
+			"item": [
+				{
+					"name": "Profile Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM3Mzg0LCJleHAiOjE2OTc5Mzk5NzZ9.GY-GYE_9AP96X2SWbFVr2AkPHPujn-fV5voYOo_M11U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Blogs Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM3Mzg0LCJleHAiOjE2OTc5Mzk5NzZ9.GY-GYE_9AP96X2SWbFVr2AkPHPujn-fV5voYOo_M11U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/blogs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Schedule Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/schedule",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Ratings Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQzMzI1LCJleHAiOjE2OTc5NDU5MTd9.eGoWYDNVkN1FHl46aSI4HVVwtnSot6yUpHnVnjewgTI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rating",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Appointment Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Bio Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/bio",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bio"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Media",
+			"item": [
+				{
+					"name": "Upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/PC/Downloads/doge.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/media/upload",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"media",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bio",
+			"item": [
+				{
+					"name": "CurrentUser/Bio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/bio",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Award",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC\",\r\n    \"date\": \"1999-11-11\",\r\n    \"description\": \"990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/award",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"award"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Award",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC - Modified\",\r\n    \"date\": \"1999-11-11\",\r\n    \"description\": \"990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/award/653654fa470ebb42a553bf30",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"award",
+								"653654fa470ebb42a553bf30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Award",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC\",\r\n    \"date\": \"1999-11-11\",\r\n    \"description\": \"990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/award/653654fa470ebb42a553bf30",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"award",
+								"653654fa470ebb42a553bf30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Skill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC\",\r\n    \"description\": \"990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/skill",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"skill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Skill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC modi\",\r\n    \"date\": \"1999-11-11\",\r\n    \"description\": \"990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/skill/653664f661f9c3571b68c47a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"skill",
+								"653664f661f9c3571b68c47a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Skill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC modi\",\r\n    \"date\": \"1999-11-11\",\r\n    \"description\": \"990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/skill/653664f661f9c3571b68c47a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"skill",
+								"653664f661f9c3571b68c47a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Education",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"place\": \"BKDN\",\r\n    \"major\": \"CNTT\",\r\n    \"start_date\": \"2020-10-10\",\r\n    \"end_date\": \"2024-10-10\",\r\n    \"description\": \"bullshit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/education",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"education"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Education",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"place\": \"BKDN Modi\",\r\n    \"major\": \"CNTT\",\r\n    \"start_date\": \"2020-10-10\",\r\n    \"end_date\": \"2024-10-10\",\r\n    \"description\": \"bullshit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/education/6536659c61f9c3571b68c482",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"education",
+								"6536659c61f9c3571b68c482"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Education",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"place\": \"BKDN\",\r\n    \"major\": \"CNTT\",\r\n    \"start_date\": \"2020-10-10\",\r\n    \"end_date\": \"2024-10-10\",\r\n    \"description\": \"bullshit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/education/6536659c61f9c3571b68c482",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"education",
+								"6536659c61f9c3571b68c482"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Experience",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"position\": \"Backend\",\r\n    \"company\": \"BuonMaTuy\",\r\n    \"start_date\": \"2020-10-10\",\r\n    \"end_date\": \"2024-10-10\",\r\n    \"description\": \"sss\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/experience",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"experience"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Experience",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"position\": \"Backend Node\",\r\n    \"company\": \"BuonMaTuy\",\r\n    \"start_date\": \"2020-10-10\",\r\n    \"end_date\": \"2024-10-10\",\r\n    \"description\": \"sss\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/experience/6536662161f9c3571b68c48a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"experience",
+								"6536662161f9c3571b68c48a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Experience",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"position\": \"Backend\",\r\n    \"company\": \"BuonMaTuy\",\r\n    \"start_date\": \"2020-10-10\",\r\n    \"end_date\": \"2024-10-10\",\r\n    \"description\": \"sss\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/experience/6536662161f9c3571b68c48a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"experience",
+								"6536662161f9c3571b68c48a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Expertise",
+			"item": [
+				{
+					"name": "Create Expertise",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"IOT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Expertises",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC\",\r\n    \"date\": \"1999-11-11\",\r\n    \"description\": \"990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

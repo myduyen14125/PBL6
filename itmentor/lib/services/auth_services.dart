@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/auth_screens/login_screen.dart';
 import 'package:itmentor/screens/homepage_navigation_screen.dart';
 import 'package:itmentor/screens/home_screens/homepage_screen.dart';
+import 'package:itmentor/screens/splash_screen/splash_screen.dart';
 import 'package:itmentor/screens/welcome_screen.dart';
 import 'package:itmentor/utils/constant.dart';
 import 'package:itmentor/utils/utils.dart';
@@ -15,7 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
-  void signUpUser({
+  Future<void> signUpUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -42,8 +44,7 @@ class AuthServices {
         refreshToken: '',
       );
 
-      final uri =
-          Uri.https(Constants.uri, '/auth/register');
+      final uri = Uri.https(Constants.uri, '/auth/register');
 
       http.Response res = await http.post(uri,
           body: user.toJson(),
@@ -79,8 +80,7 @@ class AuthServices {
       var userProvider = Provider.of<UserProvider>(ctx, listen: false);
       final navigator = Navigator.of(ctx);
 
-      final uri =
-          Uri.https(Constants.uri, '/auth/login');
+      final uri = Uri.https(Constants.uri, '/auth/login');
 
       http.Response res = await http.post(
         uri,
@@ -124,8 +124,9 @@ class AuthServices {
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data;
+      Map<String, dynamic> responseData = json.decode(response.body);
+      List<dynamic> mentors = responseData['mentors'];
+      return mentors;
     } else {
       throw Exception('Failed to load mentors');
     }
@@ -144,5 +145,34 @@ class AuthServices {
     }
   }
 
-  
+  Future<bool> getUserData(BuildContext context) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      print('token: $token');
+
+      if (token == null) {
+        prefs.setString('x-auth-token', '');
+        return false;
+      }
+      if (token == '') {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      showSnackBar(context, e.toString());
+      return false; // You should return a value here in case of an error.
+    }
+  }
+
+  void signOut(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('x-auth-token', '');
+    navigator.pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: ((context) => const SplashScreen()),
+        ),
+        (route) => false);
+  }
 }

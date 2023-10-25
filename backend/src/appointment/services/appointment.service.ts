@@ -4,6 +4,7 @@ import { AppointmentRepository } from "../repositories/appointment.repository";
 import { User } from "src/user/models/user.model";
 import { ScheduleService } from "src/schedule/services/schedule.service";
 import { UserService } from "src/user/services/user.service";
+import { MailerService } from '@nestjs-modules/mailer';
 
 
 @Injectable()
@@ -12,7 +13,7 @@ export class AppointmentService {
         private readonly appointmentRepository: AppointmentRepository,
         private readonly userService: UserService,
         private readonly scheduleService: ScheduleService,
-
+        private mailerService: MailerService
     ) { }
 
 
@@ -44,6 +45,21 @@ export class AppointmentService {
 
                 // update schedule status
                 await this.scheduleService.updateScheduleStatus(appointment.schedule, false)
+
+                // mail to mentor
+                const mentor = await this.userService.getUserById(appointment.mentor)
+                await this.mailerService.sendMail({
+                    to: mentor.email,
+                    subject: 'You have a new pending appointment!',
+                    template: `./bookappointment`,
+                    context: {
+                        mentee: mentee.name,
+                        mentor: mentor.name
+                    }
+                })
+
+
+                //
 
                 return populatedAppointment
             } else {
@@ -115,4 +131,87 @@ export class AppointmentService {
             status: newStatus
         })
     }
+    ////////////////////////////////////////
+
+    // confirm - mentor
+    async confirmAppointment(mentor: User, id: string) {
+        const oldAppointment = await this.appointmentRepository.findById(id)
+        if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
+        if (!(await this.userService.checkMentor(mentor._id))) throw new HttpException('Only mentors can confirm an appointment', HttpStatus.BAD_REQUEST);
+        const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
+            status: "confirmed"
+        })
+        await updatedAppointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+        await updatedAppointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
+        await updatedAppointment.populate({ path: 'schedule' });
+
+
+        // mail to mentee
+        const mentee = await this.userService.getUserById(oldAppointment.mentee._id)
+        await this.mailerService.sendMail({
+            to: mentee.email,
+            subject: 'A mentor has confirmed your appointment!',
+            template: `./confirmappointment`,
+            context: {
+                mentee: mentee.name,
+                mentor: mentor.name
+            }
+        })
+        return updatedAppointment;
+    }
+
+
+    // cancel - mentee
+    async cancelAppointment(mentee: User, id: string) {
+        const oldAppointment = await this.appointmentRepository.findById(id)
+        if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
+
+        if (!(await this.userService.checkMentee(mentee._id))) throw new HttpException('Only mentees can cancel an appointment', HttpStatus.BAD_REQUEST);
+        const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
+            status: "canceled"
+        })
+        await updatedAppointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+        await updatedAppointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
+        await updatedAppointment.populate({ path: 'schedule' });
+        // free schedule
+        await this.scheduleService.updateScheduleStatus(oldAppointment.schedule._id, true)
+
+        // mail to mentor
+        const mentor = await this.userService.getUserById(oldAppointment.mentor._id)
+        await this.mailerService.sendMail({
+            to: mentor.email,
+            subject: 'An appointment has been canceled!',
+            template: `./cancelappointment`,
+            context: {
+                mentee: mentee.name,
+                mentor: mentor.name
+            }
+        })
+
+        return updatedAppointment;
+
+    }
+
+    // finished - mentor
+    async finishAppointment(mentor: User, id: string) {
+        const oldAppointment = await this.appointmentRepository.findById(id)
+        if (oldAppointment.status !== "confirmed") throw new HttpException('Status must be confirmed', HttpStatus.BAD_REQUEST);
+
+        if (!(await this.userService.checkMentor(mentor._id))) throw new HttpException('Only mentors can finish an appointment', HttpStatus.BAD_REQUEST);
+        const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
+            status: "finished"
+        })
+        await updatedAppointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+        await updatedAppointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
+        await updatedAppointment.populate({ path: 'schedule' });
+
+        // mail
+
+
+        return updatedAppointment;
+
+    }
+
+
+
 }

@@ -15,6 +15,8 @@ import { UserRepository } from './repositories/user.repository';
 import { JwtStrategy } from './jwt.strategy';
 import { AppointmentModule } from 'src/appointment/appointment.module';
 import { RatingModule } from 'src/rating/rating.module';
+import { BioModule } from 'src/bio/bio.module';
+import { MediaModule } from 'src/media/media.module';
 
 @Module({
     imports: [
@@ -41,7 +43,8 @@ import { RatingModule } from 'src/rating/rating.module';
             }),
             inject: [ConfigService]
         }),
-        // forwardRef(() => UserModule),
+        forwardRef(() => BioModule),
+        forwardRef(() => MediaModule),
         forwardRef(() => BlogModule),
         forwardRef(() => ScheduleModule),
         forwardRef(() => RatingModule),

@@ -3,9 +3,8 @@ import 'package:itmentor/screens/auth_screens/login_screen.dart';
 import 'package:itmentor/screens/auth_screens/register_screen.dart';
 import 'package:itmentor/utils/constant.dart';
 
-
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key});
+  const WelcomeScreen({super.key});
 
   @override
   State<WelcomeScreen> createState() => _LoginScreenState();
@@ -14,9 +13,6 @@ class WelcomeScreen extends StatefulWidget {
 class _LoginScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    
-    String selectedLanguage = 'Tiếng Anh';
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: Constants.backgroundColor),
@@ -122,55 +118,15 @@ class _LoginScreenState extends State<WelcomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Lựa chọn ngôn \n ngữ của bạn: ',
-                  style: TextStyle(color: Colors.black),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                DropdownButton<String>(
-                  value:
-                      selectedLanguage, 
-                  icon: const Icon(Icons.arrow_drop_down),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: TextStyle(
-                    color: Colors.blue[400],
-                    fontSize: 18.0,
-                  ),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.blue[400],
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedLanguage = newValue!;
-                    });
-                  },
-                  items: <String>['Tiếng Anh', 'Tiếng Việt']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
             const SizedBox(
               height: 30,
             ),
             const Text(
               '© IT Mentor',
               style: TextStyle(
-                color: Color(0xFF18BEBC), 
-                fontSize:
-                    19, 
-                fontWeight: FontWeight.bold, 
+                color: Color(0xFF18BEBC),
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],

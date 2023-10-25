@@ -12,7 +12,7 @@ export class MentorController {
     }
 
     @Get('search')
-    async searchMentors(@Query('name') keyword: string, @Query() { page, limit }: PaginationMentorDto) {
-        return await this.userService.searchMentor(keyword, page, limit);
+    async searchMentors(@Query('name') keyword: string, @Query('expertise') keyword2: string, @Query() { page, limit }: PaginationMentorDto) {
+        return await this.userService.searchMentor(keyword, keyword2, page, limit);
     }
 }

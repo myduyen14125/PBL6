@@ -35,8 +35,21 @@ export class AppointmentController {
 
 
     @UseGuards(AuthGuard("jwt"))
-    @Patch(':id')
-    async updateAppointment(@Req() req: any, @Param('id') id: string, @Body(new ValidationPipe()) appointment: UpdateAppointmentDto) {
-        return this.appointmentService.updateAppointment(req.user, id, appointment)
+    @Patch(':id/confirm')
+    async confirmAppointment(@Req() req: any, @Param('id') id: string) {
+        return this.appointmentService.confirmAppointment(req.user, id)
     }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Patch(':id/cancel')
+    async cancelAppointment(@Req() req: any, @Param('id') id: string) {
+        return this.appointmentService.cancelAppointment(req.user, id)
+    }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Patch(':id/finish')
+    async finishAppointment(@Req() req: any, @Param('id') id: string) {
+        return this.appointmentService.finishAppointment(req.user, id)
+    }
+
 }

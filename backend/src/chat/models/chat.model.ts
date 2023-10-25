@@ -3,7 +3,10 @@ import { User } from "src/user/models/user.model";
 
 const ChatSchema = new Schema(
     {
-        participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+        participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        latest_message: String,
+        seen: Boolean,
+        sender: { type: Schema.Types.ObjectId, ref: 'User' }
     },
     {
         timestamps: true,
@@ -13,5 +16,8 @@ const ChatSchema = new Schema(
 
 export { ChatSchema };
 export interface Chat extends Document {
-    participants: [User]
+    participants: [User];
+    latest_message: string;
+    seen: boolean;
+    sender: User;
 }

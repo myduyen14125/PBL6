@@ -1,4 +1,5 @@
 import { Schema, Document } from "mongoose";
+import { Expertise } from "src/expertise/models/expertise.model";
 
 const UserSchema = new Schema(
     {
@@ -16,6 +17,8 @@ const UserSchema = new Schema(
 
         number_of_mentees: Number,
         refreshToken: String,
+
+        expertise: { type: Schema.Types.ObjectId, ref: 'Expertise' },
 
     },
     {
@@ -75,7 +78,7 @@ export interface User extends Document {
 
     facebook_link: string;
     skype_link: string;
-
+    expertise: Expertise
 
     refreshToken: string;
 
