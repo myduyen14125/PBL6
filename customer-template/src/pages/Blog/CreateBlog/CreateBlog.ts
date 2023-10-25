@@ -23,6 +23,7 @@ export default defineComponent({
     const form = ref<CreateBlogParams>({
       title: "",
       content: "",
+      image: "",
     });
     const error = ref<CreateBlogParams>({
       title: "",

@@ -41,6 +41,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useSchedule } from "../../stores/schedule";
+import { useUser } from "../../stores/user";
 import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
 
@@ -82,8 +83,9 @@ export default {
       this.selectedScheduleId = arg.event.id;
     },
     getUserInformation: function () {
-      const scheduleStore = useSchedule();
-      scheduleStore.requestGetMySchedules({
+      const userStore = useUser();
+      userStore.requestGetUserSchedules({
+        id: this.id,
         callback: {
           onSuccess: (res) => {
             this.userSchedules = res;

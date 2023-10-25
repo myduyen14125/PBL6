@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 import moment from "moment";
 import { get } from "lodash";
-import { getAccessToken, getUserInfo } from "./cache/localStorage";
+import { getAccessToken } from "./cache/localStorage";
 
 export function shouldRefreshToken(): boolean {
   const token = getAccessToken();

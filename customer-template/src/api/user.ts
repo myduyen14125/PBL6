@@ -8,3 +8,6 @@ export const getUserBlogs = async (
   id: string,
   params: GetPaginationParams
 ): Promise<any> => httpRequest.get<any>(`/user/${id}/blogs`, { params });
+
+export const getUserSchedules = async (id: string): Promise<any> =>
+  httpRequest.get<any>(`/user/${id}/schedules`);

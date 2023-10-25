@@ -1,6 +1,6 @@
 import { get, noop } from "lodash";
 import { defineStore } from "pinia";
-import { getUserInfo, getUserBlogs } from "../api/user";
+import { getUserInfo, getUserBlogs, getUserSchedules } from "../api/user";
 import { GetPaginationParams } from "../types/mentor";
 
 export const useUser = defineStore("user", () => {
@@ -48,8 +48,30 @@ export const useUser = defineStore("user", () => {
     }
   };
 
+  const requestGetUserSchedules = async ({
+    id,
+    callback,
+  }: {
+    id: string;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await getUserSchedules(id);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
   return {
     requestGetUserInfo,
     requestGetUserBlogs,
+    requestGetUserSchedules,
   };
 });

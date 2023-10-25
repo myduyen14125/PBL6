@@ -9,4 +9,5 @@ export interface Blog {
 export interface CreateBlogParams {
   title: string;
   content: string;
+  image?: string;
 }
