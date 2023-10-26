@@ -14,35 +14,96 @@ class SearchMentor extends StatefulWidget {
 }
 
 class _SearchMentorState extends State<SearchMentor> {
-  TextEditingController searchController = TextEditingController();
-  List<Map<String, dynamic>> mentors = [];
+  // TextEditingController searchController = TextEditingController();
+  // List<Map<String, dynamic>> mentors = [];
+
+  // Future<void> fetchMentors(String name) async {
+  //   // final apiUrl = 'http://localhost:3001/mentor/search?name=$name';
+  //   // final uri = Uri.https(Constants.uri, '/mentor/search?name=$name');
+
+  //   // final response = await http.get(uri);
+
+  //   // final queryParameters = {
+  //   //   'name': name,
+  //   // };
+  //   // final uri = Uri.https(Constants.uri, '/mentor/search', queryParameters);
+  //   final uri = Uri.https(Constants.uri, '/mentor/search', {'name': '$name'});
+
+  //   final response = await http.get(uri);
+
+  //   print(response.statusCode);
+  //   print(response.body);
+
+  //   if (response.statusCode == 200) {
+  //     final jsonData = json.decode(response.body);
+  //     final mentorsData = jsonData['mentors'] as List<dynamic>;
+
+  //     setState(() {
+  //       mentors = mentorsData.map((mentor) {
+  //         return mentor as Map<String, dynamic>;
+  //       }).toList();
+  //     });
+  //   } else {
+  //     // Handle API error, e.g., show an error message.
+  //     print('Failed to fetch data. Status code: ${response.statusCode}');
+  //   }
+  // }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text('Mentor List'),
+  //     ),
+  //     body: Column(
+  //       children: [
+  //         Padding(
+  //           padding: EdgeInsets.all(16.0),
+  //           child: TextField(
+  //             controller: searchController,
+  //             decoration: InputDecoration(labelText: 'Search by Name'),
+  //           ),
+  //         ),
+  //         ElevatedButton(
+  //           onPressed: () {
+  //             final name = searchController.text;
+  //             fetchMentors(name);
+  //           },
+  //           child: Text('Search'),
+  //         ),
+  //         Expanded(
+  //           child: ListView.builder(
+  //             itemCount: mentors.length,
+  //             itemBuilder: (context, index) {
+  //               final mentor = mentors[index];
+  //               return ListTile(
+  //                 title: Text(mentor['name']),
+  //                 subtitle: Text(mentor['email']),
+  //                 // You can display other mentor information here.
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+  List<dynamic> mentors = []; // Store mentor data
 
   Future<void> fetchMentors(String name) async {
-    // final apiUrl = 'http://localhost:3001/mentor/search?name=$name';
-    // final uri = Uri.https(Constants.uri, '/mentor/search?name=$name');
-
-    // final response = await http.get(uri);
-
-    final queryParameters = {
-      'name': name,
-    };
-    final uri = Uri.https(Constants.uri, '/mentor/search', queryParameters);
+    final uri = Uri.https(Constants.uri, '/mentor/search', {'name': name});
     final response = await http.get(uri);
-
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
-      final mentorsData = jsonData['mentors'] as List<dynamic>;
+
+      print(jsonData);
 
       setState(() {
-        mentors = mentorsData.map((mentor) {
-          return mentor as Map<String, dynamic>;
-        }).toList();
+        mentors = jsonData['mentors'];
       });
     } else {
-      // Handle API error, e.g., show an error message.
-      print('Failed to fetch data. Status code: ${response.statusCode}');
+      throw Exception('Failed to load mentors');
     }
   }
 
@@ -50,23 +111,19 @@ class _SearchMentorState extends State<SearchMentor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mentor List'),
+        title: Text('Mentor Search'),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(labelText: 'Search by Name'),
+              decoration: InputDecoration(labelText: 'Search by name'),
+              onSubmitted: (value) {
+                fetchMentors(value);
+                print(value);
+              },
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final name = searchController.text;
-              fetchMentors(name);
-            },
-            child: Text('Search'),
           ),
           Expanded(
             child: ListView.builder(
@@ -76,7 +133,7 @@ class _SearchMentorState extends State<SearchMentor> {
                 return ListTile(
                   title: Text(mentor['name']),
                   subtitle: Text(mentor['email']),
-                  // You can display other mentor information here.
+                  // You can display other mentor information here as well.
                 );
               },
             ),
