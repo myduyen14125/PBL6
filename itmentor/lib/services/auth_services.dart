@@ -176,6 +176,24 @@ class AuthServices {
     }
   }
 
+  Future<void> getProfile(String? token, BuildContext ctx) async {
+    final uri = Uri.https(Constants.uri, '/user/profile');
+    final response =
+        await http.get(uri, headers: <String, String>{
+        'Connection': 'keep-alive',
+        'Authorization': 'Bearer $token'
+      },
+    );
+
+    var userProvider = Provider.of<UserProvider>(ctx, listen: false);
+
+    print("get profile: ${response.body}");
+
+    if (response.statusCode == 200) {
+      userProvider.setUser(response.body);
+    }
+  }
+
   void signOut(BuildContext context) async {
     final navigator = Navigator.of(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -47,14 +47,24 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
 
     currentPage++;
 
-    final uri = Uri.https(Constants.uri, '/mentor?page=$currentPage');
+    // final uri = Uri.https(Constants.uri, '/mentor?page=$currentPage');
+    final uri = Uri.https(Constants.uri, '/mentor', {'page': '$currentPage'});
+
     final response = await http.get(uri);
     final data = json.decode(response.body);
 
-    setState(() {
-      allMentors.addAll(data['mentors']);
-      isLoading = false;
-    });
+    print("load more data: $data");
+
+    if (data['mentors'] != null) {
+      setState(() {
+        allMentors.addAll(data['mentors']);
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
