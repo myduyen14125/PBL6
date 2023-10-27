@@ -7,6 +7,7 @@ import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/all_posts_screen.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/create_post_screen.dart';
+import 'package:itmentor/screens/home_screens/profile_screens/schedules/all_current_schedules.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/schedules/create_schedules_screen.dart';
 import 'package:itmentor/screens/welcome_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
@@ -43,6 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       'Connection': 'keep-alive',
       'Authorization': 'Bearer $token',
     });
+
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -113,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const CreateBlog()),
+                                                CreateSchedules(token: token,)),
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -168,7 +171,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                     child: const Text('Xem blogs đã viết'),
                                   ),
-
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AllCurrentSchedules(token: token)),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF1369B2),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                    ),
+                                    child: const Text('Xem lịch đã tạo'),
+                                  ),
                                 ],
                               )
                             : const SizedBox(),
