@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { User } from "src/user/models/user.model";
 import { ScheduleRepository } from "../repositories/schedule.repository";
 import { CreateScheduleDto } from "../dto/schedule.dto";
@@ -9,16 +9,30 @@ export class ScheduleService {
     ) { }
 
 
-    async createSchedule(user: User, schedule: CreateScheduleDto) {
+    async createSchedule(user: User, schdule: CreateScheduleDto) {
+        // mentor only
         if (user.role === "mentee") {
             return HttpStatus.BAD_REQUEST
         }
-        schedule.user = user.id
-        schedule.status = true
+        schdule.user = user.id
+        schdule.status = true
+        // check valid date input
+        if (schdule.start_at >= schdule.end_at) {
+            throw new HttpException('Invalid Starttime/ Endtime', HttpStatus.BAD_REQUEST);
+        }
 
-        // console.log(schedule);
+        // get current user schedules
+        let overlappingSchedules = await this.scheduleRepository.getByCondition({
+            user: user.id,
+            start_at: { $lt: schdule.end_at },
+            end_at: { $gt: schdule.start_at }
+        });
 
-        return await this.scheduleRepository.create(schedule)
+        if (overlappingSchedules.length > 0) {
+            throw new HttpException('Invalid Starttime/ Endtime', HttpStatus.BAD_REQUEST);
+        }
+        return await this.scheduleRepository.create(schdule)
+
     }
 
     async createSchedules(user: User, schedules: CreateScheduleDto[]) {
@@ -31,6 +45,21 @@ export class ScheduleService {
         for (const schedule of schedules) {
             schedule.user = user.id;
             schedule.status = true;
+
+            if (schedule.start_at >= schedule.end_at) {
+                throw new HttpException('Invalid Starttime/ Endtime', HttpStatus.BAD_REQUEST);
+            }
+
+            // get current user schedules
+            let overlappingSchedules = await this.scheduleRepository.getByCondition({
+                user: user.id,
+                start_at: { $lt: schedule.end_at },
+                end_at: { $gt: schedule.start_at }
+            });
+
+            if (overlappingSchedules.length > 0) {
+                throw new HttpException('Invalid Starttime/ Endtime', HttpStatus.BAD_REQUEST);
+            }
             const createdSchedule = await this.scheduleRepository.create(schedule);
             createdSchedules.push(createdSchedule);
         }
