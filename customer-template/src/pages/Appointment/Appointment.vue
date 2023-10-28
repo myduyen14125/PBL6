@@ -22,7 +22,7 @@
                     v-for="appointment in appointments.pending"
                     :key="appointment?._id"
                   >
-                    <AppointmentCard :appointment="appointment" />
+                    <AppointmentCard :appointment="appointment" @getAllUserAppointment="getAllUserAppointment" />
                   </div>
                 </div>
               </el-tab-pane>

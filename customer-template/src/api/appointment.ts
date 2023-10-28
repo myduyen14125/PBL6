@@ -5,3 +5,6 @@ export const getAllUserAppointment = async (): Promise<any> =>
 
 export const createAppointment = async (data: any): Promise<any> =>
   httpRequest.post<any>("/appointment", data);
+
+export const confirmAppointment = async (id: string): Promise<any> =>
+  httpRequest.patch<any>(`/appointment/${id}/confirm`);
