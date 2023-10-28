@@ -3,10 +3,10 @@
     <div class="appointment-wrapper">
       <div class="container py-20 text-lg">
         <div class="row">
-          <div class="col-4 col-md-3">
+          <div class="col-3 col-md-3">
             <SvgIcon icon="calendarFull" />
           </div>
-          <div class="col-md-12 col-lg-8">
+          <div class="col-md-12 col-lg-9">
             <h1 class="text-left font-bold text-4xl mb-4">Lịch hẹn của tôi</h1>
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="Đang xử lý" name="first">

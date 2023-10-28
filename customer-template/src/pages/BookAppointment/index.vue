@@ -2,31 +2,27 @@
   <GuestLayout>
     <div class="appointment-wrapper">
       <div class="container py-14 text-lg">
-        <div class="progress">
-          <div
-            class="progress-bar background-primary progress-bar-striped"
-            role="progressbar"
-            style="width: 25%"
-            aria-valuenow="25"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            25%
-          </div>
-        </div>
-        <div class="d-flex align-items-center my-4">
-          <SvgIcon icon="handIcon" class="me-3" />
-          <h5 class="color-primary mb-0">Chọn thời gian</h5>
-        </div>
-        <div class="calendar-wrapper">
+        <el-steps :active="activeStep" align-center>
+          <el-step title="Chọn thời gian" />
+          <el-step title="Xác nhận" />
+          <el-step title="Thành công" />
+        </el-steps>
+
+        <div class="calendar-wrapper mt-3">
           <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
-        <div class="d-flex justify-content-center mt-5 gap-4">
-          <span style="color: red">Lịch chọn: {{ selectedScheduleId }}</span>
-          <button class="btn btn-primary btn-lg">Tiếp tục</button>
-          <button class="btn btn-primary btn-lg" @click="bookAppointment">
-            Đặt lịch
-          </button>
+        <div class="d-flex justify-content-between items-center mt-4 gap-4 text-xl text-[#0a5565]">
+          <div class="px-4 shadow-md bg-[#139896] text-white rounded h-14 d-flex items-center">
+            <p class="mr-2 my-0">Lịch chọn</p>
+            <p class="my-0 mr-2" v-if="selectedSchedule.start">{{ selectedSchedule.start }} - </p>
+            <p class="my-0 mr-2" v-if="selectedSchedule.end">{{ selectedSchedule.end }}</p>
+          </div>
+          <div>
+            <button class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button>
+            <button class="btn btn-primary btn-lg" @click="bookAppointment">
+              Đặt lịch
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -43,7 +39,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useSchedule } from "../../stores/schedule";
 import { useUser } from "../../stores/user";
 import { useAppointment } from "../../stores/appointment";
+import { formatDate, formatTimeFullCalendar } from "../../ultils/date";
 import SwalPopup from "../../ultils/swalPopup";
+import Swal from "sweetalert2";
 
 export default {
   components: { GuestLayout, SvgIcon, FullCalendar },
@@ -57,11 +55,15 @@ export default {
     return {
       calendarOptions: {
         plugins: [timeGridPlugin, interactionPlugin],
+        timeZone: "Asia/Ho_Chi_Minh",
         initialView: "timeGridWeek",
         headerToolbar: {
           left: "prev,next",
           center: "title",
           right: "timeGridWeek,timeGridDay", // user can switch between the two
+        },
+        validRange: {
+          start: formatDate(new Date(), "YYYY-MM-DD"),
         },
         dateClick: this.handleDateClick,
         eventClick: this.handleSelectSchedule,
@@ -71,16 +73,23 @@ export default {
         slotMaxTime: "24:00:00",
       },
       userSchedules: [],
-      selectedScheduleId: {},
+      selectedSchedule: {
+        id: "",
+        title: "",
+        start: "",
+        end: "",
+      },
+      activeStep : 0,
     };
   },
   methods: {
     handleDateClick: function (arg) {
-      alert("date click! " + arg.dateStr);
+      this.showToast("warning", "Mentor không có lịch rảnh trong thời gian này! " + "</br>" + formatTimeFullCalendar(arg.dateStr));
     },
     handleSelectSchedule: function (arg) {
-      alert("event click! " + arg.event.id + " " + arg.event.startStr);
-      this.selectedScheduleId = arg.event.id;
+      this.selectedSchedule.id = arg.event.id;
+      this.selectedSchedule.start = formatTimeFullCalendar(arg.event.start);
+      this.selectedSchedule.end = formatTimeFullCalendar(arg.event.end);
     },
     getUserInformation: function () {
       const userStore = useUser();
@@ -102,9 +111,10 @@ export default {
     },
     setUserSchedules: function () {
       for (let i = 0; i < this.userSchedules.length; i++) {
+        if(this.userSchedules[i].status === false) continue;
         this.calendarOptions.events.push({
           id: this.userSchedules[i]._id,
-          title: "Có thể đặt lịch với mentor",
+          title: "Có thể đặt lịch",
           start: this.userSchedules[i].start_at,
           end: this.userSchedules[i].end_at,
         });
@@ -115,7 +125,7 @@ export default {
       appointmentStore.requestCreateAppointment({
         params: {
           mentor: this.id,
-          schedule: this.selectedScheduleId,
+          schedule: this.selectedSchedule.id,
           note: "Hehehe yuu dat lich nheeee",
         },
         callback: {
@@ -130,6 +140,27 @@ export default {
           },
         },
       });
+    },
+    showToast: function (type, content) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: type,
+        title: content,
+      });
+    },
+    nextActiveStep: function() {
+      if (this.activeStep++ > 2) this.activeStep = 0
     },
   },
   async mounted() {

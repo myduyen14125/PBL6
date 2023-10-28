@@ -57,6 +57,8 @@ export default {
         dateClick: this.handleDateClick,
         events: [],
         eventClick: this.handleScheduleClick,
+        slotMinTime: "06:00:00",
+        slotMaxTime: "24:00:00",
       },
       appointmentId: 1,
       existSchedules: [],
