@@ -96,6 +96,26 @@ export default defineComponent({
       isSubmitting.value = true;
     };
 
+    const updateInfo = () => {
+      isSubmitting.value = true;
+
+      userStore.requestUpdateUser({
+        params: userInfo.value,
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
+    }
+    
     return {
       userInfo,
       error,
@@ -103,6 +123,7 @@ export default defineComponent({
       validatePhone,
       validateName,
       submitUpdateForm,
+      updateInfo,
     };
   },
 });

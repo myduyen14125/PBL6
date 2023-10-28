@@ -123,6 +123,7 @@
             <button
               class="btn btn-primary px-4 action-button my-2"
               type="submit"
+              @click="updateInfo"
             >
               Cập nhật
               <span
