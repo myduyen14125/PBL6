@@ -37,7 +37,7 @@ export class UserService {
             throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
 
         }
-
+        if (!userDto.avatar) userDto.avatar = "blank"
         const newUser = await this.userRepository.create(userDto)
         await this.bioService.createBio(newUser)
 
