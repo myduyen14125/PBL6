@@ -9,9 +9,8 @@
   >
     <div class="card w-100 mt-4 hover-tooltip">
       <div class="d-flex align-items-center justify-content-center">
-        <!-- :src="mentor.avatar ? mentor.avatar : avatar" -->
         <img
-          src="https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-anh-anime-nu-1.jpg"
+          :src="handleImage(mentor.avatar)"
           class="rounded-circle card-img"
           alt="Mentor avatar"
           width="200"
