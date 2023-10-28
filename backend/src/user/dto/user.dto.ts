@@ -50,6 +50,7 @@ export class PaginationMentorDto {
 }
 
 export class UpdateUserDto {
+    name: string;
     date_of_birth: Date;
     avatar: string;
     phone: string;

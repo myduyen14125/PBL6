@@ -46,6 +46,7 @@
                 <div>
                   <!-- @click="bookAppointment" -->
                   <button
+                    v-if="getUserInfo()?.role !== 'mentor'"
                     className="btn btn-primary px-4 action-button my-2"
                     @click="
                       () => router.push(`/book-appointment/${userInfo._id}`)

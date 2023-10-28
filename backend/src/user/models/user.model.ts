@@ -41,18 +41,10 @@ UserSchema.virtual('schedules', {
 });
 
 
-UserSchema.virtual('mentorAppointments', {
+UserSchema.virtual('appointments', {
     ref: 'Appointment',
     localField: '_id',
-    foreignField: 'mentor',
-    justOne: false,
-});
-
-// Virtual field for mentee appointments
-UserSchema.virtual('menteeAppointments', {
-    ref: 'Appointment',
-    localField: '_id',
-    foreignField: 'mentee',
+    foreignField: 'user',
     justOne: false,
 });
 

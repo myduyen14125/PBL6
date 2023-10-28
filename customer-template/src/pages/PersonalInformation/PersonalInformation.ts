@@ -1,6 +1,6 @@
 import { defineComponent, onMounted, ref, watch } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
-import router from "../../router";
+import { formatDate } from "../../ultils/date";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import SwalPopup from "../../ultils/swalPopup";
 import { useUser } from "../../stores/user";
@@ -96,6 +96,33 @@ export default defineComponent({
       isSubmitting.value = true;
     };
 
+    const updateInfo = () => {
+      isSubmitting.value = true;
+
+      userStore.requestUpdateUser({
+        params: {
+          ...userInfo.value,
+          date_of_birth: formatDate(
+            userInfo?.value?.date_of_birth,
+            "YYYY-MM-D"
+          ),
+        },
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+            getUserInformation();
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
+    };
+
     return {
       userInfo,
       error,
@@ -103,6 +130,7 @@ export default defineComponent({
       validatePhone,
       validateName,
       submitUpdateForm,
+      updateInfo,
     };
   },
 });
