@@ -1,6 +1,6 @@
 import { defineComponent, onMounted, ref, watch } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
-import router from "../../router";
+import { formatDate } from "../../ultils/date";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import SwalPopup from "../../ultils/swalPopup";
 import { useUser } from "../../stores/user";
@@ -100,10 +100,17 @@ export default defineComponent({
       isSubmitting.value = true;
 
       userStore.requestUpdateUser({
-        params: userInfo.value,
+        params: {
+          ...userInfo.value,
+          date_of_birth: formatDate(
+            userInfo?.value?.date_of_birth,
+            "YYYY-MM-D"
+          ),
+        },
         callback: {
           onSuccess: (res) => {
             isSubmitting.value = false;
+            getUserInformation();
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -114,8 +121,8 @@ export default defineComponent({
           },
         },
       });
-    }
-    
+    };
+
     return {
       userInfo,
       error,
