@@ -20,3 +20,13 @@ export function formatRelativeDate(dateString: string) {
     return formatDate(dateString);
   }
 }
+
+export function formatTimeFullCalendar (time: string) {
+  const date = new Date(time);
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const hour = ("0" + date.getHours()).slice(-2);
+  const minute = ("0" + date.getMinutes()).slice(-2);
+  return `${day}-${month}-${year} ${hour}:${minute}`;
+}
