@@ -56,6 +56,13 @@ export default defineComponent({
       }
     };
 
+    const handleImage = (image: any) => {
+      // if image = blank or null => return default image
+      if (!image || image === "blank") {
+        return "https://4kwallpapers.com/images/wallpapers/anime-girl-girly-1024x768-9792.jpg"
+      }
+    };
+
     return {
       avatar,
       icMentee,
@@ -63,6 +70,7 @@ export default defineComponent({
       tooltipContainer,
       isTooltipRight,
       router,
+      handleImage
     };
   },
 });

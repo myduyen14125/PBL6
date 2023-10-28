@@ -12,11 +12,11 @@
           <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
         <div class="d-flex justify-content-between items-center mt-4 gap-4 text-xl text-[#0a5565]">
-          <div class="px-4 shadow-md bg-[#139896] text-white rounded h-14 d-flex items-center">
+          <!-- <div class="px-4 shadow-md bg-[#139896] text-white rounded h-14 d-flex items-center">
             <p class="mr-2 my-0">Lịch chọn</p>
             <p class="my-0 mr-2" v-if="selectedSchedule.start">{{ selectedSchedule.start }} - </p>
             <p class="my-0 mr-2" v-if="selectedSchedule.end">{{ selectedSchedule.end }}</p>
-          </div>
+          </div> -->
           <div>
             <button class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button>
             <button class="btn btn-primary btn-lg" @click="bookAppointment">
@@ -60,14 +60,16 @@ export default {
         headerToolbar: {
           left: "prev,next",
           center: "title",
-          right: "timeGridWeek,timeGridDay", // user can switch between the two
+          right: "timeGridWeek,timeGridDay",
         },
+        allDaySlot: false,
         validRange: {
           start: formatDate(new Date(), "YYYY-MM-DD"),
         },
         dateClick: this.handleDateClick,
         eventClick: this.handleSelectSchedule,
         events: [],
+        eventColor: '#409ee7',
         slotDuration: "00:30:00",
         slotMinTime: "06:00:00",
         slotMaxTime: "24:00:00",
@@ -90,6 +92,15 @@ export default {
       this.selectedSchedule.id = arg.event.id;
       this.selectedSchedule.start = formatTimeFullCalendar(arg.event.start);
       this.selectedSchedule.end = formatTimeFullCalendar(arg.event.end);
+      // change eventColor
+      this.calendarOptions.events.forEach((event) => {
+        if (event.id === arg.event.id) {
+          event.color = "#139896";
+          event.title = "Đã chọn";
+        } else {
+          event.color = "#409ee7";
+        }
+      });
     },
     getUserInformation: function () {
       const userStore = useUser();
@@ -131,6 +142,7 @@ export default {
         callback: {
           onSuccess: (res) => {
             SwalPopup.swalResultPopup("Đặt lịch thành công", "success");
+            this.$router.push("/appointments");
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(

@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="appointment-card__cancel">
-        <button class="btn btn-danger !text-sm">Hủy lịch hẹn</button>
+        <button class="btn btn-primary !text-sm">Hủy lịch hẹn</button>
       </div>
     </div>
   </div>
