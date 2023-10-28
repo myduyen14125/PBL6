@@ -45,7 +45,7 @@
               `${formatDate(
                 appointment?.schedule?.start_at,
                 "hh:ss a"
-              )} - ${formatDate(appointment?.schedule?.end_at, "hh:ss a")}`
+              )}-${formatDate(appointment?.schedule?.end_at, "hh:ss a")}`
             }}
           </p>
         </div>
