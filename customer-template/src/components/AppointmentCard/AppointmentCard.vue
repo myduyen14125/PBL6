@@ -54,8 +54,6 @@
           <p class="font-bold">Online</p>
         </div>
       </div>
-      <div class="appointment-card__cancel">
-        <button class="btn btn-primary !text-sm">Hủy lịch hẹn</button>
       <div class="appointment-card__action">
         <div class="appointment-card__cancel"  v-if="appointment.status=='pending'">
           <button class="btn btn-danger !text-sm">Hủy lịch hẹn</button>
