@@ -1,0 +1,4 @@
+.appointment-card__action {
+    display: flex;
+    gap: 4px;
+}

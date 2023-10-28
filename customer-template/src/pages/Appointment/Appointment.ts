@@ -32,7 +32,17 @@ export default defineComponent({
       getAllUserAppointment();
     });
 
+    const resetAppointments = () => {
+      appointments.value = {
+        pending: [],
+        confirmed: [],
+        canceled: [],
+        finished: [],
+      };
+    };
+
     const getAllUserAppointment = () => {
+      resetAppointments();
       isLoadingAppointment.value = true;
       appointmentsStore.requestGetAllUserAppointment({
         callback: {
@@ -66,6 +76,7 @@ export default defineComponent({
       handleClick,
       isLoadingAppointment,
       appointments,
+      getAllUserAppointment,
     };
   },
 });
