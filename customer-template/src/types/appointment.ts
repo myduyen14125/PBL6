@@ -1,10 +1,13 @@
 import { User } from "./auth";
+import { Schedule } from "./schedule";
 
 export interface Appointment {
   _id: string;
   start_at: string;
   end_at: string;
-  user: User;
+  mentee: User;
+  mentor: User;
+  schedule: Schedule;
   status: string;
 }
 
