@@ -205,6 +205,8 @@ export class AppointmentService {
         await updatedAppointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
         await updatedAppointment.populate({ path: 'schedule' });
 
+        // update number of mentee
+        await this.userService.updateUserNumberOfMentees(mentor._id);
         // mail
 
 
