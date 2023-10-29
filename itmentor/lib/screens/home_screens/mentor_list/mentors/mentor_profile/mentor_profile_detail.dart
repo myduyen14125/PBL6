@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:itmentor/models/user.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/blog_detail_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/schedule/choose_schedule_screen.dart';
@@ -29,7 +26,6 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
     super.initState();
     fetchUserData();
     fetchBlogs();
-    print(widget.id);
   }
 
   Future<void> fetchBlogs() async {
@@ -58,13 +54,15 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
       final data = json.decode(response.body);
       setState(() {
         userData = data;
-        print('userData: $userData');
       });
-      print(data);
-      print(data['number_of_mentees']);
     } else {
       throw Exception('Failed to load user data');
     }
+  }
+
+  String stripHtmlTags(String htmlString) {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    return htmlString.replaceAll(exp, '');
   }
 
   @override
@@ -447,8 +445,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                     bottomRight: Radius.circular(12.0),
                                   ),
                                 ),
-                                padding: EdgeInsets.all(16.0),
-                                child: Text(
+                                padding: const EdgeInsets.all(16.0),
+                                child: const Text(
                                   'Kỹ năng',
                                   style: TextStyle(
                                     color: Colors.white,
@@ -478,8 +476,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                     bottomRight: Radius.circular(12.0),
                                   ),
                                 ),
-                                padding: EdgeInsets.all(16.0),
-                                child: Text(
+                                padding: const EdgeInsets.all(16.0),
+                                child: const Text(
                                   'Blogs',
                                   style: TextStyle(
                                     color: Colors.white,
@@ -490,7 +488,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: blogs.length,
                                 itemBuilder: (context, index) {
                                   final blog = blogs[index];
@@ -500,16 +498,26 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                         MaterialPageRoute(
                                           builder: ((context) {
                                             return BlogDetailScreen(
-                                                blogId: blog['_id']);
+                                              blogId: blog['_id'],
+                                              blogContent: blog['content'],
+                                            );
                                           }),
                                         ),
                                       );
                                     },
                                     child: Card(
-                                      margin: EdgeInsets.all(8),
+                                      margin: const EdgeInsets.all(8),
                                       child: ListTile(
                                         title: Text(blog['title']),
-                                        subtitle: Text('${blog['content']}'),
+                                        subtitle: Text(
+                                          stripHtmlTags(blog['content'])
+                                                      .length <=
+                                                  300
+                                              ? stripHtmlTags(blog['content'])
+                                              : stripHtmlTags(blog['content'])
+                                                      .substring(0, 300) +
+                                                  '...', // Limit to 300 characters
+                                        ),
                                       ),
                                     ),
                                   );

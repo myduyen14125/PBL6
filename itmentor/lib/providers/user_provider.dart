@@ -28,4 +28,10 @@ class UserProvider extends ChangeNotifier {
     _user = user;
     notifyListeners();
   }
+
+  // Update user data without overwriting
+  void updateUser(User user) {
+    _user = user;
+    notifyListeners();
+  }
 }

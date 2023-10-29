@@ -1,16 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:itmentor/models/user.dart';
-import 'package:itmentor/providers/user_provider.dart';
-import 'package:itmentor/screens/home_screens/homepage_screen.dart';
 import 'package:itmentor/screens/homepage_navigation_screen.dart';
 import 'package:itmentor/utils/constant.dart';
-import 'package:itmentor/utils/utils.dart';
-import 'package:provider/provider.dart';
-
 
 class ChooseScreenCompletionScreen extends StatelessWidget {
   final String mentorId;
@@ -18,13 +8,8 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
   const ChooseScreenCompletionScreen(
       {super.key, required this.mentorId, required this.scheduleId});
 
-  
-
   @override
   Widget build(BuildContext context) {
-    
-    print('mentor id: ${mentorId}');
-    print('schedule id: ${scheduleId}');
     return Scaffold(
       body: Container(
         child: SafeArea(
@@ -94,7 +79,7 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Text('Nghề nghiệp'),
+              const Text('Nghề nghiệp'),
               Column(
                 children: [
                   Row(
@@ -138,10 +123,9 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Card(
-                  elevation: 4, // Add elevation for a card-like effect
+                  elevation: 4,
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10), // Add rounded corners
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Container(
                     padding: const EdgeInsets.all(16),
@@ -149,7 +133,7 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color.fromARGB(255, 255, 231, 14),
                           ),
@@ -168,7 +152,7 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                             children: [
                               Text(
                                 Constants.result,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -178,7 +162,7 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                                       8), // Add vertical space between the texts
                               Text(
                                 Constants.result2,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 16,
                                 ),
                               ),

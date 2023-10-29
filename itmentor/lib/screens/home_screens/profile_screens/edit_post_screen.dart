@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:itmentor/utils/constant.dart';
 
@@ -31,8 +29,6 @@ class _EditPostScreenState extends State<EditPostScreen> {
     super.initState();
     _editTitleController.text = widget.title;
     _contentTitleController.text = widget.content;
-    print(widget.postId);
-    print(widget.authorToken);
   }
 
   Future<void> updateBlogPost(
@@ -56,39 +52,37 @@ class _EditPostScreenState extends State<EditPostScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Success'),
-              content: Text('Blog post updated successfully'),
+              title: const Text('Success'),
+              content: const Text('Blog post updated successfully'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
           },
         );
-        print(response.statusCode);
       } else {
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Error'),
-              content: Text('Failed to update the blog post'),
+              title: const Text('Error'),
+              content: const Text('Failed to update the blog post'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
           },
         );
-        print(response.statusCode);
       }
     } catch (e) {
       // Handle exceptions

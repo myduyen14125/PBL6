@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/all_blogs_screen.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -126,16 +122,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           child: Column(
                             children: [
                               Image.asset('assets/images/logo.png'),
-                              Text('Tin tức công nghệ sáng 31//7'),
-                              Text('Twitter đổi tên sang X'),
+                              const Text('Tin tức công nghệ sáng 31//7'),
+                              const Text('Twitter đổi tên sang X'),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(left: 20),
+                                    padding: const EdgeInsets.only(left: 20),
                                     child: Row(
-                                      children: [
+                                      children: const [
                                         Icon(Icons.calendar_month),
                                         Padding(
                                             padding: EdgeInsets.only(left: 20),
@@ -144,18 +140,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(right: 10),
+                                    padding: const EdgeInsets.only(right: 10),
                                     child: ElevatedButton(
                                       onPressed: () {},
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xFF195A94),
+                                        backgroundColor:
+                                            const Color(0xFF195A94),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                               20.0), // Đặt bán kính bo tròn
                                         ),
                                       ),
                                       child: Row(
-                                        children: [
+                                        children: const [
                                           Text('Xem tiếp'),
                                           Icon(
                                             Icons.arrow_circle_right,

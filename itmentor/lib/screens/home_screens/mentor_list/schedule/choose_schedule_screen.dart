@@ -1,13 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/schedule/choose_schedule_detail_screen.dart';
-import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,11 +10,8 @@ class ChooseSchedule extends StatefulWidget {
   final String mentorId;
   final String mentorName;
 
-  ChooseSchedule({
-    Key? key,
-    required this.mentorId,
-    required this.mentorName
-  }) : super(key: key);
+  ChooseSchedule({Key? key, required this.mentorId, required this.mentorName})
+      : super(key: key);
 
   @override
   State<ChooseSchedule> createState() => _ChooseScheduleState();
@@ -44,7 +36,6 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
         apiData = jsonData.cast<Map<String, dynamic>>();
         apiData =
             apiData.where((schedule) => schedule['status'] == true).toList();
-        print(apiData);
       });
     } else {
       throw Exception('Failed to load data');

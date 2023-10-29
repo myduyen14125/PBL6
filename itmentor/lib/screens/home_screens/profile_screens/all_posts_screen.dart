@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:itmentor/models/user.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/profile_screens/edit_post_screen.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -42,7 +39,6 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
 
       setState(() {
         blogData = blogs.cast<Map<String, dynamic>>();
-        print(blogData);
       });
     } else {
       throw Exception('Failed to load data');
@@ -52,7 +48,7 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
   Future<void> _deleteBlogPost(String postId) async {
     final deleteUri = Uri.https(
       Constants.uri,
-      '/blog/$postId', // Replace with your actual delete API endpoint
+      '/blog/$postId',
     );
 
     final response = await http.delete(
@@ -68,8 +64,6 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
     );
 
     if (response.statusCode == 200) {
-      // Deletion was successful
-      // You can also update the UI to remove the deleted item from the list
       setState(() {
         blogData.removeWhere((blog) => blog['_id'] == postId);
       });
@@ -77,23 +71,20 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Success'),
-            content: Text('Blog deleted successfully'),
+            title: const Text('Success'),
+            content: const Text('Blog deleted successfully'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
         },
       );
-      print(response.statusCode);
     } else {
-      // Handle deletion failure
-      // You can show an error message or take appropriate action
       print('Failed to delete blog post');
     }
   }
@@ -104,15 +95,13 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Blog List'),
+        title: const Text('Blog List'),
       ),
       backgroundColor: Colors.grey,
       body: ListView.builder(
         itemCount: blogData.length,
         itemBuilder: (context, index) {
           final blog = blogData[index];
-          print("blog data: $blog");
-          print("blogId: ${blog['_id']}");
 
           return Dismissible(
             key: UniqueKey(),

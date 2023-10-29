@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class LatestNewsScreen extends StatefulWidget {
   const LatestNewsScreen({super.key});
@@ -25,8 +22,8 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
                 child: Column(
                   children: [
                     Image.asset('assets/images/logo.png'),
-                    Text('Tin tức công nghệ sáng 31//7'),
-                    Text('Twitter đổi tên sang X'),
+                    const Text('Tin tức công nghệ sáng 31//7'),
+                    const Text('Twitter đổi tên sang X'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

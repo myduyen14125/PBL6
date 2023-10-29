@@ -47,6 +47,7 @@ dependencies:
   table_calendar: ^3.0.9
   flutter_event_calendar: ^1.0.0
   cached_network_image: ^3.2.3
+  flutter_widget_from_html: ^0.9.1
 
 dev_dependencies:
   flutter_test:

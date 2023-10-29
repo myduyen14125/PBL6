@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:itmentor/models/user.dart';
@@ -37,7 +34,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         appointments = data;
       });
     } else {
-      throw Exception('Failed to load data');
+      print('No Appointment');
     }
   }
 
@@ -63,14 +60,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Success'),
-            content: Text('Blog deleted successfully'),
+            title: const Text('Success'),
+            content: const Text('Blog deleted successfully'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -81,14 +78,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Failed'),
-            content: Text('Delete fail'),
+            title: const Text('Failed'),
+            content: const Text('Delete fail'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -105,98 +102,100 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : SafeArea(
-              child: ListView.builder(
-                itemCount: appointments.length,
-                itemBuilder: (context, index) {
-                  final appointment = appointments[index];
-                  final mentorName = appointment['mentor']['name'];
-                  final startAt =
-                      DateTime.parse(appointment['schedule']['start_at']);
-                  final endAt =
-                      DateTime.parse(appointment['schedule']['end_at']);
-                  final status = appointment['status'];
-                  final appointmentId = appointment['_id'];
+          : user.role == "mentor"
+              ? SafeArea(
+                  child: ListView.builder(
+                    itemCount: appointments.length,
+                    itemBuilder: (context, index) {
+                      final appointment = appointments[index];
+                      final mentorName = appointment['mentor']['name'];
+                      final startAt =
+                          DateTime.parse(appointment['schedule']['start_at']);
+                      final endAt =
+                          DateTime.parse(appointment['schedule']['end_at']);
+                      final status = appointment['status'];
+                      final appointmentId = appointment['_id'];
 
-                  return Dismissible(
-                    key: UniqueKey(),
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 20),
-                      child: const Icon(Icons.delete, color: Colors.white),
-                    ),
-                    secondaryBackground: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(left: 20),
-                      child: const Icon(Icons.delete, color: Colors.white),
-                    ),
-                    onDismissed: (direction) {
-                      if (direction == DismissDirection.endToStart) {
-                        // Handle delete API call here
-                        deleteAppointment(appointmentId);
-                        // Remove the appointment from the list
-                        setState(() {
-                          appointments.removeAt(index);
-                        });
-                      }
-                    },
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: ((context) {
-                              return AppointmentDetailScreen(
-                                accessToken: user.accessToken,
-                                scheduleId: appointmentId,
-                              );
-                            }),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 4,
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(16),
-                          tileColor: Colors.white,
-                          title: Text(
-                            'Mentor: $mentorName',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Start Date: ${DateFormat('dd/MM/yyyy').format(startAt)}',
-                                style: const TextStyle(fontSize: 16),
+                      return Dismissible(
+                        key: UniqueKey(),
+                        background: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 20),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        secondaryBackground: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            deleteAppointment(appointmentId);
+                            setState(() {
+                              appointments.removeAt(index);
+                            });
+                          }
+                        },
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: ((context) {
+                                  return AppointmentDetailScreen(
+                                    accessToken: user.accessToken,
+                                    scheduleId: appointmentId,
+                                  );
+                                }),
                               ),
-                              Text(
-                                'End Date: ${DateFormat('dd/MM/yyyy').format(endAt)}',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                'Status: $status',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: status == 'pending'
-                                      ? Colors.orange
-                                      : Colors.green,
+                            );
+                          },
+                          child: Card(
+                            margin: const EdgeInsets.all(10),
+                            elevation: 4,
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(16),
+                              tileColor: Colors.white,
+                              title: Text(
+                                'Mentor: $mentorName',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Start Date: ${DateFormat('dd/MM/yyyy').format(startAt)}',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    'End Date: ${DateFormat('dd/MM/yyyy').format(endAt)}',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    'Status: $status',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: status == 'pending'
+                                          ? Colors.orange
+                                          : Colors.green,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                      );
+                    },
+                  ),
+                )
+              : const Center(
+                  child: Text('Không có cuộc hẹn'),
+                ),
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:itmentor/screens/home_screens/course_list/course_list_screen.dar
 import 'package:itmentor/screens/home_screens/latest_news_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_list_screen.dart';
-import 'package:itmentor/screens/home_screens/profile_screens/profile_screen.dart';
 import 'package:itmentor/screens/home_screens/related_fields_screen.dart';
 import 'package:itmentor/screens/home_screens/search_mentors/search_mentor_screen.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -76,26 +75,17 @@ class _HomepageScreenState extends State<HomepageScreen>
                             onPressed: (() {}),
                             icon: const Icon(Icons.notifications)),
                         IconButton(
-                            onPressed: (() {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: ((context) {
-                                    return SearchMentor();
-                                  }),
-                                ),
-                              );
-                            }),
-                            icon: const Icon(Icons.search)),
-                        IconButton(
-                            onPressed: (() {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfileScreen()),
-                              );
-                            }),
-                            icon: const Icon(Icons.face)),
+                          onPressed: (() {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: ((context) {
+                                  return const SearchMentor();
+                                }),
+                              ),
+                            );
+                          }),
+                          icon: const Icon(Icons.search),
+                        ),
                       ],
                     ),
                   ],

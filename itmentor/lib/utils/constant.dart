@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Constants {
-  static String uri = 'pbl6-test-production.up.railway.app';
+  // static String uri = 'pbl6-test-production.up.railway.app';
+  // static String uri = '10.0.2.2:3001';
+  static String uri = 'pbl6-production.up.railway.app';
   static const backgroundColor = LinearGradient(
     colors: [
       Color(0xFF18BEBC),
@@ -23,5 +25,6 @@ class Constants {
 
   static String result =
       '95% cố vấn sẽ xem rất kĩ Hồ sơ của bạn trước khi đồng ý lịch hẹn';
-  static String result2 = 'Trong lúc chờ cố vấn xác nhận, hãy cập nhật và hoàn thiện hồ sơ của bản thân ngay nhé!';
+  static String result2 =
+      'Trong lúc chờ cố vấn xác nhận, hãy cập nhật và hoàn thiện hồ sơ của bản thân ngay nhé!';
 }

@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:itmentor/utils/constant.dart';
 
@@ -42,7 +40,7 @@ class _AllCurrentSchedulesState extends State<AllCurrentSchedules> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schedule Data'),
+        title: const Text('Schedule Data'),
       ),
       body: ListView.builder(
         itemCount: scheduleData.length,

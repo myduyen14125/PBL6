@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/screens/auth_screens/register_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -63,7 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 Container(
-                  margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
+                  margin:
+                      const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                   child: TextFormField(
                     controller: _usernameController,
                     decoration: InputDecoration(
@@ -78,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(left: 50, bottom: 10, right: 50),
+                  margin:
+                      const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                   child: TextFormField(
                     controller: _passwordController,
                     obscureText: true,

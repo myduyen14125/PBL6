@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/blog_detail_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class AllBlogsScreen extends StatefulWidget {
@@ -13,6 +12,11 @@ class AllBlogsScreen extends StatefulWidget {
 class _BlogScreenState extends State<AllBlogsScreen> {
   late Future<List<dynamic>> blogs;
   final AuthServices authServices = AuthServices();
+
+  String stripHtmlTags(String htmlString) {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    return htmlString.replaceAll(exp, '');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +58,14 @@ class _BlogScreenState extends State<AllBlogsScreen> {
                       itemCount: blogsData!.length,
                       itemBuilder: (context, index) {
                         final blog = blogsData[index];
-                        final avatarUrl = blog['user']['avatar'];
                         return GestureDetector(
                           onTap: () {
-                            print('item clicked');
-                            print(blog['_id']);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BlogDetailScreen(
                                   blogId: blog['_id'],
+                                  blogContent: blog['content'],
                                 ),
                               ),
                             );
@@ -75,12 +77,14 @@ class _BlogScreenState extends State<AllBlogsScreen> {
                               child: ListTile(
                                 leading: Image.asset(
                                   'assets/images/female_avatar.png',
-                                  width: 48, 
-                                  height: 48, 
+                                  width: 48,
+                                  height: 48,
                                 ),
                                 title: Text(blog['title']),
                                 subtitle: Text(
-                                  '${blog['content']}\nWritten by ${blog['user']['name']}',
+                                  stripHtmlTags(blog['content']).length <= 300
+                                      ? stripHtmlTags(blog['content'])
+                                      : '${stripHtmlTags(blog['content']).substring(0, 300)}...', // Limit to 300 characters
                                 ),
                               )),
                         );
