@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/bio_screen.dart';
 import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/mentor_action/mentor_action.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileScreenDetail extends StatefulWidget {
   const ProfileScreenDetail({super.key});
@@ -15,11 +19,56 @@ class ProfileScreenDetail extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreenDetail> {
   final AuthServices authServices = AuthServices();
 
+  String selectedImagePath =
+      "https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png";
+
   void signOutUser(BuildContext context) {
     AuthServices().signOut(context);
   }
 
   List<Map<String, dynamic>> blogData = [];
+
+  Future<void> _pickImage(String token) async {
+    final imagePicker = ImagePicker();
+    final XFile? pickedImage =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        selectedImagePath = pickedImage.path;
+        updateAvatar(selectedImagePath, token);
+      });
+      print('Selected image path: ${pickedImage.path}');
+    }
+  }
+
+  Future<void> updateAvatar(String imagePath, String token) async {
+    try {
+      // final Uri uri = Uri.parse(apiUrl);
+      final uri = Uri.https(Constants.uri, '/user/update-avatar');
+
+      // Create a request with a multipart form data
+      final request = http.MultipartRequest('PATCH', uri);
+
+      // Add the image file to the request
+      final file = await http.MultipartFile.fromPath('avatar', imagePath);
+      request.files.add(file);
+
+      request.headers['Authorization'] = 'Bearer $token';
+
+      // Send the request
+      final response = await request.send();
+
+      print("upload code: ${response.statusCode}");
+      if (response.statusCode == 200) {
+        print('Avatar updated successfully.');
+      } else {
+        print('Failed to update avatar. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +148,16 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                   children: [
                                     CircleAvatar(
                                       radius: 50,
-                                      backgroundImage: avatar != "blank"
-                                          ? NetworkImage(avatar)
-                                          : const NetworkImage(
-                                              'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png'),
+                                      backgroundImage: NetworkImage(avatar !=
+                                              'blank'
+                                          ? avatar
+                                          : 'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png'),
+                                      child: InkWell(
+                                        onTap: () {
+                                          _pickImage(token);
+                                        },
+                                        customBorder: const CircleBorder(),
+                                      ),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
