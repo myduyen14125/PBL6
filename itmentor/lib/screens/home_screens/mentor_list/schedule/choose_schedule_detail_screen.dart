@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/schedule/choose_screen_completion_screen.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -15,7 +13,10 @@ class ChooseScheduleDetailScreen extends StatefulWidget {
   final String scheduleId;
   final String mentorName;
   const ChooseScheduleDetailScreen(
-      {super.key, required this.mentorId, required this.scheduleId, required this.mentorName});
+      {super.key,
+      required this.mentorId,
+      required this.scheduleId,
+      required this.mentorName});
 
   @override
   State<ChooseScheduleDetailScreen> createState() =>
@@ -41,9 +42,6 @@ class _ChooseScheduleDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    print('schedule id: ${widget.scheduleId}');
-    print('mentor id: ${widget.mentorId}');
-
     final user = Provider.of<UserProvider>(context).user;
     Future<void> sendAppointmentRequest(
         {required String mentorId,
@@ -66,11 +64,8 @@ class _ChooseScheduleDetailScreenState
       );
 
       if (response.statusCode == 201) {
-        print('Đã đặt lịch thành công');
         showSnackBar(context, 'Đã đặt lịch thành công');
       } else {
-        print(
-            'Có lỗi xảy ra khi đặt lịch. Mã trạng thái: ${response.statusCode}');
         print('Nội dung lỗi: ${response.body}');
       }
     }
@@ -115,9 +110,10 @@ class _ChooseScheduleDetailScreenState
                     ],
                   ),
                   ListTile(
-                    leading: Icon(Icons.star),
+                    leading: const Icon(Icons.star),
                     title: Text(widget.mentorName),
-                    subtitle: Text('Chief Technology Officer tại Mentori'),
+                    subtitle:
+                        const Text('Chief Technology Officer tại Mentori'),
                   ),
                 ],
               ),

@@ -1,18 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:itmentor/models/user.dart';
 import 'package:itmentor/providers/user_provider.dart';
-import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
-import 'package:itmentor/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class CreateBlog extends StatefulWidget {
-  const CreateBlog({super.key});
+  final String token;
+  const CreateBlog({super.key, required this.token});
 
   @override
   State<CreateBlog> createState() => _CreateBlogState();
@@ -22,11 +18,11 @@ class _CreateBlogState extends State<CreateBlog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  Future<void> createBlog(User user) async {
+  Future<void> createBlog() async {
     final url = Uri.https(Constants.uri, '/blog');
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${user.accessToken}'
+      'Authorization': 'Bearer ${widget.token}'
     };
     final body = jsonEncode({
       'title': _titleController.text,
@@ -41,14 +37,14 @@ class _CreateBlogState extends State<CreateBlog> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Success'),
-            content: Text('Blog post created successfully'),
+            title: const Text('Success'),
+            content: const Text('Blog post created successfully'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -64,14 +60,14 @@ class _CreateBlogState extends State<CreateBlog> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to create the blog post'),
+            title: const Text('Error'),
+            content: const Text('Failed to create the blog post'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -85,7 +81,7 @@ class _CreateBlogState extends State<CreateBlog> {
     final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Blog Post'),
+        title: const Text('Create Blog Post'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -93,20 +89,20 @@ class _CreateBlogState extends State<CreateBlog> {
           children: [
             TextFormField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             TextFormField(
               controller: _contentController,
-              decoration: InputDecoration(labelText: 'Content'),
+              decoration: const InputDecoration(labelText: 'Content'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             ElevatedButton(
               onPressed: () {
-                createBlog(user);
+                createBlog();
               },
-              child: Text('Create Blog'),
+              child: const Text('Create Blog'),
             ),
           ],
         ),

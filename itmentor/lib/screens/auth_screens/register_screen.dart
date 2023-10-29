@@ -1,9 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:itmentor/screens/auth_screens/login_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -23,7 +18,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _avatarController = TextEditingController();
 
   bool isMale = false;
   bool isFemale = false;

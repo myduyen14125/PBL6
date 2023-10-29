@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile/mentor_profile_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
-import 'package:itmentor/utils/utils.dart';
 
 class MentorListScreen extends StatefulWidget {
   const MentorListScreen({super.key});
@@ -115,6 +110,8 @@ class _MentorListScreenState extends State<MentorListScreen> {
                     itemCount: itemCount,
                     itemBuilder: (context, index) {
                       final mentor = mentorData[index];
+                      final avatar = mentor['avatar'];
+                      final gender = mentor['gender'];
                       return Card(
                         elevation: 4,
                         shape: RoundedRectangleBorder(
@@ -131,12 +128,16 @@ class _MentorListScreenState extends State<MentorListScreen> {
                               ),
                             );
                           },
-                          leading: Image.asset(
-                            mentor['gender'] == true
-                                ? 'assets/images/male_avatar.jpg'
-                                : 'assets/images/female_avatar.png',
-                            width: 48,
-                            height: 48,
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            backgroundImage: avatar != null && avatar != "blank"
+                                ? NetworkImage(avatar as String)
+                                    as ImageProvider
+                                : gender == true
+                                    ? const AssetImage(
+                                        'assets/images/male_avatar.jpg')
+                                    : const AssetImage(
+                                        'assets/images/female_avatar.png'),
                           ),
                           title: Text('${mentor['name']}'),
                           subtitle: Row(

@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'ITMentor',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -46,14 +46,12 @@ class _MyAppState extends State<MyApp> {
           if (snapshot.connectionState == ConnectionState.done) {
             return snapshot.data == true
                 ? const HomepageNavigationScreen()
-                : SplashScreen();
+                : const SplashScreen();
           } else {
-            // Return a loading indicator or another widget while waiting for the result.
-            return CircularProgressIndicator(); // You can replace this with a loading indicator widget.
+            return const CircularProgressIndicator();
           }
         },
       ),
     );
   }
 }
-

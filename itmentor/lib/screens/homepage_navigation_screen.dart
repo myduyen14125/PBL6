@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/account_settings_screen/account_settings_screen.dart';
 import 'package:itmentor/screens/appointment_screen/appointment_screen.dart';
@@ -20,8 +18,6 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
   int _currentIndex = 0;
   PageController _pageController = PageController();
 
-  
-
   @override
   void dispose() {
     _pageController.dispose();
@@ -33,13 +29,14 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
     final user = Provider.of<UserProvider>(context).user;
     final List<Widget> _pages = [
       const HomepageScreen(),
-      AppointmentScreen(user: user,),
+      AppointmentScreen(
+        user: user,
+      ),
       const CommunicationScreen(),
-      const AccountSettingsScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(
-      
       body: PageView(
         controller: _pageController,
         children: _pages,
@@ -56,7 +53,6 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
         },
         unselectedItemColor: Colors.black,
         selectedItemColor: Colors.blue,
-        
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -71,7 +67,7 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
             label: 'Liên hệ',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.person),
             label: 'Tài khoản',
           ),
         ],
