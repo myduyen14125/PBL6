@@ -15,8 +15,8 @@ export class ScheduleController {
 
     @Post('create-schedules')
     @UseGuards(AuthGuard('jwt'))
-    async createSchedules(@Req() req: any, @Body(new ValidationPipe()) schedules: CreateScheduleDto[]) {
-        return this.scheduleService.createSchedules(req.user, schedules);
+    async createManySchedules(@Req() req: any, @Body(new ValidationPipe()) schedules: CreateScheduleDto[]) {
+        return this.scheduleService.createManySchedules(req.user, schedules);
     }
 
 
@@ -31,5 +31,18 @@ export class ScheduleController {
     async getScheduleById(@Req() req: any, @Param('id') id: string) {
         return this.scheduleService.getScheduleById(req.user, id);
     }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Delete('delete-schedules')
+    async deleteManySchedules(@Req() req: any, @Body() schedules: string[]) {
+        return this.scheduleService.deleteManySchedules(req.user, schedules)
+    }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Delete(':id')
+    async deleteSchedule(@Req() req: any, @Param('id') id: string) {
+        return this.scheduleService.deleteSchedule(req.user, id)
+    }
+
 
 }

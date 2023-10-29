@@ -1,4 +1,4 @@
-import { Controller, UseInterceptors, Get, Req, UseGuards, Param, Query, UploadedFile, Patch, Body } from '@nestjs/common';
+import { Controller, UseInterceptors, Post, Get, Req, UseGuards, Param, Query, UploadedFile, Patch, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../services/user.service';
 import { PaginationPostDto } from 'src/blog/dto/blog.dto';
@@ -54,5 +54,4 @@ export class UserController {
     async updateUserAvatar(@Req() req: any, @UploadedFile() file) {
         return this.userService.updateAvatar(req.user, file);
     }
-
 }

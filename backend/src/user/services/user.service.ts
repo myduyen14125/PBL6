@@ -9,7 +9,6 @@ import { RatingService } from 'src/rating/services/rating.service';
 import { BioService } from 'src/bio/services/bio.service';
 import { MediaService } from 'src/media/services/media.service';
 import { MailerService } from '@nestjs-modules/mailer';
-import { query } from 'express';
 
 @Injectable()
 export class UserService {
@@ -24,6 +23,8 @@ export class UserService {
 
 
     ) { }
+
+
 
     async createUser(userDto: CreateUserDto) {
         userDto.password = await bcrypt.hash(userDto.password, 10);
@@ -242,5 +243,52 @@ export class UserService {
             avatar: avatar.url
         })
     }
+
+    // async changePassword(user: User, password: string) {
+    //     const newPassword = await bcrypt.hash(password, 10);
+
+    //     return await this.userRepository.findByIdAndUpdate(user.id, {
+    //         password: newPassword
+    //     })
+    // }
+
+    // async forgotPassword(email: string) {
+    //     const userCheck = await this.userRepository.findByCondition({ email: email })
+    //     if (!userCheck) throw new HttpException('No such email exists', HttpStatus.BAD_REQUEST);
+
+    //     var tokenModel = await this.createPasswordToken(email)
+    //     if (tokenModel && tokenModel.token) {
+    //         await this.mailerService.sendMail({
+    //             to: email,
+    //             subject: 'Click here to reset your password',
+    //             template: `./forgotpassword`,
+    //             context: {
+    //                 token: tokenModel.token
+    //             }
+    //         })
+    //     }
+
+    // }
+
+    // async createPasswordToken(email: string) {
+    //     const forgottenPassword = await this.forgotPasswordModel.findOne({ email: email })
+
+    //     if (forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 < 15) {
+    //         throw new HttpException('Reset password email has already been sent recently', HttpStatus.BAD_REQUEST);
+    //     }
+    //     var fp = await this.forgotPasswordModel.findOneAndUpdate(
+    //         { email: email },
+    //         {
+    //             email: email,
+    //             token: (Math.floor(Math.random() * 9000000) + 1000000).toString(),
+    //             timestamp: new Date()
+    //         },
+    //         { upsert: true, new: true }
+    //     )
+    //     if (fp) {
+    //         return fp
+    //     }
+    // }
+
 
 }
