@@ -15,12 +15,11 @@ import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import router from "../../router";
-import AppointmentModal from "./element/AppointmentModal/index.vue";
 import { GetPaginationParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "UserInformation",
-  components: { GuestLayout, MentorPost, ExperienceCard, AppointmentModal },
+  components: { GuestLayout, MentorPost, ExperienceCard },
   props: {
     id: {
       type: String,
@@ -36,9 +35,7 @@ export default defineComponent({
     const userBlogs = ref([]);
     const mentors = ref([]);
     const showEdit = getUserInfo()?._id == props.id;
-    const appointmentModal: Ref<any> = ref<typeof AppointmentModal | null>(
-      null
-    );
+    const avatarSrc = ref('');
 
     onMounted(() => {
       getUserInformation(props.id);
@@ -107,13 +104,29 @@ export default defineComponent({
       });
     };
 
-    const bookAppointment = () => {
-      if (authStore.isLoggedIn()) {
-        router.push({ hash: "#step=1" });
-        appointmentModal?.value?.show();
-      } else {
-        router.push("/sign-in");
-      }
+    const uploadAvatar = (e: any) => {
+      const avatar = e.target.files[0];
+      if (!avatar) return;
+
+      userStore.requestUploadAvatar({
+        avatar: avatar,
+        callback: {
+          onSuccess: (res) => {
+            // SwalPopup.swalResultPopup(
+            //   "Your avatar has been updated successfully.",
+            //   "success"
+            // );
+            console.log(res)
+            // avatarSrc.value = res.avatar;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
     };
 
     return {
@@ -121,6 +134,7 @@ export default defineComponent({
       heartLogo,
       coverImg,
       avatarImg,
+      avatarSrc,
       ratingLogo,
       hourLogo,
       advertisementImg,
@@ -130,9 +144,8 @@ export default defineComponent({
       showEdit,
       mentors,
       router,
-      appointmentModal,
       getUserInfo,
-      bookAppointment,
+      uploadAvatar,
     };
   },
 });
