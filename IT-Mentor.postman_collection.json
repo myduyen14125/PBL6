@@ -34,9 +34,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/auth/login",
+							"raw": "https://pbl6-test-production.up.railway.app/auth/login",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"pbl6-test-production",
+								"up",
+								"railway",
+								"app"
 							],
 							"path": [
 								"auth",
@@ -127,7 +131,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODEyMTU3MiwiZXhwIjoxNjk4MTI0MTY0fQ.mzWyLrhtGhZpR-ijtHhZ2lXUo7q4ceYcnCFdbTDdI3Y",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODE2OTIyNCwiZXhwIjoxNjk4MTcxODE2fQ.hJMnd0h2iN6J5wdflkjNjFN6ywz08Q6Z8MJKDGAFBhI",
 									"type": "string"
 								}
 							]
@@ -201,7 +205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"tiendatphan21\",\r\n    \"name\": \"Mentor Dat Fake\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"avatar\": \"blank\",\r\n    \"role\": \"mentor\"\r\n}",
+							"raw": "{\r\n    \"email\": \"mentortest@gmail.com\",\r\n    \"password\": \"mentortest\",\r\n    \"name\": \"Mr Holy\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"role\": \"mentor\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -285,22 +289,25 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/mentor/search?name=dang&expertise=6536b3c642d7d685c6ea8f35",
+							"raw": "http://localhost:3001/mentor/search?name=uy",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
+							"port": "3001",
 							"path": [
 								"mentor",
 								"search"
 							],
 							"query": [
 								{
-									"key": "name",
-									"value": "dang"
+									"key": "expertise",
+									"value": "6536b3c642d7d685c6ea8f35",
+									"disabled": true
 								},
 								{
-									"key": "expertise",
-									"value": "6536b3c642d7d685c6ea8f35"
+									"key": "name",
+									"value": "uy"
 								}
 							]
 						}
@@ -351,7 +358,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODEyMTU3MiwiZXhwIjoxNjk4MTI0MTY0fQ.mzWyLrhtGhZpR-ijtHhZ2lXUo7q4ceYcnCFdbTDdI3Y",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpZW5kYXRwaGFuMjFAZ21haWwuY29tIiwiaWF0IjoxNjk4MjI2MjE1LCJleHAiOjE2OTgyMjg4MDd9.Enaf-pUgY4hrNOipDCuR7LiJCoA1KKujhzttpu5A_sI",
 									"type": "string"
 								}
 							]
@@ -359,29 +366,22 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "title",
-									"value": "C# By DHP",
-									"type": "text"
-								},
-								{
-									"key": "content",
-									"value": "Code 123",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"type": "file",
-									"src": "/C:/Users/PC/Downloads/cat.png"
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"123\",\r\n    \"content\": \"321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{host}}/blog",
+							"raw": "https://pbl6-test-production.up.railway.app/blog",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"pbl6-test-production",
+								"up",
+								"railway",
+								"app"
 							],
 							"path": [
 								"blog"
@@ -451,13 +451,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/blog/6524284619001bd106899365",
+							"raw": "{{host}}/blog/653749a79ba0dbaf51e437f6",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"blog",
-								"6524284619001bd106899365"
+								"653749a79ba0dbaf51e437f6"
 							]
 						}
 					},
@@ -490,7 +490,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQwNjA4NiwiZXhwIjoxNjk2NDA4Njc4fQ.3syFcOrIbKMmJxSHnc0_sacZe1isLlvg5JnIuMRSd5I",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpZW5kYXRwaGFuMjFAZ21haWwuY29tIiwiaWF0IjoxNjk4MjI2MjE1LCJleHAiOjE2OTgyMjg4MDd9.Enaf-pUgY4hrNOipDCuR7LiJCoA1KKujhzttpu5A_sI",
 									"type": "string"
 								}
 							]
@@ -507,13 +507,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/blog/651d1b1479b9b2797396164c",
+							"raw": "https://pbl6-test-production.up.railway.app/blog/6538e03ba2f3c81cd4670c6a",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"pbl6-test-production",
+								"up",
+								"railway",
+								"app"
 							],
 							"path": [
 								"blog",
-								"651d1b1479b9b2797396164c"
+								"6538e03ba2f3c81cd4670c6a"
 							]
 						}
 					},
@@ -618,7 +622,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mentor\": \"6537803f0a03d311350aca11\",\r\n    \"schedule\": \"653784e9e0a958dc3253b962\",\r\n    \"note\": \"Confirm it now\"\r\n}",
+							"raw": "{\r\n    \"mentor\": \"6537803f0a03d311350aca11\",\r\n    \"schedule\": \"6538b7397b7fe5d6c66777cd\",\r\n    \"note\": \"Confirm it now\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -792,7 +796,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
+									"value": "{{mentor}}",
 									"type": "string"
 								}
 							]
@@ -806,6 +810,71 @@
 							],
 							"path": [
 								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Schedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/schedule/653784e9e0a958dc3253b962",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schedule",
+								"653784e9e0a958dc3253b962"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Many Schedules",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"653ca1436766100f7f30df8f\",\r\n    \"6538b7397b7fe5d6c66777cd\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/schedule/delete-schedules",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schedule",
+								"delete-schedules"
 							]
 						}
 					},
@@ -857,7 +926,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"start_at\": \"2023-10-24T16:00:00\",\r\n    \"end_at\": \"2023-10-24T16:30:00\"\r\n}",
+							"raw": "{\r\n    \"start_at\": \"2023-10-24T14:00:00\",\r\n    \"end_at\": \"2023-10-24T14:30:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1528,14 +1597,18 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/PC/Downloads/doge.jpg"
+									"src": "/C:/Users/PC/Downloads/test.png"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{host}}/media/upload",
+							"raw": "https://pbl6-test-production.up.railway.app/media/upload",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"pbl6-test-production",
+								"up",
+								"railway",
+								"app"
 							],
 							"path": [
 								"media",

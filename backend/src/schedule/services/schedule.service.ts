@@ -35,7 +35,7 @@ export class ScheduleService {
 
     }
 
-    async createSchedules(user: User, schedules: CreateScheduleDto[]) {
+    async createManySchedules(user: User, schedules: CreateScheduleDto[]) {
         if (user.role === "mentee") {
             return HttpStatus.BAD_REQUEST;
         }
@@ -93,6 +93,28 @@ export class ScheduleService {
         return await this.scheduleRepository.findByIdAndUpdate(id, {
             status: newStatus
         })
+    }
+
+    async deleteSchedule(user: User, id: string) {
+
+        const schedule = await this.scheduleRepository.findById(id)
+        if (schedule.user.equals(user._id) && schedule.status === false) {
+            return await this.scheduleRepository.deleteOne(id);
+        }
+        throw new HttpException('No permission', HttpStatus.BAD_REQUEST);
+
+    }
+
+    async deleteManySchedules(user: User, ids: string[]) {
+        for (const id of ids) {
+            var schedule = await this.scheduleRepository.findById(id)
+            if (!(schedule.user.equals(user._id) && schedule.status === false)) {
+                throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+            }
+        }
+        return await this.scheduleRepository.deleteMany(ids)
+
+
     }
 
 }
