@@ -8,6 +8,8 @@ import { User } from "../../types/auth";
 import { useAuth } from "../../stores/auth";
 import { validate } from "../../ultils/validators";
 import { RegexPhoneNumber } from "../../constants/regex";
+import avatar from "../../assets/image/avatar.png";
+
 
 export default defineComponent({
   name: "UserInformation",
@@ -126,6 +128,7 @@ export default defineComponent({
     return {
       userInfo,
       error,
+      avatar,
       isSubmitting,
       validatePhone,
       validateName,

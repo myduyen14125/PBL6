@@ -22,8 +22,8 @@ import { RouterNameEnum } from "../constants/routeName";
 import { StatusCode } from "../constants/statusCode";
 
 const headers: Readonly<Record<string, string | boolean>> = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
+  // Accept: "application/json",
+  // "Content-Type": "application/json",
 };
 
 const AxiosRequest = (
@@ -36,7 +36,7 @@ const AxiosRequest = (
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    config.headers.Accept = "application/json";
+    // config.headers.Accept = "application/json";
 
     return config;
   } catch (error) {

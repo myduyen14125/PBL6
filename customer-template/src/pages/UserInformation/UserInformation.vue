@@ -7,8 +7,19 @@
             <div class="profile-cover">
               <img :src="coverImg" class="coverImg" />
               <div class="overlay">
-                <div class="flex-center-center p-3">
-                  <img :src="avatarImg" class="avatarImg" />
+                <div class="p-3 w-48 avatar-img">
+                  <img
+                    :src="userInfo?.avatar || avatarImg"
+                    alt="avatar"
+                    ref="avatarSrc"
+                  />
+                  <input
+                    type="file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    @change="uploadAvatar"
+                  />
                 </div>
                 <div class="px-4 d-flex flex-column justify-content-center">
                   <div class="username">{{ userInfo?.name || "" }}</div>
@@ -243,7 +254,6 @@
         </div>
       </div>
     </div>
-    <AppointmentModal ref="appointmentModal" />
   </GuestLayout>
 </template>
 
