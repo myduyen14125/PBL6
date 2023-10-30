@@ -28,4 +28,9 @@ export class AuthController {
         return await this.authService.refresh(body.refresh_token);
     }
 
+    @Post('forgot-password')
+    async forgotPassword(@Body() body) {
+        return await this.authService.forgotPassword(body.email)
+    }
+
 }
