@@ -244,13 +244,44 @@ export class UserService {
         })
     }
 
-    // async changePassword(user: User, password: string) {
-    //     const newPassword = await bcrypt.hash(password, 10);
+    async changePassword(user: User, password: string) {
+        const newPassword = await bcrypt.hash(password, 10);
 
-    //     return await this.userRepository.findByIdAndUpdate(user.id, {
-    //         password: newPassword
-    //     })
-    // }
+        return await this.userRepository.findByIdAndUpdate(user.id, {
+            password: newPassword
+        })
+    }
+
+    async forgotPassword(email: string) {
+        const userCheck = await this.userRepository.findByCondition({ email: email })
+        if (!userCheck) throw new HttpException('No such email exists', HttpStatus.BAD_REQUEST);
+
+        const newPassword = this.generateRandomPassword(10);
+        const newPasswordHashed = await bcrypt.hash(newPassword, 10);
+        await this.userRepository.findByIdAndUpdate(userCheck.id, { password: newPasswordHashed })
+
+        await this.mailerService.sendMail({
+            to: email,
+            subject: 'Your new password',
+            template: `./forgotpassword`,
+            context: {
+                password: newPassword
+            }
+        })
+
+        return "check your email for new password"
+
+    }
+
+    generateRandomPassword(length: number): string {
+        const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let password = "";
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset.charAt(randomIndex);
+        }
+        return password;
+    }
 
     // async forgotPassword(email: string) {
     //     const userCheck = await this.userRepository.findByCondition({ email: email })

@@ -116,4 +116,9 @@ export class AuthService {
             throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
         }
     }
+
+
+    async forgotPassword(email: string) {
+        return await this.userService.forgotPassword(email)
+    }
 }

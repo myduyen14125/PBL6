@@ -54,4 +54,10 @@ export class UserController {
     async updateUserAvatar(@Req() req: any, @UploadedFile() file) {
         return this.userService.updateAvatar(req.user, file);
     }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Patch('change-password')
+    async changePassword(@Req() req: any, @Body() body) {
+        return this.userService.changePassword(req.user, body.password);
+    }
 }

@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"tiendatphan21\"\r\n}",
+							"raw": "{\r\n    \"email\": \"phvntiendat@gmail.com\",\r\n    \"password\": \"phvntiendat\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -34,17 +34,87 @@
 							}
 						},
 						"url": {
-							"raw": "https://pbl6-test-production.up.railway.app/auth/login",
-							"protocol": "https",
+							"raw": "{{host}}/auth/login",
 							"host": [
-								"pbl6-test-production",
-								"up",
-								"railway",
-								"app"
+								"{{host}}"
 							],
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODU3MTMxOSwiZXhwIjoxNjk4NTczOTExfQ.i1cAXB32wC31z5T13kUFMwje4vCBpWcZ326gKh1hlQQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"phvntiendat\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/change-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZUBnbWFpbC5jb20iLCJpYXQiOjE2OTcwMzE0OTMsImV4cCI6MTY5NzAzNDA4NX0.TSe8SDerDBZWwXFc0QbAtSKjAYKDlNdKIFb4ZcuJorY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"phvntiendat@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/forgot-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
 							]
 						}
 					},
@@ -104,7 +174,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"expertise\": \"6536b3c642d7d685c6ea8f35\",\r\n}",
+							"raw": "{\r\n    \"expertise\": \"6536b3c642d7d685c6ea8f35\",\r\n    \"name\": \"New Name\",\r\n    \"date_of_birth\": \"1999-11-11\",\r\n    \"gender\": true,\r\n    \"phone\": \"123456789\",\r\n    \"facebook_link\": \"https://www.facebook.com/phvntiendat/\",\r\n    \"skype_link\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
