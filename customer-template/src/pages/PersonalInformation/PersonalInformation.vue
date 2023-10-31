@@ -55,8 +55,8 @@
                 </div>
               </div>
               <div class="col-12 col-lg-6">
-                <div class="form-group mb-3">
-                  <label for="address">Địa chỉ:</label>
+                <div class="form-group mb-3 h-[32px]">
+                  <!-- <label for="address">Địa chỉ:</label>
                   <input
                     class="form-control"
                     type="text"
@@ -64,7 +64,7 @@
                     name="address"
                     v-model="userInfo.address"
                     placeholder="Nhập địa chỉ"
-                  />
+                  /> -->
                 </div>
                 <div class="form-group mb-3">
                   <label for="date_of_birth">Ngày sinh:</label>

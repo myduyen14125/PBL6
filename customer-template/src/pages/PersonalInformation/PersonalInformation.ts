@@ -1,7 +1,7 @@
 import { defineComponent, onMounted, ref, watch } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import { formatDate } from "../../ultils/date";
-import { getUserInfo } from "../../ultils/cache/localStorage";
+import Swal from "sweetalert2";
 import SwalPopup from "../../ultils/swalPopup";
 import { useUser } from "../../stores/user";
 import { User } from "../../types/auth";
@@ -9,7 +9,6 @@ import { useAuth } from "../../stores/auth";
 import { validate } from "../../ultils/validators";
 import { RegexPhoneNumber } from "../../constants/regex";
 import avatar from "../../assets/image/avatar.png";
-
 
 export default defineComponent({
   name: "UserInformation",
@@ -75,11 +74,12 @@ export default defineComponent({
     };
 
     const getUserInformation = () => {
-      userStore.requestGetUserInfo({
-        id: getUserInfo()._id,
+      userStore.requestMyProfile({
         callback: {
           onSuccess: (res) => {
-            userInfo.value = res;
+            userInfo.value = {
+              ...res,
+            };
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -105,7 +105,7 @@ export default defineComponent({
         params: {
           ...userInfo.value,
           date_of_birth: formatDate(
-            userInfo?.value?.date_of_birth,
+            userInfo?.value?.date_of_birth?.toString(),
             "YYYY-MM-D"
           ),
         },
@@ -113,6 +113,7 @@ export default defineComponent({
           onSuccess: (res) => {
             isSubmitting.value = false;
             getUserInformation();
+            showToast();
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -122,6 +123,25 @@ export default defineComponent({
             isSubmitting.value = false;
           },
         },
+      });
+    };
+
+    const showToast = () => {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "Chỉnh sửa thông tin thành công",
       });
     };
 

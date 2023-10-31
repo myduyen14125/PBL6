@@ -187,3 +187,35 @@ label:last-child {
   font-weight: 600;
   color: var(--primary);
 }
+
+.avatar-img {
+  position: relative;
+}
+
+.avatar-img:hover .cameraIcon {
+  display: block;
+}
+
+.avatar-img img {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+}
+
+.avatar-img .cameraIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  cursor: pointer;
+}
+
+.avatar-img .cameraInput {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  cursor: pointer;
+}

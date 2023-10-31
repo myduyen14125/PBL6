@@ -13,12 +13,14 @@ export const getUserBlogs = async (
 export const getUserSchedules = async (id: string): Promise<any> =>
   httpRequest.get<any>(`/user/${id}/schedules`);
 
-export const updateUser = async (
-  params: User
-): Promise<any> => httpRequest.patch<any>(`/user`, params);
+export const updateUser = async (params: User): Promise<any> =>
+  httpRequest.patch<any>(`/user`, params);
 
 export const uploadAvatar = async (avatar: any): Promise<any> => {
   const formData = new FormData();
   formData.append("avatar", avatar);
   httpRequest.patch<any>("/user/update-avatar", formData);
 };
+
+export const getMyProfile = async (): Promise<any> =>
+  httpRequest.get<any>("/user/profile");

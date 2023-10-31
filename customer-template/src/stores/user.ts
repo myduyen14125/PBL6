@@ -1,6 +1,13 @@
 import { get, noop } from "lodash";
 import { defineStore } from "pinia";
-import { getUserInfo, getUserBlogs, getUserSchedules, updateUser, uploadAvatar } from "../api/user";
+import {
+  getUserInfo,
+  getUserBlogs,
+  getUserSchedules,
+  updateUser,
+  uploadAvatar,
+  getMyProfile,
+} from "../api/user";
 import { GetPaginationParams } from "../types/mentor";
 import { User } from "../types/auth";
 
@@ -105,7 +112,25 @@ export const useUser = defineStore("user", () => {
     try {
       const response = await uploadAvatar(avatar);
       onSuccess(response);
-      console.log("response upload avt: ", response)
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
+  const requestMyProfile = async ({
+    callback,
+  }: {
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await getMyProfile();
+      onSuccess(response);
     } catch (error) {
       onFailure(error);
     } finally {
@@ -119,5 +144,6 @@ export const useUser = defineStore("user", () => {
     requestGetUserSchedules,
     requestUpdateUser,
     requestUploadAvatar,
+    requestMyProfile,
   };
 });

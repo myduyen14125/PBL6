@@ -4,7 +4,7 @@ import heartLogo from "../../assets/image/followed.png";
 import ratingLogo from "../../assets/image/rating.png";
 import hourLogo from "../../assets/image/hour.png";
 import coverImg from "../../assets/image/cover.jpg";
-import avatarImg from "../../assets/image/cover.jpg";
+import avatarImg from "../../assets/image/avatar.png";
 import advertisementImg from "../../assets/image/advertisement.jpg";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
@@ -16,10 +16,12 @@ import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import router from "../../router";
 import { GetPaginationParams } from "../../types/mentor";
+import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
+import AvatarModal from "./element/AvatarModal/AvatarModal.vue";
 
 export default defineComponent({
   name: "UserInformation",
-  components: { GuestLayout, MentorPost, ExperienceCard },
+  components: { GuestLayout, MentorPost, ExperienceCard, SvgIcon, AvatarModal },
   props: {
     id: {
       type: String,
@@ -35,7 +37,10 @@ export default defineComponent({
     const userBlogs = ref([]);
     const mentors = ref([]);
     const showEdit = getUserInfo()?._id == props.id;
-    const avatarSrc = ref('');
+    const avatarSrc = ref("");
+    const fileImage = ref<any>(null);
+    const avatarModal: Ref<any> = ref<typeof AvatarModal | null>(null);
+    const fileRef: Ref<HTMLDivElement | null> = ref(null);
 
     onMounted(() => {
       getUserInformation(props.id);
@@ -104,21 +109,16 @@ export default defineComponent({
       });
     };
 
-    const uploadAvatar = (e: any) => {
-      const avatar = e.target.files[0];
-      if (!avatar) return;
+    const uploadAvatar = () => {
+      userInfo.value = {
+        ...userInfo.value,
+        avatar: URL.createObjectURL(fileImage.value),
+      };
 
       userStore.requestUploadAvatar({
-        avatar: avatar,
+        avatar: fileImage.value,
         callback: {
-          onSuccess: (res) => {
-            // SwalPopup.swalResultPopup(
-            //   "Your avatar has been updated successfully.",
-            //   "success"
-            // );
-            console.log(res)
-            // avatarSrc.value = res.avatar;
-          },
+          onSuccess: (res) => {},
           onFailure: () => {
             SwalPopup.swalResultPopup(
               "Sorry, looks like there are some errors detected, please try again.",
@@ -127,6 +127,26 @@ export default defineComponent({
           },
         },
       });
+    };
+
+    const toggleAvatar = (e: any): void => {
+      const avatar = e.target.files[0];
+      if (!avatar) return;
+      fileImage.value = avatar;
+      avatarModal?.value?.show();
+    };
+
+    const getAvatar = () => {
+      if (fileImage.value) {
+        return URL.createObjectURL(fileImage.value);
+      }
+      return "";
+    };
+
+    const clickInputFile = () => {
+      if (fileRef.value) {
+        fileRef.value.click();
+      }
     };
 
     return {
@@ -144,8 +164,14 @@ export default defineComponent({
       showEdit,
       mentors,
       router,
+      fileRef,
+      fileImage,
+      avatarModal,
       getUserInfo,
       uploadAvatar,
+      toggleAvatar,
+      getAvatar,
+      clickInputFile,
     };
   },
 });

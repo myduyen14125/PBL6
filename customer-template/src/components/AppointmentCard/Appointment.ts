@@ -6,6 +6,7 @@ import { formatDate } from "../../ultils/date";
 import { PropType } from "vue";
 import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
+import { getUserInfo } from "../../ultils/cache/localStorage";
 
 export default defineComponent({
   name: "AppointmentCard",
@@ -42,6 +43,6 @@ export default defineComponent({
         },
       });
     };
-    return { formatDate, confirmAppointment };
+    return { formatDate, confirmAppointment, getUserInfo };
   },
 });

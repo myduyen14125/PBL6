@@ -43,9 +43,12 @@
           <p class="font-bold m-0">
             {{
               `${formatDate(
-                appointment?.schedule?.start_at,
+                appointment?.schedule?.start_at.slice(0, -1),
                 "hh:ss a"
-              )}-${formatDate(appointment?.schedule?.end_at, "hh:ss a")}`
+              )}-${formatDate(
+                appointment?.schedule?.end_at.slice(0, -1),
+                "hh:ss a"
+              )}`
             }}
           </p>
         </div>
@@ -55,13 +58,27 @@
         </div>
       </div>
       <div class="appointment-card__action">
-        <div class="appointment-card__cancel"  v-if="appointment.status=='pending'">
+        <div
+          class="appointment-card__cancel"
+          v-if="appointment.status == 'pending'"
+        >
           <button class="btn btn-danger !text-sm">Hủy lịch hẹn</button>
         </div>
-        <div class="appointment-card__confirm" @click="confirmAppointment"  v-if="appointment.status=='pending'">
+        <div
+          class="appointment-card__confirm"
+          @click="confirmAppointment"
+          v-if="
+            appointment.status == 'pending' &&
+            getUserInfo().userRole == 'mentor'
+          "
+        >
           <button class="btn btn-primary !text-sm">Xác nhận lịch hẹn</button>
         </div>
-        <div class="appointment-card__finish" @click=""  v-if="appointment.status=='confirmed'">
+        <div
+          class="appointment-card__finish"
+          @click=""
+          v-if="appointment.status == 'confirmed'"
+        >
           <button class="btn btn-primary !text-sm">Hoàn tất</button>
         </div>
       </div>

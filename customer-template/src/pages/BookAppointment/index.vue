@@ -2,23 +2,23 @@
   <GuestLayout>
     <div class="appointment-wrapper">
       <div class="container py-14 text-lg">
-        <el-steps :active="activeStep" align-center>
+        <!-- <el-steps :active="activeStep" align-center>
           <el-step title="Chọn thời gian" />
           <el-step title="Xác nhận" />
           <el-step title="Thành công" />
-        </el-steps>
+        </el-steps> -->
 
         <div class="calendar-wrapper mt-3">
           <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
-        <div class="d-flex justify-content-between items-center mt-4 gap-4 text-xl text-[#0a5565]">
+        <div class="mt-4 gap-4 text-xl text-[#0a5565]">
           <!-- <div class="px-4 shadow-md bg-[#139896] text-white rounded h-14 d-flex items-center">
             <p class="mr-2 my-0">Lịch chọn</p>
             <p class="my-0 mr-2" v-if="selectedSchedule.start">{{ selectedSchedule.start }} - </p>
             <p class="my-0 mr-2" v-if="selectedSchedule.end">{{ selectedSchedule.end }}</p>
           </div> -->
-          <div>
-            <button class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button>
+          <div class="d-flex justify-content-center">
+            <!-- <button class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button> -->
             <button class="btn btn-primary btn-lg" @click="bookAppointment">
               Đặt lịch
             </button>
@@ -69,7 +69,7 @@ export default {
         dateClick: this.handleDateClick,
         eventClick: this.handleSelectSchedule,
         events: [],
-        eventColor: '#409ee7',
+        eventColor: "#409ee7",
         slotDuration: "00:30:00",
         slotMinTime: "06:00:00",
         slotMaxTime: "24:00:00",
@@ -81,12 +81,17 @@ export default {
         start: "",
         end: "",
       },
-      activeStep : 0,
+      activeStep: 0,
     };
   },
   methods: {
     handleDateClick: function (arg) {
-      this.showToast("warning", "Mentor không có lịch rảnh trong thời gian này! " + "</br>" + formatTimeFullCalendar(arg.dateStr));
+      this.showToast(
+        "warning",
+        "Mentor không có lịch rảnh trong thời gian này! " +
+          "</br>" +
+          formatTimeFullCalendar(arg.dateStr)
+      );
     },
     handleSelectSchedule: function (arg) {
       this.selectedSchedule.id = arg.event.id;
@@ -122,7 +127,7 @@ export default {
     },
     setUserSchedules: function () {
       for (let i = 0; i < this.userSchedules.length; i++) {
-        if(this.userSchedules[i].status === false) continue;
+        if (this.userSchedules[i].status === false) continue;
         this.calendarOptions.events.push({
           id: this.userSchedules[i]._id,
           title: "Có thể đặt lịch",
@@ -171,8 +176,8 @@ export default {
         title: content,
       });
     },
-    nextActiveStep: function() {
-      if (this.activeStep++ > 2) this.activeStep = 0
+    nextActiveStep: function () {
+      if (this.activeStep++ > 2) this.activeStep = 0;
     },
   },
   async mounted() {

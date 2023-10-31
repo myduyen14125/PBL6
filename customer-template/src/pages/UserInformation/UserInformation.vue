@@ -7,18 +7,21 @@
             <div class="profile-cover">
               <img :src="coverImg" class="coverImg" />
               <div class="overlay">
-                <div class="p-3 w-48 avatar-img">
+                <div class="p-3 w-48 avatar-img" @click="clickInputFile">
                   <img
-                    :src="userInfo?.avatar || avatarImg"
+                    :src="userInfo?.avatar || fileImage || avatarImg"
                     alt="avatar"
                     ref="avatarSrc"
                   />
+                  <SvgIcon class="cameraIcon" icon="cameraIcon" />
                   <input
+                    ref="fileRef"
+                    class="cameraInput"
                     type="file"
                     id="avatar"
                     name="avatar"
                     accept="image/*"
-                    @change="uploadAvatar"
+                    @change="toggleAvatar"
                   />
                 </div>
                 <div class="px-4 d-flex flex-column justify-content-center">
@@ -255,6 +258,11 @@
       </div>
     </div>
   </GuestLayout>
+  <AvatarModal
+    ref="avatarModal"
+    @updated="uploadAvatar"
+    :avatar="getAvatar()"
+  />
 </template>
 
 <script lang="ts" src="./UserInformation.ts"></script>

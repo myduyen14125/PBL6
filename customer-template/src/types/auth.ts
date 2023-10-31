@@ -42,7 +42,7 @@ export interface User {
   name: string;
   avatar?: string;
   email: string;
-  date_of_birth?: string;
+  date_of_birth?: string | Date;
   gender?: boolean | null;
   phone?: string;
   role?: string;
@@ -52,4 +52,3 @@ export interface User {
   address?: string;
   [elem: string]: any;
 }
-

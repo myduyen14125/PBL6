@@ -34,6 +34,7 @@ export default defineComponent({
       closeModal: "closeModal",
       handIcon: "handIcon",
       blogIcon: "blogIcon",
+      cameraIcon: "cameraIcon",
     };
 
     return {
