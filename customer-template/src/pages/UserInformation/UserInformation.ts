@@ -144,8 +144,10 @@ export default defineComponent({
     };
 
     const clickInputFile = () => {
-      if (fileRef.value) {
-        fileRef.value.click();
+      if (showEdit) {
+        if (fileRef.value) {
+          fileRef.value.click();
+        }
       }
     };
 

@@ -13,8 +13,13 @@
                     alt="avatar"
                     ref="avatarSrc"
                   />
-                  <SvgIcon class="cameraIcon" icon="cameraIcon" />
+                  <SvgIcon
+                    v-if="showEdit"
+                    class="cameraIcon"
+                    icon="cameraIcon"
+                  />
                   <input
+                    v-if="showEdit"
                     ref="fileRef"
                     class="cameraInput"
                     type="file"
