@@ -34,7 +34,6 @@ export const useAuth = defineStore("auth", () => {
   const logout = () => {
     revokeUser();
     setUserInfoStore(null);
-    router.push({ name: RouterNameEnum.SignIn });
   };
 
   const requestSignIn = async ({

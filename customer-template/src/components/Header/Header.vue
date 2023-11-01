@@ -143,7 +143,7 @@
               @click="authStore.logout()"
             >
               <!-- <SvgIcon icon="logoutIcon" /> -->
-              <p class="mb-0"><a href="#">Đăng xuất</a></p>
+              <p class="mb-0"><a href="/">Đăng xuất</a></p>
             </li>
           </ul>
         </div>
