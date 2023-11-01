@@ -98,7 +98,7 @@ export class ScheduleService {
     async deleteSchedule(user: User, id: string) {
 
         const schedule = await this.scheduleRepository.findById(id)
-        if (schedule.user.equals(user._id) && schedule.status === false) {
+        if (schedule.user.equals(user._id) && schedule.status === true) {
             return await this.scheduleRepository.deleteOne(id);
         }
         throw new HttpException('No permission', HttpStatus.BAD_REQUEST);
@@ -108,7 +108,7 @@ export class ScheduleService {
     async deleteManySchedules(user: User, ids: string[]) {
         for (const id of ids) {
             var schedule = await this.scheduleRepository.findById(id)
-            if (!(schedule.user.equals(user._id) && schedule.status === false)) {
+            if (!(schedule.user.equals(user._id) && schedule.status === true)) {
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
             }
         }
