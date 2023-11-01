@@ -166,7 +166,6 @@ export class AppointmentService {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
 
-        if (!(await this.userService.checkMentee(mentee._id))) throw new HttpException('Only mentees can cancel an appointment', HttpStatus.BAD_REQUEST);
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
             status: "canceled"
         })
