@@ -1,6 +1,11 @@
 import { get, noop } from "lodash";
 import { defineStore } from "pinia";
-import { getAllUserAppointment, createAppointment, confirmAppointment } from "./../api/appointment";
+import {
+  getAllUserAppointment,
+  createAppointment,
+  confirmAppointment,
+  cancelAppointment,
+} from "./../api/appointment";
 import { CreateAppointmentParams } from "../types/appointment.js";
 
 export const useAppointment = defineStore("appointment", () => {
@@ -42,7 +47,7 @@ export const useAppointment = defineStore("appointment", () => {
     } finally {
       onFinish();
     }
-  }
+  };
 
   const requestConfirmAppointment = async ({
     id,
@@ -65,9 +70,31 @@ export const useAppointment = defineStore("appointment", () => {
     }
   };
 
+  const requestCancelAppointment = async ({
+    id,
+    callback,
+  }: {
+    id: string;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await cancelAppointment(id);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
   return {
     requestGetAllUserAppointment,
     requestCreateAppointment,
     requestConfirmAppointment,
+    requestCancelAppointment,
   };
 });

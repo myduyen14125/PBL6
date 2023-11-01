@@ -21,6 +21,12 @@
             <!-- <button class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button> -->
             <button class="btn btn-primary btn-lg" @click="bookAppointment">
               Đặt lịch
+              <span
+                v-if="isBookingAppointment"
+                className="spinner-border spinner-border-sm ms-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
             </button>
           </div>
         </div>
@@ -82,6 +88,7 @@ export default {
         end: "",
       },
       activeStep: 0,
+      isBookingAppointment: false,
     };
   },
   methods: {
@@ -138,6 +145,7 @@ export default {
     },
     bookAppointment: function () {
       const appointmentStore = useAppointment();
+      this.isBookingAppointment = true;
       appointmentStore.requestCreateAppointment({
         params: {
           mentor: this.id,
@@ -147,6 +155,7 @@ export default {
         callback: {
           onSuccess: (res) => {
             SwalPopup.swalResultPopup("Đặt lịch thành công", "success");
+            this.isBookingAppointment = false;
             this.$router.push("/appointments");
           },
           onFailure: () => {
@@ -154,6 +163,7 @@ export default {
               "Sorry, looks like there are some errors detected, please try again.",
               "error"
             );
+            this.isBookingAppointment = false;
           },
         },
       });

@@ -9,24 +9,26 @@
           <div class="col-md-12 col-lg-9">
             <h1 class="text-left font-bold text-4xl mb-4">Lịch hẹn của tôi</h1>
             <el-tabs v-model="activeName" @tab-click="handleClick">
-              <el-tab-pane label="Đang xử lý" name="first">
-                <div class="flex flex-wrap gap-4 list-card">
-                  <div
-                    v-if="isLoadingAppointment"
-                    class="col-12 d-flex align-items-center justify-content-center"
-                  >
-                    <div class="spinner-border text-info" role="status"></div>
-                  </div>
-                  <div
-                    v-else
+              <el-tab-pane label="Đang xử lý" name="pending">
+                <div
+                  v-if="isLoadingAppointment"
+                  class="col-12 d-flex align-items-center justify-content-center"
+                >
+                  <div class="spinner-border text-info" role="status"></div>
+                </div>
+                <div
+                  class="d-flex flex-wrap align-items-center justify-content-between"
+                  v-else
+                >
+                  <AppointmentCard
                     v-for="appointment in appointments.pending"
                     :key="appointment?._id"
-                  >
-                    <AppointmentCard :appointment="appointment" @getAllUserAppointment="getAllUserAppointment" />
-                  </div>
+                    :appointment="appointment"
+                    @getAllUserAppointment="onChangeAppointmentStatus"
+                  />
                 </div>
               </el-tab-pane>
-              <el-tab-pane label="Đã xác nhận" name="second"
+              <el-tab-pane label="Đã xác nhận" name="confirmed"
                 ><div
                   v-if="isLoadingAppointment"
                   class="col-12 d-flex align-items-center justify-content-center"
@@ -34,13 +36,17 @@
                   <div class="spinner-border text-info" role="status"></div>
                 </div>
                 <div
+                  class="d-flex flex-wrap align-items-center justify-content-between"
                   v-else
-                  v-for="appointment in appointments.confirmed"
-                  :key="appointment?._id"
                 >
-                  <AppointmentCard :appointment="appointment" /></div
+                  <AppointmentCard
+                    v-for="appointment in appointments.confirmed"
+                    :key="appointment?._id"
+                    :appointment="appointment"
+                    @getAllUserAppointment="onChangeAppointmentStatus"
+                  /></div
               ></el-tab-pane>
-              <el-tab-pane label="Đã hoàn tất" name="third"
+              <el-tab-pane label="Đã hoàn tất" name="finished"
                 ><div
                   v-if="isLoadingAppointment"
                   class="col-12 d-flex align-items-center justify-content-center"
@@ -48,13 +54,17 @@
                   <div class="spinner-border text-info" role="status"></div>
                 </div>
                 <div
+                  class="d-flex flex-wrap align-items-center justify-content-between"
                   v-else
-                  v-for="appointment in appointments.canceled"
-                  :key="appointment?._id"
                 >
-                  <AppointmentCard :appointment="appointment" /></div
+                  <AppointmentCard
+                    v-for="appointment in appointments.finished"
+                    :key="appointment?._id"
+                    :appointment="appointment"
+                    @getAllUserAppointment="onChangeAppointmentStatus"
+                  /></div
               ></el-tab-pane>
-              <el-tab-pane label="Đã hủy" name="fourth"
+              <el-tab-pane label="Đã hủy" name="canceled"
                 ><div
                   v-if="isLoadingAppointment"
                   class="col-12 d-flex align-items-center justify-content-center"
@@ -62,12 +72,17 @@
                   <div class="spinner-border text-info" role="status"></div>
                 </div>
                 <div
+                  class="d-flex flex-wrap align-items-center justify-content-between"
                   v-else
-                  v-for="appointment in appointments.finished"
-                  :key="appointment?._id"
                 >
-                  <AppointmentCard :appointment="appointment" /></div
-              ></el-tab-pane>
+                  <AppointmentCard
+                    v-for="appointment in appointments.canceled"
+                    :key="appointment?._id"
+                    :appointment="appointment"
+                    @getAllUserAppointment="onChangeAppointmentStatus"
+                  />
+                </div>
+              </el-tab-pane>
             </el-tabs>
           </div>
         </div>

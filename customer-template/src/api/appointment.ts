@@ -8,3 +8,6 @@ export const createAppointment = async (data: any): Promise<any> =>
 
 export const confirmAppointment = async (id: string): Promise<any> =>
   httpRequest.patch<any>(`/appointment/${id}/confirm`);
+
+export const cancelAppointment = async (id: string): Promise<any> =>
+  httpRequest.patch<any>(`/appointment/${id}/cancel`);

@@ -18,6 +18,7 @@ export default defineComponent({
   setup() {
     const appointmentsStore = useAppointment();
     const isLoadingAppointment = ref(false);
+    const activeName = ref("pending");
     const appointments = ref<AllAppointment>({
       pending: [],
       confirmed: [],
@@ -71,12 +72,18 @@ export default defineComponent({
       });
     };
 
+    const onChangeAppointmentStatus = (status: string) => {
+      activeName.value = status;
+      getAllUserAppointment();
+    };
+
     return {
-      activeName: "first",
+      activeName,
       handleClick,
       isLoadingAppointment,
       appointments,
       getAllUserAppointment,
+      onChangeAppointmentStatus,
     };
   },
 });

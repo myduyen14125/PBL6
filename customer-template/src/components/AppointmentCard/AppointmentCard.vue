@@ -1,6 +1,6 @@
 <template>
   <div
-    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg hover:shadow-md min-w-[300px]"
+    class="appointment-card bg-slate-50 w-fit relative p-3 my-3 rounded-lg hover:shadow-md min-w-[300px]"
   >
     <div class="appointment-card__header">
       <div class="appointment-card__header">
@@ -25,14 +25,22 @@
       >
         <div class="appointment-card__body__top__avatar">
           <img
-            src="https://picsum.photos/200/300"
+            :src="
+              getUserInfo().role == 'mentee'
+                ? appointment?.mentor?.avatar || avatar
+                : appointment?.mentee?.avatar || avatar
+            "
             alt="avatar"
             class="w-20 h-20 rounded-full"
           />
         </div>
         <div class="appointment-card__body__top__info mt-2">
           <h4 class="font-bold text-xl m-0">
-            {{ appointment?.mentor.name || "" }}
+            {{
+              getUserInfo().role == "mentee"
+                ? appointment?.mentor.name || ""
+                : appointment?.mentee.name || ""
+            }}
           </h4>
           <p class="text-gray-500 m-0">Chuyên gia tư vấn nghề nghiệp</p>
         </div>
@@ -57,30 +65,45 @@
           <p class="font-bold">Online</p>
         </div>
       </div>
-      <div class="appointment-card__action">
+      <div
+        class="appointment-card__action d-flex align-items-center justify-content-between"
+      >
         <div
           class="appointment-card__cancel"
           v-if="appointment.status == 'pending'"
         >
-          <button class="btn btn-danger !text-sm">Hủy lịch hẹn</button>
+          <button class="btn btn-danger !text-sm" @click="onCancelAppointment">
+            Hủy lịch hẹn<span
+              v-if="isLoadingCancel"
+              className="spinner-border spinner-border-sm ms-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          </button>
         </div>
         <div
           class="appointment-card__confirm"
           @click="confirmAppointment"
           v-if="
-            appointment.status == 'pending' &&
-            getUserInfo().userRole == 'mentor'
+            appointment.status == 'pending' && getUserInfo().role == 'mentor'
           "
         >
-          <button class="btn btn-primary !text-sm">Xác nhận lịch hẹn</button>
+          <button class="btn btn-primary !text-sm">
+            Xác nhận lịch hẹn<span
+              v-if="isLoadingConfirm"
+              className="spinner-border spinner-border-sm ms-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          </button>
         </div>
-        <div
+        <!-- <div
           class="appointment-card__finish"
           @click=""
           v-if="appointment.status == 'confirmed'"
         >
           <button class="btn btn-primary !text-sm">Hoàn tất</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
