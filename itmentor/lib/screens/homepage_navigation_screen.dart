@@ -5,6 +5,7 @@ import 'package:itmentor/screens/appointment_screen/appointment_screen.dart';
 import 'package:itmentor/screens/communication_screen/communication_screen.dart';
 import 'package:itmentor/screens/home_screens/homepage_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomepageNavigationScreen extends StatefulWidget {
   const HomepageNavigationScreen({super.key});
@@ -17,6 +18,7 @@ class HomepageNavigationScreen extends StatefulWidget {
 class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
   int _currentIndex = 0;
   PageController _pageController = PageController();
+  String accessToken = ''; // Add this variable to store the access token
 
   @override
   void dispose() {
@@ -24,13 +26,28 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
     super.dispose();
   }
 
+  Future<void> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      accessToken = prefs.getString('x-auth-token') ?? '';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAccessToken(); // Call the function to retrieve the access token
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    print('homepage access token: $accessToken');
+
     final List<Widget> _pages = [
       const HomepageScreen(),
       AppointmentScreen(
-        user: user,
+        token: accessToken,
       ),
       const CommunicationScreen(),
       const ProfileScreen(),

@@ -19,22 +19,20 @@ class AppointmentDetailScreen extends StatefulWidget {
 }
 
 class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
-  Future<Map<String, dynamic>> fetchData(User user) async {
+  Future<Map<String, dynamic>> fetchData() async {
     final apiUrl =
         Uri.https(Constants.uri, '/appointment/${widget.scheduleId}');
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${user.accessToken}'
+      'Authorization': 'Bearer ${widget.accessToken}'
     };
 
     final response = await http.get(apiUrl, headers: headers);
 
     if (response.statusCode == 200) {
-      // If the server returns a 200 OK response, parse the JSON
       print(json.decode(response.body));
       return json.decode(response.body);
     } else {
-      // If the server did not return a 200 OK response, throw an exception.
       throw Exception('Failed to load data');
     }
   }
@@ -42,7 +40,6 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
   @override
   Widget build(BuildContext context) {
     print("scheduleId: ${widget.scheduleId}");
-    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -67,7 +64,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
             ),
             Expanded(
               child: FutureBuilder<Map<String, dynamic>>(
-                future: fetchData(user),
+                future: fetchData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());

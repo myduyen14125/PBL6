@@ -165,7 +165,7 @@ class AuthServices {
       if (token == '') {
         return false;
       }
-      getNewToken();
+      // getNewToken();
       return true;
     } catch (e) {
       showSnackBar(context, e.toString());
@@ -173,42 +173,42 @@ class AuthServices {
     }
   }
 
-  Future<void> getNewToken() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('x-auth-token');
-      print('accessToken: $token');
+  // Future<void> getNewToken() async {
+  //   try {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     String? token = prefs.getString('x-auth-token');
+  //     print('accessToken: $token');
 
-      String? refreshToken = prefs.getString('x-refresh');
-      print('refresh token: $refreshToken');
+  //     String? refreshToken = prefs.getString('x-refresh');
+  //     print('refresh token: $refreshToken');
 
-      final uri = Uri.https(Constants.uri, '/auth/refresh');
-      http.Response res = await http.post(
-        uri,
-        body: jsonEncode({
-          'refresh_token': refreshToken,
-        }),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token'
-        },
-      );
+  //     final uri = Uri.https(Constants.uri, '/auth/refresh');
+  //     http.Response res = await http.post(
+  //       uri,
+  //       body: jsonEncode({
+  //         'refresh_token': refreshToken,
+  //       }),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //         'Authorization': 'Bearer $token'
+  //       },
+  //     );
 
-      if (res.statusCode == 201) {
-        await prefs.setString(
-            'x-auth-token', jsonDecode(res.body)['accessToken']);
-        await prefs.setString(
-            'x-refresh', jsonDecode(res.body)['refreshToken']);
-        print('get new token success');
-        print('new access token: ${prefs.getString('x-auth-token')}');
-        print('new refresh token: ${prefs.getString('x-refresh')}');
-      } else {
-        print('error cannot get new token');
-      }
-    } catch (e) {
-      print('error get new token');
-    }
-  }
+  //     if (res.statusCode == 201) {
+  //       await prefs.setString(
+  //           'x-auth-token', jsonDecode(res.body)['accessToken']);
+  //       await prefs.setString(
+  //           'x-refresh', jsonDecode(res.body)['refreshToken']);
+  //       print('get new token success');
+  //       print('new access token: ${prefs.getString('x-auth-token')}');
+  //       print('new refresh token: ${prefs.getString('x-refresh')}');
+  //     } else {
+  //       print('error cannot get new token');
+  //     }
+  //   } catch (e) {
+  //     print('error get new token');
+  //   }
+  // }
 
   void signOut(BuildContext context) async {
     final navigator = Navigator.of(context);
@@ -249,7 +249,8 @@ class AuthServices {
   //     throw Exception('Failed to load profile');
   //   }
   // }
-  Future<Map<String, dynamic>> fetchProfile(String token, BuildContext context) async {
+  Future<Map<String, dynamic>> fetchProfile(
+      String token, BuildContext context) async {
     String? activeToken = await getToken();
 
     final uri = Uri.https(Constants.uri, '/user/profile');

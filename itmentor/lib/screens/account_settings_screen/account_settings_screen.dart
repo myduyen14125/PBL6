@@ -59,7 +59,7 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
                 child: Center(
                   child: Column(
                     children: [
-                      AvatarName(profileName: profileName),
+                      // AvatarName(profileName: profileName),
                       const UtilitiesScreen(),
                       const SettingsScreen(),
                     ],

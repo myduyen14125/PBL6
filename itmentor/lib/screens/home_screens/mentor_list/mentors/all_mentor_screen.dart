@@ -122,8 +122,7 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                     contentPadding: const EdgeInsets.all(16),
                                     leading: CircleAvatar(
                                       backgroundColor: Colors.white,
-                                      backgroundImage: avatar != null &&
-                                              avatar != "blank"
+                                      backgroundImage: avatar != ""
                                           ? NetworkImage(avatar as String)
                                               as ImageProvider
                                           : gender == true

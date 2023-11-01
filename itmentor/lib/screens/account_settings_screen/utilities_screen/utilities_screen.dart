@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/profile_screen_detail.dart';
 import 'package:itmentor/screens/account_settings_screen/custom_row.dart';
 
 class UtilitiesScreen extends StatelessWidget {
@@ -17,6 +18,32 @@ class UtilitiesScreen extends StatelessWidget {
             child: Text(
               'Tiệc ích',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) {
+                    return const ProfileScreenDetail();
+                  }),
+                ),
+              );
+            },
+            child: CustomRow(
+              const Icon(
+                Icons.person,
+                color: Colors.grey,
+              ),
+              const Text(
+                'Hồ sơ cá nhân',
+                style: TextStyle(fontSize: 16),
+              ),
+              const Icon(
+                Icons.chevron_right,
+                color: Colors.grey,
+              ),
             ),
           ),
           CustomRow(

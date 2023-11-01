@@ -29,70 +29,6 @@ class _MentorListScreenState extends State<MentorListScreen> {
       child: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 50.0,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: Card(
-                        child: DropdownButton<String>(
-                          value: selectedValue1,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedValue1 = newValue!;
-                            });
-                          },
-                          items: <String>[
-                            'Lĩnh vực',
-                            'Option b',
-                            'Option C',
-                            'Option D'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    height: 50.0,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: Card(
-                        child: DropdownButton<String>(
-                          value: selectedValue2,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedValue2 = newValue!;
-                            });
-                          },
-                          items: <String>[
-                            'Đánh giá',
-                            'Option b',
-                            'Option C',
-                            'Option D'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             FutureBuilder<List<dynamic>>(
               future: mentors,
               builder: (context, snapshot) {
@@ -130,7 +66,7 @@ class _MentorListScreenState extends State<MentorListScreen> {
                           },
                           leading: CircleAvatar(
                             backgroundColor: Colors.white,
-                            backgroundImage: avatar != null && avatar != "blank"
+                            backgroundImage: avatar != ""
                                 ? NetworkImage(avatar as String)
                                     as ImageProvider
                                 : gender == true

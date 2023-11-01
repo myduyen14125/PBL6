@@ -8,6 +8,7 @@ import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_det
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:itmentor/utils/utils.dart';
 
 class ProfileScreenDetail extends StatefulWidget {
   const ProfileScreenDetail({super.key});
@@ -44,24 +45,21 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
 
   Future<void> updateAvatar(String imagePath, String token) async {
     try {
-      // final Uri uri = Uri.parse(apiUrl);
       final uri = Uri.https(Constants.uri, '/user/update-avatar');
 
-      // Create a request with a multipart form data
       final request = http.MultipartRequest('PATCH', uri);
 
-      // Add the image file to the request
       final file = await http.MultipartFile.fromPath('avatar', imagePath);
       request.files.add(file);
 
       request.headers['Authorization'] = 'Bearer $token';
 
-      // Send the request
       final response = await request.send();
 
       print("upload code: ${response.statusCode}");
       if (response.statusCode == 200) {
         print('Avatar updated successfully.');
+        showSnackBar(context, 'Đã thay đổi ảnh');
       } else {
         print('Failed to update avatar. Status code: ${response.statusCode}');
       }
@@ -148,10 +146,12 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                   children: [
                                     CircleAvatar(
                                       radius: 50,
-                                      backgroundImage: NetworkImage(avatar !=
-                                              'blank'
-                                          ? avatar
-                                          : 'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png'),
+                                      backgroundImage: selectedImagePath !=
+                                              'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png'
+                                          ? FileImage(File(
+                                              selectedImagePath)) // Use FileImage for local file paths
+                                          : NetworkImage(avatar)
+                                              as ImageProvider, // Use NetworkImage for remote URLs
                                       child: InkWell(
                                         onTap: () {
                                           _pickImage(token);
