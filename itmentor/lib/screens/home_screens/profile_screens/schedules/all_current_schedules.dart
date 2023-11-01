@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:itmentor/utils/constant.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AllCurrentSchedules extends StatefulWidget {
   final String token;
@@ -17,6 +18,7 @@ class _AllCurrentSchedulesState extends State<AllCurrentSchedules> {
 
   Future<void> fetchData() async {
     final uri = Uri.https(Constants.uri, '/schedule');
+    print('schedules token : ${widget.token}');
     final headers = {'Authorization': "Bearer ${widget.token}"};
     final response = await http.get(uri, headers: headers);
 
@@ -40,18 +42,24 @@ class _AllCurrentSchedulesState extends State<AllCurrentSchedules> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Schedule Data'),
+        title: const Text('Lịch đã tạo'),
       ),
-      body: ListView.builder(
-        itemCount: scheduleData.length,
-        itemBuilder: (context, index) {
-          final item = scheduleData[index];
-          return ListTile(
-            title: Text('Start Time: ${item['start_at']}'),
-            subtitle: Text('End Time: ${item['end_at']}'),
-          );
-        },
+      body: SfCalendar(
+        view: CalendarView.week, // Choose your desired view
+        dataSource: ScheduleDataSource(scheduleData),
       ),
     );
+  }
+}
+
+class ScheduleDataSource extends CalendarDataSource {
+  ScheduleDataSource(List<Map<String, dynamic>> source) {
+    appointments = source
+        .map((data) => Appointment(
+              startTime: DateTime.parse(data['start_at']),
+              endTime: DateTime.parse(data['end_at']),
+              subject: 'Lịch hẹn', // Customize as needed
+            ))
+        .toList();
   }
 }

@@ -50,8 +50,6 @@ class _HomepageScreenState extends State<HomepageScreen>
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-    print('homepage user: ${user.name}');
 
     return Scaffold(
       body: Container(
@@ -116,7 +114,7 @@ class _HomepageScreenState extends State<HomepageScreen>
                         height: 10.0,
                       ),
                       SizedBox(
-                        height: 300,
+                        height: 240,
                         child: TabBarView(
                           controller: _tabController,
                           children: const [
