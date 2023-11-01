@@ -106,7 +106,7 @@ export class UserService {
 
                 delete userObject.password;
                 delete userObject.refreshToken;
-                delete userObject.date_of_birth;
+                // delete userObject.date_of_birth;
 
                 const bio = await this.bioService.getUserBio(user.id)
                 const result = {
