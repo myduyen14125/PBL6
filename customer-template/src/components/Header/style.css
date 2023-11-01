@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--primary);
+  background-color: var(--secondary);
   width: 100%;
   height: 70px;
 }
@@ -7,20 +7,24 @@
 .header .router-link {
   text-decoration: none;
   color: white;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
 }
 
 .header .router-link:hover {
-  color: #262626;
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  transition: all 0.3s ease-in-out;
 }
 
 .header .router-link:hover path,
 .header .router-link-active .calender path {
-  fill: #262626;
+  fill: #fff;
 }
 
 .header .router-link-active {
   line-height: 1.75rem;
-  color: #222222;
+  color: #fff;
   font-weight: 700;
 }
 

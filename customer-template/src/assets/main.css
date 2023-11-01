@@ -3,6 +3,7 @@
   --primary-brighter: #409ee7;
   --primary-text: #0a5565;
   --secondary: #139896;
+  --teal: #34a295;
   --secondary-green: #1d7962;
   --y-orange: #fdb930;
   --y-green: #92c549;
@@ -57,6 +58,10 @@ html {
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: #a9a9a9 transparent;
+}
+
+a {
+  text-decoration: none !important;
 }
 
 *::-webkit-scrollbar {

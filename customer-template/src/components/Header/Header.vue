@@ -4,8 +4,9 @@
       <nav
         class="position-relative px-4 py-4 d-flex justify-content-between align-items-center"
       >
-        <a href="/">
-          <img :src="logo" alt="Logo" width="60" height="60" />
+        <a href="/" class="inline-block flex items-center">
+          <img :src="logo" alt="Logo" width="60" height="60" class="mb-2"/>
+          <span class="text-white text-xl font-bold">IT MENTOR</span>
         </a>
 
         <ul
@@ -84,11 +85,9 @@
             class="dropdown-toggle d-flex align-items-center"
           >
             <img
-              :src="avatar"
+              :src="getUserInfo()?.avatar ? getUserInfo()?.avatar : avatar"
               alt="Avatar"
-              class="rounded-circle me-1"
-              width="40"
-              height="40"
+              class="rounded-circle me-1 w-12 h-12 object-cover"
             />
           </div>
           <ul
@@ -97,11 +96,9 @@
           >
             <li class="user-info">
               <img
-                :src="avatar"
+                :src="getUserInfo()?.avatar ? getUserInfo()?.avatar : avatar"
                 alt="Avatar"
-                class="rounded-circle me-3"
-                width="40"
-                height="40"
+                class="rounded-circle me-1 w-12 h-12 object-cover"
               />
               <div>
                 <p class="mb-1 name">

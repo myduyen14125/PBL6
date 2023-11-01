@@ -73,6 +73,13 @@ export default defineComponent({
       });
     };
 
+    const handleImage = (image: any) => {
+      if (!image || image === "blank") {
+        return "https://4kwallpapers.com/images/wallpapers/anime-girl-girly-1024x768-9792.jpg"
+      }
+      return image;
+    };
+
     return {
       formatDate,
       confirmAppointment,
@@ -80,6 +87,7 @@ export default defineComponent({
       onCancelAppointment,
       isLoadingConfirm,
       isLoadingCancel,
+      handleImage
     };
   },
 });
