@@ -17,7 +17,7 @@
                   <div class="spinner-border text-info" role="status"></div>
                 </div>
                 <div
-                  class="d-flex flex-wrap align-items-center justify-content-between"
+                  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                   v-else
                 >
                   <AppointmentCard

@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import heroImg from "../../assets/image/hero-section.png";
 import MentorCard from "../../components/MentorCard/MentorCard.vue";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
@@ -18,10 +18,20 @@ export default defineComponent({
     const blogs = ref([]);
     const isLoadingMentor = ref(false);
     const isLoadingBlog = ref(false);
+    const textIndex = ref(0);
+    const charIndex = ref(0);
+    const showCursor = ref(true);
+    const textArray = ["Kết nối", "Phát triển", "Định hướng"];
+
+    const currentText = computed(() => {
+      const currentWord = textArray[textIndex.value];
+      return currentWord.substring(0, charIndex.value);
+    });
 
     onMounted(() => {
       getMentors();
       getBlogs();
+      setInterval(typeText, 100);
     });
 
     const getMentors = () => {
@@ -64,6 +74,19 @@ export default defineComponent({
       });
     };
 
-    return { heroImg, mentors, blogs, isLoadingBlog, isLoadingMentor };
+    const typeText = () => {
+      if (charIndex.value < textArray[textIndex.value].length) {
+        charIndex.value += 1;
+        showCursor.value = true;
+      } else {
+        showCursor.value = false;
+        setTimeout(() => {
+          charIndex.value = 0;
+          textIndex.value = (textIndex.value + 1) % textArray.length;
+        }, 0); 
+      }
+    };
+
+    return { heroImg, mentors, blogs, isLoadingBlog, isLoadingMentor, currentText, showCursor };
   },
 });

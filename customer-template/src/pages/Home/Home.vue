@@ -1,7 +1,29 @@
 <template>
   <GuestLayout>
     <div class="home-page">
-      <section class="hero-section">
+      <!-- <section class="hero-section">
+        <div class="container">
+          <div class="row">
+            <div class="pt-16 mb-12 mx-auto max-w-7xl px-4 sm:mt-20 text-center">
+              <p class="text-teal-900 text-md font-normal leading-7 mt-2 mb-6">
+                Học từ một chuyên gia, sáng tạo một dự án, đạt được sự nghiệp mơ ước của bạn.
+              </p>
+              <h1 class="font-normal text-6xl tracking-tight leading-tighter">
+                <span class="font-bold text-navy-900">1-on-1 - </span>
+                <span class="font-bold text-teal-600">
+                  {{ currentText }}
+                  <span v-if="showCursor">|</span>
+                </span>
+              </h1>
+              <h1 class="font-normal text-6xl tracking-tight leading-tighter">
+                <span class="font-bold text-navy-900">IT Mentor</span>
+              </h1>
+            </div>
+            
+          </div>
+        </div>
+      </section> -->
+      <section class="banner-section">
         <div class="container">
           <div class="row">
             <div class="col-lg-6 p-5">
@@ -13,15 +35,15 @@
                   Với sứ mệnh là nâng cao chất lượng nguồn nhân lực, giúp thanh
                   niên Việt Nam định vị nghề nghiệp và tạo cơ hội phát triển
                 </p>
-                <!-- <p>Các dịch vụ đến từ IT Mentor:</p>
-              <div class="mt-5">
-                <button class="btn btn-primary border-18 px-3 mr-6 mb-3">
-                  Khóa học từ Chuyên gia
-                </button>
-                <button class="btn btn-primary border-18 px-3 mb-3">
-                  Nền tảng IT Mentor
-                </button>
-              </div> -->
+                <p class="mt-3">Các dịch vụ đến từ IT Mentor:</p>
+                <div class="mt-3">
+                  <button class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3">
+                    Tư vấn trực tiếp
+                  </button>
+                  <button class="btn btn-primary !text-lg border-10 px-3 py-2 mb-3">
+                    Khóa học cùng chuyên gia
+                  </button>
+                </div>
               </div>
             </div>
             <div

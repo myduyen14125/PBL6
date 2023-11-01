@@ -1,6 +1,6 @@
 <template>
   <div
-    class="appointment-card bg-slate-50 w-fit relative p-3 my-3 rounded-lg hover:shadow-md min-w-[300px]"
+    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg hover:shadow-md min-w-[300px]"
   >
     <div class="appointment-card__header">
       <div class="appointment-card__header">
@@ -23,15 +23,15 @@
       <div
         class="appointment-card__body__top flex flex-col items-center text-center"
       >
-        <div class="appointment-card__body__top__avatar">
+        <div class="appointment-card__avatar">
           <img
             :src="
               getUserInfo().role == 'mentee'
-                ? appointment?.mentor?.avatar || avatar
-                : appointment?.mentee?.avatar || avatar
+                ? handleImage(appointment?.mentor?.avatar)
+                : handleImage(appointment?.mentee?.avatar)
             "
             alt="avatar"
-            class="w-20 h-20 rounded-full"
+            class="w-20 h-20 rounded-full object-cover"
           />
         </div>
         <div class="appointment-card__body__top__info mt-2">
@@ -52,10 +52,10 @@
             {{
               `${formatDate(
                 appointment?.schedule?.start_at.slice(0, -1),
-                "hh:ss a"
+                "HH:mm"
               )}-${formatDate(
                 appointment?.schedule?.end_at.slice(0, -1),
-                "hh:ss a"
+                "HH:mm"
               )}`
             }}
           </p>
