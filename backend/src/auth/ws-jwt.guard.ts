@@ -1,5 +1,4 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { verify } from 'jsonwebtoken';
 import { Socket } from 'socket.io';
 

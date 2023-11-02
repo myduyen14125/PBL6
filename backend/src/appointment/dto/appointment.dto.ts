@@ -1,12 +1,9 @@
-import { IsNotEmpty, IsMongoId, IsIn } from "class-validator";
+import { IsNotEmpty, IsIn } from "class-validator";
 
 export class CreateAppointmentDto {
 
-    // @IsMongoId()
-    // @IsNotEmpty()
     mentee: string;
 
-    // @IsMongoId()
     @IsNotEmpty()
     mentor: string;
 
@@ -15,7 +12,6 @@ export class CreateAppointmentDto {
 
     note: string;
 
-    // @IsIn(['pending', 'confirmed', 'canceled', 'finished', 'rated'])
     status: string;
 }
 

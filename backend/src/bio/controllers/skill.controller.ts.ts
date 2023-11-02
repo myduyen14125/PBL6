@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { SkillService } from '../services/skill.service';
 import { CreateSkillDto, UpdateSkillDto } from '../dtos/skill.dto';
+import { SkillService } from '../services/skill.service';
 
 @Controller('skill')
 export class SkillController {

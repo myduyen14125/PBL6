@@ -1,10 +1,10 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException, forwardRef, Inject } from "@nestjs/common";
+import { MailerService } from '@nestjs-modules/mailer';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { ScheduleService } from "src/schedule/services/schedule.service";
+import { User } from "src/user/models/user.model";
+import { UserService } from "src/user/services/user.service";
 import { CreateAppointmentDto, UpdateAppointmentDto } from "../dto/appointment.dto";
 import { AppointmentRepository } from "../repositories/appointment.repository";
-import { User } from "src/user/models/user.model";
-import { ScheduleService } from "src/schedule/services/schedule.service";
-import { UserService } from "src/user/services/user.service";
-import { MailerService } from '@nestjs-modules/mailer';
 
 
 @Injectable()
@@ -18,56 +18,47 @@ export class AppointmentService {
 
 
     async createAppointment(mentee: User, appointment: CreateAppointmentDto) {
-        if (await this.userService.checkMentee(mentee._id)) {
-            const mentorExists = await this.userService.checkMentor(appointment.mentor);
-            // console.log(appointment.mentor);
+        const mentorExists = await this.userService.checkMentor(appointment.mentor);
+        // console.log(appointment.mentor);
 
-            if (mentorExists) {
+        if (mentorExists) {
 
-                // check if schedule is taken
-                const schedule = await this.scheduleService.getScheduleById(mentee, appointment.schedule)
-                const { ObjectId } = require('mongodb')
-                // console.log(schedule);
-                console.log(schedule.user);
-                console.log(new ObjectId(appointment.mentor));
+            // check if schedule is taken
+            const schedule = await this.scheduleService.getScheduleById(mentee, appointment.schedule)
+            const { ObjectId } = require('mongodb')
+            // console.log(schedule);
+            console.log(schedule.user);
+            console.log(new ObjectId(appointment.mentor));
 
-                if (!schedule.user.equals(new ObjectId(appointment.mentor))) throw new HttpException('Invalid schedule', HttpStatus.BAD_REQUEST);
+            if (!schedule.user.equals(new ObjectId(appointment.mentor))) throw new HttpException('Invalid schedule', HttpStatus.BAD_REQUEST);
 
-                if (!schedule.status) throw new HttpException('Schedule is already taken', HttpStatus.BAD_REQUEST);
+            if (!schedule.status) throw new HttpException('Schedule is already taken', HttpStatus.BAD_REQUEST);
 
-                appointment.mentee = mentee._id;
-                appointment.mentor = appointment.mentor;
-                appointment.status = "pending";
-                const populatedAppointment = await this.appointmentRepository.create(appointment);
-                await populatedAppointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
-                await populatedAppointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
-                await populatedAppointment.populate({ path: 'schedule' });
+            appointment.mentee = mentee._id;
+            appointment.mentor = appointment.mentor;
+            appointment.status = "pending";
+            const populatedAppointment = await this.appointmentRepository.create(appointment);
+            await populatedAppointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+            await populatedAppointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
+            await populatedAppointment.populate({ path: 'schedule' });
 
-                // update schedule status
-                await this.scheduleService.updateScheduleStatus(appointment.schedule, false)
+            // update schedule status
+            await this.scheduleService.updateScheduleStatus(appointment.schedule, false)
 
-                // mail to mentor
-                const mentor = await this.userService.getUserById(appointment.mentor)
-                await this.mailerService.sendMail({
-                    to: mentor.email,
-                    subject: 'You have a new pending appointment!',
-                    template: `./bookappointment`,
-                    context: {
-                        mentee: mentee.name,
-                        mentor: mentor.name
-                    }
-                })
-
-
-                //
-
-                return populatedAppointment
-            } else {
-                throw new HttpException('Mentor with the provided ID does not exist', HttpStatus.BAD_REQUEST);
-            }
-        }
-        else {
-            throw new HttpException('Only mentees can book an appointment', HttpStatus.BAD_REQUEST);
+            // mail to mentor
+            const mentor = await this.userService.getUserById(appointment.mentor)
+            await this.mailerService.sendMail({
+                to: mentor.email,
+                subject: 'You have a new pending appointment!',
+                template: `./bookappointment`,
+                context: {
+                    mentee: mentee.name,
+                    mentor: mentor.name
+                }
+            })
+            return populatedAppointment
+        } else {
+            throw new HttpException('Mentor with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -124,20 +115,18 @@ export class AppointmentService {
             throw new HttpException('Only mentors can modify an appointment', HttpStatus.BAD_REQUEST);
         }
     }
-    /////////////////
 
     async updateRatedAppointment(id: string, newStatus: string) {
         return await this.appointmentRepository.findByIdAndUpdate(id, {
             status: newStatus
         })
     }
-    ////////////////////////////////////////
 
     // confirm - mentor
     async confirmAppointment(mentor: User, id: string) {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
-        if (!(await this.userService.checkMentor(mentor._id))) throw new HttpException('Only mentors can confirm an appointment', HttpStatus.BAD_REQUEST);
+        // if (!(await this.userService.checkMentor(mentor._id))) throw new HttpException('Only mentors can confirm an appointment', HttpStatus.BAD_REQUEST);
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
             status: "confirmed"
         })
@@ -196,7 +185,7 @@ export class AppointmentService {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "confirmed") throw new HttpException('Status must be confirmed', HttpStatus.BAD_REQUEST);
 
-        if (!(await this.userService.checkMentor(mentor._id))) throw new HttpException('Only mentors can finish an appointment', HttpStatus.BAD_REQUEST);
+        // if (!(await this.userService.checkMentor(mentor._id))) throw new HttpException('Only mentors can finish an appointment', HttpStatus.BAD_REQUEST);
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
             status: "finished"
         })

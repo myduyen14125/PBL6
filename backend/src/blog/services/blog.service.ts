@@ -1,19 +1,16 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
 import { User } from 'src/user/models/user.model';
 import { BlogRepository } from '../repositories/blog.repository';
-import { MediaService } from 'src/media/services/media.service';
 
 @Injectable()
 export class BlogService {
     constructor(
         private readonly blogRepository: BlogRepository,
-        @Inject(forwardRef(() => MediaService)) private readonly mediaService: MediaService,
 
     ) { }
 
     async getAllBlogs(page: number, limit: number = 10) {
-        // console.log(limit);
         const count = await this.blogRepository.countDocuments({})
         const countPage = Math.ceil(count / limit)
         const blogs = await this.blogRepository.getByCondition({
@@ -50,7 +47,6 @@ export class BlogService {
 
     async createBlog(user: User, blog: CreateBlogDto) {
         blog.user = user.id;
-        // console.log(String(image.url));
 
         const newBlog = await this.blogRepository.create(blog)
         return newBlog.populate({ path: 'user', select: 'name avatar email role number_of_mentees' })
@@ -71,7 +67,7 @@ export class BlogService {
         }
         return (await this.blogRepository.findByIdAndUpdate(id, blog)).populate({ path: 'user', select: '-password -refreshToken' })
     }
-    ///////////////////////////////////////////////////////////////
+
     async getAllBlogsByUserId(id: string, page: number, limit: number = 10) {
         const count = await this.blogRepository.countDocuments({ user: id })
         const countPage = Math.ceil(count / limit)

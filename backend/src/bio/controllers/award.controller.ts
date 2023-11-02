@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AwardService } from '../services/award.service';
 import { CreateAwardDto, UpdateAwardDto } from '../dtos/award.dto';
+import { AwardService } from '../services/award.service';
 
 @Controller('award')
 export class AwardController {

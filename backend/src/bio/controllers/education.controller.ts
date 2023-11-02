@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { EducationService } from '../services/education.service';
 import { CreateEducationDto, UpdateEducationDto } from '../dtos/education.dto';
+import { EducationService } from '../services/education.service';
 
 @Controller('education')
 export class EducationController {

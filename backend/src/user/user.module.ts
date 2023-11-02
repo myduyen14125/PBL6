@@ -6,17 +6,18 @@ import { BlogModule } from 'src/blog/blog.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthController } from './controllers/auth.controller';
+import { AuthController } from '../auth/controllers/auth.controller';
 import { UserController } from './controllers/user.controller';
 import { MentorController } from './controllers/mentor.controller';
 import { UserService } from './services/user.service';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '../auth/services/auth.service';
 import { UserRepository } from './repositories/user.repository';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from '../auth/jwt.strategy';
 import { AppointmentModule } from 'src/appointment/appointment.module';
 import { RatingModule } from 'src/rating/rating.module';
 import { BioModule } from 'src/bio/bio.module';
 import { MediaModule } from 'src/media/media.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
     imports: [
@@ -43,6 +44,7 @@ import { MediaModule } from 'src/media/media.module';
             }),
             inject: [ConfigService]
         }),
+        forwardRef(() => AuthModule),
         forwardRef(() => BioModule),
         forwardRef(() => MediaModule),
         forwardRef(() => BlogModule),
@@ -52,8 +54,8 @@ import { MediaModule } from 'src/media/media.module';
         forwardRef(() => AppointmentModule),
     ],
 
-    controllers: [AuthController, UserController, MentorController],
-    providers: [UserService, AuthService, UserRepository, JwtStrategy],
+    controllers: [UserController, MentorController],
+    providers: [UserService, UserRepository, JwtStrategy],
     exports: [UserService]
 
 })

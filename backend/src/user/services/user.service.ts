@@ -27,7 +27,6 @@ export class UserService {
 
 
     async createUser(userDto: CreateUserDto) {
-        userDto.password = await bcrypt.hash(userDto.password, 10);
 
         // Check if user already existed
         const userInDb = await this.userRepository.findByCondition({
@@ -36,12 +35,18 @@ export class UserService {
 
         if (userInDb) {
             throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
-
         }
-        if (!userDto.avatar) userDto.avatar = "blank"
+
+        // Handle pre-creation
+        if (!userDto.avatar) userDto.avatar = ""
+        userDto.password = await bcrypt.hash(userDto.password, 10);
+
         const newUser = await this.userRepository.create(userDto)
+
+        // Create empty bio
         await this.bioService.createBio(newUser)
 
+        // Send registration email
         await this.mailerService.sendMail({
             to: userDto.email,
             subject: 'Welcome to IT-Mentor Community!',
@@ -70,7 +75,7 @@ export class UserService {
         return user;
     }
 
-    async updateUser(filter, update) {
+    async updateUserRefreshToken(filter, update) {
         if (update.refreshToken) {
             update.refreshToken = await bcrypt.hash(
                 this.reverse(update.refreshToken),
@@ -80,11 +85,15 @@ export class UserService {
         return await this.userRepository.findByConditionAndUpdate(filter, update);
     }
 
-    async updateUserInfo(user: User, data: UpdateUserDto) {
+    async updateUserInfo(user: User, userDto: UpdateUserDto) {
+        // Remove expertise for mentee 
         if (user.role === 'mentee') {
-            delete data.expertise;
+            delete userDto.expertise;
         }
-        return (await this.userRepository.findByIdAndUpdate(user.id, data)).populate({ path: 'expertise', select: 'name' });
+
+        // Remove avatar field (already has a different route)
+        delete userDto.avatar;
+        return (await this.userRepository.findByIdAndUpdate(user.id, userDto)).populate({ path: 'expertise', select: 'name' });
     }
 
     private reverse(s) {
@@ -98,27 +107,18 @@ export class UserService {
     }
 
     async getUserById(id: string) {
-        try {
-            const user = await this.userRepository.findById(id);
-            if (user) {
-                await user.populate({ path: 'expertise', select: 'name' })
-                const userObject = user.toObject ? user.toObject() : user;
-
-                delete userObject.password;
-                delete userObject.refreshToken;
-                // delete userObject.date_of_birth;
-
-                const bio = await this.bioService.getUserBio(user.id)
-                const result = {
-                    ...userObject,
-                    bio: bio
-                };
-                return result
-            }
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
+        const user = await this.userRepository.findById(id);
+        if (!user) throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
+        await user.populate({ path: 'expertise', select: 'name' })
+        const userObject = user.toObject ? user.toObject() : user;
+        delete userObject.password;
+        delete userObject.refreshToken;
+        const bio = await this.bioService.getUserBio(user.id)
+        const result = {
+            ...userObject,
+            bio: bio
+        };
+        return result
     }
 
     async getProfile(user: User) {
@@ -131,8 +131,6 @@ export class UserService {
             ...userData,
             bio: bio
         };
-
-
         return result
     }
 

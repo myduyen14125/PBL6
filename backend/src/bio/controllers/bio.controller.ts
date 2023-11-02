@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { BioService } from '../services/bio.service';
 
@@ -11,10 +11,4 @@ export class BioController {
     async getUserBio(@Req() req: any) {
         return this.bioService.getUserBio(req.user.id);
     }
-
-    // @Get(':id')
-    // getBlogById(@Param('id') id: string) {
-    //     return this.blogService.getBlogById(id);
-    // }
-
 }

@@ -1,14 +1,14 @@
-import { HttpStatus, Injectable, NotFoundException, forwardRef, Inject } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException, forwardRef } from "@nestjs/common";
+import { AppointmentService } from "src/appointment/services/appointment.service";
 import { User } from "src/user/models/user.model";
 import { CreateRatingDto } from "../dto/rating.dto";
 import { RatingRepository } from "../repositories/rating.repository";
-import { AppointmentService } from "src/appointment/services/appointment.service";
 
 @Injectable()
 export class RatingService {
     constructor(
         private readonly ratingRepository: RatingRepository,
-        private readonly appointmentService: AppointmentService
+        @Inject(forwardRef(() => AppointmentService)) private readonly appointmentService: AppointmentService
     ) { }
 
 
