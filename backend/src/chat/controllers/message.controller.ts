@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { MessageService } from '../services/message.service.';
 import { CreateMessageDto } from '../dto/message.dto';
+import { MessageService } from '../services/message.service.';
 
 @Controller('message')
 export class MessageController {
@@ -12,6 +12,4 @@ export class MessageController {
     async createMessage(@Req() req: any, @Body(new ValidationPipe()) message: CreateMessageDto) {
         return this.messageService.createMessage(req.user, message);
     }
-
-
 }

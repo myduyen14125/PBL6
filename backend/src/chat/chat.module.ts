@@ -1,14 +1,14 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ChatSchema } from './models/chat.model';
-import { ChatController } from './controllers/chat.controller';
-import { ChatService } from './services/chat.service';
-import { ChatRepository } from './repositories/chat.repository';
-import { MessageController } from './controllers/message.controller';
-import { MessageService } from './services/message.service.';
-import { MessageRepository } from './repositories/message.repository';
-import { MessageSchema } from './models/message.model';
 import { EventModule } from 'src/event/event.module';
+import { ChatController } from './controllers/chat.controller';
+import { MessageController } from './controllers/message.controller';
+import { ChatSchema } from './models/chat.model';
+import { MessageSchema } from './models/message.model';
+import { ChatRepository } from './repositories/chat.repository';
+import { MessageRepository } from './repositories/message.repository';
+import { ChatService } from './services/chat.service';
+import { MessageService } from './services/message.service.';
 
 @Module({
     imports: [

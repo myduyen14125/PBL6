@@ -10,10 +10,6 @@ export class ScheduleService {
 
 
     async createSchedule(user: User, schdule: CreateScheduleDto) {
-        // mentor only
-        if (user.role === "mentee") {
-            return HttpStatus.BAD_REQUEST
-        }
         schdule.user = user.id
         schdule.status = true
         // check valid date input
@@ -36,10 +32,6 @@ export class ScheduleService {
     }
 
     async createManySchedules(user: User, schedules: CreateScheduleDto[]) {
-        if (user.role === "mentee") {
-            return HttpStatus.BAD_REQUEST;
-        }
-
         const createdSchedules = [];
 
         for (const schedule of schedules) {
@@ -69,8 +61,6 @@ export class ScheduleService {
 
 
     async getUserSchedule(user: User) {
-        // console.log(user._id);
-
         const schedules = await this.scheduleRepository.getByCondition({
             user: user._id
         })
@@ -82,7 +72,6 @@ export class ScheduleService {
         return schedule
     }
 
-    ////////////////////////////////////
     async getAllSchedulesByUserId(id: string) {
         return await this.scheduleRepository.getByCondition({
             user: id
@@ -102,7 +91,6 @@ export class ScheduleService {
             return await this.scheduleRepository.deleteOne(id);
         }
         throw new HttpException('No permission', HttpStatus.BAD_REQUEST);
-
     }
 
     async deleteManySchedules(user: User, ids: string[]) {
@@ -113,8 +101,6 @@ export class ScheduleService {
             }
         }
         return await this.scheduleRepository.deleteMany(ids)
-
-
     }
 
 }

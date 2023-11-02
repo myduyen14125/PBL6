@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../services/user.service';
 import { PaginationPostDto } from 'src/blog/dto/blog.dto';
 import { PaginationRatingDto } from 'src/rating/dto/rating.dto';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateUserDto } from '../dto/user.dto';
 
 @Controller('user')

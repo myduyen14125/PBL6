@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ChatService } from '../services/chat.service';
 import { CreateChatDto } from '../dto/chat.dto';
+import { ChatService } from '../services/chat.service';
 
 @Controller('chat')
 export class ChatController {

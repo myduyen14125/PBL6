@@ -1,20 +1,24 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ScheduleService } from '../services/schedule.service';
 import { CreateScheduleDto } from '../dto/schedule.dto';
+import { Role } from 'src/auth/role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
 
 @Controller('schedule')
 export class ScheduleController {
     constructor(private readonly scheduleService: ScheduleService) { }
 
     @Post()
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @Role('mentor')
     async createSchedule(@Req() req: any, @Body(new ValidationPipe()) schedule: CreateScheduleDto) {
         return this.scheduleService.createSchedule(req.user, schedule);
     }
 
     @Post('create-schedules')
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @Role('mentor')
     async createManySchedules(@Req() req: any, @Body(new ValidationPipe()) schedules: CreateScheduleDto[]) {
         return this.scheduleService.createManySchedules(req.user, schedules);
     }

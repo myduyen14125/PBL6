@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards, Param, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { PaginationMentorDto } from '../dto/user.dto';
 

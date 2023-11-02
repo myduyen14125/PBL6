@@ -1,25 +1,25 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BioSchema } from './models/bio.model';
+import { AwardController } from './controllers/award.controller';
 import { BioController } from './controllers/bio.controller';
-import { BioService } from './services/bio.service';
-import { BioRepository } from './repositories/bio.repository';
+import { EducationController } from './controllers/education.controller';
+import { ExperienceController } from './controllers/experience.controller';
+import { SkillController } from './controllers/skill.controller.ts';
+import { AwardSchema } from './models/award.model';
+import { BioSchema } from './models/bio.model';
 import { EducationSchema } from './models/education.model';
 import { ExperienceSchema } from './models/experience.model';
 import { SkillSchema } from './models/skill.model';
-import { AwardSchema } from './models/award.model';
 import { AwardRepository } from './repositories/award.repository';
-import { SkillRepository } from './repositories/skill.repository';
-import { ExperienceRepository } from './repositories/experience.repository';
+import { BioRepository } from './repositories/bio.repository';
 import { EducationRepository } from './repositories/education.repository';
-import { AwardController } from './controllers/award.controller';
+import { ExperienceRepository } from './repositories/experience.repository';
+import { SkillRepository } from './repositories/skill.repository';
 import { AwardService } from './services/award.service';
-import { SkillService } from './services/skill.service';
-import { ExperienceService } from './services/experience.service';
+import { BioService } from './services/bio.service';
 import { EducationService } from './services/education.service';
-import { EducationController } from './controllers/education.controller';
-import { SkillController } from './controllers/skill.controller.ts';
-import { ExperienceController } from './controllers/experience.controller';
+import { ExperienceService } from './services/experience.service';
+import { SkillService } from './services/skill.service';
 
 
 @Module({

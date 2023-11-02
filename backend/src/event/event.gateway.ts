@@ -1,20 +1,12 @@
-import { Injectable, Logger, UseGuards } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import {
-  MessageBody,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
+import { Injectable, Logger } from '@nestjs/common';
+import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ServerToClientEvents } from './types/event';
 import { Message } from 'src/chat/models/message.model';
-import { WsJwtAuthGuard } from 'src/auth/ws-jwt.guard';
 import { SocketAuthMiddleware } from 'src/auth/ws.mw';
 import { Chat } from 'src/chat/models/chat.model';
 
 @WebSocketGateway({ namespace: 'event' })
-// @UseGuards(WsJwtAuthGuard)
 @Injectable()
 export class EventGateway {
 

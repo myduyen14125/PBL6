@@ -1,13 +1,13 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserService } from "./user.service";
+import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
+import { UserService } from "../../user/services/user.service";
 import { JwtService } from "@nestjs/jwt";
-import { CreateUserDto, LoginUserDto } from "../dto/user.dto";
-import { User } from "../models/user.model";
+import { CreateUserDto, LoginUserDto } from "../../user/dto/user.dto";
+import { User } from "../../user/models/user.model";
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly userService: UserService,
+        @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
         private readonly jwtService: JwtService
     ) { }
 
@@ -56,7 +56,7 @@ export class AuthService {
                 secret: process.env.SECRETKEY_REFRESH,
                 expiresIn: process.env.EXPIRESIN_REFRESH
             })
-        await this.userService.updateUser(
+        await this.userService.updateUserRefreshToken(
             { email: email },
             { refreshToken: refreshToken },
         );
@@ -84,7 +84,7 @@ export class AuthService {
     }
 
     async logout(user: User) {
-        await this.userService.updateUser(
+        await this.userService.updateUserRefreshToken(
             { email: user.email },
             { refreshToken: null },
         );
@@ -121,4 +121,4 @@ export class AuthService {
     async forgotPassword(email: string) {
         return await this.userService.forgotPassword(email)
     }
-}
+} 
