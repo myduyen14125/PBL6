@@ -7,7 +7,7 @@
             <div class="profile-cover">
               <img :src="coverImg" class="coverImg" />
               <div class="overlay">
-                <div class="p-3 w-48 avatar-img" @click="clickInputFile">
+                <div class="p-3 avatar-img" @click="clickInputFile">
                   <img
                     :src="userInfo?.avatar || fileImage || avatarImg"
                     alt="avatar"

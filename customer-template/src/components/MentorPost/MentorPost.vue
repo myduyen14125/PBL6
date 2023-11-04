@@ -41,9 +41,7 @@
           <img
             :src="blog?.user?.avatar || avatar"
             alt="Mentor avatar"
-            width="50"
-            height="50"
-            class="rounded-circle"
+            class="rounded-circle w-[50px] h-[50px]"
           />
           <span class="color-primary mx-3">{{ blog?.user?.name || "" }}</span>
           <SvgIcon icon="birthdayIcon" />
