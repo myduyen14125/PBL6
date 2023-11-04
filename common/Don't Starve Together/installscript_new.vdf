@@ -1,0 +1,25 @@
+"InstallScript"
+{
+	"Run Process"
+	{
+		"DirectX"
+		{
+			"HasRunKey"		"HKEY_LOCAL_MACHINE\\Software\\Valve\\Steam\\Apps\\219740"
+			"process 1"		"%INSTALLDIR%\\DXRedist\\DXSETUP.exe"
+			"command 1"		"/silent"
+			"NoCleanUp"		"1"
+		}
+		"VCRedist"
+		{
+			"HasRunKey"		"HKEY_LOCAL_MACHINE\\Software\\Valve\\Steam\\Apps\\219740"
+			"process 1"		"%INSTALLDIR%\\VCRedist\\vcredist_x86.exe"
+			"command 1"		"/q:a"
+			"NoCleanUp"		"1"
+		}
+	}
+}
+"kvsignatures"
+{
+	"InstallScript"		"a2d998cd57bcfdad55909d21fe21ef7121bdd7c4f7234b214364f0b79b0f736930ebed543a83af718e672b746440c254327e0d97f034370aff7a927974ad6e3856ec469d09b8cc54b364ea117779c66f236e513889a36d195a614f57386c20719502df5c8e4b975ce60b918ddaabbe44c1801ff40a912e67417d740ec2d37380"
+}
+
