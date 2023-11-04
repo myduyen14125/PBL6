@@ -15,3 +15,10 @@ export interface EducationParams {
   end_date: string | Date;
   description: string;
 }
+
+export interface AwardParams {
+  bio: string;
+  name: string;
+  date: string | Date;
+  description: string;
+}

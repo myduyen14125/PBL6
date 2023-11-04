@@ -7,8 +7,15 @@ import {
   createEducation,
   deleteEducation,
   updateEducation,
+  createAward,
+  deleteAward,
+  updateAward,
 } from "./../api/bio";
-import { PostExperienceParams, EducationParams } from "./../types/bio";
+import {
+  PostExperienceParams,
+  EducationParams,
+  AwardParams,
+} from "./../types/bio";
 
 export const useBio = defineStore("bio", () => {
   const requestCreateExperience = async ({
@@ -141,6 +148,71 @@ export const useBio = defineStore("bio", () => {
     }
   };
 
+  const requestCreateAward = async ({
+    params,
+    callback,
+  }: {
+    params: AwardParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await createAward(params);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
+  const requestDeleteAward = async ({
+    id,
+    callback,
+  }: {
+    id: string;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await deleteAward(id);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
+  const requestUpdateAward = async ({
+    id,
+    params,
+    callback,
+  }: {
+    id: string;
+    params: AwardParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await updateAward(id, params);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
   return {
     requestCreateExperience,
     requestDeleteExperience,
@@ -148,5 +220,8 @@ export const useBio = defineStore("bio", () => {
     requestCreateEducation,
     requestDeleteEducation,
     requestUpdateEducation,
+    requestCreateAward,
+    requestDeleteAward,
+    requestUpdateAward,
   };
 });

@@ -213,13 +213,21 @@
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>GIẢI THƯỞNG</h5>
-                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
+                <p
+                  v-if="showEdit"
+                  class="btn btn-primary px-3"
+                  @click="toggleAward"
+                >
+                  Thêm
+                </p>
               </div>
               <div v-for="item in userInfo?.bio.awards" :key="item._id">
                 <ExperienceCard
                   :showEdit="showEdit"
                   :data="item"
                   @updatedCard="() => getUserInformation(id)"
+                  type="award"
+                  :bio="userInfo?.bio?._id || ''"
                 />
               </div>
             </div>
@@ -314,6 +322,11 @@
 
   <EducationModal
     ref="educationModal"
+    :bio="userInfo?.bio?._id || ''"
+    @updatedModal="() => getUserInformation(id)"
+  />
+  <AwardModal
+    ref="awardModal"
     :bio="userInfo?.bio?._id || ''"
     @updatedModal="() => getUserInformation(id)"
   />
