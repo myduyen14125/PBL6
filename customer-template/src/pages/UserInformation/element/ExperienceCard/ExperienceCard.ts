@@ -7,6 +7,7 @@ import { useBio } from "../../../../stores/bio";
 import SwalPopup from "../../../../ultils/swalPopup";
 import ExperienceModal from "../ExperienceModal/ExperienceModal.vue";
 import EducationModal from "../EducationModal/EducationModal.vue";
+import AwardModal from "../AwardModal/AwardModal.vue";
 
 export default defineComponent({
   name: "ExperienceCard",
@@ -14,6 +15,7 @@ export default defineComponent({
     SvgIcon,
     ExperienceModal,
     EducationModal,
+    AwardModal,
   },
   emits: ["updatedCard"],
   props: {
@@ -41,6 +43,7 @@ export default defineComponent({
     const isSubmitting = ref(false);
     const experienceModal: Ref<any> = ref<typeof ExperienceModal | null>(null);
     const educationModal: Ref<any> = ref<typeof EducationModal | null>(null);
+    const awardModal: Ref<any> = ref<typeof AwardModal | null>(null);
 
     const updated = () => {
       emit("updatedCard", 1);
@@ -51,6 +54,8 @@ export default defineComponent({
         experienceModal?.value?.show();
       } else if (props?.type == "education") {
         educationModal?.value?.show();
+      } else if (props?.type == "award") {
+        awardModal?.value?.show();
       }
     };
 
@@ -63,6 +68,8 @@ export default defineComponent({
               deleteExperience(props?.data?._id);
             } else if (props?.type == "education") {
               deleteEducation(props?.data?._id);
+            } else if (props?.type == "award") {
+              deleteAward(props?.data?._id);
             }
           },
         },
@@ -112,10 +119,31 @@ export default defineComponent({
       });
     };
 
+    const deleteAward = (id: string) => {
+      isSubmitting.value = true;
+      bioStore.requestDeleteAward({
+        id,
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+            updated();
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
+    };
+
     return {
       coverImg,
       experienceModal,
       educationModal,
+      awardModal,
       updated,
       onDelete,
       formatDate,

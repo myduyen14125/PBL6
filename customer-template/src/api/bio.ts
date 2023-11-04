@@ -1,4 +1,4 @@
-import { PostExperienceParams, EducationParams } from "./../types/bio";
+import { PostExperienceParams, EducationParams, AwardParams } from "./../types/bio";
 import httpRequest from "../ultils/httpRequest";
 
 export const createExperience = async (
@@ -23,3 +23,14 @@ export const updateEducation = async (
   id: string,
   params: EducationParams
 ): Promise<any> => httpRequest.patch<any>(`/education/${id}`, params);
+
+export const createAward = async (params: AwardParams): Promise<any> =>
+  httpRequest.post("/award", params);
+
+export const deleteAward = async (id: string): Promise<any> =>
+  httpRequest.delete<any>(`/award/${id}`);
+
+export const updateAward = async (
+  id: string,
+  params: AwardParams
+): Promise<any> => httpRequest.patch<any>(`/award/${id}`, params);
