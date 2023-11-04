@@ -1,0 +1,32 @@
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0px 10px;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.content {
+  color: #555;
+}
+
+.bg-edit {
+  background-color: #17a2b8;
+}
+
+.button {
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bg-delete {
+  background-color: #dc3545;
+}
+
+.a {
+  background-color: red;
+}

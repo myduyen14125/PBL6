@@ -3,6 +3,10 @@
   background-image: unset;
 }
 
+.form-group .el-range-editor.is-valid.el-tooltip__trigger.el-tooltip__trigger {
+  box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
+}
+
 .error-message {
   color: #f1416c;
 }
@@ -18,6 +22,12 @@
 }
 
 .form-group.required label:after {
+  content: "*";
+  color: red;
+  margin-left: 3px;
+}
+
+.form-group.required .label:after {
   content: "*";
   color: red;
   margin-left: 3px;

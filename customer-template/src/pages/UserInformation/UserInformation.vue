@@ -171,11 +171,22 @@
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>KINH NGHIỆM LÀM VIỆC</h5>
-                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
+                <p
+                  v-if="showEdit"
+                  class="btn btn-primary px-3"
+                  @click="toggleExperience"
+                >
+                  Thêm
+                </p>
               </div>
-              <div>
-                <ExperienceCard :showEdit="showEdit" />
-                <ExperienceCard :showEdit="showEdit" />
+              <div v-for="item in userInfo?.bio.experiences" :key="item._id">
+                <ExperienceCard
+                  :showEdit="showEdit"
+                  :data="item"
+                  @updatedCard="() => getUserInformation(id)"
+                  type="experience"
+                  :bio="userInfo?.bio?._id || ''"
+                />
               </div>
             </div>
             <div class="user-section">
@@ -183,9 +194,25 @@
                 <h5>QUÁ TRÌNH HỌC TẬP</h5>
                 <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
               </div>
-              <div>
-                <ExperienceCard :showEdit="showEdit" />
-                <ExperienceCard :showEdit="showEdit" />
+              <div v-for="item in userInfo?.bio.educations" :key="item._id">
+                <ExperienceCard
+                  :showEdit="showEdit"
+                  :data="item"
+                  @updatedCard="() => getUserInformation(id)"
+                />
+              </div>
+            </div>
+            <div class="user-section">
+              <div class="flex-center-between">
+                <h5>GIẢI THƯỞNG</h5>
+                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
+              </div>
+              <div v-for="item in userInfo?.bio.awards" :key="item._id">
+                <ExperienceCard
+                  :showEdit="showEdit"
+                  :data="item"
+                  @updatedCard="() => getUserInformation(id)"
+                />
               </div>
             </div>
             <div class="user-section">
@@ -193,9 +220,12 @@
                 <h5>KỸ NĂNG & CHỨNG CHỈ</h5>
                 <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
               </div>
-              <div>
-                <p>Programming: Python, PHP, Javascript, SQL ...</p>
-                <p>Programming: Python, PHP, Javascript, SQL ...</p>
+              <div v-for="item in userInfo?.bio.skills" :key="item._id">
+                <ExperienceCard
+                  :showEdit="showEdit"
+                  :data="item"
+                  @updatedCard="() => getUserInformation(id)"
+                />
               </div>
             </div>
           </div>
@@ -267,6 +297,11 @@
     ref="avatarModal"
     @updated="uploadAvatar"
     :avatar="getAvatar()"
+  />
+  <ExperienceModal
+    ref="experienceModal"
+    :bio="userInfo?.bio?._id || ''"
+    @updatedModal="() => getUserInformation(id)"
   />
 </template>
 

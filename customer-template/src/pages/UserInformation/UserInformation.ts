@@ -8,7 +8,7 @@ import avatarImg from "../../assets/image/avatar.png";
 import advertisementImg from "../../assets/image/advertisement.jpg";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
-import ExperienceCard from "./element/ExperienceCard.vue";
+import ExperienceCard from "./element/ExperienceCard/ExperienceCard.vue";
 import { useUser } from "../../stores/user";
 import { useMentors } from "../../stores/mentors";
 import { useAuth } from "../../stores/auth";
@@ -18,10 +18,18 @@ import router from "../../router";
 import { GetPaginationParams } from "../../types/mentor";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import AvatarModal from "./element/AvatarModal/AvatarModal.vue";
+import ExperienceModal from "./element/ExperienceModal/ExperienceModal.vue";
 
 export default defineComponent({
   name: "UserInformation",
-  components: { GuestLayout, MentorPost, ExperienceCard, SvgIcon, AvatarModal },
+  components: {
+    GuestLayout,
+    MentorPost,
+    ExperienceCard,
+    SvgIcon,
+    AvatarModal,
+    ExperienceModal,
+  },
   props: {
     id: {
       type: String,
@@ -41,6 +49,7 @@ export default defineComponent({
     const fileImage = ref<any>(null);
     const avatarModal: Ref<any> = ref<typeof AvatarModal | null>(null);
     const fileRef: Ref<HTMLDivElement | null> = ref(null);
+    const experienceModal: Ref<any> = ref<typeof ExperienceModal | null>(null);
 
     onMounted(() => {
       getUserInformation(props.id);
@@ -136,6 +145,10 @@ export default defineComponent({
       avatarModal?.value?.show();
     };
 
+    const toggleExperience = (): void => {
+      experienceModal?.value?.show();
+    };
+
     const getAvatar = () => {
       if (fileImage.value) {
         return URL.createObjectURL(fileImage.value);
@@ -169,11 +182,14 @@ export default defineComponent({
       fileRef,
       fileImage,
       avatarModal,
+      experienceModal,
       getUserInfo,
       uploadAvatar,
       toggleAvatar,
+      toggleExperience,
       getAvatar,
       clickInputFile,
+      getUserInformation,
     };
   },
 });
