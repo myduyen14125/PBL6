@@ -1,8 +1,8 @@
 <template>
   <BModal
     v-model:modal="modal"
-    id="experience_modal"
-    title="Thêm quá trình học tập"
+    id="award_modal"
+    title="Thêm giải thưởng"
     size="lg"
     animation="fade"
     :noCloseOnBackdrop="true"
@@ -38,7 +38,7 @@
                 .filter(Boolean)
                 .join(' ')
             "
-            placeholder="Nhập mô tả chi tiết (Điểm số hoặc thành tích)"
+            placeholder="Nhập mô tả chi tiết (Trải nghiệm/ Thành tích nổi bật)"
             @blur="validateRequired('description')"
           />
           <p v-if="error.description" class="error-message mt-1">
@@ -53,10 +53,11 @@
             "
             v-model="form.date"
             type="date"
-            range-separator="đến"
             format="DD/MM/YYYY"
             value-format="YYYY-MM-DD"
             @blur="validateRequired('date')"
+            placeholder="DD/MM/YYYY"
+            :disabled-date="(time) => isDateBeforeToday(time)"
           />
           <p v-if="error.date" class="error-message mt-1">{{ error.date }}</p>
         </div>

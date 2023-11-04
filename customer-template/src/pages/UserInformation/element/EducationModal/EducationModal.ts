@@ -1,10 +1,7 @@
-import { createExperience } from "./../../../../api/bio";
 import { useBio } from "../../../../stores/bio";
 import { ref, defineComponent, watch, onMounted } from "vue";
 import SvgIcon from "../../../../components/BUI/SvgIcon/SvgIcon.vue";
-import coverImg from "../../../../assets/image/cover.jpg";
 import { PropType } from "vue";
-import { formatDate } from "../../../../ultils/date";
 import BModal from "../../../../components/BUI/BModal/BModal.vue";
 import BButton from "../../../../components/BUI/BButton/BButton.vue";
 import { validate } from "../../../../ultils/validators";

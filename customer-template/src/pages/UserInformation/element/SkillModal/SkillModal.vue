@@ -38,7 +38,7 @@
                 .filter(Boolean)
                 .join(' ')
             "
-            placeholder="Nhập mô tả chi tiết (Điểm số hoặc thành tích)"
+            placeholder="Nhập mô tả chi tiết (Trải nghiệm/ Thành tích nổi bật)"
             @blur="validateRequired('description')"
           />
           <p v-if="error.description" class="error-message mt-1">

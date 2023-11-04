@@ -2,7 +2,7 @@ import { defineComponent, ref } from "vue";
 import router from "../../router";
 import { RouterNameEnum } from "../../constants/routeName";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
-import logo from "../../assets/image/logo.png";
+import logo from "../../assets/svg/logo-color.svg";
 import facebookLogo from "../../assets/image/facebook.png";
 import gmailLogo from "../../assets/image/gmail.png";
 import { validate } from "../../ultils/validators";

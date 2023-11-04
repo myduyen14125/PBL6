@@ -24,7 +24,7 @@ export function formatRelativeDate(dateString: string) {
   }
 }
 
-export function formatTimeFullCalendar (time: string) {
+export function formatTimeFullCalendar(time: string) {
   const date = new Date(time);
   const day = date.getDate();
   const month = date.getMonth() + 1;
@@ -32,4 +32,11 @@ export function formatTimeFullCalendar (time: string) {
   const hour = ("0" + date.getHours()).slice(-2);
   const minute = ("0" + date.getMinutes()).slice(-2);
   return `${day}-${month}-${year} ${hour}:${minute}`;
+}
+
+export function isDateBeforeToday(time: Date) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  time.setHours(0, 0, 0, 0);
+  return time.getTime() >= today.getTime();
 }

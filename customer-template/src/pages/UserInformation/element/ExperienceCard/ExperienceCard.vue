@@ -2,7 +2,7 @@
   <div>
     <div class="row py-2">
       <div class="col-md-8 d-flex">
-        <img :src="coverImg" class="avatar mx-md-4" />
+        <img :src="logo" class="avatar mx-md-4" />
         <div>
           <p class="title mb-0">
             {{ data?.name || data?.place || data?.company || "" }}

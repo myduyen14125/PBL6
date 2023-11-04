@@ -1,12 +1,13 @@
 import BModal from "../../../../components/BUI/BModal/BModal.vue";
 import BButton from "../../../../components/BUI/BButton/BButton.vue";
 import SvgIcon from "../../../../components/BUI/SvgIcon/SvgIcon.vue";
-import { ref, defineComponent, watch, onMounted } from "vue";
+import { ref, defineComponent, watch } from "vue";
 import { useBio } from "../../../../stores/bio";
 import { validate } from "../../../../ultils/validators";
 import { AwardParams } from "../../../../types/bio";
 import SwalPopup from "../../../../ultils/swalPopup";
 import { PropType } from "vue";
+import { isDateBeforeToday } from "../../../../ultils/date";
 
 interface Form {
   name: string;
@@ -169,6 +170,7 @@ export default defineComponent({
       validateRequired,
       show,
       hide,
+      isDateBeforeToday,
     };
   },
 });

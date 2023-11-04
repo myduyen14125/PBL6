@@ -7,6 +7,10 @@
   box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
 }
 
+.form-group .el-date-editor.is-valid .el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
+}
+
 .error-message {
   color: #f1416c;
 }

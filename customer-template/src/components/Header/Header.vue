@@ -5,7 +5,7 @@
         class="position-relative px-4 py-4 d-flex justify-content-between align-items-center"
       >
         <a href="/" class="inline-block flex items-center">
-          <img :src="logo" alt="Logo" width="60" height="60" class="mb-2"/>
+          <img :src="logo" alt="Logo" width="60" height="60" class="mb-2" />
           <span class="text-white text-xl font-bold">IT MENTOR</span>
         </a>
 
@@ -85,7 +85,7 @@
             class="dropdown-toggle d-flex align-items-center"
           >
             <img
-              :src="getUserInfo()?.avatar ? getUserInfo()?.avatar : avatar"
+              :src="userInfo?.avatar ? userInfo?.avatar : avatar"
               alt="Avatar"
               class="rounded-circle me-1 w-12 h-12 object-cover"
             />
@@ -96,16 +96,16 @@
           >
             <li class="user-info">
               <img
-                :src="getUserInfo()?.avatar ? getUserInfo()?.avatar : avatar"
+                :src="userInfo?.avatar ? userInfo?.avatar : avatar"
                 alt="Avatar"
                 class="rounded-circle me-1 w-12 h-12 object-cover"
               />
               <div>
                 <p class="mb-1 name">
-                  {{ getUserInfo()?.name || "Trần Thị Ngà" }}
+                  {{ userInfo?.name || "Trần Thị Ngà" }}
                 </p>
                 <p class="mb-0">
-                  <a :href="`/user/${getUserInfo()?._id}`">Xem hồ sơ của bạn</a>
+                  <a :href="`/user/${userInfo?._id}`">Xem hồ sơ của bạn</a>
                 </p>
               </div>
             </li>
@@ -115,13 +115,13 @@
                 <a href="/personal-info">Thông tin cá nhân</a>
               </p>
             </li>
-            <li v-if="getUserInfo()?.role == 'mentor'">
+            <li v-if="userInfo?.role == 'mentor'">
               <SvgIcon icon="blogIcon" />
               <p class="mb-0 ml-4">
                 <a href="/my-blogs">Quản lý blog</a>
               </p>
             </li>
-            <li v-if="getUserInfo()?.role == 'mentor'">
+            <li v-if="userInfo?.role == 'mentor'">
               <SvgIcon icon="blogIcon" />
               <p class="mb-0 ml-4">
                 <a href="/my-appointments">Cài đặt lịch rảnh</a>

@@ -257,7 +257,7 @@
             <div v-for="n in 2" :key="n" class="w-100 border-bottom mb-3">
               <div class="row">
                 <div class="col-2 flex-center-center">
-                  <img :src="hourLogo" class="mini-ava" />
+                  <img :src="avatarImg" class="mini-ava" />
                 </div>
                 <div class="col-6">
                   <div class="basic-intro">
@@ -300,7 +300,7 @@
               @click="router.push(`/user/${mentor?._id}`)"
             >
               <div class="col-3">
-                <img :src="hourLogo" class="mini-ava" />
+                <img :src="mentor?.avatar || avatarImg" class="mini-ava" />
               </div>
               <div class="col-9">
                 <div class="basic-intro">

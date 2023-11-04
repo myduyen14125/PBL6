@@ -5,6 +5,8 @@ import logo from "../../assets/image/logo.png";
 import avatar from "../../assets/image/avatar.png";
 import MessageCard from "../MessageCard/MessageCard.vue";
 import { getUserInfo } from "../../ultils/cache/localStorage";
+import { useUser } from "../../stores/user";
+import SwalPopup from "../../ultils/swalPopup";
 
 export default defineComponent({
   name: "Header",
@@ -12,6 +14,8 @@ export default defineComponent({
   setup() {
     const authStore = useAuth();
     const isLogin = ref(authStore.userInfo ? true : false);
+    const userStore = useUser();
+    const userInfo = ref();
 
     watch(
       () => authStore.userInfo,
@@ -33,6 +37,9 @@ export default defineComponent({
 
     onMounted(() => {
       toggleMenu();
+      if (isLogin.value) {
+        getMyProfile();
+      }
     });
 
     const toggleMenu = (): void => {
@@ -73,12 +80,30 @@ export default defineComponent({
         }
       }
     };
+
+    const getMyProfile = () => {
+      userStore.requestMyProfile({
+        callback: {
+          onSuccess: (res) => {
+            userInfo.value = res;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
     return {
       logo,
       avatar,
       navLinks,
       isLogin,
       authStore,
+      userInfo,
       getUserInfo,
     };
   },

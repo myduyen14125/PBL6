@@ -136,7 +136,9 @@ export default defineComponent({
       userStore.requestUploadAvatar({
         avatar: fileImage.value,
         callback: {
-          onSuccess: (res) => {},
+          onSuccess: (res) => {
+            setTimeout(() => window.location.reload(), 1000);
+          },
           onFailure: () => {
             SwalPopup.swalResultPopup(
               "Sorry, looks like there are some errors detected, please try again.",

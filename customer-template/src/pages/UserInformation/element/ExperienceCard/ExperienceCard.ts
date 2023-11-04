@@ -1,6 +1,5 @@
 import { ref, defineComponent, Ref } from "vue";
 import SvgIcon from "../../../../components/BUI/SvgIcon/SvgIcon.vue";
-import coverImg from "../../../../assets/image/cover.jpg";
 import { PropType } from "vue";
 import { formatDate } from "../../../../ultils/date";
 import { useBio } from "../../../../stores/bio";
@@ -9,6 +8,7 @@ import ExperienceModal from "../ExperienceModal/ExperienceModal.vue";
 import EducationModal from "../EducationModal/EducationModal.vue";
 import AwardModal from "../AwardModal/AwardModal.vue";
 import SkillModal from "../SkillModal/SkillModal.vue";
+import logo from "../../../../assets/image/logoGreen.png";
 
 export default defineComponent({
   name: "ExperienceCard",
@@ -167,7 +167,7 @@ export default defineComponent({
     };
 
     return {
-      coverImg,
+      logo,
       experienceModal,
       educationModal,
       awardModal,
