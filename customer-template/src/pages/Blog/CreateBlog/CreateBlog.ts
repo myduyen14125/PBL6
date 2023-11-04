@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch, Ref } from "vue";
 import GuestLayout from "../../../layout/GuestLayout/GuestLayout.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -7,10 +7,11 @@ import { CreateBlogParams } from "../../../types/blog";
 import SwalPopup from "../../../ultils/swalPopup";
 import { validate } from "../../../ultils/validators";
 import Swal from "sweetalert2";
+import DemoBlogModal from "../DemoBlogModal/DemoBlogModal.vue";
 
 export default defineComponent({
   name: "CreateBlog",
-  components: { GuestLayout, QuillEditor },
+  components: { GuestLayout, QuillEditor, DemoBlogModal },
   props: {
     id: {
       type: String,
@@ -31,6 +32,7 @@ export default defineComponent({
     });
     const isSubmitting = ref(false);
     const myEditor = ref();
+    const demoBlogModal: Ref<any> = ref<typeof DemoBlogModal | null>(null);
 
     onMounted(() => {
       if (props?.id) {
@@ -176,13 +178,20 @@ export default defineComponent({
       });
     };
 
+    const showDemo = () => {
+      if (!validateForm()) return;
+      demoBlogModal?.value?.show();
+    };
+
     return {
       form,
       error,
       isSubmitting,
       myEditor,
+      demoBlogModal,
       submitContent,
       validateRequired,
+      showDemo,
       editorToolbar: "full",
       editorOptions: {
         modules: {

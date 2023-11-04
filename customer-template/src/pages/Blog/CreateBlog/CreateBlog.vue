@@ -42,6 +42,13 @@
         </div>
         <div class="action">
           <button
+            class="mt-4 btn btn-primary px-4 action-button my-2 mr-3"
+            type="submit"
+            @click="showDemo"
+          >
+            Xem demo
+          </button>
+          <button
             class="mt-4 btn btn-primary px-4 action-button my-2"
             type="submit"
             @click="submitContent"
@@ -58,6 +65,7 @@
       </div>
     </div>
   </GuestLayout>
+  <DemoBlogModal ref="demoBlogModal" :blogDetail="form" />
 </template>
 <script lang="ts" src="./CreateBlog.ts"></script>
 <style scoped lang="css" src="./style.css"></style>
