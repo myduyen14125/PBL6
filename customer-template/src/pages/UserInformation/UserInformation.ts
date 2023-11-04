@@ -21,6 +21,7 @@ import AvatarModal from "./element/AvatarModal/AvatarModal.vue";
 import ExperienceModal from "./element/ExperienceModal/ExperienceModal.vue";
 import EducationModal from "./element/EducationModal/EducationModal.vue";
 import AwardModal from "./element/AwardModal/AwardModal.vue";
+import SkillModal from "./element/SkillModal/SkillModal.vue";
 
 export default defineComponent({
   name: "UserInformation",
@@ -33,6 +34,7 @@ export default defineComponent({
     ExperienceModal,
     EducationModal,
     AwardModal,
+    SkillModal,
   },
   props: {
     id: {
@@ -56,6 +58,7 @@ export default defineComponent({
     const experienceModal: Ref<any> = ref<typeof ExperienceModal | null>(null);
     const educationModal: Ref<any> = ref<typeof EducationModal | null>(null);
     const awardModal: Ref<any> = ref<typeof AwardModal | null>(null);
+    const skillModal: Ref<any> = ref<typeof SkillModal | null>(null);
 
     onMounted(() => {
       getUserInformation(props.id);
@@ -163,6 +166,10 @@ export default defineComponent({
       awardModal?.value?.show();
     };
 
+    const toggleSkill = (): void => {
+      skillModal?.value?.show();
+    };
+
     const getAvatar = () => {
       if (fileImage.value) {
         return URL.createObjectURL(fileImage.value);
@@ -199,12 +206,14 @@ export default defineComponent({
       experienceModal,
       educationModal,
       awardModal,
+      skillModal,
       getUserInfo,
       uploadAvatar,
       toggleAvatar,
       toggleExperience,
       toggleEducation,
       toggleAward,
+      toggleSkill,
       getAvatar,
       clickInputFile,
       getUserInformation,

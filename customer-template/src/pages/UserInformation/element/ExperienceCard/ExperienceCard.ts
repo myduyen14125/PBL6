@@ -8,6 +8,7 @@ import SwalPopup from "../../../../ultils/swalPopup";
 import ExperienceModal from "../ExperienceModal/ExperienceModal.vue";
 import EducationModal from "../EducationModal/EducationModal.vue";
 import AwardModal from "../AwardModal/AwardModal.vue";
+import SkillModal from "../SkillModal/SkillModal.vue";
 
 export default defineComponent({
   name: "ExperienceCard",
@@ -16,6 +17,7 @@ export default defineComponent({
     ExperienceModal,
     EducationModal,
     AwardModal,
+    SkillModal,
   },
   emits: ["updatedCard"],
   props: {
@@ -44,6 +46,7 @@ export default defineComponent({
     const experienceModal: Ref<any> = ref<typeof ExperienceModal | null>(null);
     const educationModal: Ref<any> = ref<typeof EducationModal | null>(null);
     const awardModal: Ref<any> = ref<typeof AwardModal | null>(null);
+    const skillModal: Ref<any> = ref<typeof SkillModal | null>(null);
 
     const updated = () => {
       emit("updatedCard", 1);
@@ -56,6 +59,8 @@ export default defineComponent({
         educationModal?.value?.show();
       } else if (props?.type == "award") {
         awardModal?.value?.show();
+      } else if (props?.type == "skill") {
+        skillModal?.value?.show();
       }
     };
 
@@ -70,6 +75,8 @@ export default defineComponent({
               deleteEducation(props?.data?._id);
             } else if (props?.type == "award") {
               deleteAward(props?.data?._id);
+            } else if (props?.type == "skill") {
+              deleteSkill(props?.data?._id);
             }
           },
         },
@@ -139,11 +146,32 @@ export default defineComponent({
       });
     };
 
+    const deleteSkill = (id: string) => {
+      isSubmitting.value = true;
+      bioStore.requestDeleteSkill({
+        id,
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+            updated();
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
+    };
+
     return {
       coverImg,
       experienceModal,
       educationModal,
       awardModal,
+      skillModal,
       updated,
       onDelete,
       formatDate,

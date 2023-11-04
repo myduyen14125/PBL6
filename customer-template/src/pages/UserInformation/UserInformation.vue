@@ -234,13 +234,21 @@
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>KỸ NĂNG & CHỨNG CHỈ</h5>
-                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
+                <p
+                  v-if="showEdit"
+                  class="btn btn-primary px-3"
+                  @click="toggleSkill"
+                >
+                  Thêm
+                </p>
               </div>
               <div v-for="item in userInfo?.bio.skills" :key="item._id">
                 <ExperienceCard
                   :showEdit="showEdit"
                   :data="item"
+                  type="skill"
                   @updatedCard="() => getUserInformation(id)"
+                  :bio="userInfo?.bio?._id || ''"
                 />
               </div>
             </div>
@@ -327,6 +335,12 @@
   />
   <AwardModal
     ref="awardModal"
+    :bio="userInfo?.bio?._id || ''"
+    @updatedModal="() => getUserInformation(id)"
+  />
+
+  <SkillModal
+    ref="skillModal"
     :bio="userInfo?.bio?._id || ''"
     @updatedModal="() => getUserInformation(id)"
   />
