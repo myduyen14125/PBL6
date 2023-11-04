@@ -22,3 +22,9 @@ export interface AwardParams {
   date: string | Date;
   description: string;
 }
+
+export interface SkillParams {
+  bio: string;
+  name: string;
+  description: string;
+}
