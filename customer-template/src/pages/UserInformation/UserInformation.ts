@@ -19,6 +19,7 @@ import { GetPaginationParams } from "../../types/mentor";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import AvatarModal from "./element/AvatarModal/AvatarModal.vue";
 import ExperienceModal from "./element/ExperienceModal/ExperienceModal.vue";
+import EducationModal from "./element/EducationModal/EducationModal.vue";
 
 export default defineComponent({
   name: "UserInformation",
@@ -29,6 +30,7 @@ export default defineComponent({
     SvgIcon,
     AvatarModal,
     ExperienceModal,
+    EducationModal,
   },
   props: {
     id: {
@@ -50,6 +52,7 @@ export default defineComponent({
     const avatarModal: Ref<any> = ref<typeof AvatarModal | null>(null);
     const fileRef: Ref<HTMLDivElement | null> = ref(null);
     const experienceModal: Ref<any> = ref<typeof ExperienceModal | null>(null);
+    const educationModal: Ref<any> = ref<typeof EducationModal | null>(null);
 
     onMounted(() => {
       getUserInformation(props.id);
@@ -149,6 +152,10 @@ export default defineComponent({
       experienceModal?.value?.show();
     };
 
+    const toggleEducation = (): void => {
+      educationModal?.value?.show();
+    };
+
     const getAvatar = () => {
       if (fileImage.value) {
         return URL.createObjectURL(fileImage.value);
@@ -183,10 +190,12 @@ export default defineComponent({
       fileImage,
       avatarModal,
       experienceModal,
+      educationModal,
       getUserInfo,
       uploadAvatar,
       toggleAvatar,
       toggleExperience,
+      toggleEducation,
       getAvatar,
       clickInputFile,
       getUserInformation,

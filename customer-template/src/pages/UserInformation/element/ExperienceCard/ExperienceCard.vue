@@ -64,6 +64,13 @@
     :type="type"
     :bio="bio"
   />
+  <EducationModal
+    ref="educationModal"
+    :data="data"
+    @updatedModal="() => updated()"
+    :type="type"
+    :bio="bio"
+  />
 </template>
 
 <script lang="ts" src="./ExperienceCard.ts"></script>

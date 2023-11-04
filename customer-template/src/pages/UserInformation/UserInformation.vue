@@ -192,13 +192,21 @@
             <div class="user-section">
               <div class="flex-center-between">
                 <h5>QUÁ TRÌNH HỌC TẬP</h5>
-                <p v-if="showEdit" class="btn btn-primary px-3">Thêm</p>
+                <p
+                  v-if="showEdit"
+                  class="btn btn-primary px-3"
+                  @click="toggleEducation"
+                >
+                  Thêm
+                </p>
               </div>
               <div v-for="item in userInfo?.bio.educations" :key="item._id">
                 <ExperienceCard
                   :showEdit="showEdit"
                   :data="item"
                   @updatedCard="() => getUserInformation(id)"
+                  type="education"
+                  :bio="userInfo?.bio?._id || ''"
                 />
               </div>
             </div>
@@ -300,6 +308,12 @@
   />
   <ExperienceModal
     ref="experienceModal"
+    :bio="userInfo?.bio?._id || ''"
+    @updatedModal="() => getUserInformation(id)"
+  />
+
+  <EducationModal
+    ref="educationModal"
     :bio="userInfo?.bio?._id || ''"
     @updatedModal="() => getUserInformation(id)"
   />

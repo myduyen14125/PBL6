@@ -6,12 +6,14 @@ import { formatDate } from "../../../../ultils/date";
 import { useBio } from "../../../../stores/bio";
 import SwalPopup from "../../../../ultils/swalPopup";
 import ExperienceModal from "../ExperienceModal/ExperienceModal.vue";
+import EducationModal from "../EducationModal/EducationModal.vue";
 
 export default defineComponent({
   name: "ExperienceCard",
   components: {
     SvgIcon,
     ExperienceModal,
+    EducationModal,
   },
   emits: ["updatedCard"],
   props: {
@@ -38,6 +40,7 @@ export default defineComponent({
     const bioStore = useBio();
     const isSubmitting = ref(false);
     const experienceModal: Ref<any> = ref<typeof ExperienceModal | null>(null);
+    const educationModal: Ref<any> = ref<typeof EducationModal | null>(null);
 
     const updated = () => {
       emit("updatedCard", 1);
@@ -46,6 +49,8 @@ export default defineComponent({
     const toggleEdit = (): void => {
       if (props?.type == "experience") {
         experienceModal?.value?.show();
+      } else if (props?.type == "education") {
+        educationModal?.value?.show();
       }
     };
 
@@ -56,6 +61,8 @@ export default defineComponent({
           onConfirmed: () => {
             if (props?.type == "experience") {
               deleteExperience(props?.data?._id);
+            } else if (props?.type == "education") {
+              deleteEducation(props?.data?._id);
             }
           },
         },
@@ -85,9 +92,30 @@ export default defineComponent({
       });
     };
 
+    const deleteEducation = (id: string) => {
+      isSubmitting.value = true;
+      bioStore.requestDeleteEducation({
+        id,
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+            updated();
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
+    };
+
     return {
       coverImg,
       experienceModal,
+      educationModal,
       updated,
       onDelete,
       formatDate,

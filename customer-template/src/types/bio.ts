@@ -6,3 +6,12 @@ export interface PostExperienceParams {
   end_date: string | Date;
   description: string;
 }
+
+export interface EducationParams {
+  bio: string;
+  place: string;
+  major: string;
+  start_date: string | Date;
+  end_date: string | Date;
+  description: string;
+}

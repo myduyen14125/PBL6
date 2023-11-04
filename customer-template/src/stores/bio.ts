@@ -4,8 +4,11 @@ import {
   createExperience,
   deleteExperience,
   updateExperience,
+  createEducation,
+  deleteEducation,
+  updateEducation,
 } from "./../api/bio";
-import { PostExperienceParams } from "./../types/bio";
+import { PostExperienceParams, EducationParams } from "./../types/bio";
 
 export const useBio = defineStore("bio", () => {
   const requestCreateExperience = async ({
@@ -73,9 +76,77 @@ export const useBio = defineStore("bio", () => {
     }
   };
 
+  const requestCreateEducation = async ({
+    params,
+    callback,
+  }: {
+    params: EducationParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await createEducation(params);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
+  const requestDeleteEducation = async ({
+    id,
+    callback,
+  }: {
+    id: string;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await deleteEducation(id);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
+  const requestUpdateEducation = async ({
+    id,
+    params,
+    callback,
+  }: {
+    id: string;
+    params: EducationParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await updateEducation(id, params);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
   return {
     requestCreateExperience,
     requestDeleteExperience,
     requestUpdateExperience,
+    requestCreateEducation,
+    requestDeleteEducation,
+    requestUpdateEducation,
   };
 });
