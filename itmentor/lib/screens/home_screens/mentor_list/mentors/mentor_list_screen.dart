@@ -60,6 +60,8 @@ class _MentorListScreenState extends State<MentorListScreen> {
                               MaterialPageRoute(
                                 builder: (context) => MentorProfileDetail(
                                   id: mentor['_id'],
+                                  avatar: avatar,
+                                  gender: gender,
                                 ),
                               ),
                             );

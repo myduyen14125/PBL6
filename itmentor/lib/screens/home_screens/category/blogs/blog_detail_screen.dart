@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:itmentor/utils/constant.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -25,6 +26,8 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
   String authorAvatar = '';
   String createdAt = '';
 
+  String formattedDateTime = '';
+
   Future<void> getBlogDetail(String blogId) async {
     final apiUrl = Uri.https(Constants.uri, '/blog/$blogId');
 
@@ -47,6 +50,8 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
           var user = responseData['user'];
           authorName = user['name'];
           createdAt = responseData['createdAt'];
+          formattedDateTime = DateFormat('HH:mm:ss dd-MM-yyyy')
+              .format(DateTime.parse(createdAt));
           isLoading = false;
         });
       } else {
@@ -71,6 +76,15 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 63, 143, 125),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Chi tiết blog',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -79,24 +93,6 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.arrow_back),
-                      ),
-                      const Expanded(
-                        child: Center(
-                          child: Text(
-                            'Chi tiết blog',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(height: 16.0),
                   Text(
                     title,
@@ -114,7 +110,7 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                     ),
                   ),
                   Text(
-                    createdAt,
+                    'Ngày viết: $formattedDateTime',
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,

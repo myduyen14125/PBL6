@@ -68,7 +68,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     });
   }
 
-  Future<void> updateUserData(User user) async {
+  Future<void> updateUserData(User user, BuildContext ctx) async {
     final apiUrl = Uri.https(Constants.uri, '/user');
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -92,11 +92,15 @@ class _ProfileEditState extends State<ProfileEdit> {
 
       if (response.statusCode == 200) {
         print('User data updated successfully.');
+        // Update the user data in the UserProvider
         user.name = nameController.text;
         user.email = emailController.text;
         user.phone = phoneController.text;
         user.gender = genderController.text == "Nam" ? true : false;
-        Provider.of<UserProvider>(context, listen: false).updateUser(user);
+        print('updated: ${user.name}');
+
+        // Update the UserProvider
+        Provider.of<UserProvider>(ctx, listen: false).updateUser(user);
       } else {
         print(
             'Failed to update user data. Status code: ${response.statusCode}');
@@ -143,8 +147,9 @@ class _ProfileEditState extends State<ProfileEdit> {
                 child: SizedBox(
                   width: 130,
                   child: ElevatedButton(
-                    onPressed: () {
-                      updateUserData(user);
+                    onPressed: () async {
+                      await updateUserData(user, context);
+                      Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1369B2),
@@ -152,15 +157,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
-                    child: Row(
-                      children: const <Widget>[
-                        Icon(
-                          Icons.calendar_month,
-                          size: 24,
-                        ),
-                        SizedBox(width: 8),
-                        Text('Đặt lịch'),
-                      ],
+                    child: const SizedBox(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(width: 8),
+                          Text('Lưu thay đổi'),
+                        ],
+                      ),
                     ),
                   ),
                 ),

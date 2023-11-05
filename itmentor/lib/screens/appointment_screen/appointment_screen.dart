@@ -96,109 +96,156 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-    return Scaffold(
-      body: appointments.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : SafeArea(
-              child: ListView.builder(
-                itemCount: appointments.length,
-                itemBuilder: (context, index) {
-                  final appointment = appointments[index];
-                  final mentorName = appointment['mentor']['name'];
+  Widget buildAppointmentsTab(String status) {
+    // Filter appointments based on tabName
+    final filteredAppointments = appointments
+        .where((appointment) => appointment['status'] == status)
+        .toList();
 
-                  final startAt = appointment['schedule']?['start_at'] != null
-                      ? DateTime.parse(appointment['schedule']['start_at'])
-                      : DateTime.now();
+    if (filteredAppointments.isEmpty) {
+      return Center(child: Text('No $status appointments available'));
+    }
+    return SafeArea(
+      child: ListView.builder(
+        itemCount: filteredAppointments.length,
+        itemBuilder: (context, index) {
+          final appointment = filteredAppointments[index];
+          final mentorName = appointment['mentor']['name'];
 
-                  final endAt = appointment['schedule']?['end_at'] != null
-                      ? DateTime.parse(appointment['schedule']['end_at'])
-                      : DateTime.now();
+          final startAt = appointment['schedule']?['start_at'] != null
+              ? DateTime.parse(appointment['schedule']['start_at'])
+              : DateTime.now();
 
-                  final status = appointment['status'];
-                  final appointmentId = appointment['_id'];
+          final endAt = appointment['schedule']?['end_at'] != null
+              ? DateTime.parse(appointment['schedule']['end_at'])
+              : DateTime.now();
 
-                  return Dismissible(
-                    key: UniqueKey(),
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 20),
-                      child: const Icon(Icons.delete, color: Colors.white),
+          final status = appointment['status'];
+          final appointmentId = appointment['_id'];
+
+          String statusText = '';
+
+          status == 'pending'
+              ? statusText = 'Chờ xác nhận'
+              : status == 'confirmed'
+                  ? statusText = 'Đã xác nhận'
+                  : status == 'finished'
+                      ? statusText = 'Đã hoàn thành'
+                      : statusText = 'Đã huỷ';
+
+          return Dismissible(
+            key: UniqueKey(),direction: DismissDirection.endToStart,
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 20),
+              child: const Icon(Icons.delete, color: Colors.white),
+            ),
+            secondaryBackground: Container(
+              color: Colors.red,
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(left: 20),
+              child: const Icon(Icons.delete, color: Colors.white),
+            ),
+            onDismissed: (direction) {
+              if (direction == DismissDirection.endToStart) {
+                deleteAppointment(appointmentId);
+                setState(() {
+                  appointments.removeAt(index);
+                });
+              }
+            },
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: ((context) {
+                      return AppointmentDetailScreen(
+                        accessToken: widget.token,
+                        scheduleId: appointmentId,
+                      );
+                    }),
+                  ),
+                );
+              },
+              child: Card(
+                margin: const EdgeInsets.all(10),
+                elevation: 4,
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(16),
+                  tileColor: Colors.white,
+                  title: Text(
+                    'Mentor: $mentorName',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    secondaryBackground: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(left: 20),
-                      child: const Icon(Icons.delete, color: Colors.white),
-                    ),
-                    onDismissed: (direction) {
-                      if (direction == DismissDirection.endToStart) {
-                        deleteAppointment(appointmentId);
-                        setState(() {
-                          appointments.removeAt(index);
-                        });
-                      }
-                    },
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: ((context) {
-                              return AppointmentDetailScreen(
-                                accessToken: widget.token,
-                                scheduleId: appointmentId,
-                              );
-                            }),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 4,
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(16),
-                          tileColor: Colors.white,
-                          title: Text(
-                            'Mentor: $mentorName',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Start Date: ${DateFormat('dd/MM/yyyy').format(startAt)}',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                'End Date: ${DateFormat('dd/MM/yyyy').format(endAt)}',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                'Status: $status',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: status == 'pending'
-                                      ? Colors.orange
-                                      : Colors.green,
-                                ),
-                              ),
-                            ],
-                          ),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Giờ bắt đầu: ${DateFormat('dd/MM/yyyy').format(startAt)}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      Text(
+                        'Giờ kết thúc: ${DateFormat('dd/MM/yyyy').format(endAt)}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      Text(
+                        'Trạng thái: $statusText',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: status == 'pending'
+                              ? Colors.orange
+                              : Colors.green,
                         ),
                       ),
-                    ),
-                  );
-                },
+                    ],
+                  ),
+                ),
               ),
             ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Lịch hẹn'),
+          bottom: TabBar(
+            isScrollable: true, // Set isScrollable to true
+            tabs: [
+              Tab(
+                text: 'Chờ xác nhận',
+              ),
+              Tab(
+                text: 'Đã xác nhận',
+              ),
+              Tab(
+                text: 'Đã hoàn thành',
+              ),
+              Tab(
+                text: 'Đã huỷ',
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            buildAppointmentsTab('pending'),
+            buildAppointmentsTab('confirm'),
+            buildAppointmentsTab('finished'),
+            buildAppointmentsTab('canceled'),
+          ],
+        ),
+      ),
     );
   }
 }

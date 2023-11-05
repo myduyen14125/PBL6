@@ -191,10 +191,10 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                                 const Text('Mentee'),
                                               ],
                                             ),
-                                            Column(
+                                            const Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: const [
+                                              children: [
                                                 Text(
                                                   '4',
                                                   style: TextStyle(
@@ -204,10 +204,10 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                                 Text('Giờ cố vấn'),
                                               ],
                                             ),
-                                            Column(
+                                            const Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: const [
+                                              children: [
                                                 Text(
                                                   '5.0',
                                                   style: TextStyle(

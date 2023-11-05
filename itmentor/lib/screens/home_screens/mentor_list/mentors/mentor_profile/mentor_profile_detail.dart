@@ -7,11 +7,18 @@ import 'package:itmentor/screens/home_screens/mentor_list/schedule/choose_schedu
 import 'package:itmentor/utils/constant.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:itmentor/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class MentorProfileDetail extends StatefulWidget {
   final String id;
-  MentorProfileDetail({super.key, required this.id});
+  final String avatar;
+  final bool gender;
+  MentorProfileDetail(
+      {super.key,
+      required this.id,
+      required this.avatar,
+      required this.gender});
 
   @override
   State<MentorProfileDetail> createState() => _MentorProfileDetailState();
@@ -68,35 +75,52 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    print(user.role);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 63, 143, 125),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Thông tin cá nhân',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: userData.isNotEmpty
           ? SafeArea(
               child: SingleChildScrollView(
                 child: Center(
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          IconButton(
-                              onPressed: (() {
-                                Navigator.pop(context);
-                              }),
-                              icon: const Icon(Icons.arrow_back)),
-                          const Expanded(
-                            child: Center(
-                              child: Text(
-                                'Thông tin cá nhân',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ),
-                        ],
+                      // Row(
+                      //   children: [
+                      //     IconButton(
+                      //         onPressed: (() {
+                      //           Navigator.pop(context);
+                      //         }),
+                      //         icon: const Icon(Icons.arrow_back)),
+                      //     const Expanded(
+                      //       child: Center(
+                      //         child: Text(
+                      //           'Thông tin cá nhân',
+                      //           style: TextStyle(fontSize: 20),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      const SizedBox(
+                        height: 10,
                       ),
-                      Image.asset(
-                        'assets/images/male_avatar.jpg',
-                        width: 400,
-                        height: 300,
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: widget.avatar != ''
+                            ? NetworkImage(widget.avatar)
+                            : widget.gender == true
+                                ? AssetImage('assets/images/male_avatar.jpg')
+                                : AssetImage('assets/images/female_avatar.png')
+                                    as ImageProvider,
                       ),
                       const SizedBox(
                         height: 10,
@@ -112,14 +136,6 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                       ),
                       const SizedBox(
                         height: 5,
-                      ),
-                      const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "IT helpdesk tại FPT",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
                       ),
                       const SizedBox(
                         height: 10,
@@ -147,9 +163,9 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   const Text('Mentee'),
                                 ],
                               ),
-                              Column(
+                              const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Text(
                                     '4',
                                     style:
@@ -158,9 +174,9 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   Text('Giờ cố vấn'),
                                 ],
                               ),
-                              Column(
+                              const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Text(
                                     '5.0',
                                     style:
@@ -197,8 +213,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                             ),
-                            child: Row(
-                              children: const <Widget>[
+                            child: const Row(
+                              children: <Widget>[
                                 Icon(
                                   Icons.calendar_month,
                                   size: 24,
@@ -218,8 +234,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                             ),
-                            child: Row(
-                              children: const <Widget>[
+                            child: const Row(
+                              children: <Widget>[
                                 Icon(
                                   Icons.favorite,
                                   size: 24,
@@ -243,8 +259,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                             ),
-                            child: Row(
-                              children: const <Widget>[
+                            child: const Row(
+                              children: <Widget>[
                                 Icon(
                                   Icons.message_outlined,
                                   size: 24,
@@ -262,47 +278,6 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                       ),
                       const SizedBox(
                         height: 10,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12.0),
-                                    bottomRight: Radius.circular(12.0),
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(16.0),
-                                child: const Text(
-                                  'Giới thiệu',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Text(
-                                  'My bio.',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                       const SizedBox(
                         height: 10,

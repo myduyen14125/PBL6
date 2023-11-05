@@ -23,95 +23,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        height: 50.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Card(
-                            child: DropdownButton<String>(
-                              value: selectedValue1,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectedValue1 = newValue!;
-                                });
-                              },
-                              items: <String>[
-                                'Lĩnh vực',
-                                'Option b',
-                                'Option C',
-                                'Option D'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 50.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Card(
-                            child: DropdownButton<String>(
-                              value: selectedValue2,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectedValue2 = newValue!;
-                                });
-                              },
-                              items: <String>[
-                                'Đánh giá',
-                                'Option b',
-                                'Option C',
-                                'Option D'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 50.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Card(
-                            child: DropdownButton<String>(
-                              value: selectedValue3,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectedValue3 = newValue!;
-                                });
-                              },
-                              items: <String>[
-                                'Đánh giá',
-                                'Option b',
-                                'Option C',
-                                'Option D'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   // call api get all blogs
                   // hard code first
                   Column(
@@ -128,10 +39,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 20),
                                     child: Row(
-                                      children: const [
+                                      children: [
                                         Icon(Icons.calendar_month),
                                         Padding(
                                             padding: EdgeInsets.only(left: 20),
@@ -151,8 +62,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                               20.0), // Đặt bán kính bo tròn
                                         ),
                                       ),
-                                      child: Row(
-                                        children: const [
+                                      child: const Row(
+                                        children: [
                                           Text('Xem tiếp'),
                                           Icon(
                                             Icons.arrow_circle_right,
