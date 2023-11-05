@@ -106,6 +106,8 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                   MaterialPageRoute(
                                     builder: (context) => MentorProfileDetail(
                                       id: mentor['_id'],
+                                      avatar: avatar,
+                                      gender: gender,
                                     ),
                                   ),
                                 );
