@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
 import { User } from 'src/user/models/user.model';
 import { BlogRepository } from '../repositories/blog.repository';
@@ -63,7 +63,7 @@ export class BlogService {
     async updateBlog(user: User, id: string, blog: UpdateBlogDto) {
         const check_post = await this.blogRepository.findById(id)
         if (!check_post.user.equals(user._id)) {
-            return null;
+            throw new HttpException('Only creator has permission', HttpStatus.BAD_REQUEST);
         }
         return (await this.blogRepository.findByIdAndUpdate(id, blog)).populate({ path: 'user', select: '-password -refreshToken' })
     }
