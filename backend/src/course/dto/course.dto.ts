@@ -1,0 +1,30 @@
+import { IsNotEmpty } from "class-validator";
+
+export class CreateCourseDto {
+    creator: any
+    @IsNotEmpty()
+    expertise: string
+    @IsNotEmpty()
+    title: string
+    @IsNotEmpty()
+    description: string
+    @IsNotEmpty()
+    price: number
+    @IsNotEmpty()
+    image: string
+}
+
+export class UpdateCourseDto {
+    title: string
+    description: string
+    price: number
+    discount: number
+    image: string
+}
+
+export class PaginationCourseDto {
+    @IsNotEmpty()
+    page: number;
+    @IsNotEmpty()
+    limit: number;
+}

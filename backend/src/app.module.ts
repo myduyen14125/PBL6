@@ -15,6 +15,9 @@ import { ExpertiseModule } from './expertise/expertise.module';
 import { MailerModule, } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { PaymentModule } from './payment/payment.module';
+import { CourseModule } from './course/course.module';
+import { LessonModule } from './lesson/lesson.module';
 
 
 
@@ -57,6 +60,9 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       }),
       inject: [ConfigService],
     }),
+    PaymentModule,
+    CourseModule,
+    LessonModule,
   ],
   controllers: [],
   providers: [],
