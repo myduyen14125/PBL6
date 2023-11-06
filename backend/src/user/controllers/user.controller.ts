@@ -1,10 +1,11 @@
-import { Controller, UseInterceptors, Post, Get, Req, UseGuards, Param, Query, UploadedFile, Patch, Body } from '@nestjs/common';
+import { Controller, UseInterceptors, Post, Get, Req, UseGuards, Param, Query, UploadedFile, Patch, Body, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../services/user.service';
 import { PaginationPostDto } from 'src/blog/dto/blog.dto';
 import { PaginationRatingDto } from 'src/rating/dto/rating.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateUserDto } from '../dto/user.dto';
+import { UpdatePasswordDto } from '../dto/password.dto';
 
 @Controller('user')
 export class UserController {
@@ -57,7 +58,7 @@ export class UserController {
 
     @UseGuards(AuthGuard('jwt'))
     @Patch('change-password')
-    async changePassword(@Req() req: any, @Body() body) {
-        return this.userService.changePassword(req.user, body.password);
+    async changePassword(@Req() req: any, @Body(new ValidationPipe()) passwordDto: UpdatePasswordDto) {
+        return this.userService.changePassword(req.user, passwordDto);
     }
 }

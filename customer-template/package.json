@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "start": "npm run dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

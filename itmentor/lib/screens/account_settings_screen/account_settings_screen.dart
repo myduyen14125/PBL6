@@ -5,6 +5,7 @@ import 'package:itmentor/screens/account_settings_screen/settings_screens/settin
 import 'package:itmentor/screens/account_settings_screen/utilities_screen/utilities_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,6 +19,16 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
   String profileName = '';
   bool isLoading = false;
   late BuildContext storedContext; // Store the context during build
+  String aToken = '';
+  String rToken = '';
+
+  Future<void> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      aToken = prefs.getString('x-auth-token') ?? '';
+      rToken = prefs.getString('x-refresh') ?? '';
+    });
+  }
 
   @override
   void initState() {
@@ -29,6 +40,7 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
     authServices.getToken().then((token) {
       if (token != null && token.isNotEmpty) {
         authServices.fetchProfile(token, storedContext).then((profileData) {
+          print(profileData);
           setState(() {
             profileName = profileData['name'];
             isLoading = false;
@@ -40,6 +52,8 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
     }).catchError((error) {
       print("Error getting token: $error");
     });
+
+    getAccessToken(); // Call the function to retrieve the access token
   }
 
   @override
@@ -49,19 +63,22 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
 
     final user = Provider.of<UserProvider>(context).user;
     print('account settings: ${user.name}');
+
+    print('aToken: $aToken');
+    print('rToken: $rToken');
     return Scaffold(
       body: SafeArea(
         child: isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : SingleChildScrollView(
+            : const SingleChildScrollView(
                 child: Center(
                   child: Column(
                     children: [
                       // AvatarName(profileName: profileName),
-                      const UtilitiesScreen(),
-                      const SettingsScreen(),
+                      UtilitiesScreen(),
+                      SettingsScreen(),
                     ],
                   ),
                 ),
@@ -70,4 +87,3 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
     );
   }
 }
-

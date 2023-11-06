@@ -54,7 +54,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODU3MTMxOSwiZXhwIjoxNjk4NTczOTExfQ.i1cAXB32wC31z5T13kUFMwje4vCBpWcZ326gKh1hlQQ",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5OTExNzU0MSwiZXhwIjoxNjk5MTIwMTMzfQ.877f4UW0bNvwVP2XTjbs3ul55tqqUKIW0jUXmQt_SOQ",
 									"type": "string"
 								}
 							]
@@ -63,7 +63,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"phvntiendat\"\r\n}",
+							"raw": "{\r\n    \"old_password\": \"123456\",\r\n    \"new_password\": \"phvntiendat\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -165,7 +165,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODExODkxNSwiZXhwIjoxNjk4MTIxNTA3fQ.YmQEnmok0b2DZDKL6QMqA1Z0JgTBFgyvLWUltPWNGOk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODg4ODg0NSwiZXhwIjoxNjk4ODkxNDM3fQ.jNu3vQodIQgdjRi2mLg6k2swKFe4tXRErc08edsXXUU",
 									"type": "string"
 								}
 							]
@@ -174,7 +174,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"expertise\": \"6536b3c642d7d685c6ea8f35\",\r\n    \"name\": \"New Name\",\r\n    \"date_of_birth\": \"1999-11-11\",\r\n    \"gender\": true,\r\n    \"phone\": \"123456789\",\r\n    \"facebook_link\": \"https://www.facebook.com/phvntiendat/\",\r\n    \"skype_link\": \"\"\r\n}",
+							"raw": "{\r\n    \"name\": \"New Guy X\",\r\n    \"date_of_birth\": \"1999-11-11\",\r\n    \"gender\": true,\r\n    \"phone\": \"123456789\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,7 +275,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"mentortest@gmail.com\",\r\n    \"password\": \"mentortest\",\r\n    \"name\": \"Mr Holy\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"role\": \"mentor\"\r\n}",
+							"raw": "{\r\n    \"email\": \"mentee001@gmail.com\",\r\n    \"password\": \"mentee001\",\r\n    \"name\": \"Mentee Mentear\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"role\": \"mentee\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -306,7 +306,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODExODkxNSwiZXhwIjoxNjk4MTIxNTA3fQ.YmQEnmok0b2DZDKL6QMqA1Z0JgTBFgyvLWUltPWNGOk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODg4ODg0NSwiZXhwIjoxNjk4ODkxNDM3fQ.jNu3vQodIQgdjRi2mLg6k2swKFe4tXRErc08edsXXUU",
 									"type": "string"
 								}
 							]
@@ -341,13 +341,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/user/6536b5c83d5fb427d47d9817",
+							"raw": "{{host}}/user/65377bcec525b0308f3aa4d2",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"user",
-								"6536b5c83d5fb427d47d9817"
+								"65377bcec525b0308f3aa4d2"
 							]
 						}
 					},
@@ -359,7 +359,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/mentor/search?name=uy",
+							"raw": "http://localhost:3001/mentor/search?name=Mentor",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -377,7 +377,7 @@
 								},
 								{
 									"key": "name",
-									"value": "uy"
+									"value": "Mentor"
 								}
 							]
 						}
@@ -445,13 +445,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://pbl6-test-production.up.railway.app/blog",
-							"protocol": "https",
+							"raw": "{{host}}/blog",
 							"host": [
-								"pbl6-test-production",
-								"up",
-								"railway",
-								"app"
+								"{{host}}"
 							],
 							"path": [
 								"blog"
@@ -476,9 +472,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/blog",
+							"raw": "https://pbl6-production.up.railway.app/blog",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"pbl6-production",
+								"up",
+								"railway",
+								"app"
 							],
 							"path": [
 								"blog"
@@ -495,7 +495,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5ODExODkxNSwiZXhwIjoxNjk4MTIxNTA3fQ.YmQEnmok0b2DZDKL6QMqA1Z0JgTBFgyvLWUltPWNGOk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODg1NjY1NywiZXhwIjoxNjk4ODU5MjQ5fQ.52s_hnmJpurJsJlkWafpGb5hymQFexS_ZEfQesnesck",
 									"type": "string"
 								}
 							]
@@ -692,7 +692,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mentor\": \"6537803f0a03d311350aca11\",\r\n    \"schedule\": \"6538b7397b7fe5d6c66777cd\",\r\n    \"note\": \"Confirm it now\"\r\n}",
+							"raw": "{\r\n    \"mentor\": \"654306fad984530747f34b42\",\r\n    \"schedule\": \"654309922a7dfd2acc944205\",\r\n    \"note\": \"New system test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -774,13 +774,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment/65378a6d7c6574e9bafd4f55/confirm",
+							"raw": "{{host}}/appointment/654307a3d984530747f34b57/confirm",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
-								"65378a6d7c6574e9bafd4f55",
+								"654307a3d984530747f34b57",
 								"confirm"
 							]
 						}
@@ -812,13 +812,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment/65378a6d7c6574e9bafd4f55/finish",
+							"raw": "{{host}}/appointment/654307a3d984530747f34b57/finish",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
-								"65378a6d7c6574e9bafd4f55",
+								"654307a3d984530747f34b57",
 								"finish"
 							]
 						}
@@ -996,7 +996,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"start_at\": \"2023-10-24T14:00:00\",\r\n    \"end_at\": \"2023-10-24T14:30:00\"\r\n}",
+							"raw": "{\r\n    \"start_at\": \"2023-10-30T14:00:00\",\r\n    \"end_at\": \"2023-10-30T14:30:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

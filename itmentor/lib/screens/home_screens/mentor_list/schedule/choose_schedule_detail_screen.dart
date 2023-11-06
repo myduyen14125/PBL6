@@ -40,13 +40,19 @@ class _ChooseScheduleDetailScreenState
 
   TextEditingController _messageController = TextEditingController();
 
+  bool isSendingAppointment = false;
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+
     Future<void> sendAppointmentRequest(
         {required String mentorId,
         required String scheduleId,
         required String note}) async {
+      setState(() {
+        isSendingAppointment = true;
+      });
       final uri = Uri.https(Constants.uri, '/appointment');
 
       final Map<String, dynamic> data = {
@@ -63,8 +69,23 @@ class _ChooseScheduleDetailScreenState
         body: jsonEncode(data),
       );
 
+      setState(() {
+        isSendingAppointment = false;
+      });
+
       if (response.statusCode == 201) {
         showSnackBar(context, 'Đã đặt lịch thành công');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: ((context) {
+              return ChooseScreenCompletionScreen(
+                mentorId: widget.mentorId,
+                scheduleId: widget.scheduleId,
+              );
+            }),
+          ),
+        );
       } else {
         print('Nội dung lỗi: ${response.body}');
       }
@@ -97,8 +118,8 @@ class _ChooseScheduleDetailScreenState
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       SizedBox(
                         width: 10,
                       ),
@@ -117,10 +138,10 @@ class _ChooseScheduleDetailScreenState
                   ),
                 ],
               ),
-              Column(
+              const Column(
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       SizedBox(
                         width: 15,
                       ),
@@ -132,7 +153,7 @@ class _ChooseScheduleDetailScreenState
                     ],
                   ),
                   Row(
-                    children: const [
+                    children: [
                       SizedBox(
                         width: 15,
                       ),
@@ -148,8 +169,8 @@ class _ChooseScheduleDetailScreenState
               const SizedBox(
                 height: 30,
               ),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   SizedBox(
                     width: 15,
                   ),
@@ -187,8 +208,8 @@ class _ChooseScheduleDetailScreenState
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   SizedBox(
                     width: 15,
                   ),
@@ -226,8 +247,8 @@ class _ChooseScheduleDetailScreenState
               const SizedBox(
                 height: 15,
               ),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   SizedBox(
                     width: 15,
                   ),
@@ -274,17 +295,6 @@ class _ChooseScheduleDetailScreenState
                                     mentorId: widget.mentorId,
                                     scheduleId: widget.scheduleId,
                                     note: "");
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) {
-                                      return ChooseScreenCompletionScreen(
-                                        mentorId: widget.mentorId,
-                                        scheduleId: widget.scheduleId,
-                                      );
-                                    }),
-                                  ),
-                                );
                               }
                             : null,
                     style: ElevatedButton.styleFrom(
@@ -293,8 +303,8 @@ class _ChooseScheduleDetailScreenState
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
-                    child: Row(
-                      children: const <Widget>[
+                    child: const Row(
+                      children: <Widget>[
                         Icon(
                           Icons.calendar_month,
                           size: 24,
@@ -305,7 +315,7 @@ class _ChooseScheduleDetailScreenState
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

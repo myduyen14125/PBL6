@@ -9,6 +9,7 @@ import { RatingService } from 'src/rating/services/rating.service';
 import { BioService } from 'src/bio/services/bio.service';
 import { MediaService } from 'src/media/services/media.service';
 import { MailerService } from '@nestjs-modules/mailer';
+import { UpdatePasswordDto } from '../dto/password.dto';
 
 @Injectable()
 export class UserService {
@@ -242,8 +243,15 @@ export class UserService {
         })
     }
 
-    async changePassword(user: User, password: string) {
-        const newPassword = await bcrypt.hash(password, 10);
+    async changePassword(user: User, passwordDto: UpdatePasswordDto) {
+        if (passwordDto.old_password === passwordDto.new_password) {
+            throw new HttpException('New password cant the same as old password', HttpStatus.BAD_REQUEST);
+        }
+
+        if (!bcrypt.compareSync(passwordDto.old_password, user.password)) {
+            throw new HttpException('Wrong old password', HttpStatus.BAD_REQUEST);
+        }
+        const newPassword = await bcrypt.hash(passwordDto.new_password, 10);
 
         return await this.userRepository.findByIdAndUpdate(user.id, {
             password: newPassword

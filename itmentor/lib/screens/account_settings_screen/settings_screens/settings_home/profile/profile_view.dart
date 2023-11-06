@@ -3,9 +3,14 @@ import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/account_settings_screen/settings_screens/settings_home/profile/profile_edit.dart';
 import 'package:provider/provider.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
 
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
   Widget buildInfoRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.all(20),
