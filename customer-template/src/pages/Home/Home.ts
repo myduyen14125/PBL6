@@ -6,7 +6,8 @@ import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import { useMentors } from "../../stores/mentors";
 import { useBlog } from "./../../stores/blog";
 import SwalPopup from "../../ultils/swalPopup";
-import { GetPaginationParams } from "../../types/mentor";
+import { GetPaginationParams, Mentor } from "../../types/mentor";
+import { Blog } from "../../types/blog";
 
 export default defineComponent({
   name: "Home",
@@ -14,8 +15,8 @@ export default defineComponent({
   setup() {
     const mentorsStore = useMentors();
     const blogStore = useBlog();
-    const mentors = ref([]);
-    const blogs = ref([]);
+    const mentors = ref<Mentor[]>([]);
+    const blogs = ref<Blog[]>([]);
     const isLoadingMentor = ref(false);
     const isLoadingBlog = ref(false);
     const textIndex = ref(0);
@@ -83,10 +84,18 @@ export default defineComponent({
         setTimeout(() => {
           charIndex.value = 0;
           textIndex.value = (textIndex.value + 1) % textArray.length;
-        }, 0); 
+        }, 0);
       }
     };
 
-    return { heroImg, mentors, blogs, isLoadingBlog, isLoadingMentor, currentText, showCursor };
+    return {
+      heroImg,
+      mentors,
+      blogs,
+      isLoadingBlog,
+      isLoadingMentor,
+      currentText,
+      showCursor,
+    };
   },
 });

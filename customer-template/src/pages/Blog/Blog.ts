@@ -9,7 +9,7 @@ import { useMentors } from "./../../stores/mentors";
 import SwalPopup from "../../ultils/swalPopup";
 import router from "../../router";
 import { Blog } from "../../types/blog";
-import { GetPaginationParams } from "../../types/mentor";
+import { GetPaginationParams, Mentor } from "../../types/mentor";
 
 export default defineComponent({
   name: "Blog",
@@ -18,7 +18,7 @@ export default defineComponent({
     const mentorsStore = useMentors();
     const blogStore = useBlog();
     const blogs = ref<Blog[]>([]);
-    const mentors = ref([]);
+    const mentors = ref<Mentor[]>([]);
     const isLoadingBlogs = ref(false);
     const currentPage = ref(1);
     const totalElement = ref(0);

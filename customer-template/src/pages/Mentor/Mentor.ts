@@ -2,19 +2,19 @@ import { defineComponent, ref, onMounted } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import MentorCard from "../../components/MentorCard/MentorCard.vue";
 import MajorCard from "../../components/MajorCard/MajorCard.vue";
-import SearchBar from "./element/SearchBar.vue";
+import SearchBar from "./element/SearchBar/SearchBar.vue";
 import { majors } from "../../mockData";
 import imageSaler from "../../assets/image/saler.png";
 import { useMentors } from "../../stores/mentors";
 import SwalPopup from "../../ultils/swalPopup";
-import { SearchMentorsParams } from "../../types/mentor";
+import { Mentor, SearchMentorsParams } from "../../types/mentor";
 
 export default defineComponent({
   name: "Mentor",
   components: { GuestLayout, MentorCard, SearchBar, MajorCard },
   setup() {
     const mentorsStore = useMentors();
-    const mentors = ref([]);
+    const mentors = ref<Mentor[]>([]);
     const isLoading = ref(false);
     const currentPage = ref(1);
     const totalElement = ref(0);

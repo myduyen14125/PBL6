@@ -15,13 +15,14 @@ import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/localStorage";
 import router from "../../router";
-import { GetPaginationParams } from "../../types/mentor";
+import { GetPaginationParams, Mentor } from "../../types/mentor";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import AvatarModal from "./element/AvatarModal/AvatarModal.vue";
 import ExperienceModal from "./element/ExperienceModal/ExperienceModal.vue";
 import EducationModal from "./element/EducationModal/EducationModal.vue";
 import AwardModal from "./element/AwardModal/AwardModal.vue";
 import SkillModal from "./element/SkillModal/SkillModal.vue";
+import { Blog } from "../../types/blog";
 
 export default defineComponent({
   name: "UserInformation",
@@ -48,8 +49,8 @@ export default defineComponent({
     const authStore = useAuth();
     const selectedOption = ref("profile");
     const userInfo = ref();
-    const userBlogs = ref([]);
-    const mentors = ref([]);
+    const userBlogs = ref<Blog[]>([]);
+    const mentors = ref<Mentor[]>([]);
     const showEdit = getUserInfo()?._id == props.id;
     const avatarSrc = ref("");
     const fileImage = ref<any>(null);

@@ -57,7 +57,7 @@
             value-format="YYYY-MM-DD"
             @blur="validateRequired('date')"
             placeholder="DD/MM/YYYY"
-            :disabled-date="(time) => isDateBeforeToday(time)"
+            :disabled-date="(time: Date) => isDateBeforeToday(time)"
           />
           <p v-if="error.date" class="error-message mt-1">{{ error.date }}</p>
         </div>

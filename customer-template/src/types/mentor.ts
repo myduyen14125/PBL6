@@ -22,3 +22,12 @@ export interface SearchMentorsParams {
   name: string;
   limit?: number;
 }
+
+export interface Mentor {
+  _id: string;
+  name: string;
+  avatar: string;
+  email: string;
+  gender: boolean;
+  number_of_mentees: number;
+}

@@ -1,7 +1,7 @@
 import moment from "moment";
 
 export function formatDate(
-  value: string | undefined | null,
+  value: string | undefined | null | Date,
   formatStr = "MM/DD/YYYY"
 ): string {
   if (value) {
