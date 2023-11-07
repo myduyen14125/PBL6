@@ -1,10 +1,8 @@
 import { defineComponent, ref } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
-import Swal from "sweetalert2";
 import SwalPopup from "../../ultils/swalPopup";
 import { ChangePasswordParams } from "../../types/auth";
 import { useUser } from "../../stores/user";
-import { validate } from "../../ultils/validators";
 
 export default defineComponent({
   name: "ChangePassword",

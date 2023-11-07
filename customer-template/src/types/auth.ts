@@ -58,3 +58,7 @@ export interface ChangePasswordParams {
   new_password: string;
   re_password: string;
 }
+
+export interface ForgetPasswordParams {
+  email: string;
+}

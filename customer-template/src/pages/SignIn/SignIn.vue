@@ -57,7 +57,7 @@
               </p>
             </div>
             <div class="text-end mt-3">
-              <a class="link" href="#">Quên mật khẩu</a>
+              <a class="link" href="/forget-password">Quên mật khẩu</a>
             </div>
             <div class="d-flex align-items-center justify-content-center my-4">
               <button
