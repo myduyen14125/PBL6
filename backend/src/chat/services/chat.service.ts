@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { User } from "src/user/models/user.model";
+import { User } from "src/user/user.model";
 import { ChatRepository } from "../repositories/chat.repository";
 import { CreateChatDto } from "../dto/chat.dto";
 import { MessageRepository } from "../repositories/message.repository";

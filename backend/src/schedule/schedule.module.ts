@@ -1,9 +1,9 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ScheduleController } from './controllers/schedule.controller';
-import { ScheduleService } from './services/schedule.service';
-import { ScheduleRepository } from './repositories/schedule.repository';
-import { ScheduleSchema } from 'src/schedule/models/schedule.model';
+import { ScheduleController } from './schedule.controller';
+import { ScheduleService } from './schedule.service';
+import { ScheduleRepository } from './schedule.repository';
+import { ScheduleSchema } from 'src/schedule/schedule.model';
 import { UserModule } from 'src/user/user.module';
 import { BlogModule } from 'src/blog/blog.module';
 import { RatingModule } from 'src/rating/rating.module';

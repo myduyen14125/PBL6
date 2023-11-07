@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuard
 import { AuthGuard } from "@nestjs/passport";
 import { Role } from "src/auth/role.decorator";
 import { RoleGuard } from "src/auth/role.guard";
-import { CreateCourseDto, PaginationCourseDto, UpdateCourseDto } from "../dto/course.dto";
+import { CreateCourseDto, PaginationCourseDto, UpdateCourseDto } from "../dtos/course.dto";
 import { CourseService } from "../services/course.service";
 
 
@@ -17,6 +17,12 @@ export class CourseController {
         return this.courseService.createCourse(req.user, courseDto);
     }
 
+    @Get('my-courses')
+    @UseGuards(AuthGuard("jwt"))
+    getCurrentUserAllCourses(@Req() req: any) {
+        return this.courseService.getCurrentUserAllCourses(req.user);
+    }
+
     @Get(':id')
     getCourseById(@Param('id') id: string) {
         return this.courseService.getCourseById(id);
@@ -29,15 +35,24 @@ export class CourseController {
     }
 
     @UseGuards(AuthGuard("jwt"))
-    @Patch(':id')
-    async updateCourse(@Req() req: any, @Param('id') id: string, @Body(new ValidationPipe()) course: UpdateCourseDto) {
-        return this.courseService.updateCourse(req.user, id, course)
+    @Patch('register-course/:id')
+    async registerCourse(@Req() req: any, @Param('id') id: string) {
+        return this.courseService.registerCourse(req.user, id)
     }
 
     @Get()
-    getAllCourses(@Query() { page, limit }: PaginationCourseDto) {
-        return this.courseService.getAllCourses(page, limit);
+    getAllCourses() {
+        return this.courseService.getAllCourses();
     }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Patch(':id')
+    async updateCourse(@Req() req: any, @Param('id') id: string, @Body() course: UpdateCourseDto) {
+        return this.courseService.updateCourse(req.user, id, course)
+    }
+
+
+
 
 
 

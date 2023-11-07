@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/user/models/user.model';
+import { User } from 'src/user/user.model';
 import { BioService } from './bio.service';
 import { SkillRepository } from '../repositories/skill.repository';
 import { CreateSkillDto, UpdateSkillDto } from '../dtos/skill.dto';

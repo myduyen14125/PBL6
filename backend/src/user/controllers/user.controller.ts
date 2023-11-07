@@ -1,11 +1,12 @@
 import { Controller, UseInterceptors, Post, Get, Req, UseGuards, Param, Query, UploadedFile, Patch, Body, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UserService } from '../services/user.service';
-import { PaginationPostDto } from 'src/blog/dto/blog.dto';
-import { PaginationRatingDto } from 'src/rating/dto/rating.dto';
+import { UserService } from '../user.service';
+import { PaginationPostDto } from 'src/blog/blog.dto';
+import { PaginationRatingDto } from 'src/rating/rating.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateUserDto } from '../dto/user.dto';
 import { UpdatePasswordDto } from '../dto/password.dto';
+import { PaginationCourseDto } from 'src/course/dtos/course.dto';
 
 @Controller('user')
 export class UserController {
@@ -36,6 +37,11 @@ export class UserController {
     @Get(':id/schedules')
     getAllSchedulesByUserId(@Param('id') id: string) {
         return this.userService.getAllSchedulesByUserId(id);
+    }
+
+    @Get(':id/courses')
+    getAllCoursesByCreatorId(@Param('id') id: string) {
+        return this.userService.getAllCoursesByCreatorId(id);
     }
 
     @Get(':id/ratings')

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EducationRepository } from '../repositories/education.repository';
-import { User } from 'src/user/models/user.model';
+import { User } from 'src/user/user.model';
 import { BioService } from './bio.service';
 import { CreateEducationDto, UpdateEducationDto } from '../dtos/education.dto';
 

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BlogController } from './controllers/blog.controller';
-import { BlogSchema } from './models/blog.model';
-import { BlogRepository } from './repositories/blog.repository';
-import { BlogService } from './services/blog.service';
+import { BlogController } from './blog.controller';
+import { BlogSchema } from './blog.model';
+import { BlogRepository } from './blog.repository';
+import { BlogService } from './blog.service';
 
 @Module({
     imports: [

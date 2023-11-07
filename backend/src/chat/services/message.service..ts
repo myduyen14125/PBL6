@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { User } from "src/user/models/user.model";
+import { User } from "src/user/user.model";
 import { CreateMessageDto } from "../dto/message.dto";
 import { MessageRepository } from "../repositories/message.repository";
 import { EventGateway } from "src/event/event.gateway";

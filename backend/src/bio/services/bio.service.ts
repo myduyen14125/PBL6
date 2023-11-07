@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { BioRepository } from '../repositories/bio.repository';
 import { CreateBioDto } from '../dtos/bio.dto';
-import { User } from 'src/user/models/user.model';
+import { User } from 'src/user/user.model';
 import { AwardRepository } from '../repositories/award.repository';
 import { SkillRepository } from '../repositories/skill.repository';
 import { EducationRepository } from '../repositories/education.repository';

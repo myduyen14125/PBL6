@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ExpertiseController } from './controllers/expertise.controller';
-import { ExpertiseService } from './services/expertise.service';
-import { ExpertiseRepository } from './repositories/expertise.repository';
-import { ExpertiseSchema } from './models/expertise.model';
+import { ExpertiseController } from './expertise.controller';
+import { ExpertiseService } from './expertise.service';
+import { ExpertiseRepository } from './expertise.repository';
+import { ExpertiseSchema } from './expertise.model';
 
 @Module({
     imports: [
