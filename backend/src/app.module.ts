@@ -17,7 +17,6 @@ import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { PaymentModule } from './payment/payment.module';
 import { CourseModule } from './course/course.module';
-import { LessonModule } from './lesson/lesson.module';
 
 
 
@@ -62,7 +61,6 @@ import { LessonModule } from './lesson/lesson.module';
     }),
     PaymentModule,
     CourseModule,
-    LessonModule,
   ],
   controllers: [],
   providers: [],

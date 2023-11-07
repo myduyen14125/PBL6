@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { UserService } from '../services/user.service';
+import { UserService } from '../user.service';
 import { PaginationMentorDto } from '../dto/user.dto';
 
 @Controller('mentor')

@@ -1,5 +1,5 @@
 import { Schema, Document } from "mongoose";
-import { User } from "src/user/models/user.model";
+import { User } from "src/user/user.model";
 
 const CourseSchema = new Schema(
     {
@@ -16,6 +16,13 @@ const CourseSchema = new Schema(
         collection: 'courses',
     }
 )
+
+CourseSchema.virtual('lessons', {
+    ref: 'Lesson',
+    localField: '_id',
+    foreignField: 'course',
+    justOne: false,
+});
 
 export { CourseSchema };
 export interface Course extends Document {
