@@ -52,3 +52,9 @@ export interface User {
   address?: string;
   [elem: string]: any;
 }
+
+export interface ChangePasswordParams {
+  old_password: string;
+  new_password: string;
+  re_password: string;
+}

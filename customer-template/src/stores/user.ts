@@ -7,9 +7,10 @@ import {
   updateUser,
   uploadAvatar,
   getMyProfile,
+  changePassword,
 } from "../api/user";
 import { GetPaginationParams } from "../types/mentor";
-import { User } from "../types/auth";
+import { User, ChangePasswordParams } from "../types/auth";
 
 export const useUser = defineStore("user", () => {
   const requestGetUserInfo = async ({
@@ -138,6 +139,27 @@ export const useUser = defineStore("user", () => {
     }
   };
 
+  const requestChangePassword = async ({
+    params,
+    callback,
+  }: {
+    params: ChangePasswordParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await changePassword(params);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
   return {
     requestGetUserInfo,
     requestGetUserBlogs,
@@ -145,5 +167,6 @@ export const useUser = defineStore("user", () => {
     requestUpdateUser,
     requestUploadAvatar,
     requestMyProfile,
+    requestChangePassword,
   };
 });

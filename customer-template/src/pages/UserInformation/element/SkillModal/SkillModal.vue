@@ -2,7 +2,7 @@
   <BModal
     v-model:modal="modal"
     id="experience_modal"
-    title="Thêm kỹ năng & chứng chỉ"
+    title="Thêm kỹ năng hoặc chứng chỉ"
     size="lg"
     animation="fade"
     :noCloseOnBackdrop="true"

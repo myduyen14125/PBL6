@@ -1,6 +1,6 @@
 import httpRequest from "../ultils/httpRequest";
 import { GetPaginationParams } from "../types/mentor";
-import { User } from "../types/auth";
+import { User, ChangePasswordParams } from "../types/auth";
 
 export const getUserInfo = async (id: string): Promise<any> =>
   httpRequest.get<any>(`/user/${id}`);
@@ -24,3 +24,7 @@ export const uploadAvatar = async (avatar: any): Promise<any> => {
 
 export const getMyProfile = async (): Promise<any> =>
   httpRequest.get<any>("/user/profile");
+
+export const changePassword = async (
+  params: ChangePasswordParams
+): Promise<any> => httpRequest.patch<any>(`/user/change-password`, params);

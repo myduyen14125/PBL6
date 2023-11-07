@@ -20,7 +20,7 @@
                 .filter(Boolean)
                 .join(' ')
             "
-            placeholder="Nhập tên trường học"
+            placeholder="Nhập tên giải thưởng"
             @blur="validateRequired('name')"
           />
           <p v-if="error.name" class="error-message mt-1">
