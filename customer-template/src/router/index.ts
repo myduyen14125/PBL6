@@ -21,6 +21,7 @@ const CreateBlog = () => import("../pages/Blog/CreateBlog/CreateBlog.vue");
 const BookAppointment = () => import("../pages/BookAppointment/index.vue");
 const MyAppointment = () => import("../pages/MyAppointment/index.vue");
 const MyBlog = () => import("../pages/MyBlog/MyBlog.vue");
+const ChangePassword = () => import("../pages/ChangePassword/ChangePassword.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -102,6 +103,12 @@ const constantRoutes: RouteRecordRaw[] = [
     name: "MyAppointment",
     component: MyAppointment,
     meta: { requiresAuth: true, role: "mentor" },
+  },
+  {
+    path: "/change-password",
+    name: "ChangePassword",
+    component: ChangePassword,
+    meta: { requiresAuth: true },
   },
 
   // {

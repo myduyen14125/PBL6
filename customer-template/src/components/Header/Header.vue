@@ -129,7 +129,7 @@
             </li>
             <li>
               <SvgIcon icon="changePassIcon" />
-              <p class="mb-0 ml-3"><a href="#">Đổi mật khẩu</a></p>
+              <p class="mb-0 ml-3"><a href="/change-password">Đổi mật khẩu</a></p>
             </li>
             <li>
               <SvgIcon icon="helpIcon" />
