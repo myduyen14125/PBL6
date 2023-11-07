@@ -1,5 +1,9 @@
 import { get, noop } from "lodash";
-import { SignInParams, SignUpParams } from "../types/auth.js";
+import {
+  SignInParams,
+  SignUpParams,
+  ForgetPasswordParams,
+} from "../types/auth.js";
 import { signIn, signUp } from "../api/auth.js";
 import { defineStore } from "pinia";
 import {
@@ -15,7 +19,7 @@ import { RouterNameEnum } from "../constants/routeName";
 import { Authorization } from "../types/auth.js";
 import { ref } from "vue";
 import { User } from "../types/auth.js";
-
+import { getPassword } from "./../api/auth";
 export const useAuth = defineStore("auth", () => {
   const userInfo = ref<User | null>(getUserInfo() || null);
 
@@ -87,6 +91,27 @@ export const useAuth = defineStore("auth", () => {
     }
   };
 
+  const requestGetPassword = async ({
+    params,
+    callback,
+  }: {
+    params: ForgetPasswordParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await getPassword(params);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  };
+
   return {
     requestSignIn,
     requestSignUp,
@@ -94,5 +119,6 @@ export const useAuth = defineStore("auth", () => {
     isLoggedIn,
     logout,
     userInfo,
+    requestGetPassword,
   };
 });
