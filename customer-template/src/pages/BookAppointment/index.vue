@@ -111,6 +111,7 @@ export default {
           event.title = "Đã chọn";
         } else {
           event.color = "#409ee7";
+          event.title = "Có thể đặt lịch"
         }
       });
     },

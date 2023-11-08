@@ -3,7 +3,7 @@
     <div class="appointment-wrapper">
       <div class="container py-20 text-lg">
         <div class="calendar-wrapper">
-          <FullCalendar :options="calendarOptions" />
+          <FullCalendar :options="calendarOptions" class="full-calendar"/>
         </div>
         <div class="text-end">
           <button
@@ -204,4 +204,11 @@ export default {
 };
 </script>
 
-<style scoped lang="css"></style>
+<style scoped lang="css">
+.calendar-wrapper {
+  height: 650px;
+}
+.full-calendar {
+  height: 100%;
+}
+</style>
