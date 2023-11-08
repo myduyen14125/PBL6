@@ -20,7 +20,14 @@
                   class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                   v-else
                 >
+                  <p
+                    class="text-lg font-medium"
+                    v-if="appointments.pending.length == 0"
+                  >
+                    Hiện không có lịch hẹn nào.
+                  </p>
                   <AppointmentCard
+                    v-else
                     v-for="appointment in appointments.pending"
                     :key="appointment?._id"
                     :appointment="appointment"
@@ -36,10 +43,17 @@
                   <div class="spinner-border text-info" role="status"></div>
                 </div>
                 <div
-                  class="d-flex flex-wrap align-items-center justify-content-between"
+                  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                   v-else
                 >
+                  <p
+                    class="text-lg font-medium"
+                    v-if="appointments.confirmed.length == 0"
+                  >
+                    Hiện không có lịch hẹn nào.
+                  </p>
                   <AppointmentCard
+                    v-else
                     v-for="appointment in appointments.confirmed"
                     :key="appointment?._id"
                     :appointment="appointment"
@@ -54,10 +68,17 @@
                   <div class="spinner-border text-info" role="status"></div>
                 </div>
                 <div
-                  class="d-flex flex-wrap align-items-center justify-content-between"
+                  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                   v-else
                 >
+                  <p
+                    class="text-lg font-medium"
+                    v-if="appointments.finished.length == 0"
+                  >
+                    Hiện không có lịch hẹn nào.
+                  </p>
                   <AppointmentCard
+                    v-else
                     v-for="appointment in appointments.finished"
                     :key="appointment?._id"
                     :appointment="appointment"
@@ -72,10 +93,17 @@
                   <div class="spinner-border text-info" role="status"></div>
                 </div>
                 <div
-                  class="d-flex flex-wrap align-items-center justify-content-between"
+                  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                   v-else
                 >
+                  <p
+                    class="text-lg font-medium"
+                    v-if="appointments.canceled.length == 0"
+                  >
+                    Hiện không có lịch hẹn nào.
+                  </p>
                   <AppointmentCard
+                    v-else
                     v-for="appointment in appointments.canceled"
                     :key="appointment?._id"
                     :appointment="appointment"

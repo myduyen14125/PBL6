@@ -26,7 +26,7 @@ export default defineComponent({
       finished: [],
     });
     const handleClick = (tab: any, event: any) => {
-      console.log(tab, event);
+      // console.log(tab, event);
     };
 
     onMounted(() => {

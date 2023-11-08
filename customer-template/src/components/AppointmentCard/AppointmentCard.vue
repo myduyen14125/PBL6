@@ -1,6 +1,6 @@
 <template>
   <div
-    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg hover:shadow-md min-w-[300px]"
+    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg border hover:shadow-md min-w-[300px] my-2"
   >
     <div class="appointment-card__header">
       <div class="appointment-card__header">
