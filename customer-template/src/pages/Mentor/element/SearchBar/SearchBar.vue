@@ -4,26 +4,26 @@
       <div class="search-location mt-4 me-4 relative">
         <button
           @click="toggleLocationSelector"
-          class="btn-location h-12 flex items-center space-x-2 pl-3 rounded-lg bg-gray-100 w-48 focus:outline-none hover:outline-none"
+          class="btn-location h-12 flex items-center space-x-2 pl-3 rounded-lg bg-gray-100 w-56 focus:outline-none hover:outline-none"
         >
           <SvgIcon icon="locationIcon" />
           <span class="pl-3 inline-block text-center">{{
-            chosenLocation || "Địa điểm"
+            chosenExpertise?.name || "Chọn lĩnh vực"
           }}</span>
         </button>
 
         <div
           v-if="showLocationSelector"
-          class="absolute z-10 top-14 left-0 w-48 bg-white shadow-lg rounded-lg"
+          class="absolute z-10 top-14 left-0 w-56 bg-white shadow-lg rounded-lg"
         >
           <ul class="p-0">
             <li
-              class="py-2 pl-8 hover:bg-gray-100 cursor-pointer rounded-lg"
-              v-for="(location, index) in locations"
-              :key="index"
-              @click="selectLocation(location)"
+              class="py-2 px-8 hover:bg-gray-100 cursor-pointer rounded-lg"
+              v-for="expertise in listExpertise"
+              :key="expertise._id"
+              @click="selectExpertise(expertise)"
             >
-              {{ location }}
+              {{ expertise?.name }}
             </li>
           </ul>
         </div>
@@ -45,7 +45,7 @@
             @click="onSearchMentor"
           />
         </div>
-        <div
+        <!-- <div
           v-if="showMajorDropdown"
           class="absolute z-10 top-full left-0 w-[400px] bg-white shadow-lg mt-2 rounded-lg"
         >
@@ -77,7 +77,7 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

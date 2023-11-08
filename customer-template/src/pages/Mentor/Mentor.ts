@@ -19,7 +19,12 @@ export default defineComponent({
     const currentPage = ref(1);
     const totalElement = ref(0);
     const limit = 8;
-    const searchValue = ref("");
+    const searchValue = ref<SearchMentorsParams>({
+      page: currentPage.value,
+      name: "",
+      expertise: "",
+      limit: limit,
+    });
 
     onMounted(() => {
       searchMentor();
@@ -28,11 +33,7 @@ export default defineComponent({
     const searchMentor = () => {
       isLoading.value = true;
       mentorsStore.requestGetSearchMentor({
-        params: {
-          page: currentPage.value,
-          limit: limit,
-          name: searchValue.value,
-        } as SearchMentorsParams,
+        params: searchValue.value,
         callback: {
           onSuccess: (res) => {
             isLoading.value = false;
@@ -50,9 +51,12 @@ export default defineComponent({
       });
     };
 
-    const getSearchText = (text: string) => {
+    const getSearchParams = (params: SearchMentorsParams) => {
       currentPage.value = 1;
-      searchValue.value = text;
+      searchValue.value = {
+        ...searchValue.value,
+        ...params,
+      };
       searchMentor();
     };
 
@@ -65,7 +69,7 @@ export default defineComponent({
       currentPage,
       isLoading,
       searchMentor,
-      getSearchText,
+      getSearchParams,
     };
   },
 });

@@ -37,10 +37,14 @@
                 </p>
                 <p class="mt-3">Các dịch vụ đến từ IT Mentor:</p>
                 <div class="mt-3">
-                  <button class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3">
+                  <button
+                    class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3"
+                  >
                     Tư vấn trực tiếp
                   </button>
-                  <button class="btn btn-primary !text-lg border-10 px-3 py-2 mb-3">
+                  <button
+                    class="btn btn-primary !text-lg border-10 px-3 py-2 mb-3"
+                  >
                     Khóa học cùng chuyên gia
                   </button>
                 </div>

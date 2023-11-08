@@ -18,7 +18,7 @@
                   <button class="btn btn-primary !text-lg px-4 py-3 mb-3">
                     Đăng ký tư vấn ngay
                   </button>
-                  <SearchBar @clickSearch="getSearchText" />
+                  <SearchBar @clickSearch="getSearchParams" />
                 </div>
               </div>
             </div>
