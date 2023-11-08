@@ -5,17 +5,18 @@ import Swal from "sweetalert2";
 import SwalPopup from "../../ultils/swalPopup";
 import { useUser } from "../../stores/user";
 import { User } from "../../types/auth";
-import { useAuth } from "../../stores/auth";
+import { useExpertise } from "../../stores/expertise";
 import { validate } from "../../ultils/validators";
 import { RegexPhoneNumber } from "../../constants/regex";
 import avatar from "../../assets/image/avatar.png";
+import { Expertise } from "../../types/expertise";
 
 export default defineComponent({
   name: "UserInformation",
   components: { GuestLayout },
   setup() {
+    const expertiseStore = useExpertise();
     const userStore = useUser();
-    const authStore = useAuth();
     const initialUser: User = {
       email: "",
       name: "",
@@ -25,16 +26,20 @@ export default defineComponent({
       gender: null,
       facebook_link: "",
       skype_link: "",
+      expertise: "",
     };
     const userInfo = ref<User>(initialUser);
+    const listExpertise = ref<Expertise[]>([]);
     const error = ref({
       name: "",
       phone: "",
     });
     const isSubmitting = ref(false);
+    const isLoading = ref(false);
 
     onMounted(() => {
       getUserInformation();
+      getAllExpertise();
     });
 
     const validateName = (): string => {
@@ -73,15 +78,35 @@ export default defineComponent({
       return arrRes.findIndex((x) => x && x.length > 0) < 0;
     };
 
+    const getAllExpertise = () => {
+      expertiseStore.requestGetAllExpertise({
+        callback: {
+          onSuccess: (res) => {
+            listExpertise.value = res;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
     const getUserInformation = () => {
+      isLoading.value = true;
       userStore.requestMyProfile({
         callback: {
           onSuccess: (res) => {
             userInfo.value = {
               ...res,
+              expertise: res?.expertise?._id,
             };
+            isLoading.value = false;
           },
           onFailure: () => {
+            isLoading.value = false;
             SwalPopup.swalResultPopup(
               "Sorry, looks like there are some errors detected, please try again.",
               "error"
@@ -95,7 +120,7 @@ export default defineComponent({
       e.preventDefault();
       if (!validateForm()) return;
 
-      isSubmitting.value = true;
+      updateInfo();
     };
 
     const updateInfo = () => {
@@ -150,6 +175,8 @@ export default defineComponent({
       error,
       avatar,
       isSubmitting,
+      listExpertise,
+      isLoading,
       validatePhone,
       validateName,
       submitUpdateForm,

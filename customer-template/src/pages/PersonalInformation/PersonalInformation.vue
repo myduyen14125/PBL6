@@ -4,7 +4,13 @@
       <div class="m-5 p-5 personal-info-page">
         <form @submit="submitUpdateForm">
           <div class="form-title mb-10"><h3>Thông tin cá nhân</h3></div>
-          <div class="form-content">
+          <div
+            v-if="isLoading"
+            class="col-12 d-flex align-items-center justify-content-center"
+          >
+            <div class="spinner-border text-info" role="status"></div>
+          </div>
+          <div v-else class="form-content">
             <div class="row">
               <div class="col-12 col-lg-6">
                 <div class="form-group mb-3">
@@ -65,6 +71,20 @@
                     v-model="userInfo.address"
                     placeholder="Nhập địa chỉ"
                   /> -->
+                  <label for="expertise">Lĩnh vực:</label>
+                  <el-select
+                    class="w-50"
+                    name="expertise"
+                    v-model="userInfo.expertise"
+                    placeholder="Chọn lĩnh vực"
+                  >
+                    <el-option
+                      v-for="expertise in listExpertise"
+                      :key="expertise.id"
+                      :label="expertise.name"
+                      :value="expertise._id"
+                    />
+                  </el-select>
                 </div>
                 <div class="form-group mb-3">
                   <label for="date_of_birth">Ngày sinh:</label>
@@ -123,7 +143,8 @@
             <button
               class="btn btn-primary px-4 action-button my-2"
               type="submit"
-              @click="updateInfo"
+              @click="submitUpdateForm"
+              :disabled="isSubmitting || isLoading"
             >
               Cập nhật
               <span
