@@ -13,7 +13,7 @@ import { useUser } from "../../stores/user";
 import { useMentors } from "../../stores/mentors";
 import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
-import { getUserInfo } from "../../ultils/cache/localStorage";
+import { getUserInfo } from "../../ultils/cache/cookies";
 import router from "../../router";
 import { GetPaginationParams, Mentor } from "../../types/mentor";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";

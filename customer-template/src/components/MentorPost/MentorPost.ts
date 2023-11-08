@@ -4,7 +4,7 @@ import avatar from "../../assets/image/avatar.png";
 import postImg from "../../assets/image/post-img.png";
 import { formatDate } from "../../ultils/date";
 import router from "../../router";
-import { getUserInfo } from "../../ultils/cache/localStorage";
+import { getUserInfo } from "../../ultils/cache/cookies";
 
 export default defineComponent({
   name: "MentorPost",

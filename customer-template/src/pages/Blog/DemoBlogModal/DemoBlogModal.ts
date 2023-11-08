@@ -1,6 +1,6 @@
 import { defineComponent, ref, PropType } from "vue";
 import BModal from "../../../components/BUI/BModal/BModal.vue";
-import { getUserInfo } from "../../../ultils/cache/localStorage";
+import { getUserInfo } from "../../../ultils/cache/cookies";
 import { formatDate } from "../../../ultils/date";
 
 export default defineComponent({

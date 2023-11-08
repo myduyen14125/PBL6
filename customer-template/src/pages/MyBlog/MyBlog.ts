@@ -4,7 +4,7 @@ import SwalPopup from "../../ultils/swalPopup";
 import { useUser } from "../../stores/user";
 import { useBlog } from "../../stores/blog";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
-import { getUserInfo } from "../../ultils/cache/localStorage";
+import { getUserInfo } from "../../ultils/cache/cookies";
 import { Blog } from "../../types/blog";
 import { GetPaginationParams } from "../../types/mentor";
 import router from "../../router";

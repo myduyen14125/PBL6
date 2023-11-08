@@ -4,7 +4,7 @@ import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import logo from "../../assets/image/logo.png";
 import avatar from "../../assets/image/avatar.png";
 import MessageCard from "../MessageCard/MessageCard.vue";
-import { getUserInfo } from "../../ultils/cache/localStorage";
+import { getUserInfo } from "../../ultils/cache/cookies";
 import { useUser } from "../../stores/user";
 import SwalPopup from "../../ultils/swalPopup";
 

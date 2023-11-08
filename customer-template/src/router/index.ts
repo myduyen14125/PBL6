@@ -4,7 +4,7 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 import { useAuth } from "../stores/auth";
-import { getUserInfo } from "../ultils/cache/localStorage";
+import { getUserInfo } from "../ultils/cache/cookies";
 
 const Home = () => import("../pages/Home/Home.vue");
 const SignIn = () => import("../pages/SignIn/SignIn.vue");
@@ -36,11 +36,13 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/sign-in",
     name: "SignIn",
     component: SignIn,
+    meta: { requiresAuth: false },
   },
   {
     path: "/sign-up",
     name: "SignUp",
     component: SignUp,
+    meta: { requiresAuth: false },
   },
   {
     path: "/mentors",
@@ -117,6 +119,7 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/forget-password",
     name: "ForgetPassword",
     component: ForgetPassword,
+    meta: { requiresAuth: false },
   },
 
   // {
@@ -146,6 +149,8 @@ router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0);
   const auth = useAuth();
   if (to.meta.requiresAuth && !auth.isLoggedIn()) next({ name: "SignIn" });
+  if (to.meta.requiresAuth == false && auth.isLoggedIn())
+    next({ name: "Home" });
   if (to.meta.role && getUserInfo()?.role != to.meta.role)
     next({ name: "ErrorPage" });
   else next();

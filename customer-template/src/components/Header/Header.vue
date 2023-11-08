@@ -129,7 +129,9 @@
             </li>
             <li>
               <SvgIcon icon="changePassIcon" />
-              <p class="mb-0 ml-3"><a href="/change-password">Đổi mật khẩu</a></p>
+              <p class="mb-0 ml-3">
+                <a href="/change-password">Đổi mật khẩu</a>
+              </p>
             </li>
             <li>
               <SvgIcon icon="helpIcon" />
@@ -140,7 +142,7 @@
               @click="authStore.logout()"
             >
               <!-- <SvgIcon icon="logoutIcon" /> -->
-              <p class="mb-0"><a href="/">Đăng xuất</a></p>
+              <p class="mb-0"><a href="/sign-in">Đăng xuất</a></p>
             </li>
           </ul>
         </div>

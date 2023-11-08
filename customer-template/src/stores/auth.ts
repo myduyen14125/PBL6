@@ -13,7 +13,7 @@ import {
   setRefreshToken,
   setUserInfo,
   getUserInfo,
-} from "../ultils/cache/localStorage.js";
+} from "../ultils/cache/cookies.js";
 import router from "../router";
 import { RouterNameEnum } from "../constants/routeName";
 import { Authorization } from "../types/auth.js";

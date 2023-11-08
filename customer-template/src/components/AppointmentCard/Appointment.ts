@@ -5,7 +5,7 @@ import { formatDate } from "../../ultils/date";
 import { PropType } from "vue";
 import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
-import { getUserInfo } from "../../ultils/cache/localStorage";
+import { getUserInfo } from "../../ultils/cache/cookies";
 
 export default defineComponent({
   name: "AppointmentCard",
@@ -75,7 +75,7 @@ export default defineComponent({
 
     const handleImage = (image: any) => {
       if (!image || image === "blank") {
-        return "https://4kwallpapers.com/images/wallpapers/anime-girl-girly-1024x768-9792.jpg"
+        return "https://4kwallpapers.com/images/wallpapers/anime-girl-girly-1024x768-9792.jpg";
       }
       return image;
     };
@@ -87,7 +87,7 @@ export default defineComponent({
       onCancelAppointment,
       isLoadingConfirm,
       isLoadingCancel,
-      handleImage
+      handleImage,
     };
   },
 });

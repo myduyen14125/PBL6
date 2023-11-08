@@ -7,7 +7,7 @@ import {
   revokeUser,
   setAccessToken,
   setRefreshToken,
-} from "./cache/localStorage";
+} from "./cache/cookies";
 import { shouldRefreshToken } from "./token";
 import type {
   AxiosInstance,

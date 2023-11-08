@@ -37,13 +37,13 @@ export default defineComponent({
             resetData();
 
             SwalPopup.swalResultPopup(
-              "Check your email for new password.",
+              "Vui lòng kiểm tra email của bạn.",
               "success"
             );
           },
           onFailure: (res) => {
             resetData();
-            SwalPopup.swalResultPopup("Error.", "error");
+            SwalPopup.swalResultPopup("Đã xảy ra lỗi", "error");
             isSubmitting.value = false;
           },
         },
