@@ -43,7 +43,7 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <router-link to="#" class="router-link"
+                <router-link :to="`/chat/${userInfo?._id}`" class="router-link"
                   ><SvgIcon icon="messengerMenu"
                 /></router-link>
               </div>
@@ -57,6 +57,11 @@
                 </li>
               </ul>
             </div>
+          </li>
+          <li>
+            <router-link :to="`/chat/${userInfo?._id}`" class="router-link"
+              ><SvgIcon icon="messengerMenu"
+            /></router-link>
           </li>
         </ul>
 
