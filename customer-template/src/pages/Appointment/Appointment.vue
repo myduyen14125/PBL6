@@ -1,7 +1,7 @@
 <template>
   <GuestLayout>
     <div class="appointment-wrapper">
-      <div class="container py-20 text-lg">
+      <div class="container py-20 text-lg min-h-[65vh]">
         <div class="row">
           <div class="col-3 col-md-3">
             <SvgIcon icon="calendarFull" />

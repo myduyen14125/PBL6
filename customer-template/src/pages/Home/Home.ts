@@ -32,7 +32,7 @@ export default defineComponent({
     onMounted(() => {
       getMentors();
       getBlogs();
-      setInterval(typeText, 100);
+      setInterval(typeText, 300);
     });
 
     const getMentors = () => {
@@ -84,7 +84,7 @@ export default defineComponent({
         setTimeout(() => {
           charIndex.value = 0;
           textIndex.value = (textIndex.value + 1) % textArray.length;
-        }, 0);
+        }, 300);
       }
     };
 
