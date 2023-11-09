@@ -27,6 +27,10 @@ class MentorProfileDetail extends StatefulWidget {
 class _MentorProfileDetailState extends State<MentorProfileDetail> {
   Map<String, dynamic> userData = {};
   List<Map<String, dynamic>> blogs = [];
+  List<dynamic> experiences = [];
+  List<dynamic> awards = [];
+  List<dynamic> skills = [];
+  List<dynamic> educations = [];
 
   @override
   void initState() {
@@ -36,8 +40,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
   }
 
   Future<void> fetchBlogs() async {
-    final url = Uri.https(
-        'pbl6-test-production.up.railway.app', '/user/${widget.id}/blogs');
+    final url = Uri.https(Constants.uri, '/user/${widget.id}/blogs');
 
     final response = await http.get(url);
 
@@ -61,6 +64,10 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
       final data = json.decode(response.body);
       setState(() {
         userData = data;
+        experiences = data['bio']['experiences'];
+        awards = data['bio']['awards'];
+        skills = data['bio']['skills'];
+        educations = data['bio']['educations'];
       });
     } else {
       throw Exception('Failed to load user data');
@@ -74,9 +81,6 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-    print(user.role);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 63, 143, 125),
@@ -93,23 +97,6 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                 child: Center(
                   child: Column(
                     children: [
-                      // Row(
-                      //   children: [
-                      //     IconButton(
-                      //         onPressed: (() {
-                      //           Navigator.pop(context);
-                      //         }),
-                      //         icon: const Icon(Icons.arrow_back)),
-                      //     const Expanded(
-                      //       child: Center(
-                      //         child: Text(
-                      //           'Thông tin cá nhân',
-                      //           style: TextStyle(fontSize: 20),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -310,18 +297,29 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   ),
                                 ),
                               ),
-                              ListTile(
-                                leading: const Icon(Icons.star,
-                                    color: Colors.yellow),
-                                title: const Text(
-                                  'Chief Technology Officer',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle:
-                                    const Text('Mentori\n09/2019 - Hiện tại'),
-                                onTap: () {},
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: experiences.length,
+                                itemBuilder: (context, index) {
+                                  final experience = experiences[index];
+                                  return ListTile(
+                                    leading: const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    title: Text(
+                                      experience['position'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      '${experience['company']}\n${experience['start_date']} - ${experience['end_date']}',
+                                    ),
+                                    onTap: () {},
+                                  );
+                                },
                               ),
                               const SizedBox(height: 16.0),
                               Container(
@@ -342,31 +340,29 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   ),
                                 ),
                               ),
-                              ListTile(
-                                leading: const Icon(Icons.star,
-                                    color: Colors.yellow),
-                                title: const Text(
-                                  'Trường Đại học Khoa học Tự nhiên -\n Đại học Quốc gia Hà Nội',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: const Text(
-                                    'Công nghệ phần mềm\n09/2018 - 12/2021'),
-                                onTap: () {},
-                              ),
-                              ListTile(
-                                leading: const Icon(Icons.star,
-                                    color: Colors.yellow),
-                                title: const Text(
-                                  'Trường Đại học Ngoại Thương',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: const Text(
-                                    'Tài chính quốc tế\n08/2013 - 06/2017'),
-                                onTap: () {},
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: educations.length,
+                                itemBuilder: (context, index) {
+                                  final education = educations[index];
+                                  return ListTile(
+                                    leading: const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    title: Text(
+                                      '${education['place']} - ${education['major']}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      '${education['start_date']} - ${education['end_date']}',
+                                    ),
+                                    onTap: () {},
+                                  );
+                                },
                               ),
                               Container(
                                 decoration: const BoxDecoration(
@@ -378,7 +374,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                 ),
                                 padding: const EdgeInsets.all(16.0),
                                 child: const Text(
-                                  'Hoạt động ngoại khoá',
+                                  'Giải thưởng',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -386,31 +382,29 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   ),
                                 ),
                               ),
-                              ListTile(
-                                leading: const Icon(Icons.star,
-                                    color: Colors.yellow),
-                                title: const Text(
-                                  'Data Hat',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: const Text(
-                                    'Founder và Giảng viên\n08/2019 - 12/2020'),
-                                onTap: () {},
-                              ),
-                              ListTile(
-                                leading: const Icon(Icons.star,
-                                    color: Colors.yellow),
-                                title: const Text(
-                                  'MOS Excel',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle:
-                                    const Text('Giảng viên\n08/2016 - 02/2017'),
-                                onTap: () {},
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: awards.length,
+                                itemBuilder: (context, index) {
+                                  final award = awards[index];
+                                  return ListTile(
+                                    leading: const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    title: Text(
+                                      award['name'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      'Description: ${award['description']}\nDate: ${award['date']}',
+                                    ),
+                                    onTap: () {},
+                                  );
+                                },
                               ),
                               Container(
                                 decoration: const BoxDecoration(
@@ -430,18 +424,29 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                   ),
                                 ),
                               ),
-                              ListTile(
-                                leading: const Icon(Icons.star,
-                                    color: Colors.yellow),
-                                title: const Text(
-                                  'Python',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle:
-                                    const Text('Giảng viên\n08/2016 - 02/2017'),
-                                onTap: () {},
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: skills.length,
+                                itemBuilder: (context, index) {
+                                  final skill = skills[index];
+                                  return ListTile(
+                                    leading: const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    title: Text(
+                                      skill['name'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      'Description: ${skill['description']}',
+                                    ),
+                                    onTap: () {},
+                                  );
+                                },
                               ),
                               Container(
                                 decoration: const BoxDecoration(
@@ -489,9 +494,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                                       .length <=
                                                   300
                                               ? stripHtmlTags(blog['content'])
-                                              : stripHtmlTags(blog['content'])
-                                                      .substring(0, 300) +
-                                                  '...', // Limit to 300 characters
+                                              : '${stripHtmlTags(blog['content']).substring(0, 300)}...',
                                         ),
                                       ),
                                     ),

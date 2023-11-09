@@ -246,7 +246,7 @@ class AuthServices {
     });
 
     print("active profile: $activeToken");
-    print('fetch profile: $refreshToken');
+    print('refresh profile: $refreshToken');
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -254,6 +254,7 @@ class AuthServices {
       Provider.of<UserProvider>(context, listen: false).updateUser(user);
       return data;
     } else {
+      print('fetch profile failed: ${response.statusCode}');
       throw Exception('Failed to load profile');
     }
   }
