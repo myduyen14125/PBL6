@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventModule } from 'src/event/event.module';
 import { ChatController } from './controllers/chat.controller';
@@ -22,7 +22,7 @@ import { MessageService } from './services/message.service.';
                 schema: MessageSchema
             }
         ]),
-        EventModule
+        forwardRef(() => EventModule),
 
     ],
     controllers: [ChatController, MessageController],
