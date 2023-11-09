@@ -22,9 +22,10 @@ export class EventGateway {
   server: Server<any, ServerToClientEvents>;
 
   afterInit(client: Socket) {
-    client.use(SocketAuthMiddleware() as any)
-    Logger.log(client.id)
+    client.use(SocketAuthMiddleware() as any);
+    Logger.log("-------------------------socket server initiated-------------------------")
   }
+
 
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
@@ -52,6 +53,7 @@ export class EventGateway {
     })
 
     console.log(client.rooms);
+    this.server.emit('joinStatus', "Joined")
 
   }
 
