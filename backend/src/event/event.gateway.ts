@@ -9,7 +9,7 @@ import { WsJwtAuthGuard } from 'src/auth/ws-jwt.guard';
 import { UserService } from 'src/user/user.service';
 import { ChatService } from 'src/chat/services/chat.service';
 
-@WebSocketGateway({ namespace: 'event' })
+@WebSocketGateway({ cors: true })
 @UseGuards(WsJwtAuthGuard)
 @Injectable()
 export class EventGateway {
@@ -22,9 +22,10 @@ export class EventGateway {
   server: Server<any, ServerToClientEvents>;
 
   afterInit(client: Socket) {
-    client.use(SocketAuthMiddleware() as any)
-    Logger.log(client.id)
+    client.use(SocketAuthMiddleware() as any);
+    Logger.log("-------------------------socket server initiated-------------------------")
   }
+
 
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
@@ -52,6 +53,7 @@ export class EventGateway {
     })
 
     console.log(client.rooms);
+    this.server.emit('joinStatus', "Joined")
 
   }
 
