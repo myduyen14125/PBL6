@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from "@nestjs/common";
 import { User } from "src/user/user.model";
 import { ChatRepository } from "../repositories/chat.repository";
 import { CreateChatDto } from "../dto/chat.dto";
@@ -9,7 +9,7 @@ import { EventGateway } from "src/event/event.gateway";
 export class ChatService {
     constructor(private readonly chatRepository: ChatRepository,
         private readonly messageRepository: MessageRepository,
-        private eventGateway: EventGateway,
+        @Inject(forwardRef(() => EventGateway)) private eventGateway: EventGateway,
     ) { }
 
 
