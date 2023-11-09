@@ -9,7 +9,7 @@ import { WsJwtAuthGuard } from 'src/auth/ws-jwt.guard';
 import { UserService } from 'src/user/user.service';
 import { ChatService } from 'src/chat/services/chat.service';
 
-@WebSocketGateway({ namespace: 'event' })
+@WebSocketGateway()
 @UseGuards(WsJwtAuthGuard)
 @Injectable()
 export class EventGateway {
