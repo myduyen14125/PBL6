@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:itmentor/screens/account_settings_screen/account_settings_screen.dart';
 import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/bio_screen.dart';
+import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/bio/skills/create_skills.dart';
 import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/mentor_action/mentor_action.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -19,6 +21,12 @@ class ProfileScreenDetail extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreenDetail> {
   final AuthServices authServices = AuthServices();
+  List<dynamic> awards = [];
+  List<dynamic> skills = [];
+  List<dynamic> educations = [];
+  List<dynamic> experiences = [];
+
+  String bioId = '';
 
   String selectedImagePath =
       "https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png";
@@ -71,6 +79,15 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 94, 157, 144),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Thông tin cá nhân',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(gradient: Constants.backgroundColor),
         child: SafeArea(
@@ -105,6 +122,18 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                       final numberOfMentee = data['number_of_mentees'];
                       final avatar = data['avatar'];
 
+                      awards = data['bio']['awards'];
+                      skills = data['bio']['skills'];
+                      educations = data['bio']['educations'];
+                      experiences = data['bio']['experiences'];
+                      print(experiences);
+
+                      print(data['bio']);
+
+                      bioId = data['bio']['_id'];
+
+                      print('awardId: $bioId');
+
                       DateTime? dateOfBirthDateTime =
                           DateTime.tryParse(dateOfBirth);
 
@@ -121,24 +150,6 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: (() {
-                                      Navigator.pop(context);
-                                    }),
-                                    icon: const Icon(Icons.arrow_back),
-                                  ),
-                                  const Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        'Thông tin cá nhân',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
                               // Profile Info
                               Container(
                                 padding: const EdgeInsets.all(10.0),
@@ -223,40 +234,15 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                     ),
                                     BioScreen(
                                       token: token,
+                                      bioId: bioId,
+                                      awards: awards,
+                                      skills: skills,
+                                      educations: educations,
+                                      experiences: experiences,
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Email: $email',
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Ngày Sinh: $formattedDateOfBirth',
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Giới Tính: $genderText',
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
                               ),
@@ -265,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                 MentorAction(
                                   token: token,
                                   mentorId: id,
-                                )
+                                ),
                             ],
                           ),
                         ),

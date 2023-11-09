@@ -30,6 +30,18 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
     });
   }
 
+  Map<String, dynamic> myProfileData = {};
+
+  void getProfileData() async {
+    try {
+      myProfileData = await AuthServices().fetchProfile(aToken, context);
+
+      print("Profile Data: $myProfileData");
+    } catch (e) {
+      print("Error fetching profile: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -38,14 +50,17 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
     });
     // Call the functions when the screen is first loaded
     authServices.getToken().then((token) {
+      print('settings token: $token');
       if (token != null && token.isNotEmpty) {
         authServices.fetchProfile(token, storedContext).then((profileData) {
-          print(profileData);
+          print('profile data: $profileData');
           setState(() {
             profileName = profileData['name'];
             isLoading = false;
           });
+          print('bio awards: ${profileData['bio']['awards']}');
         }).catchError((error) {});
+        // getProfileData();
       } else {
         print("No valid token found");
       }

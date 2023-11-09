@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile/mentor_profile_detail.dart';
 import 'package:itmentor/utils/constant.dart';
 
 class SearchMentor extends StatefulWidget {
@@ -77,9 +78,31 @@ class _SearchMentorState extends State<SearchMentor> {
                       itemCount: mentors.length,
                       itemBuilder: (context, index) {
                         final mentor = mentors[index];
-                        return ListTile(
-                          title: Text(mentor['name']),
-                          subtitle: Text(mentor['email']),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: ((context) {
+                              return MentorProfileDetail(
+                                  id: mentor['_id'],
+                                  avatar: mentor['avatar'],
+                                  gender: mentor['gender']);
+                            })));
+                          },
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage: mentor['avatar'] != ""
+                                  ? NetworkImage(mentor['avatar'] as String)
+                                      as ImageProvider
+                                  : mentor['gender'] == true
+                                      ? const AssetImage(
+                                          'assets/images/male_avatar.jpg')
+                                      : const AssetImage(
+                                          'assets/images/female_avatar.png'),
+                            ),
+                            title: Text(mentor['name']),
+                            subtitle: Text(mentor['email']),
+                          ),
                         );
                       },
                     ),
