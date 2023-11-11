@@ -25,6 +25,7 @@ const ChangePassword = () =>
   import("../pages/ChangePassword/ChangePassword.vue");
 const ForgetPassword = () =>
   import("../pages/ForgetPassword/ForgetPassword.vue");
+const Chat = () => import("../pages/Chat/index.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -121,6 +122,12 @@ const constantRoutes: RouteRecordRaw[] = [
     name: "ForgetPassword",
     component: ForgetPassword,
     meta: { requiresAuth: false },
+  },
+  {
+    path: "/chat/:id",
+    name: "Chat",
+    component: Chat,
+    meta: { requiresAuth: true },
   },
 
   // {
