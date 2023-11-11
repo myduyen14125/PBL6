@@ -1,32 +1,29 @@
 <template>
   <GuestLayout>
     <div class="appointment-wrapper">
-      <div class="container py-14 text-lg">
-        <!-- <el-steps :active="activeStep" align-center>
+      <div class="container py-14 text-lg min-h-[92vh]">
+        <el-steps :active="activeStep" align-center>
           <el-step title="Chọn thời gian" />
           <el-step title="Xác nhận" />
-          <el-step title="Thành công" />
-        </el-steps> -->
+        </el-steps>
 
-        <div class="calendar-wrapper mt-3">
+        <div v-if="activeStep === 0" class="section-wrapper mt-3">
           <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
+        
+        <div v-else-if="activeStep === 1" class="mt-3 text-xl section-wrapper">
+          <AppointmentDetail :userInfo="userInfo" :selectedSchedule="selectedSchedule" @note="updateNote" />
+        </div>
+
         <div class="mt-4 gap-4 text-xl text-[#0a5565]">
-          <!-- <div class="px-4 shadow-md bg-[#139896] text-white rounded h-14 d-flex items-center">
-            <p class="mr-2 my-0">Lịch chọn</p>
-            <p class="my-0 mr-2" v-if="selectedSchedule.start">{{ selectedSchedule.start }} - </p>
-            <p class="my-0 mr-2" v-if="selectedSchedule.end">{{ selectedSchedule.end }}</p>
-          </div> -->
           <div class="d-flex justify-content-center">
-            <!-- <button class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button> -->
-            <button class="btn btn-primary btn-lg" @click="bookAppointment">
+            <button v-if="activeStep > 0" class="btn btn-primary btn-lg mr-2" @click="previousActiveStep">Quay
+              lại</button>
+            <button v-if="activeStep == 0" class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button>
+            <button v-else class="btn btn-primary btn-lg" @click="bookAppointment">
               Đặt lịch
-              <span
-                v-if="isBookingAppointment"
-                className="spinner-border spinner-border-sm ms-2"
-                role="status"
-                aria-hidden="true"
-              ></span>
+              <span v-if="isBookingAppointment" className="spinner-border spinner-border-sm ms-2" role="status"
+                aria-hidden="true"></span>
             </button>
           </div>
         </div>
@@ -42,6 +39,8 @@ import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import AppointmentDetail from "../../components/AppointmentCard/AppointmentDetail.vue";
+
 import { useSchedule } from "../../stores/schedule";
 import { useUser } from "../../stores/user";
 import { useAppointment } from "../../stores/appointment";
@@ -50,7 +49,7 @@ import SwalPopup from "../../ultils/swalPopup";
 import Swal from "sweetalert2";
 
 export default {
-  components: { GuestLayout, SvgIcon, FullCalendar },
+  components: { GuestLayout, SvgIcon, FullCalendar, AppointmentDetail },
   props: {
     id: {
       type: String,
@@ -80,6 +79,7 @@ export default {
         slotMinTime: "06:00:00",
         slotMaxTime: "24:00:00",
       },
+      userInfo: {},
       userSchedules: [],
       selectedSchedule: {
         id: "",
@@ -87,6 +87,7 @@ export default {
         start: "",
         end: "",
       },
+      note: "",
       activeStep: 0,
       isBookingAppointment: false,
     };
@@ -96,15 +97,14 @@ export default {
       this.showToast(
         "warning",
         "Mentor không có lịch rảnh trong thời gian này! " +
-          "</br>" +
-          formatTimeFullCalendar(arg.dateStr)
+        "</br>" +
+        formatTimeFullCalendar(arg.dateStr)
       );
     },
     handleSelectSchedule: function (arg) {
       this.selectedSchedule.id = arg.event.id;
       this.selectedSchedule.start = formatTimeFullCalendar(arg.event.start);
       this.selectedSchedule.end = formatTimeFullCalendar(arg.event.end);
-      // change eventColor
       this.calendarOptions.events.forEach((event) => {
         if (event.id === arg.event.id) {
           event.color = "#139896";
@@ -115,7 +115,25 @@ export default {
         }
       });
     },
-    getUserInformation: function () {
+    getUserInformation: function (id) {
+      const userStore = useUser();
+      userStore.requestGetUserInfo({
+        id: id,
+        callback: {
+          onSuccess: (res) => {
+            this.userInfo = res;
+            console.log(this.userInfo);
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Xin lỗi, hệ thống có lỗi xảy ra, vui lòng thử lại!",
+              "error"
+            );
+          },
+        },
+      });
+    },
+    getUserSchedules: function () {
       const userStore = useUser();
       userStore.requestGetUserSchedules({
         id: this.id,
@@ -126,7 +144,7 @@ export default {
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
-              "Sorry, looks like there are some errors detected, please try again.",
+              "Xin lỗi, hệ thống có lỗi xảy ra, vui lòng thử lại!",
               "error"
             );
           },
@@ -145,29 +163,32 @@ export default {
       }
     },
     bookAppointment: function () {
-      const appointmentStore = useAppointment();
-      this.isBookingAppointment = true;
-      appointmentStore.requestCreateAppointment({
-        params: {
-          mentor: this.id,
-          schedule: this.selectedSchedule.id,
-          note: "Hehehe yuu dat lich nheeee",
-        },
-        callback: {
-          onSuccess: (res) => {
-            SwalPopup.swalResultPopup("Đặt lịch thành công", "success");
-            this.isBookingAppointment = false;
-            this.$router.push("/appointments");
+      if (this.validateInfo() === false) return;
+      else {
+        const appointmentStore = useAppointment();
+        this.isBookingAppointment = true;
+        appointmentStore.requestCreateAppointment({
+          params: {
+            mentor: this.id,
+            schedule: this.selectedSchedule.id,
+            note: this.note,
           },
-          onFailure: () => {
-            SwalPopup.swalResultPopup(
-              "Sorry, looks like there are some errors detected, please try again.",
-              "error"
-            );
-            this.isBookingAppointment = false;
+          callback: {
+            onSuccess: (res) => {
+              SwalPopup.swalResultPopup("Đặt lịch thành công", "success");
+              this.isBookingAppointment = false;
+              this.$router.push("/appointments");
+            },
+            onFailure: () => {
+              SwalPopup.swalResultPopup(
+                "Sorry, looks like there are some errors detected, please try again.",
+                "error"
+              );
+              this.isBookingAppointment = false;
+            },
           },
-        },
-      });
+        });
+      }
     },
     showToast: function (type, content) {
       const Toast = Swal.mixin({
@@ -188,21 +209,39 @@ export default {
       });
     },
     nextActiveStep: function () {
-      if (this.activeStep++ > 2) this.activeStep = 0;
+      if (this.validateInfo() === false) return;
+      else if (this.activeStep++ > 1) this.activeStep = 0;
+    },
+    previousActiveStep: function () {
+      if (this.activeStep-- < 0) this.activeStep = 0;
+    },
+    validateInfo: function () {
+      if (this.selectedSchedule.id === "") {
+        SwalPopup.swalResultPopup(
+          "Vui lòng chọn thời gian hẹn!",
+          "error"
+        );
+        return false;
+      }
+      return true;
+    },
+    updateNote: function (note) {
+      this.note = note;
     },
   },
   async mounted() {
-    await this.getUserInformation();
+    this.getUserInformation(this.id);
+    await this.getUserSchedules();
     this.setUserSchedules();
   },
 };
 </script>
 
 <style scoped lang="css">
-.calendar-wrapper {
-  height: 600px;
+.section-wrapper {
+  height: 66vh;
 }
+
 .full-calendar {
   height: 100%;
-}
-</style>
+}</style>

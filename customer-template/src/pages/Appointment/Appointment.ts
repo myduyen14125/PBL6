@@ -77,6 +77,9 @@ export default defineComponent({
       getAllUserAppointment();
     };
 
+    const showAppointmentDetail = (appointment: Appointment) => {
+    }
+
     return {
       activeName,
       handleClick,
