@@ -64,6 +64,8 @@ export class ScheduleService {
         const schedules = await this.scheduleRepository.getByCondition({
             user: user._id
         })
+
+        // check schedules date and update status
         return schedules
     }
 

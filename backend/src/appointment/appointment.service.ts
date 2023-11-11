@@ -69,13 +69,52 @@ export class AppointmentService {
         })
 
         await Promise.all(appointments.map(async (appointment) => {
+            // await appointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
+            // await appointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
+            await appointment.populate({ path: 'schedule' });
+            // console.log(appointment);
+            // console.log(appointment.schedule.start_at);
+            // console.log(appointment.status);
+            // console.log(new Date());
+            // if (appointment.schedule.start_at < new Date()) console.log("yes");
+
+
+
+            if (appointment.schedule.start_at < (new Date())) {
+                if (appointment.status === "pending") {
+                    await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "canceled" }
+                    )
+                }
+            }
+            if (appointment.schedule.start_at < (new Date())) {
+                if (appointment.status === "confirmed") {
+                    await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "finished" }
+                    )
+                }
+            }
+        }));
+
+        const renewAppointments = await this.appointmentRepository.getByCondition({
+            $or: [{ mentee: user_id }, { mentor: user_id }]
+        })
+
+        await Promise.all(renewAppointments.map(async (appointment) => {
             await appointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
             await appointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
             await appointment.populate({ path: 'schedule' });
+            // console.log(appointment);
+            // console.log(appointment.schedule.start_at);
+            // console.log(appointment.status);
+            // console.log(new Date());
+            // if (appointment.schedule.start_at < new Date()) console.log("yes");
 
         }));
+        // console.log(appointments);
 
-        return appointments
+
+        return renewAppointments
+
+
     }
 
     async getAppointmentById(user: User, id: string) {
