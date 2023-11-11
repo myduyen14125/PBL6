@@ -32,6 +32,7 @@
                     :key="appointment?._id"
                     :appointment="appointment"
                     @getAllUserAppointment="onChangeAppointmentStatus"
+                    @click="showAppointmentDetail(appointment)"
                   />
                 </div>
               </el-tab-pane>

@@ -89,7 +89,6 @@ export default {
 					timestamp: '10:20'
 				})
 			}
-
 			return messages
 		},
 
