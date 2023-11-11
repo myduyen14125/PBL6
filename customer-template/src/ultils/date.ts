@@ -25,12 +25,14 @@ export function formatRelativeDate(dateString: string) {
 }
 
 export function formatTimeFullCalendar(time: string) {
-  const date = new Date(time);
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-  const hour = ("0" + date.getHours()).slice(-2);
-  const minute = ("0" + date.getMinutes()).slice(-2);
+  let timeZone = +7;
+  let date = new Date(time);
+  date.setHours(date.getHours() - timeZone);
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let hour = date.getHours();
+  let minute = date.getMinutes();
   return `${day}-${month}-${year} ${hour}:${minute}`;
 }
 
