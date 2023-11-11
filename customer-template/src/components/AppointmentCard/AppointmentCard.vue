@@ -107,6 +107,7 @@
       </div>
     </div>
   </div>
+  <ConfirmModal ref="confirmModal" :appointment="appointment" />
 </template>
 <script lang="ts" src="./Appointment.ts"></script>
 <style scoped lang="css" src="./style.css"></style>

@@ -102,6 +102,7 @@ const constantRoutes: RouteRecordRaw[] = [
     name: "BookAppointment",
     component: BookAppointment,
     props: true,
+    meta: { requiresAuth: true },
   },
   {
     path: "/my-appointments",

@@ -1,0 +1,24 @@
+.avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sub-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  line-height: 22px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.author {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.job {
+  color: #949ba1;
+}

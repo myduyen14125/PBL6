@@ -1,4 +1,4 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, Ref } from "vue";
 import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import { Appointment } from "../../types/appointment";
 import { formatDate } from "../../ultils/date";
@@ -6,10 +6,11 @@ import { PropType } from "vue";
 import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/cookies";
+import ConfirmModal from "./ConfirmModal/ConfirmModal.vue";
 
 export default defineComponent({
   name: "AppointmentCard",
-  components: { SvgIcon },
+  components: { SvgIcon, ConfirmModal },
   emits: ["getAllUserAppointment"],
   props: {
     appointment: {
@@ -22,6 +23,7 @@ export default defineComponent({
     const appointmentStore = useAppointment();
     const isLoadingConfirm = ref(false);
     const isLoadingCancel = ref(false);
+    const confirmModal: Ref<any> = ref<typeof ConfirmModal | null>(null);
 
     const confirmAppointment = () => {
       isLoadingConfirm.value = true;
@@ -45,11 +47,12 @@ export default defineComponent({
     };
 
     const onCancelAppointment = () => {
-      SwalPopup.swalDeletePopup("Bạn có chắc chắn xóa lịch hẹn ?", {
-        onConfirmed: () => {
-          cancelAppointment();
-        },
-      });
+      showConfirm();
+      // SwalPopup.swalDeletePopup("Bạn có chắc chắn xóa lịch hẹn ?", {
+      //   onConfirmed: () => {
+      //     cancelAppointment();
+      //   },
+      // });
     };
 
     const cancelAppointment = () => {
@@ -73,6 +76,10 @@ export default defineComponent({
       });
     };
 
+    const showConfirm = () => {
+      confirmModal?.value?.show();
+    };
+
     const handleImage = (image: any) => {
       if (!image || image === "blank") {
         return "https://4kwallpapers.com/images/wallpapers/anime-girl-girly-1024x768-9792.jpg";
@@ -87,7 +94,9 @@ export default defineComponent({
       onCancelAppointment,
       isLoadingConfirm,
       isLoadingCancel,
+      confirmModal,
       handleImage,
+      showConfirm,
     };
   },
 });
