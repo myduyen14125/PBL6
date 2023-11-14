@@ -100,7 +100,7 @@ export class AppointmentService {
 
         await Promise.all(renewAppointments.map(async (appointment) => {
             await appointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
-            await appointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
+            await appointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth', populate: { path: 'expertise', select: 'name' } });
             await appointment.populate({ path: 'schedule' });
             // console.log(appointment);
             // console.log(appointment.schedule.start_at);
