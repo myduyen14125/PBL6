@@ -1,6 +1,7 @@
 <template>
   <div
-    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg border hover:shadow-md min-w-[300px] my-2"
+    class="appointment-card bg-slate-50 w-fit relative p-3 rounded-lg border hover:shadow-md min-w-[300px] my-2 cursor-pointer"
+    @click="onClick"
   >
     <div class="appointment-card__header">
       <div class="appointment-card__header">
@@ -83,13 +84,16 @@
         </div>
         <div
           class="appointment-card__confirm"
-          @click="confirmAppointment"
           v-if="
             appointment.status == 'pending' && getUserInfo().role == 'mentor'
           "
         >
-          <button class="btn btn-primary !text-sm">
-            Xác nhận lịch hẹn<span
+          <button
+            class="btn btn-primary !text-sm"
+            @click="onConfirmAppointment"
+          >
+            Xác nhận lịch hẹn
+            <span
               v-if="isLoadingConfirm"
               className="spinner-border spinner-border-sm ms-2"
               role="status"
@@ -107,7 +111,12 @@
       </div>
     </div>
   </div>
-  <ConfirmModal ref="confirmModal" :appointment="appointment" />
+  <ConfirmModal
+    ref="confirmModal"
+    :appointment="appointment"
+    @cancel="cancelAppointment"
+    @confirm="confirmAppointment"
+  />
 </template>
 <script lang="ts" src="./Appointment.ts"></script>
 <style scoped lang="css" src="./style.css"></style>

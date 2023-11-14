@@ -71,8 +71,11 @@
                     v-model="userInfo.address"
                     placeholder="Nhập địa chỉ"
                   /> -->
-                  <label for="expertise">Lĩnh vực:</label>
+                  <label v-if="getUserInfo()?.role == 'mentor'" for="expertise"
+                    >Lĩnh vực:</label
+                  >
                   <el-select
+                    v-if="getUserInfo()?.role == 'mentor'"
                     class="w-50"
                     name="expertise"
                     v-model="userInfo.expertise"
@@ -118,7 +121,7 @@
                   </el-select>
                 </div>
                 <div class="form-group mb-3">
-                  <label for="skype">Link Skype:</label>
+                  <label for="skype">Link Google Meet:</label>
                   <input
                     class="form-control"
                     type="text"

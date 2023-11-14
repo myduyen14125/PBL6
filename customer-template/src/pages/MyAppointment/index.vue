@@ -3,7 +3,7 @@
     <div class="appointment-wrapper">
       <div class="container py-20 text-lg">
         <div class="calendar-wrapper">
-          <FullCalendar :options="calendarOptions" class="full-calendar"/>
+          <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
         <div class="text-end">
           <button
@@ -180,7 +180,7 @@ export default {
                 id: item._id,
                 title: item.status
                   ? "Tôi sẵn sàng tư vấn"
-                  : "Lịch đang chờ xác nhận",
+                  : "Lịch đã được book",
                 start: item.start_at,
                 end: item.end_at,
                 color: item.status ? "" : "orange",

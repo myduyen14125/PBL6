@@ -32,7 +32,7 @@
                     :key="appointment?._id"
                     :appointment="appointment"
                     @getAllUserAppointment="onChangeAppointmentStatus"
-                    @click="showAppointmentDetail(appointment)"
+                    @click="() => showAppointmentDetail(appointment)"
                   />
                 </div>
               </el-tab-pane>
@@ -117,6 +117,12 @@
         </div>
       </div>
     </div>
+    <ConfirmModal
+      ref="confirmModal"
+      :appointment="selectedAppointment"
+      @cancel="() => {}"
+      @confirm="() => {}"
+    />
   </GuestLayout>
 </template>
 <script lang="ts" src="./Appointment.ts"></script>

@@ -38,6 +38,7 @@ export const useAuth = defineStore("auth", () => {
   const logout = () => {
     revokeUser();
     setUserInfoStore(null);
+    router.push("/sign-in");
   };
 
   const requestSignIn = async ({

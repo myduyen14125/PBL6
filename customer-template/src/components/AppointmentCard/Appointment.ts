@@ -11,7 +11,7 @@ import ConfirmModal from "./ConfirmModal/ConfirmModal.vue";
 export default defineComponent({
   name: "AppointmentCard",
   components: { SvgIcon, ConfirmModal },
-  emits: ["getAllUserAppointment"],
+  emits: ["getAllUserAppointment", "click"],
   props: {
     appointment: {
       type: Object as PropType<Appointment>,
@@ -46,13 +46,14 @@ export default defineComponent({
       });
     };
 
-    const onCancelAppointment = () => {
+    const onCancelAppointment = (e: any) => {
+      showCancelConfirm();
+      e.stopPropagation();
+    };
+
+    const onConfirmAppointment = (e: any) => {
       showConfirm();
-      // SwalPopup.swalDeletePopup("Bạn có chắc chắn xóa lịch hẹn ?", {
-      //   onConfirmed: () => {
-      //     cancelAppointment();
-      //   },
-      // });
+      e.stopPropagation();
     };
 
     const cancelAppointment = () => {
@@ -76,7 +77,13 @@ export default defineComponent({
       });
     };
 
+    const showCancelConfirm = () => {
+      confirmModal?.value?.setStatus("cancel");
+      confirmModal?.value?.show();
+    };
+
     const showConfirm = () => {
+      confirmModal?.value?.setStatus("confirm");
       confirmModal?.value?.show();
     };
 
@@ -87,16 +94,23 @@ export default defineComponent({
       return image;
     };
 
+    const onClick = () => {
+      emit("click", "");
+    };
+
     return {
       formatDate,
       confirmAppointment,
       getUserInfo,
       onCancelAppointment,
+      onConfirmAppointment,
       isLoadingConfirm,
       isLoadingCancel,
       confirmModal,
       handleImage,
-      showConfirm,
+      showCancelConfirm,
+      cancelAppointment,
+      onClick,
     };
   },
 });

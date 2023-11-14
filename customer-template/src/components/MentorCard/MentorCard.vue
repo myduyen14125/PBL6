@@ -11,10 +11,8 @@
       <div class="d-flex align-items-center justify-content-center">
         <img
           :src="handleImage(mentor.avatar)"
-          class="rounded-circle card-img"
+          class="rounded-circle object-cover w-48 h-48"
           alt="Mentor avatar"
-          width="200"
-          height="200"
         />
       </div>
 
