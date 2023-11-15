@@ -25,6 +25,10 @@ export class BaseRepository<T extends Document> {
         return this.model.find(filter, field, option).populate(populate);
     }
 
+    async aggregate(option: any) {
+        return this.model.aggregate(option);
+      }
+
     async findAll(): Promise<T[]> {
         return this.model.find();
     }

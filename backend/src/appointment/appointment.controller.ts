@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateAppointmentDto } from './appointment.dto';
+import { CreateAppointmentDto, PaginationAppointmentDto } from './appointment.dto';
 import { AppointmentService } from './appointment.service';
 import { Role } from 'src/auth/role.decorator';
 import { RoleGuard } from 'src/auth/role.guard';
@@ -29,8 +29,8 @@ export class AppointmentController {
 
     @Get()
     @UseGuards(AuthGuard('jwt'))
-    async getAllUsersAppointments(@Req() req: any) {
-        return this.appointmentService.getAllUsersAppointments(req.user._id)
+    async getAllUsersAppointments(@Req() req: any, @Query() { page, limit }: PaginationAppointmentDto) {
+        return this.appointmentService.getAllUsersAppointments(req.user._id, page, limit )
     }
 
     @UseGuards(AuthGuard('jwt'), RoleGuard)
