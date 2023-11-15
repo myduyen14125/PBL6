@@ -9,7 +9,11 @@
                 {{ blogDetail?.title || "" }}
               </h3>
               <div class="d-flex align-items-center py-3">
-                <img :src="avatar" class="avatar-img mx-3" />
+                <img
+                  :src="blogDetail?.user?.avatar || ''"
+                  class="avatar-img mx-3"
+                />
+
                 <div>
                   <p class="author mb-0">{{ blogDetail?.user?.name || "" }}</p>
                   <p class="job mb-1">CEO tại Babylux Viet Nam</p>

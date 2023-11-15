@@ -12,6 +12,7 @@ const SkillSchema = new Schema({
     {
         timestamps: true,
         collection: "skills",
+        toObject: {virtuals: true}
     });
 
 

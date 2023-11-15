@@ -13,6 +13,7 @@ const AwardSchema = new Schema({
     {
         timestamps: true,
         collection: "awards",
+        toObject: {virtuals: true}
     });
 
 

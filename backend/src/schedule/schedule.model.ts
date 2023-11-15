@@ -10,7 +10,8 @@ const ScheduleSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
-        status: Boolean
+        status: Boolean,
+        deleted: Boolean
     },
     {
         timestamps: true,
@@ -24,4 +25,5 @@ export interface Schedule extends Document {
     end_at: Date,
     user: User
     status: boolean,
+    deleted: boolean
 }

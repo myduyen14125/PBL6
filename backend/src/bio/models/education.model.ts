@@ -15,6 +15,7 @@ const EducationSchema = new Schema({
     {
         timestamps: true,
         collection: "educations",
+        toObject: {virtuals: true}
     });
 
 

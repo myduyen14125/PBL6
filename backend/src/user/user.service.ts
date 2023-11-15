@@ -23,22 +23,14 @@ export class UserService {
         @Inject(forwardRef(() => MediaService)) private readonly mediaService: MediaService,
         @Inject(forwardRef(() => CourseService)) private readonly courseService: CourseService,
         private mailerService: MailerService
-
-
     ) { }
-
-
 
     async createUser(userDto: CreateUserDto) {
 
         // Check if user already existed
-        const userInDb = await this.userRepository.findByCondition({
-            email: userDto.email
-        })
+        const userInDb = await this.userRepository.findByCondition({email: userDto.email})
 
-        if (userInDb) {
-            throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
-        }
+        if (userInDb) {throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);}
 
         // Handle pre-creation
         if (!userDto.avatar) userDto.avatar = ""
@@ -66,15 +58,8 @@ export class UserService {
         const user = await this.userRepository.findByCondition({
             email: email,
         })
-
-        if (!user) {
-            throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
-        }
-
-        if (!bcrypt.compareSync(password, user.password)) {
-            throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
-        }
-
+        if (!user) {throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);}
+        if (!bcrypt.compareSync(password, user.password)) {throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);}
         return user;
     }
 
@@ -89,11 +74,9 @@ export class UserService {
     }
 
     async updateUserInfo(user: User, userDto: UpdateUserDto) {
-        // Remove expertise for mentee 
         if (user.role === 'mentee') {
             delete userDto.expertise;
         }
-
         // Remove avatar field (already has a different route)
         delete userDto.avatar;
         return (await this.userRepository.findByIdAndUpdate(user.id, userDto)).populate({ path: 'expertise', select: 'name' });
@@ -110,31 +93,38 @@ export class UserService {
     }
 
     async getUserById(id: string) {
-        const user = await this.userRepository.findById(id);
+        const user = await this.userRepository.findById(id, ['-password', '-refreshToken', '-date_of_birth', '-skype_link', '-facebook_link']);
         if (!user) throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
-        await user.populate({ path: 'expertise', select: 'name' })
-        const userObject = user.toObject ? user.toObject() : user;
-        delete userObject.password;
-        delete userObject.refreshToken;
-        const bio = await this.bioService.getUserBio(user.id)
-        const result = {
-            ...userObject,
-            bio: bio
-        };
-        return result
+        await user.populate(
+            [
+                { path: 'expertise', select: 'name' },
+                { 
+                    path: 'bio',
+                    select: '-user awards skills educations experiences',
+                    populate: {
+                        path: 'awards skills educations experiences',
+                    },
+                }
+            ]
+        )
+        return user.toObject()
     }
 
     async getProfile(user: User) {
-
         const returnUser = await this.userRepository.findById(user.id);
-        await returnUser.populate({ path: 'expertise', select: 'name' })
-        const bio = await this.bioService.getUserBio(user.id)
-        const userData = returnUser.toObject();
-        const result = {
-            ...userData,
-            bio: bio
-        };
-        return result
+        await returnUser.populate(
+            [
+                { path: 'expertise', select: 'name' },
+                { 
+                    path: 'bio',
+                    select: '-user awards skills educations experiences',
+                    populate: {
+                        path: 'awards skills educations experiences',
+                    },
+                }
+            ]
+        )
+        return returnUser.toObject()
     }
 
     async getAllMentors(page: number, limit: number = 10) {
@@ -142,7 +132,7 @@ export class UserService {
         const countPage = Math.ceil(count / limit)
         const mentors = await this.userRepository.getByCondition(
             { role: 'mentor' },
-            ['name', 'avatar', 'email', 'gender', 'phone', 'number_of_mentees'],
+            ['name', 'avatar', 'email', 'number_of_mentees'],
             {
                 sort: {
                     _id: -1,
@@ -156,25 +146,20 @@ export class UserService {
         return { count, countPage, mentors }
     }
 
-    async searchMentor(keyword: string, keyword2: string, page: number, limit: number = 10) {
+    async searchMentor(name: string, expertise: string, page: number, limit: number = 10) {
         let query: { role: string; name?: { $regex: RegExp }; expertise?: string } = {
             role: 'mentor'
         };
 
-        if (keyword) {
-            query.name = { $regex: new RegExp(keyword, 'i') };
-        }
-
-        if (keyword2) {
-            query.expertise = keyword2;
-        }
+        if (name) { query.name = { $regex: new RegExp(name, 'i') };}
+        if (expertise) {query.expertise = expertise; }
 
         const count = await this.userRepository.countDocuments(query)
         const countPage = Math.ceil(count / limit)
 
         const mentors = await this.userRepository.getByCondition(
             query,
-            ['name', 'avatar', 'email', 'gender', 'phone', 'number_of_mentees'],
+            ['name', 'avatar', 'email', 'number_of_mentees'],
             {
                 sort: {
                     _id: -1,
@@ -186,22 +171,6 @@ export class UserService {
         );
 
         return { count, countPage, mentors }
-    }
-
-    async checkMentee(mentee_id: string) {
-        const mentor = await this.userRepository.findById(mentee_id);
-        if (mentor && mentor.role == "mentee") {
-            return true
-        }
-        return false
-    }
-
-    async checkMentor(mentor_id: string) {
-        const mentor = await this.userRepository.findById(mentor_id);
-        if (mentor && mentor.role == "mentor") {
-            return true
-        }
-        return false
     }
 
     async updateUserNumberOfMentees(id: string) {
@@ -222,10 +191,8 @@ export class UserService {
         return await this.courseService.getAllCoursesByCreatorId(id)
     }
 
-
     async getAllRatingsByUserId(id: string, page: number, limit: number) {
         return await this.ratingService.getAllRatingsByUserId(id, page, limit)
-
     }
 
     async getUserByRefresh(refresh_token, email) {
@@ -247,14 +214,10 @@ export class UserService {
 
     async updateAvatar(user: User, file) {
         const avatar = await this.mediaService.upload(file)
-        return await this.userRepository.findByIdAndUpdate(user.id, {
-            avatar: avatar.url
-        })
+        return await this.userRepository.findByIdAndUpdate(user.id, {avatar: avatar.url})
     }
 
     async changePassword(user: User, passwordDto: UpdatePasswordDto) {
-
-
         if (!bcrypt.compareSync(passwordDto.old_password, user.password)) {
             throw new HttpException('Wrong old password', HttpStatus.BAD_REQUEST);
         }
@@ -277,14 +240,14 @@ export class UserService {
         const newPasswordHashed = await bcrypt.hash(newPassword, 10);
         await this.userRepository.findByIdAndUpdate(userCheck.id, { password: newPasswordHashed })
 
-        await this.mailerService.sendMail({
-            to: email,
-            subject: 'Your new password',
-            template: `./forgotpassword`,
-            context: {
-                password: newPassword
-            }
-        })
+        // await this.mailerService.sendMail({
+        //     to: email,
+        //     subject: 'Your new password',
+        //     template: `./forgotpassword`,
+        //     context: {
+        //         password: newPassword
+        //     }
+        // })
 
         return "check your email for new password"
 
@@ -300,43 +263,19 @@ export class UserService {
         return password;
     }
 
-    // async forgotPassword(email: string) {
-    //     const userCheck = await this.userRepository.findByCondition({ email: email })
-    //     if (!userCheck) throw new HttpException('No such email exists', HttpStatus.BAD_REQUEST);
+    async checkMentee(mentee_id: string) {
+        const mentor = await this.userRepository.findById(mentee_id);
+        if (mentor && mentor.role == "mentee") {
+            return true
+        }
+        return false
+    }
 
-    //     var tokenModel = await this.createPasswordToken(email)
-    //     if (tokenModel && tokenModel.token) {
-    //         await this.mailerService.sendMail({
-    //             to: email,
-    //             subject: 'Click here to reset your password',
-    //             template: `./forgotpassword`,
-    //             context: {
-    //                 token: tokenModel.token
-    //             }
-    //         })
-    //     }
-
-    // }
-
-    // async createPasswordToken(email: string) {
-    //     const forgottenPassword = await this.forgotPasswordModel.findOne({ email: email })
-
-    //     if (forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 < 15) {
-    //         throw new HttpException('Reset password email has already been sent recently', HttpStatus.BAD_REQUEST);
-    //     }
-    //     var fp = await this.forgotPasswordModel.findOneAndUpdate(
-    //         { email: email },
-    //         {
-    //             email: email,
-    //             token: (Math.floor(Math.random() * 9000000) + 1000000).toString(),
-    //             timestamp: new Date()
-    //         },
-    //         { upsert: true, new: true }
-    //     )
-    //     if (fp) {
-    //         return fp
-    //     }
-    // }
-
-
+    async checkMentor(mentor_id: string) {
+        const mentor = await this.userRepository.findById(mentor_id);
+        if (mentor && mentor.role == "mentor") {
+            return true
+        }
+        return false
+    }
 }

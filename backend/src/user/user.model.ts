@@ -10,21 +10,25 @@ const UserSchema = new Schema(
         date_of_birth: Date,
         gender: Boolean,
         phone: String,
-        role: String,
-
         facebook_link: String,
-        skype_link: String,
-
+        skype_link: String,     
         number_of_mentees: Number,
+        role: String,
         refreshToken: String,
-
         expertise: { type: Schema.Types.ObjectId, ref: 'Expertise' },
-
     },
     {
         collection: 'users',
+        toObject: {virtuals: true}
     }
 )
+
+UserSchema.virtual('bio', {
+    ref: 'Bio',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: true,
+});
 
 UserSchema.virtual('blogs', {
     ref: 'Blog',
@@ -55,8 +59,6 @@ UserSchema.virtual('ratings', {
     justOne: false,
 });
 
-
-
 export { UserSchema };
 export interface User extends Document {
     name: string;
@@ -66,14 +68,10 @@ export interface User extends Document {
     date_of_birth: Date;
     gender: boolean;
     phone: string;
-    role: string;
-
     facebook_link: string;
     skype_link: string;
     expertise: Expertise
-
-    refreshToken: string;
-
+    role: string;
     number_of_mentees: number;
-
+    refreshToken: string;
 }
