@@ -79,12 +79,6 @@ export default {
       },
       deep: true,
     },
-    // "calendarOptions.events": {
-    //   handler(newValue, oldValue) {
-    //     console.log(this.calendarOptions.events);
-    //   },
-    //   deep: true,
-    // },
   },
   methods: {
     handleDateClick: function (arg) {
@@ -113,7 +107,9 @@ export default {
       } else {
         if (this.existSchedules[deleteItem].status) {
           this.existSchedules.splice(deleteItem, 1);
+
           /// call delete api
+          this.deleteSchedule(arg.event._def.publicId);
         }
       }
     },
@@ -158,6 +154,26 @@ export default {
             this.getMySchedule();
             this.newSchedules = [];
             this.showToast();
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            this.isSubmitting = false;
+          },
+        },
+      });
+    },
+
+    deleteSchedule: function (id) {
+      this.isSubmitting = true;
+      const scheduleStore = useSchedule();
+      scheduleStore.requestDeleteSchedule({
+        id: id,
+        callback: {
+          onSuccess: (res) => {
+            this.isSubmitting = false;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
