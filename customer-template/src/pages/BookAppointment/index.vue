@@ -1,29 +1,52 @@
 <template>
   <GuestLayout>
     <div class="appointment-wrapper">
-      <div class="container py-14 text-lg min-h-[92vh]">
+      <div class="container flex flex-col py-14 text-lg min-h-[92vh]">
         <el-steps :active="activeStep" align-center>
           <el-step title="Chọn thời gian" />
           <el-step title="Xác nhận" />
         </el-steps>
 
-        <div v-if="activeStep === 0" class="section-wrapper mt-3">
+        <div v-if="activeStep === 0" class="mt-3 mb-4">
           <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
-        
-        <div v-else-if="activeStep === 1" class="mt-3 text-xl section-wrapper">
-          <AppointmentDetail :userInfo="userInfo" :selectedSchedule="selectedSchedule" @note="updateNote" />
+
+        <div v-else-if="activeStep === 1" class="mt-3 text-xl mb-4">
+          <AppointmentDetail
+            :userInfo="userInfo"
+            :selectedSchedule="selectedSchedule"
+            @note="updateNote"
+          />
         </div>
 
-        <div class="mt-4 gap-4 text-xl text-[#0a5565]">
+        <div class="mt-auto gap-4 text-xl text-[#0a5565]">
           <div class="d-flex justify-content-center">
-            <button v-if="activeStep > 0" class="btn btn-primary btn-lg mr-2" @click="previousActiveStep">Quay
-              lại</button>
-            <button v-if="activeStep == 0" class="btn btn-primary btn-lg mr-2" @click="nextActiveStep">Tiếp tục</button>
-            <button v-else class="btn btn-primary btn-lg" @click="bookAppointment">
+            <button
+              v-if="activeStep > 0"
+              class="btn btn-primary btn-lg mr-2"
+              @click="previousActiveStep"
+            >
+              Quay lại
+            </button>
+            <button
+              v-if="activeStep == 0"
+              class="btn btn-primary btn-lg mr-2"
+              @click="nextActiveStep"
+            >
+              Tiếp tục
+            </button>
+            <button
+              v-else
+              class="btn btn-primary btn-lg"
+              @click="bookAppointment"
+            >
               Đặt lịch
-              <span v-if="isBookingAppointment" className="spinner-border spinner-border-sm ms-2" role="status"
-                aria-hidden="true"></span>
+              <span
+                v-if="isBookingAppointment"
+                className="spinner-border spinner-border-sm ms-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
             </button>
           </div>
         </div>
@@ -97,8 +120,8 @@ export default {
       this.showToast(
         "warning",
         "Mentor không có lịch rảnh trong thời gian này! " +
-        "</br>" +
-        formatTimeFullCalendar(arg.dateStr)
+          "</br>" +
+          formatTimeFullCalendar(arg.dateStr)
       );
     },
     handleSelectSchedule: function (arg) {
@@ -111,7 +134,7 @@ export default {
           event.title = "Đã chọn";
         } else {
           event.color = "#409ee7";
-          event.title = "Có thể đặt lịch"
+          event.title = "Có thể đặt lịch";
         }
       });
     },
@@ -122,7 +145,6 @@ export default {
         callback: {
           onSuccess: (res) => {
             this.userInfo = res;
-            console.log(this.userInfo);
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -217,10 +239,7 @@ export default {
     },
     validateInfo: function () {
       if (this.selectedSchedule.id === "") {
-        SwalPopup.swalResultPopup(
-          "Vui lòng chọn thời gian hẹn!",
-          "error"
-        );
+        SwalPopup.swalResultPopup("Vui lòng chọn thời gian hẹn!", "error");
         return false;
       }
       return true;
@@ -238,10 +257,7 @@ export default {
 </script>
 
 <style scoped lang="css">
-.section-wrapper {
-  height: 66vh;
-}
-
 .full-calendar {
   height: 100%;
-}</style>
+}
+</style>

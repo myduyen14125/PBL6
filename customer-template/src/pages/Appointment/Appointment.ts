@@ -1,9 +1,10 @@
-import { defineComponent, onMounted, ref, computed } from "vue";
+import { defineComponent, onMounted, ref, Ref } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import AppointmentCard from "../../components/AppointmentCard/AppointmentCard.vue";
 import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
 import { Appointment } from "../../types/appointment";
+import ConfirmModal from "../../components/AppointmentCard/ConfirmModal/ConfirmModal.vue";
 
 interface AllAppointment {
   pending: Appointment[];
@@ -14,7 +15,7 @@ interface AllAppointment {
 
 export default defineComponent({
   name: "Appointment",
-  components: { GuestLayout, AppointmentCard },
+  components: { GuestLayout, AppointmentCard, ConfirmModal },
   setup() {
     const appointmentsStore = useAppointment();
     const isLoadingAppointment = ref(false);
@@ -25,9 +26,11 @@ export default defineComponent({
       canceled: [],
       finished: [],
     });
+    const selectedAppointment = ref();
     const handleClick = (tab: any, event: any) => {
       // console.log(tab, event);
     };
+    const confirmModal: Ref<any> = ref<typeof ConfirmModal | null>(null);
 
     onMounted(() => {
       getAllUserAppointment();
@@ -78,15 +81,20 @@ export default defineComponent({
     };
 
     const showAppointmentDetail = (appointment: Appointment) => {
-    }
+      selectedAppointment.value = appointment;
+      confirmModal?.value?.show();
+    };
 
     return {
+      confirmModal,
       activeName,
       handleClick,
       isLoadingAppointment,
+      selectedAppointment,
       appointments,
       getAllUserAppointment,
       onChangeAppointmentStatus,
+      showAppointmentDetail,
     };
   },
 });
