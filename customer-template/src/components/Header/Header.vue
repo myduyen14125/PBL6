@@ -4,7 +4,7 @@
       <nav
         class="position-relative px-4 py-4 d-flex justify-content-between align-items-center"
       >
-        <a href="/" class="inline-block flex items-center">
+        <a href="/" class="flex items-center">
           <img :src="logo" alt="Logo" width="60" height="60" class="mb-2" />
           <span class="text-white text-xl font-bold">IT MENTOR</span>
         </a>
@@ -36,32 +36,23 @@
             </el-tooltip>
           </li>
           <li>
-            <div class="dropdown">
-              <div
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <router-link :to="`/chat/${userInfo?._id}`" class="router-link"
-                  ><SvgIcon icon="messengerMenu"
-                /></router-link>
-              </div>
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownMenuButton1"
-              >
-                <li><h5 class="border-bottom p-3 m-0">Tin nhắn</h5></li>
-                <li v-for="n in 2" :key="n">
-                  <MessageCard />
-                </li>
-              </ul>
+            <div
+              style="display: flex; align-items: center"
+              @click="() => router.push(`/chat/${userInfo?._id}`)"
+            >
+              <el-popover placement="bottom" trigger="hover" :width="420">
+                <template #reference>
+                  <SvgIcon icon="messengerMenu" class="cursor-pointer" />
+                </template>
+                <template #default>
+                  <ul class="m-0 p-0 flex flex-column">
+                    <li><h5 class="border-bottom py-3 m-0">Tin nhắn</h5></li>
+                    <li v-for="n in 2" :key="n">
+                      <MessageCard />
+                    </li></ul
+                ></template>
+              </el-popover>
             </div>
-          </li>
-          <li>
-            <router-link :to="`/chat/${userInfo?._id}`" class="router-link"
-              ><SvgIcon icon="messengerMenu"
-            /></router-link>
           </li>
         </ul>
 
