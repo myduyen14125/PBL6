@@ -59,6 +59,7 @@
                     :key="appointment?._id"
                     :appointment="appointment"
                     @getAllUserAppointment="onChangeAppointmentStatus"
+                    @click="() => showAppointmentDetail(appointment)"
                   /></div
               ></el-tab-pane>
               <el-tab-pane label="Đã hoàn tất" name="finished"
@@ -84,6 +85,7 @@
                     :key="appointment?._id"
                     :appointment="appointment"
                     @getAllUserAppointment="onChangeAppointmentStatus"
+                    @click="() => showAppointmentDetail(appointment)"
                   /></div
               ></el-tab-pane>
               <el-tab-pane label="Đã hủy" name="canceled"
@@ -109,6 +111,7 @@
                     :key="appointment?._id"
                     :appointment="appointment"
                     @getAllUserAppointment="onChangeAppointmentStatus"
+                    @click="() => showAppointmentDetail(appointment)"
                   />
                 </div>
               </el-tab-pane>

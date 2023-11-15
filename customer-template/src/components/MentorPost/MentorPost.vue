@@ -10,7 +10,9 @@
         </div>
       </div>
       <div
-        class="col-12 col-sm-6 p-4 p-sm-3"
+        :class="`col-12 col-sm-6 p-4 p-sm-3 ${
+          showEdit ? 'col-sm-6' : 'col-sm-8'
+        }`"
         @click="() => router.push(`/blogs/${blog._id}`)"
       >
         <div class="title-action">
@@ -53,7 +55,7 @@
           <span v-if="blog?.content" v-html="demoContent"></span>
         </div>
       </div>
-      <div class="col-12 col-sm-2">
+      <div :class="`col-12 ${showEdit ? 'col-sm-2' : 'hidden'}`">
         <div
           v-if="showEdit"
           class="d-flex flex-wrap align-items-center justify-content-end"

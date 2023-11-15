@@ -14,7 +14,10 @@
             {{ blogDetail?.title || "" }}
           </h3>
           <div class="d-flex align-items-center py-3">
-            <img :src="getUserInfo()?.avatar" class="avatar-img mx-3" />
+            <img
+              :src="getUserInfo()?.avatar || avatar"
+              class="avatar-img mx-3"
+            />
             <div>
               <p class="author mb-0">
                 {{ getUserInfo()?.name || "" }}

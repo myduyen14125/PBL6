@@ -145,7 +145,6 @@ export default {
         callback: {
           onSuccess: (res) => {
             this.userInfo = res;
-            console.log(this.userInfo);
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
