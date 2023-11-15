@@ -18,7 +18,6 @@ const BlogSchema = new Schema(
     }
 )
 
-
 export { BlogSchema };
 export interface Blog extends Document {
     title: string;

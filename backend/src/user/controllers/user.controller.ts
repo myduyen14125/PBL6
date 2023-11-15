@@ -1,12 +1,11 @@
-import { Controller, UseInterceptors, Post, Get, Req, UseGuards, Param, Query, UploadedFile, Patch, Body, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query, Req, UploadedFile, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UserService } from '../user.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { PaginationPostDto } from 'src/blog/blog.dto';
 import { PaginationRatingDto } from 'src/rating/rating.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { UpdateUserDto } from '../dto/user.dto';
 import { UpdatePasswordDto } from '../dto/password.dto';
-import { PaginationCourseDto } from 'src/course/dtos/course.dto';
+import { UpdateUserDto } from '../dto/user.dto';
+import { UserService } from '../user.service';
 
 @Controller('user')
 export class UserController {

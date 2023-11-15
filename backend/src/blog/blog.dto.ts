@@ -11,11 +11,10 @@ export class UpdateBlogDto {
     id: string;
     @IsNotEmpty() title: string;
     @IsNotEmpty() content: string;
+    image: string
 }
 
 export class PaginationPostDto {
-    @IsNotEmpty()
-    page: number;
-    @IsNotEmpty()
-    limit: number;
+    @IsNotEmpty() page: number; 
+    @IsNotEmpty() limit: number;
 }

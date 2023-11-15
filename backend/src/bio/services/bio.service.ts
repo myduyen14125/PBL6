@@ -23,40 +23,22 @@ export class BioService {
         return await this.bioRepository.create(bio)
     }
 
-
-
     async checkOwnerShip(user: User, id: string) {
-        console.log(user._id);
-
         const bio = await this.bioRepository.findById(id)
-        console.log(bio.user);
-
         if (!bio.user.equals(user._id)) throw new HttpException('No Permission', HttpStatus.BAD_REQUEST);
         return true
     }
 
     async getUserBio(id: String) {
-        const bio = await this.bioRepository.findByCondition({
-            user: id
-        })
-
-        const awards = await this.awardRepository.getByCondition({ bio: bio.id })
-        const skills = await this.skillRepository.getByCondition({ bio: bio.id })
-        const educations = await this.educationRepository.getByCondition({ bio: bio.id })
-        const experiences = await this.experienceRepository.getByCondition({ bio: bio.id })
-
-
-        const bioData = bio.toObject();
-
-        const result = {
-            ...bioData,
-            awards: awards,
-            skills: skills,
-            educations: educations,
-            experiences: experiences
-        };
-
-
-        return result
+        const bio = await this.bioRepository.findByCondition({user: id})
+        await bio.populate(
+            [
+                { path: 'awards'},
+                { path: 'experiences'},
+                { path: 'skills'},
+                { path: 'educations'},
+            ]
+        )
+        return bio.toObject()
     }
 }

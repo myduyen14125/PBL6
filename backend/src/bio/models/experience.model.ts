@@ -15,6 +15,7 @@ const ExperienceSchema = new Schema({
     {
         timestamps: true,
         collection: "experiences",
+        toObject: {virtuals: true}
     });
 
 

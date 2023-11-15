@@ -24,7 +24,7 @@ export class AppointmentService {
         if (mentorExists) {
 
             // check if schedule is taken
-            const schedule = await this.scheduleService.getScheduleById(mentee, appointment.schedule)
+            const schedule = await this.scheduleService.getScheduleById(appointment.schedule)
             const { ObjectId } = require('mongodb')
             // console.log(schedule);
             console.log(schedule.user);
@@ -69,14 +69,7 @@ export class AppointmentService {
         })
 
         await Promise.all(appointments.map(async (appointment) => {
-            // await appointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
-            // await appointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth' });
             await appointment.populate({ path: 'schedule' });
-            // console.log(appointment);
-            // console.log(appointment.schedule.start_at);
-            // console.log(appointment.status);
-            // console.log(new Date());
-            // if (appointment.schedule.start_at < new Date()) console.log("yes");
 
 
 
@@ -102,15 +95,8 @@ export class AppointmentService {
             await appointment.populate({ path: 'mentee', select: '-password -refreshToken -date_of_birth' });
             await appointment.populate({ path: 'mentor', select: '-password -refreshToken -date_of_birth', populate: { path: 'expertise', select: 'name' } });
             await appointment.populate({ path: 'schedule' });
-            // console.log(appointment);
-            // console.log(appointment.schedule.start_at);
-            // console.log(appointment.status);
-            // console.log(new Date());
-            // if (appointment.schedule.start_at < new Date()) console.log("yes");
 
         }));
-        // console.log(appointments);
-
 
         return renewAppointments
 

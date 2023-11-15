@@ -8,27 +8,27 @@ export class ScheduleService {
     constructor(private readonly scheduleRepository: ScheduleRepository,
     ) { }
 
-
-    async createSchedule(user: User, schdule: CreateScheduleDto) {
-        schdule.user = user.id
-        schdule.status = true
+    async createSchedule(user: User, schedule: CreateScheduleDto) {
+        schedule.user = user.id
+        schedule.status = true
+        schedule.deleted = false
         // check valid date input
-        if (schdule.start_at >= schdule.end_at) {
+        if (schedule.start_at >= schedule.end_at) {
             throw new HttpException('Invalid Starttime/ Endtime', HttpStatus.BAD_REQUEST);
         }
 
         // get current user schedules
         let overlappingSchedules = await this.scheduleRepository.getByCondition({
             user: user.id,
-            start_at: { $lt: schdule.end_at },
-            end_at: { $gt: schdule.start_at }
+            deleted: false,
+            start_at: { $lt: schedule.end_at },
+            end_at: { $gt: schedule.start_at }
         });
 
         if (overlappingSchedules.length > 0) {
             throw new HttpException('Invalid Starttime/ Endtime', HttpStatus.BAD_REQUEST);
         }
-        return await this.scheduleRepository.create(schdule)
-
+        return await this.scheduleRepository.create(schedule)
     }
 
     async createManySchedules(user: User, schedules: CreateScheduleDto[]) {
@@ -37,7 +37,7 @@ export class ScheduleService {
         for (const schedule of schedules) {
             schedule.user = user.id;
             schedule.status = true;
-
+            schedule.deleted = false
             if (schedule.start_at >= schedule.end_at) {
                 throw new HttpException('Invalid Starttime/ Endtime', HttpStatus.BAD_REQUEST);
             }
@@ -45,6 +45,7 @@ export class ScheduleService {
             // get current user schedules
             let overlappingSchedules = await this.scheduleRepository.getByCondition({
                 user: user.id,
+                deleted: false,
                 start_at: { $lt: schedule.end_at },
                 end_at: { $gt: schedule.start_at }
             });
@@ -59,19 +60,15 @@ export class ScheduleService {
         return createdSchedules;
     }
 
-
     async getUserSchedule(user: User) {
         const schedules = await this.scheduleRepository.getByCondition({
             user: user._id
         })
-
-        // check schedules date and update status
         return schedules
     }
 
-    async getScheduleById(user: User, id: string) {
-        const schedule = await this.scheduleRepository.findById(id);
-        return schedule
+    async getScheduleById(id: string) {
+        return this.scheduleRepository.findById(id);
     }
 
     async getAllSchedulesByUserId(id: string) {
@@ -90,7 +87,7 @@ export class ScheduleService {
 
         const schedule = await this.scheduleRepository.findById(id)
         if (schedule.user.equals(user._id) && schedule.status === true) {
-            return await this.scheduleRepository.deleteOne(id);
+            return await this.scheduleRepository.findByIdAndUpdate(id, {deleted: true});
         }
         throw new HttpException('No permission', HttpStatus.BAD_REQUEST);
     }
@@ -102,7 +99,7 @@ export class ScheduleService {
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
             }
         }
-        return await this.scheduleRepository.deleteMany(ids)
+        return await this.scheduleRepository.updateMany(ids, {deleted: true})
     }
 
 }
