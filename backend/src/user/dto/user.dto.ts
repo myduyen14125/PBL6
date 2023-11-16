@@ -1,11 +1,11 @@
-import { IsBoolean, IsEmail, IsIn, IsMongoId, IsNotEmpty, IsUrl, MinLength } from "class-validator";
+import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsUrl, MinLength } from "class-validator";
 
 export class CreateUserDto {
     @IsNotEmpty() name: string;
     @IsEmail() @IsNotEmpty() email: string;
     @MinLength(6) @IsNotEmpty() password: string;
     @IsNotEmpty() date_of_birth: Date;
-    @IsNotEmpty() @IsBoolean() gender: boolean;
+    @IsNotEmpty() gender: boolean;
     @IsIn(['mentor', 'mentee']) @IsNotEmpty() role: string;
     
     phone: string;

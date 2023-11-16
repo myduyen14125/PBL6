@@ -1,9 +1,15 @@
-<p>Hi {{mentor}},</p>
-<p>{{mentee}} has booked an appointment with you.</p>
-<p>Appointment Details:</p>
-{{! <ul> }}
-{{!-- <li><strong>Note:</strong> {{note}}</li> --}}
-{{!-- <li><strong>Start Time:</strong> {{start}}</li> --}}
-{{!-- <li><strong>End Time:</strong> {{end}}</li> --}}
-{{! </ul> }}
+<p>Dear <strong>{{mentor}},</strong></p>
+
+<p>{{mentee}}
+  is awaiting for your confirmation of a new requested appointment. Here are the
+  details:</p>
+<ul>
+  <li><strong>Session Time:</strong> {{start_at}} to {{end_at}}</li>
+  <li><strong>Note:</strong> {{note}}</li>
+  <li><strong>Subject:</strong> {{expertise}}</li>
+</ul>
+
+<p>Please make sure to mark your calendar for the scheduled mentorship sessions.
+  If you have any questions or concerns, feel free to reach out.</p>
 <p>Thank you for your commitment to mentoring!</p>
+<p>Cheers! From IT-Mentor Community</p>
