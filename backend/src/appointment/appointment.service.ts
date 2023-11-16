@@ -327,7 +327,7 @@ export class AppointmentService {
                 }
             }
         }));
-
+        
         const appointments = await this.appointmentRepository.aggregate([
             {
                 $match: {
