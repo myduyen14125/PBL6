@@ -282,6 +282,135 @@ export class AppointmentService {
         return updatedAppointment;
     }
 
+    async getAllUsersStatusAppointments(user_id: string, page:number, limit:number = 6, status: string) {
+        const count = await this.appointmentRepository.countDocuments({$or: [{ mentee: user_id }, { mentor: user_id }]})
+        const countPage = Math.ceil(count / limit)
+        const skip = (page - 1) * limit || 0
+        const oldAppointments = await this.appointmentRepository.getByCondition({$or: [{ mentee: user_id }, { mentor: user_id }]})
 
+        const currentDate = new Date();
+        currentDate.setHours(currentDate.getHours() +7);
+        
+        if(status === "pending" || status === "confirmed") {
+            await Promise.all(oldAppointments.map(async (appointment) => {
+                await appointment.populate({ path: 'schedule' });
+                if (appointment.schedule.start_at < currentDate) {
+                    if (appointment.status === "pending") {
+                        await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "canceled" })
+                    }
+                }
+                if (appointment.schedule.start_at < currentDate) {
+                    if (appointment.status === "confirmed") {
+                        await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "finished" })
+                    }
+                }
+            }));
+        }
 
+        const appointments = await this.appointmentRepository.aggregate([
+            {
+                $match: {
+                    $or: [{ mentee: user_id }, { mentor: user_id }],
+                    status: status
+                },
+            },
+            {
+                $lookup: {
+                    from: 'schedules',
+                    localField: 'schedule',
+                    foreignField: '_id',
+                    as: 'schedule'
+                }
+            }, 
+            {
+                $unwind: '$schedule'
+            },
+            {
+                $sort: {
+                    'schedule.start_at': 1
+                }
+            },
+            {
+                $skip: skip
+            },
+            {
+                $limit: Number(limit)
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'mentee',
+                    foreignField: '_id',
+                    as: 'mentee'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'mentor',
+                    foreignField: '_id',
+                    as: 'mentor'
+                }
+            },
+            {
+                $unwind: '$mentee'
+            },
+            {
+                $unwind: '$mentor'
+            },
+            {
+                $lookup: {
+                    from: 'expertises', 
+                    localField: 'mentor.expertise',
+                    foreignField: '_id',
+                    as: 'mentor.expertise'
+                }
+            },
+            {
+                $unwind: '$mentor.expertise'
+            },
+            {
+                $project: {
+                    _id: 1,
+                    schedule: 1,
+                    mentee: {
+                        name: '$mentee.name',
+                        avatar: '$mentee.avatar',
+                        email: '$mentee.email'
+                    },
+                    mentor: {
+                        name: '$mentor.name',
+                        avatar: '$mentor.avatar',
+                        skype_link: '$mentor.skype_link',
+                        facebook_link: '$mentor.facebook_link',
+                        expertise: {
+                            name: '$mentor.expertise.name'
+                        }
+                    },
+                    note: '$note',
+                    status: '$status'
+                }
+            },
+        ])
+
+        return {
+            count, countPage, appointments
+        }
+    }
+
+    async getAllUserPendingAppointments(user_id: string, page:number, limit:number = 6) {
+        return await this.getAllUsersStatusAppointments(user_id, page, limit, "pending")
+    }
+
+    async getAllUserCanceledAppointments(user_id: string, page:number, limit:number = 6) {
+        return await this.getAllUsersStatusAppointments(user_id, page, limit, "canceled")
+    }
+
+    async getAllUserConfirmedAppointments(user_id: string, page:number, limit:number = 6) {
+        return await this.getAllUsersStatusAppointments(user_id, page, limit, "confirmed")
+    }
+
+    async getAllUserFinishedAppointments(user_id: string, page:number, limit:number = 6) {
+        return await this.getAllUsersStatusAppointments(user_id, page, limit, "finished")
+    }
 }
