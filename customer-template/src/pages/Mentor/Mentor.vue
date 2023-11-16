@@ -59,7 +59,7 @@
             <div class="my-5 d-flex" v-if="!isLoading">
               <el-pagination
                 class="ms-auto"
-                v-model:current-page="currentPage"
+                v-model:current-page="searchValue.page"
                 :page-size="limit"
                 background
                 layout="prev, pager, next"

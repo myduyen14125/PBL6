@@ -1,3 +1,4 @@
+import { Expertise } from "./expertise";
 import type { NavigationGuardNext } from "vue-router";
 
 export interface RouteContext {
@@ -50,7 +51,7 @@ export interface User {
   skype_link?: string;
   bio_id?: string;
   address?: string;
-  expertise?: string;
+  expertise?: Expertise | string;
   [elem: string]: any;
 }
 

@@ -8,17 +8,6 @@
           <img :src="logo" alt="Logo" width="180" height="180" />
         </div>
         <div class="card-body">
-          <div>
-            <div class="btn-sign-in mb-3 mx-4">
-              <img :src="facebookLogo" alt="Logo" width="30" height="30" />
-              <span>Đăng nhập bằng Facebook</span>
-            </div>
-            <div class="btn-sign-in mx-4">
-              <img :src="gmailLogo" alt="Logo" width="30" height="30" />
-              <span> Đăng nhập bằng Gmail</span>
-            </div>
-          </div>
-          <p class="text-center my-4 fw-100">Hoặc</p>
           <form @submit="submitForm">
             <div className="form-group required mb-3">
               <label>Email</label>

@@ -3,7 +3,7 @@
     <div class="appointment-wrapper">
       <div class="container py-20 text-lg">
         <div class="calendar-wrapper">
-          <FullCalendar :options="calendarOptions" class="full-calendar"/>
+          <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
         <div class="text-end">
           <button
@@ -79,12 +79,6 @@ export default {
       },
       deep: true,
     },
-    // "calendarOptions.events": {
-    //   handler(newValue, oldValue) {
-    //     console.log(this.calendarOptions.events);
-    //   },
-    //   deep: true,
-    // },
   },
   methods: {
     handleDateClick: function (arg) {
@@ -113,7 +107,9 @@ export default {
       } else {
         if (this.existSchedules[deleteItem].status) {
           this.existSchedules.splice(deleteItem, 1);
+
           /// call delete api
+          this.deleteSchedule(arg.event._def.publicId);
         }
       }
     },
@@ -170,6 +166,26 @@ export default {
       });
     },
 
+    deleteSchedule: function (id) {
+      this.isSubmitting = true;
+      const scheduleStore = useSchedule();
+      scheduleStore.requestDeleteSchedule({
+        id: id,
+        callback: {
+          onSuccess: (res) => {
+            this.isSubmitting = false;
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            this.isSubmitting = false;
+          },
+        },
+      });
+    },
+
     getMySchedule: function (params) {
       const scheduleStore = useSchedule();
       scheduleStore.requestGetMySchedules({
@@ -180,7 +196,7 @@ export default {
                 id: item._id,
                 title: item.status
                   ? "Tôi sẵn sàng tư vấn"
-                  : "Lịch đang chờ xác nhận",
+                  : "Lịch đã được book",
                 start: item.start_at,
                 end: item.end_at,
                 color: item.status ? "" : "orange",

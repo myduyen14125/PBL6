@@ -2,6 +2,7 @@ import { defineComponent, ref, PropType } from "vue";
 import BModal from "../../../components/BUI/BModal/BModal.vue";
 import { getUserInfo } from "../../../ultils/cache/cookies";
 import { formatDate } from "../../../ultils/date";
+import avatar from "../../../assets/image/avatar.png";
 
 export default defineComponent({
   name: "DemoBlogModal",
@@ -25,6 +26,7 @@ export default defineComponent({
     };
 
     return {
+      avatar,
       modal,
       isSubmitting,
       show,

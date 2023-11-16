@@ -16,11 +16,10 @@ export default defineComponent({
     const mentorsStore = useMentors();
     const mentors = ref<Mentor[]>([]);
     const isLoading = ref(false);
-    const currentPage = ref(1);
     const totalElement = ref(0);
     const limit = 8;
     const searchValue = ref<SearchMentorsParams>({
-      page: currentPage.value,
+      page: 1,
       name: "",
       expertise: "",
       limit: limit,
@@ -52,10 +51,10 @@ export default defineComponent({
     };
 
     const getSearchParams = (params: SearchMentorsParams) => {
-      currentPage.value = 1;
       searchValue.value = {
         ...searchValue.value,
         ...params,
+        page: 1,
       };
       searchMentor();
     };
@@ -66,8 +65,8 @@ export default defineComponent({
       imageSaler,
       limit,
       totalElement,
-      currentPage,
       isLoading,
+      searchValue,
       searchMentor,
       getSearchParams,
     };

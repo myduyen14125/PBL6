@@ -10,6 +10,7 @@ import { validate } from "../../ultils/validators";
 import { RegexPhoneNumber } from "../../constants/regex";
 import avatar from "../../assets/image/avatar.png";
 import { Expertise } from "../../types/expertise";
+import { getUserInfo } from "../../ultils/cache/cookies";
 
 export default defineComponent({
   name: "UserInformation",
@@ -181,6 +182,7 @@ export default defineComponent({
       validateName,
       submitUpdateForm,
       updateInfo,
+      getUserInfo,
     };
   },
 });

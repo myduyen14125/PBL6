@@ -7,6 +7,7 @@ import MessageCard from "../MessageCard/MessageCard.vue";
 import { getUserInfo } from "../../ultils/cache/cookies";
 import { useUser } from "../../stores/user";
 import SwalPopup from "../../ultils/swalPopup";
+import router from "../../router";
 
 export default defineComponent({
   name: "Header",
@@ -98,6 +99,7 @@ export default defineComponent({
     };
 
     return {
+      router,
       logo,
       avatar,
       navLinks,

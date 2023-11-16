@@ -18,7 +18,7 @@ export interface GetPaginationParams {
 }
 
 export interface SearchMentorsParams {
-  page?: number;
+  page: number;
   name?: string;
   expertise?: string;
   limit?: number;

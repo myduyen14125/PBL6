@@ -9,6 +9,7 @@ export interface Appointment {
   mentor: User;
   schedule: Schedule;
   status: string;
+  [element: string]: any;
 }
 
 export interface CreateAppointmentParams {

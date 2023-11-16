@@ -7,3 +7,6 @@ export const getMySchedules = async (): Promise<any> =>
 export const createSchedule = async (
   params: CreateScheduleParams[]
 ): Promise<any> => httpRequest.post<any>("/schedule/create-schedules", params);
+
+export const deleteSchedule = async (id: string): Promise<any> =>
+  httpRequest.delete<any>(`/schedule/${id}`);
