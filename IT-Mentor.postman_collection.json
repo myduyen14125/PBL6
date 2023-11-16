@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"phvntiendat@gmail.com\",\r\n    \"password\": \"phvntiendat\"\r\n}",
+							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -165,7 +165,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODg4ODg0NSwiZXhwIjoxNjk4ODkxNDM3fQ.jNu3vQodIQgdjRi2mLg6k2swKFe4tXRErc08edsXXUU",
+									"value": "{{mentor}}",
 									"type": "string"
 								}
 							]
@@ -174,7 +174,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"New Guy X\",\r\n    \"date_of_birth\": \"1999-11-11\",\r\n    \"gender\": true,\r\n    \"phone\": \"123456789\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Phan Dat\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"phone\": \"0911343888\",\r\n    \"gender\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,7 +275,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"mentee001@gmail.com\",\r\n    \"password\": \"mentee001\",\r\n    \"name\": \"Mentee Mentear\",\r\n    \"gender\": \"true\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"role\": \"mentee\"\r\n}",
+							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"name\": \"Phan Dat\",\r\n    \"gender\": \"false\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"role\": \"mentee\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -306,7 +306,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODg4ODg0NSwiZXhwIjoxNjk4ODkxNDM3fQ.jNu3vQodIQgdjRi2mLg6k2swKFe4tXRErc08edsXXUU",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMDA0MTI3MiwiZXhwIjoxNzAwMzAwNDcyfQ.ylp3On8uE9_hV8IwXXebVTWl52GWFtz3Me4ZkbUnp9o",
 									"type": "string"
 								}
 							]
@@ -341,13 +341,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/user/65377bcec525b0308f3aa4d2",
+							"raw": "{{host}}/user/6551a1a8a44daf1d5c95ddf5",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"user",
-								"65377bcec525b0308f3aa4d2"
+								"6551a1a8a44daf1d5c95ddf5"
 							]
 						}
 					},
@@ -359,25 +359,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/mentor/search?name=Mentor",
-							"protocol": "http",
+							"raw": "{{host}}/mentor/search?name=keyword&expertise=id",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3001",
 							"path": [
 								"mentor",
 								"search"
 							],
 							"query": [
 								{
-									"key": "expertise",
-									"value": "6536b3c642d7d685c6ea8f35",
-									"disabled": true
+									"key": "name",
+									"value": "keyword"
 								},
 								{
-									"key": "name",
-									"value": "Mentor"
+									"key": "expertise",
+									"value": "id"
 								}
 							]
 						}
@@ -437,7 +434,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"123\",\r\n    \"content\": \"321\"\r\n}",
+							"raw": "{\r\n    \"title\": \"123\",\r\n    \"content\": \"321\",\r\n    \"image\": \"https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -472,13 +469,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://pbl6-production.up.railway.app/blog",
-							"protocol": "https",
+							"raw": "{{host}}/blog",
 							"host": [
-								"pbl6-production",
-								"up",
-								"railway",
-								"app"
+								"{{host}}"
 							],
 							"path": [
 								"blog"
@@ -495,7 +488,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5ODg1NjY1NywiZXhwIjoxNjk4ODU5MjQ5fQ.52s_hnmJpurJsJlkWafpGb5hymQFexS_ZEfQesnesck",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMDA0MTI3MiwiZXhwIjoxNzAwMzAwNDcyfQ.ylp3On8uE9_hV8IwXXebVTWl52GWFtz3Me4ZkbUnp9o",
 									"type": "string"
 								}
 							]
@@ -521,13 +514,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/blog/653749a79ba0dbaf51e437f6",
+							"raw": "{{host}}/blog/65546452cdf8c0e2c9d9ef2b",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"blog",
-								"653749a79ba0dbaf51e437f6"
+								"65546452cdf8c0e2c9d9ef2b"
 							]
 						}
 					},
@@ -636,7 +629,7 @@
 			"name": "Appointment",
 			"item": [
 				{
-					"name": "CurrentUser/Appointment",
+					"name": "CurrentUser/Appointment [ legacy ]",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -646,7 +639,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
+									"value": "{{mentor}}",
 									"type": "string"
 								}
 							]
@@ -663,13 +656,222 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment/",
+							"raw": "{{host}}/appointment?page=1&limit=6",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pending Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/pending?page=1&limit=2",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
-								""
+								"pending"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Confirmed Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/confirmed?page=1&limit=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"confirmed"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Canceled Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/canceled?page=1&limit=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"canceled"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Finished Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/finished?page=1&limit=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"finished"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -692,7 +894,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mentor\": \"654306fad984530747f34b42\",\r\n    \"schedule\": \"654309922a7dfd2acc944205\",\r\n    \"note\": \"New system test\"\r\n}",
+							"raw": "{\r\n    \"mentor\": \"6551a1a8a44daf1d5c95ddf5\",\r\n    \"schedule\": \"6556435b84ff31eac89daeb4\",\r\n    \"note\": \"Mail tester\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -719,7 +921,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentee}}",
+									"value": "{{mentor}}",
 									"type": "string"
 								}
 							]
@@ -736,13 +938,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment/653788032f302fd52778ee4a/cancel",
+							"raw": "{{host}}/appointment/6556550cbd7e9a5563381c38/cancel",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
-								"653788032f302fd52778ee4a",
+								"6556550cbd7e9a5563381c38",
 								"cancel"
 							]
 						}
@@ -774,13 +976,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment/654307a3d984530747f34b57/confirm",
+							"raw": "{{host}}/appointment/6556550cbd7e9a5563381c38/confirm",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
-								"654307a3d984530747f34b57",
+								"6556550cbd7e9a5563381c38",
 								"confirm"
 							]
 						}
@@ -833,7 +1035,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3ODk3ODYwLCJleHAiOjE2OTc5MDA0NTJ9.5el7Xekszlf_xrXOR5AyhAutm2lyWObsQlLJQLpoKr4",
+									"value": "{{mentee}}",
 									"type": "string"
 								}
 							]
@@ -841,13 +1043,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/appointment/65281b6580f69b56d5739207",
+							"raw": "{{host}}/appointment/6554bb6c3a98ed27f009f40b",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
-								"65281b6580f69b56d5739207"
+								"6554bb6c3a98ed27f009f40b"
 							]
 						}
 					},
@@ -898,16 +1100,16 @@
 								}
 							]
 						},
-						"method": "DELETE",
+						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/schedule/653784e9e0a958dc3253b962",
+							"raw": "{{host}}/schedule/655643ed84ff31eac89daee7",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"schedule",
-								"653784e9e0a958dc3253b962"
+								"655643ed84ff31eac89daee7"
 							]
 						}
 					},
@@ -926,7 +1128,7 @@
 								}
 							]
 						},
-						"method": "DELETE",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -996,7 +1198,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"start_at\": \"2023-10-30T14:00:00\",\r\n    \"end_at\": \"2023-10-30T14:30:00\"\r\n}",
+							"raw": "{\r\n    \"start_at\": \"2023-12-30T15:00:00\",\r\n    \"end_at\": \"2023-12-30T15:30:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1216,7 +1418,7 @@
 					"response": []
 				},
 				{
-					"name": "Seen Message",
+					"name": "Seen Message [ k dùng? ]",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1370,290 +1572,6 @@
 			]
 		},
 		{
-			"name": "User By Id",
-			"item": [
-				{
-					"name": "Get User By Id Copy",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/user/65264b0e614ff103aad5d699",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"user",
-								"65264b0e614ff103aad5d699"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "User/Id/Blogs Copy",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/user/652815af6722878fba963460/blogs",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"user",
-								"652815af6722878fba963460",
-								"blogs"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "User/Id/Schedules Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjNAZ21haWwuY29tIiwiaWF0IjoxNjk3ODc4Nzc3LCJleHAiOjE2OTc4ODEzNjl9.c4K7zetguggcuDNKgcrhxsLb4ruU8qbYXRQV3UcRMlI",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/user/652815af6722878fba963460/schedules",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"user",
-								"652815af6722878fba963460",
-								"schedules"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "User/Id/Ratings Copy",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/user/6533dd7a14b70faf5d768e2d/ratings",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"user",
-								"6533dd7a14b70faf5d768e2d",
-								"ratings"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Current User",
-			"item": [
-				{
-					"name": "Profile Copy",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM3Mzg0LCJleHAiOjE2OTc5Mzk5NzZ9.GY-GYE_9AP96X2SWbFVr2AkPHPujn-fV5voYOo_M11U",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/user/profile",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"user",
-								"profile"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CurrentUser/Blogs Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM3Mzg0LCJleHAiOjE2OTc5Mzk5NzZ9.GY-GYE_9AP96X2SWbFVr2AkPHPujn-fV5voYOo_M11U",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/user/blogs",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"user",
-								"blogs"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CurrentUser/Schedule Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/schedule",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"schedule"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CurrentUser/Ratings Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQzMzI1LCJleHAiOjE2OTc5NDU5MTd9.eGoWYDNVkN1FHl46aSI4HVVwtnSot6yUpHnVnjewgTI",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/rating",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"rating"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CurrentUser/Appointment Copy",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcjJAZ21haWwuY29tIiwiaWF0IjoxNjk3OTQ1MDk4LCJleHAiOjE2OTc5NDc2OTB9.1f6VdWpUJAobNSsnAEIjrKEAbGA-_ulANb-6gnLDF5w",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/appointment/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"appointment",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CurrentUser/Bio Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/bio",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"bio"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Media",
 			"item": [
 				{
@@ -1667,18 +1585,14 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/PC/Downloads/test.png"
+									"src": "/C:/Users/PC/Downloads/The_Durban_University_of_Technology_new_log.jpg"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://pbl6-test-production.up.railway.app/media/upload",
-							"protocol": "https",
+							"raw": "{{host}}/media/upload",
 							"host": [
-								"pbl6-test-production",
-								"up",
-								"railway",
-								"app"
+								"{{host}}"
 							],
 							"path": [
 								"media",
@@ -1701,7 +1615,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA2MTcwMywiZXhwIjoxNjk4MDY0Mjk1fQ.d8N1XQnoKdauxzgsGI18y-LvB4xdu_EqXCU1bTgpaxQ",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMDA0MTI3MiwiZXhwIjoxNzAwMzAwNDcyfQ.ylp3On8uE9_hV8IwXXebVTWl52GWFtz3Me4ZkbUnp9o",
 									"type": "string"
 								}
 							]
@@ -2182,7 +2096,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"IOT\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Game Development\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2221,7 +2135,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"bio\": \"65364f4bd298e6370f1d92c7\",\r\n    \"name\": \"TOEIC\",\r\n    \"date\": \"1999-11-11\",\r\n    \"description\": \"990\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2235,6 +2149,439 @@
 							],
 							"path": [
 								"expertise"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Request Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 15000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{deploy}}/payment",
+							"host": [
+								"{{deploy}}"
+							],
+							"path": [
+								"payment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Course",
+			"item": [
+				{
+					"name": "Create Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"New Course\",\r\n    \"description\": \"No\",\r\n    \"price\": 1000,\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/course",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/course",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User To Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentee}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/course/register-course/6548a4b82caceacf96ff1e31",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course",
+								"register-course",
+								"6548a4b82caceacf96ff1e31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/course/6548a4b82caceacf96ff1e31",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course",
+								"6548a4b82caceacf96ff1e31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User/Id/Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/6537803f0a03d311350aca11/courses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"6537803f0a03d311350aca11",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CurrentUser/Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentee}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/course/my-courses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course",
+								"my-courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Course [ chua lam ]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpZW5kYXRwaGFuMjFAZ21haWwuY29tIiwiaWF0IjoxNjk4MjI2MjE1LCJleHAiOjE2OTgyMjg4MDd9.Enaf-pUgY4hrNOipDCuR7LiJCoA1KKujhzttpu5A_sI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Updated post\",\r\n    \"title\": \"Modified\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://pbl6-test-production.up.railway.app/blog/6538e03ba2f3c81cd4670c6a",
+							"protocol": "https",
+							"host": [
+								"pbl6-test-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"blog",
+								"6538e03ba2f3c81cd4670c6a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Updated course\",\r\n    \"title\": \"Modified\",\r\n    \"price\": 20000,\r\n    \"discount\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/course/6548a4b82caceacf96ff1e31",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course",
+								"6548a4b82caceacf96ff1e31"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lesson",
+			"item": [
+				{
+					"name": "Create Lesson",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/lesson",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"lesson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Lesson [ chua lam ]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/lesson",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"lesson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Archive Lesson [ chua lam ]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/lesson",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"lesson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Lesson By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/lesson/6548f4810d94f8cca7bfb8e7",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"lesson",
+								"6548f4810d94f8cca7bfb8e7"
 							]
 						}
 					},

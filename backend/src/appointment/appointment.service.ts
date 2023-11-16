@@ -16,6 +16,16 @@ export class AppointmentService {
         private mailerService: MailerService
     ) { }
 
+    formatUtcDate(date: Date): string {
+        const formattedDate = new Intl.DateTimeFormat("en-GB", {
+          timeStyle: "short",
+          dateStyle: "short",
+          timeZone: "UTC",
+        }).format(date);
+      
+        return formattedDate;
+    }
+
     async createAppointment(mentee: User, appointment: CreateAppointmentDto) {
         const mentor = await this.userService.checkMentor(appointment.mentor)
         const schedule = await this.scheduleService.getScheduleById(appointment.schedule)
@@ -31,21 +41,26 @@ export class AppointmentService {
 
         const newAppointment = await this.appointmentRepository.create(appointment);
         await newAppointment.populate({ path: 'mentee', select: 'name avatar email' });
-        await newAppointment.populate({ path: 'mentor', select: 'name avatar email' });
+        await newAppointment.populate({ path: 'mentor', select: 'name avatar email expertise',populate: {path: 'expertise',select: 'name'}, });
         await newAppointment.populate({ path: 'schedule' });
-
+        console.log(newAppointment.mentor.expertise.name);
+        
         await this.scheduleService.updateScheduleStatus(appointment.schedule, false)
-            //         // mail to mentor
-    //         const mentor = await this.userService.getUserById(appointment.mentor)
-    //         await this.mailerService.sendMail({
-    //             to: mentor.email,
-    //             subject: 'You have a new pending appointment!',
-    //             template: `./bookappointment`,
-    //             context: {
-    //                 mentee: mentee.name,
-    //                 mentor: mentor.name
-    //             }
-    //         })
+
+        // mail to mentor
+        await this.mailerService.sendMail({
+            to: newAppointment.mentor.email,
+            subject: 'You have a new pending appointment!',
+            template: `./bookappointment`,
+            context: {
+                mentee: newAppointment.mentee.name,
+                mentor: newAppointment.mentor.name,
+                start_at: this.formatUtcDate(newAppointment.schedule.start_at),
+                end_at: this.formatUtcDate(newAppointment.schedule.end_at),
+                note: newAppointment.note,
+                expertise: newAppointment.mentor.expertise.name
+            }
+        })
         
         return newAppointment
     }
@@ -212,54 +227,61 @@ export class AppointmentService {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {status: "confirmed"})
-        await updatedAppointment.populate({ path: 'mentee', select: 'name avatar' });
-        await updatedAppointment.populate({ path: 'mentor', select: 'name avatar skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
+        await updatedAppointment.populate({ path: 'mentee', select: 'name avatar email' });
+        await updatedAppointment.populate({ path: 'mentor', select: 'name avatar email skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
         await updatedAppointment.populate({ path: 'schedule' });
 
         // mail to mentee
-        const mentee = await this.userService.getUserById(oldAppointment.mentee._id)
-        // await this.mailerService.sendMail({
-        //     to: mentee.email,
-        //     subject: 'A mentor has confirmed your appointment!',
-        //     template: `./confirmappointment`,
-        //     context: {
-        //         mentee: mentee.name,
-        //         mentor: mentor.name
-        //     }
-        // })
+        await this.mailerService.sendMail({
+            to: updatedAppointment.mentee.email,
+            subject: 'A mentor has confirmed your appointment!',
+            template: `./confirmappointment`,
+            context: {
+                mentee: updatedAppointment.mentee.name,
+                mentor: updatedAppointment.mentor.name,
+                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at),
+                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at),
+                note: updatedAppointment.note,
+                link: updatedAppointment.mentor.skype_link,
+                expertise: updatedAppointment.mentor.expertise.name
+            }
+        })
         return updatedAppointment;
-    }
-
+    } 
 
     // cancel - mentee
-    async cancelAppointment(mentee: User, id: string) {
+    async cancelAppointment(user: User, id: string) {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
 
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
             status: "canceled"
         })
-        await updatedAppointment.populate({ path: 'mentee', select: 'name avatar' });
-        await updatedAppointment.populate({ path: 'mentor', select: 'name avatar skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
+        await updatedAppointment.populate({ path: 'mentee', select: 'name avatar email' });
+        await updatedAppointment.populate({ path: 'mentor', select: 'name avatar email skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
         await updatedAppointment.populate({ path: 'schedule' });
         
         // free schedule
         await this.scheduleService.updateScheduleStatus(oldAppointment.schedule._id, true)
 
-        // mail to mentor
-        const mentor = await this.userService.getUserById(oldAppointment.mentor._id)
-        // await this.mailerService.sendMail({
-        //     to: mentor.email,
-        //     subject: 'An appointment has been canceled!',
-        //     template: `./cancelappointment`,
-        //     context: {
-        //         mentee: mentee.name,
-        //         mentor: mentor.name
-        //     }
-        // })
+        // mail to the other
+        if(updatedAppointment.mentee._id.toString() == (user.id.toString())) return updatedAppointment;
+        
+        await this.mailerService.sendMail({
+            to: updatedAppointment.mentee.email,
+            subject: 'An appointment has been canceled!',
+            template: `./cancelappointment`,
+            context: {
+                mentee: updatedAppointment.mentee.name,
+                mentor: updatedAppointment.mentor.name,
+                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at),
+                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at),
+                note: updatedAppointment.note,
+                expertise: updatedAppointment.mentor.expertise.name
+            }
+        })
 
         return updatedAppointment;
-
     }
 
     // finished - mentor
@@ -291,21 +313,20 @@ export class AppointmentService {
         const currentDate = new Date();
         currentDate.setHours(currentDate.getHours() +7);
         
-        if(status === "pending" || status === "confirmed") {
-            await Promise.all(oldAppointments.map(async (appointment) => {
-                await appointment.populate({ path: 'schedule' });
-                if (appointment.schedule.start_at < currentDate) {
-                    if (appointment.status === "pending") {
-                        await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "canceled" })
-                    }
+        
+        await Promise.all(oldAppointments.map(async (appointment) => {
+            await appointment.populate({ path: 'schedule' });
+            if (appointment.schedule.start_at < currentDate) {
+                if (appointment.status === "pending") {
+                    await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "canceled" })
                 }
-                if (appointment.schedule.start_at < currentDate) {
-                    if (appointment.status === "confirmed") {
-                        await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "finished" })
-                    }
+            }
+            if (appointment.schedule.start_at < currentDate) {
+                if (appointment.status === "confirmed") {
+                    await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "finished" })
                 }
-            }));
-        }
+            }
+        }));
 
         const appointments = await this.appointmentRepository.aggregate([
             {
