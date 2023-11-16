@@ -291,21 +291,21 @@ export class AppointmentService {
         const currentDate = new Date();
         currentDate.setHours(currentDate.getHours() +7);
         
-        if(status === "pending" || status === "confirmed") {
-            await Promise.all(oldAppointments.map(async (appointment) => {
-                await appointment.populate({ path: 'schedule' });
-                if (appointment.schedule.start_at < currentDate) {
-                    if (appointment.status === "pending") {
-                        await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "canceled" })
-                    }
+        
+        await Promise.all(oldAppointments.map(async (appointment) => {
+            await appointment.populate({ path: 'schedule' });
+            if (appointment.schedule.start_at < currentDate) {
+                if (appointment.status === "pending") {
+                    await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "canceled" })
                 }
-                if (appointment.schedule.start_at < currentDate) {
-                    if (appointment.status === "confirmed") {
-                        await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "finished" })
-                    }
+            }
+            if (appointment.schedule.start_at < currentDate) {
+                if (appointment.status === "confirmed") {
+                    await this.appointmentRepository.findByIdAndUpdate(appointment.id, { status: "finished" })
                 }
-            }));
-        }
+            }
+        }));
+        
 
         const appointments = await this.appointmentRepository.aggregate([
             {
