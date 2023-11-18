@@ -3,11 +3,17 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:itmentor/utils/constant.dart';
+import 'package:itmentor/utils/utils.dart';
 
 class EditSkillDetail extends StatefulWidget {
   final dynamic skills;
   final String token;
-  const EditSkillDetail({super.key, required this.skills, required this.token});
+  final Function(Map<String, dynamic>) onSkillUpdate;
+  const EditSkillDetail(
+      {super.key,
+      required this.skills,
+      required this.token,
+      required this.onSkillUpdate});
 
   @override
   State<EditSkillDetail> createState() => _EditSkillDetailState();
@@ -24,11 +30,12 @@ class _EditSkillDetailState extends State<EditSkillDetail> {
   @override
   void initState() {
     super.initState();
+    print(widget.skills);
     nameController.text = widget.skills['name'];
     descriptionController.text = widget.skills['description'];
   }
 
-  void updateAward() async {
+  void updateSkill() async {
     final url = Uri.https(Constants.uri, '/skill/${widget.skills['_id']}');
 
     final data = {
@@ -47,6 +54,13 @@ class _EditSkillDetailState extends State<EditSkillDetail> {
 
     if (response.statusCode == 200) {
       print('awards data updated successfully.');
+      widget.onSkillUpdate({
+        '_id': widget.skills['_id'],
+        "name": nameController.text,
+        "description": descriptionController.text,
+      });
+      showSnackBar(context, 'Cập nhật giải thưởng thành công');
+      Navigator.of(context).pop();
     } else {
       print('Failed to update awards data: ${response.statusCode}');
     }
@@ -75,7 +89,13 @@ class _EditSkillDetailState extends State<EditSkillDetail> {
     print('this skill: ${widget.skills['_id']}');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cập nhật kĩ năng'),
+        backgroundColor: Color.fromARGB(255, 63, 143, 125),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Cập nhật kĩ năng',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -90,22 +110,17 @@ class _EditSkillDetailState extends State<EditSkillDetail> {
               decoration: const InputDecoration(labelText: 'Mô tả'),
             ),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    deleteAward();
-                  },
-                  child: const Text('Xoá'),
+            ElevatedButton(
+              onPressed: () {
+                updateSkill();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 63, 143, 125),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    updateAward();
-                  },
-                  child: const Text('Cập nhật'),
-                ),
-              ],
+              ),
+              child: const Text('Cập nhật'),
             ),
           ],
         ),

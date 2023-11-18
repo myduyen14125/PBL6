@@ -15,6 +15,8 @@ class UserProvider extends ChangeNotifier {
     expiresIn: '',
     accessToken: '',
     refreshToken: '',
+    facebookLink: '',
+    skypeLink: ''
   );
 
   User get user => _user;

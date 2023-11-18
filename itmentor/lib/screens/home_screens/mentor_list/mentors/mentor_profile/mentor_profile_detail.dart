@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/blog_detail_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/schedule/choose_schedule_screen.dart';
@@ -9,16 +10,16 @@ import 'package:itmentor/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:itmentor/utils/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MentorProfileDetail extends StatefulWidget {
   final String id;
   final String avatar;
-  final bool gender;
-  MentorProfileDetail(
-      {super.key,
-      required this.id,
-      required this.avatar,
-      required this.gender});
+  MentorProfileDetail({
+    super.key,
+    required this.id,
+    required this.avatar,
+  });
 
   @override
   State<MentorProfileDetail> createState() => _MentorProfileDetailState();
@@ -32,11 +33,14 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
   List<dynamic> skills = [];
   List<dynamic> educations = [];
 
+  Map<String, dynamic> currentUserData = {};
+
   @override
   void initState() {
     super.initState();
     fetchUserData();
     fetchBlogs();
+    getAccessToken();
   }
 
   Future<void> fetchBlogs() async {
@@ -52,7 +56,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
         blogs = blogList.cast<Map<String, dynamic>>();
       });
     } else {
-      throw Exception('Failed to load blogs');
+      debugPrint('Fail to load blogs');
     }
   }
 
@@ -79,6 +83,44 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
     return htmlString.replaceAll(exp, '');
   }
 
+  String accessToken = '';
+
+  Future<void> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      accessToken = prefs.getString('x-auth-token') ?? '';
+      print('mentor screen token: $accessToken');
+      fetchProfile();
+    });
+  }
+
+  Future<void> fetchProfile() async {
+    final url = Uri.https(Constants.uri, '/user/profile');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Connection': 'keep-alive',
+          'Authorization': 'Bearer $accessToken'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        setState(() {
+          currentUserData = data;
+          print(currentUserData);
+          print('user appointment role: ${currentUserData['role']}');
+        });
+      } else {
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +129,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
         elevation: 0,
         centerTitle: true,
         title: const Text(
-          'Thông tin cá nhân',
+          'Thông tin mentor',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
@@ -104,10 +146,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                         radius: 50,
                         backgroundImage: widget.avatar != ''
                             ? NetworkImage(widget.avatar)
-                            : widget.gender == true
-                                ? AssetImage('assets/images/male_avatar.jpg')
-                                : AssetImage('assets/images/female_avatar.png')
-                                    as ImageProvider,
+                            : const AssetImage('assets/images/blank_avatar.png')
+                                as ImageProvider,
                       ),
                       const SizedBox(
                         height: 10,
@@ -184,15 +224,20 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChooseSchedule(
-                                    mentorId: userData['_id'],
-                                    mentorName: userData['name'],
-                                  ),
-                                ),
-                              );
+                              currentUserData['role'] != 'mentor'
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ChooseSchedule(
+                                          mentorId: userData['_id'],
+                                          mentorName: userData['name'],
+                                          mentorAvatar: userData['avatar'],
+                                          mentorExpertise: userData['expertise']['name'],
+                                        ),
+                                      ),
+                                    )
+                                  : showSnackBar(
+                                      context, 'Mentor không thể đặt lịch');
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF1369B2),
@@ -237,9 +282,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () {
-                              // Implement the action for the "Nhắn tin" button
-                            },
+                            onPressed: () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey[200],
                               shape: RoundedRectangleBorder(
@@ -279,191 +322,350 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12.0),
-                                    topRight: Radius.circular(12.0),
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(16.0),
-                                child: const Text(
-                                  'Kinh nghiệm làm việc',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18, // Font size
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: experiences.length,
-                                itemBuilder: (context, index) {
-                                  final experience = experiences[index];
-                                  return ListTile(
-                                    leading: const Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                                    title: Text(
-                                      experience['position'],
+                              const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Kinh nghiệm làm việc',
                                       style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    subtitle: Text(
-                                      '${experience['company']}\n${experience['start_date']} - ${experience['end_date']}',
-                                    ),
-                                    onTap: () {},
-                                  );
-                                },
+                                  ],
+                                ),
                               ),
+                              experiences.isEmpty
+                                  ? const Center(
+                                      child: Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text('Không có dữ liệu')),
+                                    )
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: experiences.length,
+                                      itemBuilder: (context, index) {
+                                        final experience = experiences[index];
+
+                                        // Parse the start date
+                                        final startDate = DateTime.parse(
+                                            experience['start_date']);
+                                        final endDate = DateTime.parse(
+                                            experience['end_date']);
+
+                                        // Format the date to dd:MM:yyyy
+                                        final formattedStartDate =
+                                            DateFormat('dd/MM/yyyy')
+                                                .format(startDate);
+                                        final formattedEndDate =
+                                            DateFormat('dd/MM/yyyy')
+                                                .format(endDate);
+
+                                        return Card(
+                                          elevation: 3,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 16),
+                                          child: ListTile(
+                                            contentPadding:
+                                                const EdgeInsets.all(16),
+                                            leading: const CircleAvatar(
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 59, 105, 255),
+                                              child: Icon(
+                                                Icons.work_outline,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              experience['position'],
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  experience['company'],
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  'Từ $formattedStartDate đến $formattedEndDate',
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                               const SizedBox(height: 16.0),
                               Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12.0),
-                                    bottomRight: Radius.circular(12.0),
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(16.0),
-                                child: const Text(
-                                  'Học vấn',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: educations.length,
-                                itemBuilder: (context, index) {
-                                  final education = educations[index];
-                                  return ListTile(
-                                    leading: const Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                                    title: Text(
-                                      '${education['place']} - ${education['major']}',
+                                padding: const EdgeInsets.all(10),
+                                child: const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Học vấn',
                                       style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    subtitle: Text(
-                                      '${education['start_date']} - ${education['end_date']}',
-                                    ),
-                                    onTap: () {},
-                                  );
-                                },
+                                  ],
+                                ),
                               ),
+                              educations.isEmpty
+                                  ? const Center(
+                                      child: Text('Không có dữ liệu'),
+                                    )
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: educations.length,
+                                      itemBuilder: (context, index) {
+                                        final education = educations[index];
+
+                                        // Parse the start date
+                                        final startDate = DateTime.parse(
+                                            education['start_date']);
+                                        final endDate = DateTime.parse(
+                                            education['end_date']);
+
+                                        final formattedStartDate =
+                                            DateFormat('dd/MM/yyyy')
+                                                .format(startDate);
+                                        final formattedEndDate =
+                                            DateFormat('dd/MM/yyyy')
+                                                .format(endDate);
+                                        return Card(
+                                          elevation: 3,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 16),
+                                          child: ListTile(
+                                            contentPadding:
+                                                const EdgeInsets.all(16),
+                                            leading: const CircleAvatar(
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 59, 255, 137),
+                                              child: Icon(
+                                                Icons.school,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              education['place'],
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  education['major'],
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  'Từ $formattedStartDate đến $formattedEndDate',
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                               Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12.0),
-                                    bottomRight: Radius.circular(12.0),
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(16.0),
-                                child: const Text(
-                                  'Giải thưởng',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: awards.length,
-                                itemBuilder: (context, index) {
-                                  final award = awards[index];
-                                  return ListTile(
-                                    leading: const Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                                    title: Text(
-                                      award['name'],
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Giải thưởng',
                                       style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    subtitle: Text(
-                                      'Description: ${award['description']}\nDate: ${award['date']}',
-                                    ),
-                                    onTap: () {},
-                                  );
-                                },
+                                  ],
+                                ),
                               ),
+                              const SizedBox(height: 16.0),
+                              awards.isEmpty
+                                  ? Center(
+                                      child: Text('Không có dữ liệu'),
+                                    )
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: awards.length,
+                                      itemBuilder: (context, index) {
+                                        final award = awards[index];
+
+                                        final awardedDate =
+                                            DateTime.parse(award['date']);
+
+                                        final formattedDate =
+                                            DateFormat('dd/MM/yyyy')
+                                                .format(awardedDate);
+                                        return Card(
+                                          elevation: 3,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 16),
+                                          child: ListTile(
+                                            contentPadding: EdgeInsets.all(16),
+                                            leading: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.cyanAccent,
+                                              child: Icon(
+                                                Icons.military_tech,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              award['name'],
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Description: ${award['description']}',
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  'Ngày trao thưởng: $formattedDate',
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                               Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12.0),
-                                    bottomRight: Radius.circular(12.0),
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(16.0),
-                                child: const Text(
-                                  'Kỹ năng',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: skills.length,
-                                itemBuilder: (context, index) {
-                                  final skill = skills[index];
-                                  return ListTile(
-                                    leading: const Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                                    title: Text(
-                                      skill['name'],
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Kĩ năng',
                                       style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    subtitle: Text(
-                                      'Description: ${skill['description']}',
-                                    ),
-                                    onTap: () {},
-                                  );
-                                },
-                              ),
-                              Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12.0),
-                                    bottomRight: Radius.circular(12.0),
-                                  ),
+                                  ],
                                 ),
-                                padding: const EdgeInsets.all(16.0),
-                                child: const Text(
-                                  'Blogs',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              skills.isEmpty
+                                  ? Center(
+                                      child: Text('Không có dữ liệu'),
+                                    )
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: skills.length,
+                                      itemBuilder: (context, index) {
+                                        final skill = skills[index];
+                                        return Card(
+                                          elevation: 3,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 16),
+                                          child: ListTile(
+                                            contentPadding:
+                                                const EdgeInsets.all(6),
+                                            leading: const CircleAvatar(
+                                              backgroundColor: Colors.yellow,
+                                              child: Icon(
+                                                Icons.star,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              skill['name'],
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            subtitle: Text(
+                                              'Mô tả: ${skill['description']}',
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Blogs',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               ListView.builder(
@@ -486,7 +688,15 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                       );
                                     },
                                     child: Card(
-                                      margin: const EdgeInsets.all(8),
+                                      margin: const EdgeInsets.all(10),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        side: const BorderSide(
+                                          color: Colors.grey,
+                                          width: 1.0,
+                                        ),
+                                      ),
                                       child: ListTile(
                                         title: Text(blog['title']),
                                         subtitle: Text(

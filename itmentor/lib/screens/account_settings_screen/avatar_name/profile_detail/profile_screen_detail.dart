@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -157,12 +158,18 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                   children: [
                                     CircleAvatar(
                                       radius: 50,
-                                      backgroundImage: selectedImagePath !=
-                                              'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png'
-                                          ? FileImage(File(
-                                              selectedImagePath)) // Use FileImage for local file paths
-                                          : NetworkImage(avatar)
-                                              as ImageProvider, // Use NetworkImage for remote URLs
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                        selectedImagePath !=
+                                                'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png'
+                                            ? File(selectedImagePath)
+                                                .path // Use File for local file paths
+                                            : avatar == ""
+                                                ? (gender == true
+                                                    ? 'assets/images/male_avatar.jpg'
+                                                    : 'assets/images/female_avatar.png')
+                                                : avatar,
+                                      ),
                                       child: InkWell(
                                         onTap: () {
                                           _pickImage(token);
@@ -170,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
                                         customBorder: const CircleBorder(),
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    const SizedBox(height: 15),
                                     Text(
                                       name,
                                       style: const TextStyle(fontSize: 20),

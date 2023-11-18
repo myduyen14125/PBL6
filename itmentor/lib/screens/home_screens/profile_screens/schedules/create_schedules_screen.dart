@@ -109,7 +109,6 @@ class _CreateSchedulesState extends State<CreateSchedules> {
 
       final String startAt = dateFormat.format(start);
 
-      // Calculate the end time as exactly 30 minutes after the start time
       DateTime endAt = start.add(const Duration(minutes: 30));
 
       final Map<String, dynamic> requestBody = {
@@ -153,6 +152,7 @@ class _CreateSchedulesState extends State<CreateSchedules> {
                   timeInterval: Duration(minutes: 30),
                   timeFormat: 'hh:mm a',
                 ),
+                minDate: DateTime.now(),
                 onLongPress: (CalendarLongPressDetails details) {
                   if (details.targetElement == CalendarElement.calendarCell) {
                     DateTime startDate = details.date!;
@@ -282,6 +282,7 @@ class ScheduleDataSource extends CalendarDataSource {
         .map((data) => Appointment(
               startTime: DateTime.parse(data['start_at']),
               endTime: DateTime.parse(data['end_at']),
+              color: Colors.green
             ))
         .toList();
   }

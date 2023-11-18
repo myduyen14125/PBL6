@@ -3,10 +3,20 @@ import 'package:itmentor/screens/homepage_navigation_screen.dart';
 import 'package:itmentor/utils/constant.dart';
 
 class ChooseScreenCompletionScreen extends StatelessWidget {
-  final String mentorId;
-  final String scheduleId;
+  final String mentorAvatar;
+  final String mentorName;
+  final String selectedDate;
+  final int duration;
+  final String connectionChoice;
+  final String subject;
   const ChooseScreenCompletionScreen(
-      {super.key, required this.mentorId, required this.scheduleId});
+      {super.key,
+      required this.mentorAvatar,
+      required this.mentorName,
+      required this.selectedDate,
+      required this.duration,
+      required this.connectionChoice,
+      required this.subject});
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +41,9 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back),
                   ),
                   const Expanded(
-                    child: Center(
-                      child: Text(
-                        'Kết quả',
-                        style: TextStyle(fontSize: 20),
-                      ),
+                    child: Text(
+                      'Kết quả',
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ],
@@ -46,31 +54,37 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                 height: 120,
               ),
               const Text(
-                'Đặt lịch thành công',
+                'Đặt lịch hẹn thành công',
                 style: TextStyle(fontSize: 18),
               ),
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               ClipOval(
-                child: Image.asset(
-                  'assets/images/male_avatar.jpg',
-                  height: 100,
-                  width: 100,
-                ),
+                child: mentorAvatar == ""
+                    ? Image.asset(
+                        'assets/images/male_avatar.jpg',
+                        height: 100,
+                        width: 100,
+                      )
+                    : Image.network(
+                        mentorAvatar, // Assuming mentorAvatar is a URL
+                        height: 100,
+                        width: 100,
+                      ),
               ),
               const SizedBox(
                 height: 10,
               ),
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   style: TextStyle(fontSize: 16, color: Colors.black),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'Nhận cố vấn từ ',
                     ),
                     TextSpan(
-                      text: 'mentor2',
+                      text: mentorName,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.teal,
@@ -79,11 +93,20 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const Text('Nghề nghiệp'),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Chủ đề: Nghề nghiệp',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Column(
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       SizedBox(
                         width: 15,
                       ),
@@ -91,31 +114,35 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text('14:30,Chủ Nhật, 29/10/2023'),
+                      Text('$selectedDate', style: TextStyle(fontSize: 17),),
                     ],
                   ),
-                  Row(
-                    children: const [
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(Icons.timelapse),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('60 phút'),
-                    ],
+                  const SizedBox(
+                    height: 8,
                   ),
                   Row(
-                    children: const [
-                      SizedBox(
+                    children: [
+                      const SizedBox(
                         width: 15,
                       ),
-                      Icon(Icons.info),
-                      SizedBox(
+                      const Icon(Icons.timelapse),
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text('Hình thức kết nối: Google Meet'),
+                      Text('$duration phút', style: TextStyle(fontSize: 17),),
+                    ],
+                  ),
+                  const SizedBox(height: 8,),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      const Icon(Icons.info),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text('Hình thức kết nối: $connectionChoice', style: TextStyle(fontSize: 17),),
                     ],
                   ),
                 ],
@@ -157,9 +184,7 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(
-                                  height:
-                                      8), // Add vertical space between the texts
+                              const SizedBox(height: 8),
                               Text(
                                 Constants.result2,
                                 style: const TextStyle(
