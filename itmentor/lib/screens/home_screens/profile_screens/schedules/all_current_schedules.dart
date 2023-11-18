@@ -58,7 +58,6 @@ class ScheduleDataSource extends CalendarDataSource {
         .map((data) => Appointment(
               startTime: DateTime.parse(data['start_at']),
               endTime: DateTime.parse(data['end_at']),
-              subject: 'Lịch hẹn', // Customize as needed
             ))
         .toList();
   }

@@ -11,6 +11,7 @@ import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_det
 import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/bio/experiences/create_experiences.dart';
 import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/bio/experiences/edit_experiences.dart';
 import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/bio/skills/edit_skills.dart';
+import 'package:itmentor/screens/account_settings_screen/avatar_name/profile_detail/bio/skills/edit_skills_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -117,6 +118,16 @@ class _BioScreenState extends State<BioScreen> {
     });
   }
 
+  void updateSkillList(Map<String, dynamic> updatedSkill) {
+    setState(() {
+      final index =
+          widget.skills.indexWhere((exp) => exp['_id'] == updatedSkill['_id']);
+      if (index != -1) {
+        widget.skills[index] = updatedSkill;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -202,6 +213,8 @@ class _BioScreenState extends State<BioScreen> {
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
+                    // Add a highlighted border color
+                    side: BorderSide(color: Colors.blue, width: 2.0),
                   ),
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -224,6 +237,7 @@ class _BioScreenState extends State<BioScreen> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 5,),
                         Text(
                           experience['company'],
                           style: const TextStyle(
@@ -321,6 +335,8 @@ class _BioScreenState extends State<BioScreen> {
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
+                    // Add a highlighted border color
+                    side: BorderSide(color: Colors.green, width: 2.0),
                   ),
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -343,6 +359,7 @@ class _BioScreenState extends State<BioScreen> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 5,),
                         Text(
                           education['major'],
                           style: const TextStyle(
@@ -438,6 +455,8 @@ class _BioScreenState extends State<BioScreen> {
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
+                    // Add a highlighted border color
+                    side: BorderSide(color: Colors.teal, width: 2.0),
                   ),
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   child: ListTile(
@@ -459,6 +478,7 @@ class _BioScreenState extends State<BioScreen> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 5,),
                         Text(
                           'Description: ${award['description']}',
                           style: TextStyle(
@@ -520,7 +540,10 @@ class _BioScreenState extends State<BioScreen> {
                         },
                       ),
                       IconButton(
-                        icon: const Icon(Icons.edit),
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
                         onPressed: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: ((context) {
@@ -549,6 +572,8 @@ class _BioScreenState extends State<BioScreen> {
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
+                    // Add a highlighted border color
+                    side: BorderSide(color: Colors.amber, width: 2.0),
                   ),
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -574,11 +599,20 @@ class _BioScreenState extends State<BioScreen> {
                         color: Colors.grey,
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: ((context) {
+                        return EditSkillDetail(
+                          skills: skill,
+                          token: widget.token,
+                          onSkillUpdate: updateSkillList,
+                        );
+                      })));
+                    },
                   ),
                 );
               },
-            )
+            ),
           ],
         ),
       ),

@@ -75,34 +75,34 @@ class _CourseListScreenState extends State<CourseListScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 100,
-                height: 50.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0),
-                  child: Card(
-                    child: DropdownButton<String>(
-                      value: selectedValue3,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedValue3 = newValue!;
-                        });
-                      },
-                      items: <String>[
-                        'Đánh giá',
-                        'Option b',
-                        'Option C',
-                        'Option D'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   width: 100,
+              //   height: 50.0,
+              //   child: ClipRRect(
+              //     borderRadius: BorderRadius.circular(100.0),
+              //     child: Card(
+              //       child: DropdownButton<String>(
+              //         value: selectedValue3,
+              //         onChanged: (newValue) {
+              //           setState(() {
+              //             selectedValue3 = newValue!;
+              //           });
+              //         },
+              //         items: <String>[
+              //           'Đánh giá',
+              //           'Option b',
+              //           'Option C',
+              //           'Option D'
+              //         ].map<DropdownMenuItem<String>>((String value) {
+              //           return DropdownMenuItem<String>(
+              //             value: value,
+              //             child: Text(value),
+              //           );
+              //         }).toList(),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           // call api get all course

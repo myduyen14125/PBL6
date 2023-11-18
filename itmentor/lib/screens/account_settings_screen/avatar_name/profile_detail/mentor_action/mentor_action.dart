@@ -8,7 +8,9 @@ import 'package:itmentor/services/auth_services.dart';
 class MentorAction extends StatelessWidget {
   final String token;
   final String mentorId;
-  MentorAction({super.key, required this.mentorId, required this.token});
+
+  MentorAction({Key? key, required this.mentorId, required this.token})
+      : super(key: key);
 
   final AuthServices authServices = AuthServices();
 
@@ -16,7 +18,7 @@ class MentorAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GestureDetector(
+        _buildActionCard(
           onTap: () {
             Navigator.push(
               context,
@@ -25,28 +27,12 @@ class MentorAction extends StatelessWidget {
               ),
             );
           },
-          child: const Card(
-            elevation: 3,
-            margin: EdgeInsets.only(left: 10, right: 10),
-            color: Color(0xFF009688), // Teal color
-            child: ListTile(
-              leading: Icon(
-                Icons.schedule,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Tạo lịch rảnh',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          icon: Icons.schedule,
+          title: 'Tạo lịch rảnh',
+          color: Color(0xFF009688),
         ),
         const SizedBox(height: 10),
-        GestureDetector(
+        _buildActionCard(
           onTap: () {
             Navigator.push(
               context,
@@ -55,27 +41,11 @@ class MentorAction extends StatelessWidget {
               ),
             );
           },
-          child: const Card(
-            elevation: 3,
-            margin: EdgeInsets.only(left: 10, right: 10),
-            color: Color(0xFFF57C00), // Orange color
-            child: ListTile(
-              leading: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Tạo blog',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          icon: Icons.edit,
+          title: 'Tạo blog',
+          color: Color(0xFFF57C00),
         ),
-        GestureDetector(
+        _buildActionCard(
           onTap: () async {
             String? token = await authServices.getToken();
             Navigator.push(
@@ -88,56 +58,45 @@ class MentorAction extends StatelessWidget {
               ),
             );
           },
-          child: const Card(
-            elevation: 3,
-            margin: EdgeInsets.only(left: 10, right: 10),
-            color: Color(0xFF8E44AD), // Purple color
-            child: ListTile(
-              leading: Icon(
-                Icons.library_books,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Xem blogs đã viết',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          icon: Icons.library_books,
+          title: 'Xem blogs đã viết',
+          color: Color(0xFF8E44AD),
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AllCurrentSchedules(token: token),
-              ),
-            );
-          },
-          child: const Card(
-            elevation: 3,
-            margin: EdgeInsets.only(left: 10, right: 10),
-            color: Color(0xFFE74C3C),
-            child: ListTile(
-              leading: Icon(
-                Icons.event,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Xem lịch đã tạo',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ),
+        const SizedBox(height: 20),
       ],
+    );
+  }
+
+  Widget _buildActionCard({
+    required VoidCallback onTap,
+    required IconData icon,
+    required String title,
+    required Color color,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 3,
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: Colors.white,
+          ),
+          title: Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

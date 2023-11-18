@@ -32,6 +32,7 @@ class _EditAwardsDetailState extends State<EditAwardsDetail> {
   @override
   void initState() {
     super.initState();
+    print(widget.awards);
     nameController.text = widget.awards['name'];
     descriptionController.text = widget.awards['description'];
     startDate = formatDateString(widget.awards['date']);
@@ -71,14 +72,11 @@ class _EditAwardsDetailState extends State<EditAwardsDetail> {
         "description": descriptionController.text,
       });
       showSnackBar(context, 'Cập nhật giải thưởng thành công');
-      widget.onUpdateAward({});
       Navigator.of(context).pop();
     } else {
       print('Failed to update awards data: ${response.statusCode}');
     }
   }
-
-  
 
   String formatDate(DateTime date) {
     return DateFormat('yyyy-MM-dd').format(date);

@@ -29,6 +29,7 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
       setState(() {
         allMentors.addAll(mentorsData);
         isFirstLoad = false;
+        print(allMentors);
       });
     });
   }
@@ -98,7 +99,6 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                           itemBuilder: (context, index) {
                             final mentor = allMentors[index];
                             final avatar = mentor['avatar'];
-                            final gender = mentor['gender'];
                             return InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -107,7 +107,6 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                     builder: (context) => MentorProfileDetail(
                                       id: mentor['_id'],
                                       avatar: avatar,
-                                      gender: gender,
                                     ),
                                   ),
                                 );
@@ -120,29 +119,86 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.all(16),
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      backgroundImage: avatar != ""
-                                          ? NetworkImage(avatar as String)
-                                              as ImageProvider
-                                          : gender == true
-                                              ? const AssetImage(
-                                                  'assets/images/male_avatar.jpg')
-                                              : const AssetImage(
-                                                  'assets/images/female_avatar.png'),
-                                    ),
-                                    title: Text(
-                                      mentor['name'] ?? mentor['email'],
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                  child: Container(
+                                    constraints: BoxConstraints(maxHeight: double.infinity),
+                                    child: ListTile(
+                                      contentPadding: const EdgeInsets.all(16),
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        backgroundImage: avatar != ""
+                                            ? NetworkImage(avatar as String)
+                                                as ImageProvider
+                                            : const AssetImage(
+                                                'assets/images/blank_avatar.png'),
                                       ),
-                                    ),
-                                    subtitle: Text(
-                                      mentor['email'],
-                                      style: const TextStyle(fontSize: 14),
+                                      title: Text(
+                                        mentor['name'] ?? mentor['email'],
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.email,
+                                                color: Colors.grey,
+                                              ),
+                                              const SizedBox(width: 10,),
+                                              Flexible(
+                                                child: Text(
+                                                  'Email: ${mentor['email']}',
+                                                  style:
+                                                      const TextStyle(fontSize: 14),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.hotel_class_rounded,
+                                                color: Colors.teal[300],
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                'Chuyên môn: ${mentor['expertise']['name']}',
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.people,
+                                                color: Colors.purple,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                'Số lượng mentee: ${mentor['number_of_mentees']}',
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   )),
                             );

@@ -32,13 +32,12 @@ class _CreateBlogState extends State<CreateBlog> {
     final response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 201) {
-      // Blog post created successfully
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Blog post created successfully'),
+            title: const Text('Thành công'),
+            content: const Text('Đã tạo blog'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -60,8 +59,8 @@ class _CreateBlogState extends State<CreateBlog> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Error'),
-            content: const Text('Failed to create the blog post'),
+            title: const Text('Lỗi'),
+            content: const Text('Không thể tạo bài viết'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -81,7 +80,13 @@ class _CreateBlogState extends State<CreateBlog> {
     final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Blog Post'),
+        backgroundColor: Color.fromARGB(255, 63, 143, 125),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Tạo bài viết',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -89,11 +94,11 @@ class _CreateBlogState extends State<CreateBlog> {
           children: [
             TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Tên bài viết'),
             ),
             TextFormField(
               controller: _contentController,
-              decoration: const InputDecoration(labelText: 'Content'),
+              decoration: const InputDecoration(labelText: 'Nội dung'),
             ),
             const SizedBox(
               height: 20.0,
@@ -102,7 +107,13 @@ class _CreateBlogState extends State<CreateBlog> {
               onPressed: () {
                 createBlog();
               },
-              child: const Text('Create Blog'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 63, 143, 125),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+              ),
+              child: const Text('Tạo bài viết'),
             ),
           ],
         ),
