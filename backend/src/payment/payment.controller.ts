@@ -1,6 +1,7 @@
-import { Body, Controller, Post, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Post, Req, UseGuards, ValidationPipe } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
-import { PaymentDto } from "./payment.dto";
+import { PaymentDto, RequestPaymentDto } from "./payment.dto";
+import { AuthGuard } from "@nestjs/passport";
 
 
 @Controller('payment')
@@ -8,8 +9,14 @@ export class PaymentController {
     constructor(private readonly paymentService: PaymentService) { }
 
     @Post()
-    async makePayment(@Body(new ValidationPipe()) payment: PaymentDto) {
-        return this.paymentService.makePayment(payment);
+    @UseGuards(AuthGuard("jwt"))
+    async makePayment(@Req() req: any, @Body(new ValidationPipe()) requestPayment: RequestPaymentDto) {
+        return this.paymentService.makePayment(req.user, requestPayment);
+    }
+
+    @Post('/ipn')
+    async handlePostPayment(@Body() ipnData: any) {
+        return this.paymentService.handlePostPayment(ipnData)
     }
     @Post('test')
     handleIPN(@Body() ipnData: any) {

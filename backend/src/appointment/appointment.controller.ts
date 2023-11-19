@@ -5,9 +5,7 @@ import { AppointmentService } from './appointment.service';
 import { Role } from 'src/auth/role.decorator';
 import { RoleGuard } from 'src/auth/role.guard';
 
-
-
-@Controller('appointment')
+ @Controller('appointment')
 export class AppointmentController {
     constructor(private readonly appointmentService: AppointmentService) { }
 

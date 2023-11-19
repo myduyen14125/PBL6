@@ -185,10 +185,10 @@ export class UserService {
         return await this.scheduleService.getAllSchedulesByUserId(id)
     }
 
-    async getAllCoursesByCreatorId(id: string) {
+    async getAllCoursesByCreatorId(id: string, page: number, limit: number = 10) {
         const user = await this.userRepository.findById(id)
         if (user.role === "mentee") return
-        return await this.courseService.getAllCoursesByCreatorId(id)
+        return await this.courseService.getAllCoursesByCreatorId(id, page, limit)
     }
 
     async getAllRatingsByUserId(id: string, page: number, limit: number) {

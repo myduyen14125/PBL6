@@ -17,78 +17,245 @@ export class CourseService {
         return await this.courseRepository.create(courseDto)
     }
 
-    async getAllCourses() {
-        const courses = await this.courseRepository.getByCondition({
-
-        },
-            null,
+    async getAllCourses(page: number, limit: number = 10) {
+        const count = await this.courseRepository.countDocuments({})
+        const countPage = Math.ceil(count / limit)
+        const skip = (page - 1) * limit || 0
+        const courses = await this.courseRepository.aggregate([
             {
-                sort: {
-                    _id: -1,
-                },
+                $lookup: {
+                    from: 'users',
+                    localField: 'creator',
+                    foreignField: '_id',
+                    as: 'creator'
+                }
+            }, 
+            {
+                $unwind: '$creator'
             },
             {
-                path: 'creator',
-                select: 'name avatar expertise',
-                populate: {
-                    path: 'expertise',
-                    select: 'name',
+                $skip: skip
+            },
+            {
+                $limit: Number(limit)
+            },
+            {
+                $lookup: {
+                    from: 'expertises', 
+                    localField: 'creator.expertise',
+                    foreignField: '_id',
+                    as: 'creator.expertise'
                 }
-            }
-        );
+            },
+            {
+                $unwind: '$creator.expertise'
+            },
+            {
+                $lookup: {
+                    from: 'lessons', 
+                    localField: '_id',
+                    foreignField: 'course',
+                    as: 'lessons'
+                }
+            },
+            {
+                $unwind: '$lessons'
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    title: { $first: '$title' },
+                    lesson_count: { $sum: 1 },
+                    description: { $first: '$description' },
+                    price: { $first: '$price' },
+                    user_count: { $first: { $size: '$users' } },
+                    image: { $first: '$image' },
+                    creator: {
+                        $first: {
+                            name: '$creator.name',
+                            avatar: '$creator.avatar',
+                            expertise: {
+                                name: '$creator.expertise.name'
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    title: 1,
+                    lesson_count: 1,
+                    description: 1,
+                    price: 1,
+                    user_count: 1,
+                    image: 1,
+                    creator: 1
+                }
+            },
+        ])    
 
-        const result = courses.map(course => {
-            const { users, ...courseWithoutUsers } = course.toObject();
-            courseWithoutUsers.users_count = course.users.length;
-            return courseWithoutUsers;
-        });
-
-        return result;
+        return {
+            count, countPage, courses
+        }
     }
 
     async getCourseById(id: string) {
-        const course = await this.courseRepository.findById(id);
-        if (!course) {
-            throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);
-        }
-
-        const lessons = await this.lessonService.getLessonsByCourseId(course.id);
-        const courseObject = course.toObject ? course.toObject() : course;
-        const result = {
-            ...courseObject,
-            lessons: lessons
-        };
-        return result
+        const courseCheck = await this.courseRepository.findById(id);
+        if (!courseCheck) { throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);}
+        var mongoose = require('mongoose');
+        return await this.courseRepository.aggregate([
+            {
+                $match: {_id: new mongoose.Types.ObjectId(id)}
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'creator',
+                    foreignField: '_id',
+                    as: 'creator'
+                }
+            }, 
+            {
+                $unwind: '$creator'
+            },
+            {
+                $lookup: {
+                    from: 'expertises', 
+                    localField: 'creator.expertise',
+                    foreignField: '_id',
+                    as: 'creator.expertise'
+                }
+            },
+            {
+                $unwind: '$creator.expertise'
+            },
+            {
+                $lookup: {
+                    from: 'lessons', 
+                    localField: '_id',
+                    foreignField: 'course',
+                    as: 'lessons'
+                }
+            },
+            {
+                $unwind: '$lessons'
+            },
+            {
+                $project: {
+                    _id: 1,
+                    lessons: {
+                        _id: '$lessons._id',
+                        title: '$lessons.title',
+                        description: '$lessons.description',
+                        image: '$lessons.image',
+                        archived: '$lessons.archived',
+                        order: '$lessons.order',
+                    },
+                    title: '$title',
+                    description: '$description',
+                    price: '$price',
+                    user_count: { $size: '$users' },
+                    image: '$image',
+                    creator: {
+                        name: '$creator.name',
+                        avatar: '$creator.avatar',
+                        expertise: {
+                            name: '$creator.expertise.name'
+                        }
+                    }
+                }
+            },
+            {
+                $sort: { 'lessons.order': 1 }
+            }
+        ])   
     }
 
-
-    async getAllCoursesByCreatorId(id: string) {
-        const courses = await this.courseRepository.getByCondition(
+    async getAllCoursesByCreatorId(id: string, page: number, limit: number = 10) {
+        const count = await this.courseRepository.countDocuments({})
+        const countPage = Math.ceil(count / limit)
+        const skip = (page - 1) * limit || 0
+        const courses = await this.courseRepository.aggregate([
             {
-                creator: id
-            },
-            null,
-            {
-                sort: {
-                    _id: -1,
-                },
+                $match: {creator: id}
             },
             {
-                path: 'creator',
-                select: 'name avatar expertise',
-                populate: {
-                    path: 'expertise',
-                    select: 'name',
+                $lookup: {
+                    from: 'users',
+                    localField: 'creator',
+                    foreignField: '_id',
+                    as: 'creator'
                 }
-            }
-        );
-        const result = courses.map(course => {
-            const { users, ...courseWithoutUsers } = course.toObject();
-            courseWithoutUsers.users_count = course.users.length;
-            return courseWithoutUsers;
-        });
+            }, 
+            {
+                $unwind: '$creator'
+            },
+            {
+                $skip: skip
+            },
+            {
+                $limit: Number(limit)
+            },
+            {
+                $lookup: {
+                    from: 'expertises', 
+                    localField: 'creator.expertise',
+                    foreignField: '_id',
+                    as: 'creator.expertise'
+                }
+            },
+            {
+                $unwind: '$creator.expertise'
+            },
+            {
+                $lookup: {
+                    from: 'lessons', 
+                    localField: '_id',
+                    foreignField: 'course',
+                    as: 'lessons'
+                }
+            },
+            {
+                $unwind: '$lessons'
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    title: { $first: '$title' },
+                    lesson_count: { $sum: 1 },
+                    description: { $first: '$description' },
+                    price: { $first: '$price' },
+                    user_count: { $first: { $size: '$users' } },
+                    image: { $first: '$image' },
+                    creator: {
+                        $first: {
+                            name: '$creator.name',
+                            avatar: '$creator.avatar',
+                            expertise: {
+                                name: '$creator.expertise.name'
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    title: 1,
+                    lesson_count: 1,
+                    description: 1,
+                    price: 1,
+                    user_count: 1,
+                    image: 1,
+                    creator: 1
+                }
+            },
+        ])    
 
-        return result;
+        return {
+            count, countPage, courses
+        }
     }
 
     async deleteCourse(user: User, id: string) {
@@ -111,10 +278,6 @@ export class CourseService {
         }
 
         // cant join twice
-        // console.log(course.users);
-        // console.log(user);
-
-
         if (course.users.includes(user.id)) {
             throw new HttpException('Already registered in current course', HttpStatus.BAD_REQUEST);
         }
@@ -124,7 +287,6 @@ export class CourseService {
                 users: user.id,
             },
         },)
-        // return null
     }
 
     async checkOwnership(user: User, id: string) {
@@ -179,4 +341,9 @@ export class CourseService {
         return await this.courseRepository.findByIdAndUpdate(id, course)
     }
 
+    async getCoursePriceAndDiscountById(id: string) {
+        const course = await this.courseRepository.findById(id);
+        if (!course) { throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);}
+        return course
+    }
 } 
