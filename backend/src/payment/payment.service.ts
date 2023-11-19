@@ -102,6 +102,7 @@ export class PaymentService {
     }
 
     async handlePostPayment(ipnData: any) {
+        console.log(ipnData);
         if(ipnData.resultCode !== '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
         const accessKey = process.env.ACCESS_KEY;
         const secretKey = process.env.SECRET_KEY;
@@ -119,6 +120,9 @@ export class PaymentService {
         const match = ipnData.extraData.match(regex);
         const user = match[1];
         const course = match[2];
+        console.log(user);
+        console.log(course);
+        
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
     }
