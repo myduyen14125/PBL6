@@ -26,6 +26,7 @@ export class PaymentService {
         var signature = crypto.createHmac('sha256', secretKey)
             .update(rawSignature)
             .digest('hex');
+        console.log(signature);
         // console.log("--------------------SIGNATURE----------------")
         const requestBody = JSON.stringify({
             partnerCode: partnerCode,
