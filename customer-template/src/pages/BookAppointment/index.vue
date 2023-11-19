@@ -1,7 +1,7 @@
 <template>
   <GuestLayout>
     <div class="appointment-wrapper">
-      <div class="container flex flex-col py-14 text-lg min-h-[92vh]">
+      <div class="container flex flex-col py-14 text-lg max-h-[92vh]">
         <el-steps :active="activeStep" align-center>
           <el-step title="Chọn thời gian" />
           <el-step title="Xác nhận" />
@@ -11,7 +11,7 @@
           <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
 
-        <div v-else-if="activeStep === 1" class="mt-3 text-xl mb-4">
+        <div v-else-if="activeStep === 1" class="mt-3 text-xl mb-4 h-[72vh]">
           <AppointmentDetail
             :userInfo="userInfo"
             :selectedSchedule="selectedSchedule"
@@ -258,6 +258,6 @@ export default {
 
 <style scoped lang="css">
 .full-calendar {
-  height: 100%;
+  height: 70vh;
 }
 </style>

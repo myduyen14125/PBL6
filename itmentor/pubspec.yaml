@@ -46,10 +46,11 @@ dependencies:
   fluttertoast: ^8.2.2
   table_calendar: ^3.0.9
   flutter_event_calendar: ^1.0.0
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
   flutter_widget_from_html: ^0.9.1
   syncfusion_flutter_calendar: ^23.1.43
   date_picker_timeline: ^1.2.5
+  url_launcher: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
     - assets/images/mobile.png
     - assets/images/female_avatar.png
     - assets/images/male_avatar.jpg
+    - assets/images/blank_avatar.png
   #   - images/a_dot_ham.jpeg
     - assets/icons/ai_icon.png
     - assets/icons/big_data_icon.png

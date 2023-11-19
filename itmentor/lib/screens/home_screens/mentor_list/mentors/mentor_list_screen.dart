@@ -21,6 +21,7 @@ class _MentorListScreenState extends State<MentorListScreen> {
   void initState() {
     super.initState();
     mentors = authServices.fetchMentors();
+    print("mentor list screen: $mentors");
   }
 
   @override
@@ -33,9 +34,9 @@ class _MentorListScreenState extends State<MentorListScreen> {
               future: mentors,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Text('Lỗi: ${snapshot.error}');
                 } else {
                   List<dynamic>? mentorData = snapshot.data;
                   int itemCount =
@@ -47,7 +48,6 @@ class _MentorListScreenState extends State<MentorListScreen> {
                     itemBuilder: (context, index) {
                       final mentor = mentorData[index];
                       final avatar = mentor['avatar'];
-                      final gender = mentor['gender'];
                       return Card(
                         elevation: 4,
                         shape: RoundedRectangleBorder(
@@ -61,7 +61,6 @@ class _MentorListScreenState extends State<MentorListScreen> {
                                 builder: (context) => MentorProfileDetail(
                                   id: mentor['_id'],
                                   avatar: avatar,
-                                  gender: gender,
                                 ),
                               ),
                             );
@@ -71,11 +70,8 @@ class _MentorListScreenState extends State<MentorListScreen> {
                             backgroundImage: avatar != ""
                                 ? NetworkImage(avatar as String)
                                     as ImageProvider
-                                : gender == true
-                                    ? const AssetImage(
-                                        'assets/images/male_avatar.jpg')
-                                    : const AssetImage(
-                                        'assets/images/female_avatar.png'),
+                                : const AssetImage(
+                                    'assets/images/blank_avatar.png'),
                           ),
                           title: Text('${mentor['name']}'),
                           subtitle: Row(

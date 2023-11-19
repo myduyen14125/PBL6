@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CustomAppointment extends Appointment {
@@ -7,5 +8,6 @@ class CustomAppointment extends Appointment {
     required this.id,
     required DateTime startTime,
     required DateTime endTime,
-  }) : super(startTime: startTime, endTime: endTime);
+    required Color color
+  }) : super(startTime: startTime, endTime: endTime, color: Colors.green);
 }

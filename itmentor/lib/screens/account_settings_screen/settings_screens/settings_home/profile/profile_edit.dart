@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:itmentor/models/user.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -9,7 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileEdit extends StatefulWidget {
-  const ProfileEdit({super.key});
+  final String dateOfBirth;
+  const ProfileEdit({super.key, required this.dateOfBirth});
 
   @override
   State<ProfileEdit> createState() => _ProfileEditState();
@@ -19,12 +21,13 @@ class _ProfileEditState extends State<ProfileEdit> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController facebookController = TextEditingController();
   final TextEditingController skypeController = TextEditingController();
   final TextEditingController meetingController = TextEditingController();
+
+  String updatedDateOfBirth = '';
 
   String? token = '';
 
@@ -59,13 +62,25 @@ class _ProfileEditState extends State<ProfileEdit> {
   }
 
   void setData(User user) {
+    DateTime originalDateTime = DateTime.parse(user.dateOfBirth);
+
+    String formattedDateString =
+        DateFormat('dd/MM/yyyy').format(originalDateTime);
     setState(() {
       nameController.text = user.name;
       emailController.text = user.email;
       phoneController.text = user.phone;
-      dateOfBirthController.text = user.dateOfBirth;
+      // dateOfBirthController.text =
+      //     formattedDateString; // Use the same format as the date picker
+      // selectedDateString = form
       genderController.text = user.gender == true ? "Nam" : "Nữ";
+      facebookController.text = user.facebookLink;
+      skypeController.text = user.skypeLink;
     });
+  }
+
+  String formatUserDateOfBirth(String dateOfBirth) {
+    return DateFormat('yyyy-MM-dd').format(DateTime.parse(dateOfBirth));
   }
 
   Future<void> updateUserData(User user, BuildContext ctx) async {
@@ -74,10 +89,12 @@ class _ProfileEditState extends State<ProfileEdit> {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
+    // final dateOfBirth = formatUserDateOfBirth(dateOfBirthController.text);
     final body = jsonEncode({
       'name': nameController.text,
       'email': emailController.text,
       'phone': phoneController.text,
+      'date_of_birth': selectedDateString,
       'gender': genderController.text == "Nam" ? true : false,
     });
 
@@ -97,9 +114,11 @@ class _ProfileEditState extends State<ProfileEdit> {
         user.email = emailController.text;
         user.phone = phoneController.text;
         user.gender = genderController.text == "Nam" ? true : false;
+        user.facebookLink = facebookController.text;
+        user.skypeLink = skypeController.text;
+        user.dateOfBirth = selectedDateString;
         print('updated: ${user.name}');
 
-        // Update the UserProvider
         Provider.of<UserProvider>(ctx, listen: false).updateUser(user);
       } else {
         print(
@@ -107,6 +126,25 @@ class _ProfileEditState extends State<ProfileEdit> {
       }
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  DateTime selectedDate = DateTime.now();
+  String selectedDateString = '';
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        selectedDateString = picked.toLocal().toString();
+      });
     }
   }
 
@@ -137,12 +175,33 @@ class _ProfileEditState extends State<ProfileEdit> {
               _buildTextFormField('Họ và tên', nameController),
               _buildTextFormField('Email', emailController),
               _buildTextFormField('Số điện thoại', phoneController),
-              _buildTextFormField('Địa chỉ', addressController),
-              _buildTextFormField('Ngày sinh', dateOfBirthController),
+              // // _buildTextFormField('Ngày sinh', dateOfBirthController),
+              // _buildDateOfBirthPicker(
+              //     'Ngày sinh', dateOfBirthController, context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Ngày sinh: ',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '${widget.dateOfBirth}'.split(' ')[0],
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => _selectDate(context),
+                    child: Text('Chọn ngày'),
+                  ),
+                ],
+              ),
               _buildTextFormField('Giới tính', genderController),
               _buildTextFormField('Facebook', facebookController),
               _buildTextFormField('Skype', skypeController),
-              _buildTextFormField('Google meet', meetingController),
               Center(
                 child: SizedBox(
                   width: 130,

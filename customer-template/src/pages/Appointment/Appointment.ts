@@ -5,6 +5,7 @@ import { useAppointment } from "../../stores/appointment";
 import SwalPopup from "../../ultils/swalPopup";
 import { Appointment } from "../../types/appointment";
 import ConfirmModal from "../../components/AppointmentCard/ConfirmModal/ConfirmModal.vue";
+import { GetPaginationParams } from "../../types/mentor";
 
 interface AllAppointment {
   pending: Appointment[];
@@ -27,6 +28,15 @@ export default defineComponent({
       finished: [],
     });
     const selectedAppointment = ref();
+    const totalPage = ref(0);
+    const paging = ref(0);
+    const pagination = ref({
+      page: 1,
+      limit: 6,
+      countPage: 0,
+      count: 0
+    })
+
     const handleClick = (tab: any, event: any) => {
       // console.log(tab, event);
     };
@@ -49,9 +59,16 @@ export default defineComponent({
       resetAppointments();
       isLoadingAppointment.value = true;
       appointmentsStore.requestGetAllUserAppointment({
+        params: {
+          page: pagination.value.page,
+          limit: pagination.value.limit,
+        } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {
-            res.map((appointment: Appointment) => {
+            console.log(res)
+            pagination.value.count = res.count;
+            pagination.value.countPage = res.countPage;
+            res.appointments.map((appointment: Appointment) => {
               if (appointment?.status == "pending") {
                 appointments.value.pending.push(appointment);
               } else if (appointment?.status == "confirmed") {
@@ -95,6 +112,7 @@ export default defineComponent({
       getAllUserAppointment,
       onChangeAppointmentStatus,
       showAppointmentDetail,
+      pagination
     };
   },
 });

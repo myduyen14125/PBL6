@@ -99,7 +99,7 @@ class _CreateAwardsScreenState extends State<CreateSkills> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
-              child: const Text('Thêm giải thưởng'),
+              child: const Text('Thêm kĩ năng'),
             ),
           ],
         ),

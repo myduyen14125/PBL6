@@ -18,6 +18,10 @@ export class PaymentController {
     async handlePostPayment(@Body() ipnData: any) {
         return this.paymentService.handlePostPayment(ipnData)
     }
-
+    @Post('test')
+    handleIPN(@Body() ipnData: any) {
+        console.log('Received IPN:', ipnData);
+        return 'OK';
+    }
 
 }
