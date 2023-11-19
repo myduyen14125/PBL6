@@ -29,7 +29,7 @@ export class PaymentService {
         const ipnUrl = process.env.IPN_URL
         var amount = course.price.toString();
         var requestType = "payWithATM"
-        var extraData = "user:" + user.id + "course:" + course.id;
+        var extraData = "";
         var rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
         // console.log("--------------------RAW SIGNATURE----------------")
         const crypto = require('crypto');
