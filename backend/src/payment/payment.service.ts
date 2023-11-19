@@ -36,7 +36,7 @@ export class PaymentService {
         var signature = crypto.createHmac('sha256', secretKey)
             .update(rawSignature)
             .digest('hex');
-        console.log(signature);
+        Logger.log(signature);
 
         // Add to database
         // const paymentDto = new PaymentDto
