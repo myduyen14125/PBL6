@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable, Logger, forwardRef } from "@nestjs/common";
 import { PaymentDto, RequestPaymentDto } from "./payment.dto";
 import { PaymentRepository } from './payment.repository';
 import { CourseService } from "src/course/services/course.service";
@@ -103,25 +103,28 @@ export class PaymentService {
 
     async handlePostPayment(ipnData: any) {
         console.log(ipnData);
-        if(ipnData.resultCode !== '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
+        // if(ipnData.resultCode !== '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
         const accessKey = process.env.ACCESS_KEY;
         const secretKey = process.env.SECRET_KEY;
         const redirectUrl = process.env.REDIRECT_URL;
         const ipnUrl = process.env.IPN_URL
-        var rawSignature = "accessKey=" + accessKey + "&amount=" + ipnData.amount + "&extraData=" + ipnData.extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + ipnData.orderId + "&orderInfo=" + ipnData.orderInfo + "&partnerCode=" + ipnData.partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + ipnData.requestId + "&requestType=" + ipnData.requestType
+        var requestType = "payWithATM"
+
+        var rawSignature = "accessKey=" + accessKey + "&amount=" + ipnData.amount + "&extraData=" + ipnData.extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + ipnData.orderId + "&orderInfo=" + ipnData.orderInfo + "&partnerCode=" + ipnData.partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + ipnData.requestId + "&requestType=" + requestType
         const crypto = require('crypto');
         var signature = crypto.createHmac('sha256', secretKey)
             .update(rawSignature)
             .digest('hex');
-        console.log(signature);
+        Logger.log(signature);
+        Logger.log(ipnData.signature);
 
-        if(rawSignature !== ipnData.signature) throw new HttpException('Unmatching signature', HttpStatus.BAD_REQUEST);
-        const regex = /user:([^c]+)course:([^c]+)/;
+        if(signature !== ipnData.signature) throw new HttpException('Unmatching signature', HttpStatus.BAD_REQUEST);
+        const regex = /user%3A([^%]+)course%3A([^%]+)/;
         const match = ipnData.extraData.match(regex);
         const user = match[1];
         const course = match[2];
-        console.log(user);
-        console.log(course);
+        Logger.log(user);
+        Logger.log(course);
         
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
