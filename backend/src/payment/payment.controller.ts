@@ -11,6 +11,10 @@ export class PaymentController {
     async makePayment(@Body(new ValidationPipe()) payment: PaymentDto) {
         return this.paymentService.makePayment(payment);
     }
-
+    @Post('test')
+    handleIPN(@Body() ipnData: any) {
+        console.log('Received IPN:', ipnData);
+        return 'OK';
+    }
 
 }
