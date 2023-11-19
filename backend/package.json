@@ -46,7 +46,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "socket.io": "^4.7.2",
-    "unidecode": "^0.1.8"
+    "unidecode": "^0.1.8",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.18",

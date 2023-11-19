@@ -1,31 +1,56 @@
-import { Injectable } from "@nestjs/common";
-import { PaymentDto } from "./payment.dto";
+import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from "@nestjs/common";
+import { PaymentDto, RequestPaymentDto } from "./payment.dto";
+import { PaymentRepository } from './payment.repository';
+import { CourseService } from "src/course/services/course.service";
+import { v4 as uuidv4 } from 'uuid';
+import { User } from "src/user/user.model";
+
 
 @Injectable()
 export class PaymentService {
     constructor(
-
+        // private readonly paymentRepository: PaymentRepository,
+        @Inject(forwardRef(() => CourseService)) private readonly courseService: CourseService,
     ) { }
 
-    async makePayment(payment: PaymentDto) {
+    async makePayment(user: User, requestDto: RequestPaymentDto) {
+
+        const course = await this.courseService.getCoursePriceAndDiscountById(requestDto.course)
+        
+        const newUuid1: string = uuidv4();
+        const newUuid2: string = uuidv4();
         const partnerCode = process.env.PARTNER_CODE;
         const accessKey = process.env.ACCESS_KEY;
         const secretKey = process.env.SECRET_KEY;
-        var requestId = partnerCode + new Date().getTime();
-        var orderId = requestId;
+        var requestId = newUuid1.replace(/-/g, '');
+        var orderId = newUuid2.replace(/-/g, '');
         var orderInfo = "pay with MoMo";
         const redirectUrl = process.env.REDIRECT_URL;
-        const ipnUrl = process.env.IPN_URL;
-        // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
-        var amount = payment.amount.toString();
+        const ipnUrl = process.env.IPN_URL
+        var amount = course.price.toString();
         var requestType = "payWithATM"
-        var extraData = "";
+        var extraData = "user:" + user.id + "course:" + course.id;
         var rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
         // console.log("--------------------RAW SIGNATURE----------------")
         const crypto = require('crypto');
         var signature = crypto.createHmac('sha256', secretKey)
             .update(rawSignature)
             .digest('hex');
+        console.log(signature);
+
+        // Add to database
+        // const paymentDto = new PaymentDto
+        // paymentDto.partnerCode = partnerCode
+        // paymentDto.amount = amount
+        // paymentDto.requestId = requestId
+        // paymentDto.orderId = orderId
+        // paymentDto.orderInfo = orderInfo
+        // paymentDto.requestType = requestType
+        // paymentDto.extraData = extraData
+        // paymentDto.signature = signature
+        // paymentDto.user = user.id
+        // await this.paymentRepository.create(paymentDto)
+        
         // console.log("--------------------SIGNATURE----------------")
         const requestBody = JSON.stringify({
             partnerCode: partnerCode,
@@ -74,5 +99,27 @@ export class PaymentService {
             req.write(requestBody);
             req.end();
         });
+    }
+
+    async handlePostPayment(ipnData: any) {
+        if(ipnData.resultCode !== '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
+        const accessKey = process.env.ACCESS_KEY;
+        const secretKey = process.env.SECRET_KEY;
+        const redirectUrl = process.env.REDIRECT_URL;
+        const ipnUrl = process.env.IPN_URL
+        var rawSignature = "accessKey=" + accessKey + "&amount=" + ipnData.amount + "&extraData=" + ipnData.extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + ipnData.orderId + "&orderInfo=" + ipnData.orderInfo + "&partnerCode=" + ipnData.partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + ipnData.requestId + "&requestType=" + ipnData.requestType
+        const crypto = require('crypto');
+        var signature = crypto.createHmac('sha256', secretKey)
+            .update(rawSignature)
+            .digest('hex');
+        console.log(signature);
+
+        if(rawSignature !== ipnData.signature) throw new HttpException('Unmatching signature', HttpStatus.BAD_REQUEST);
+        const regex = /user%3A([^%]+)course%3A([^%]+)/;
+        const match = ipnData.extraData.match(regex);
+        const user = match[1];
+        const course = match[2];
+        await this.courseService.registerCourse(user, course)
+        return "Purchase Complete"
     }
 } 

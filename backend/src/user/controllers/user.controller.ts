@@ -6,6 +6,7 @@ import { PaginationRatingDto } from 'src/rating/rating.dto';
 import { UpdatePasswordDto } from '../dto/password.dto';
 import { UpdateUserDto } from '../dto/user.dto';
 import { UserService } from '../user.service';
+import { PaginationCourseDto } from 'src/course/dtos/course.dto';
 
 @Controller('user')
 export class UserController {
@@ -39,8 +40,8 @@ export class UserController {
     }
 
     @Get(':id/courses')
-    getAllCoursesByCreatorId(@Param('id') id: string) {
-        return this.userService.getAllCoursesByCreatorId(id);
+    getAllCoursesByCreatorId(@Param('id') id: string, @Query() { page, limit }: PaginationCourseDto) {
+        return this.userService.getAllCoursesByCreatorId(id, page, limit);
     }
 
     @Get(':id/ratings')

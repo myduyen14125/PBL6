@@ -305,7 +305,12 @@ export class AppointmentService {
     }
 
     async getAllUsersStatusAppointments(user_id: string, page:number, limit:number = 6, status: string) {
-        const count = await this.appointmentRepository.countDocuments({$or: [{ mentee: user_id }, { mentor: user_id }]})
+        const count = await this.appointmentRepository.countDocuments(
+            {
+                $or: [{ mentee: user_id }, { mentor: user_id }],
+                status: status
+            }
+        )
         const countPage = Math.ceil(count / limit)
         const skip = (page - 1) * limit || 0
         const oldAppointments = await this.appointmentRepository.getByCondition({$or: [{ mentee: user_id }, { mentor: user_id }]})
