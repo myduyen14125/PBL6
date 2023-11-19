@@ -267,24 +267,26 @@ export class CourseService {
 
     }
 
-    async registerCourse(user: User, id: string) {
-        const course = await this.courseRepository.findById(id)
+    async registerCourse(userId: string, courseId: string) {
+        const course = await this.courseRepository.findById(courseId)
         if (!course) {
             throw new HttpException('Course does not exist', HttpStatus.BAD_REQUEST);
         }
+        console.log(course.creator.toString());
+        
         // cant join self-course
-        if (course.creator.equals(user._id)) {
+        if (course.creator.toString() === userId) {
             throw new HttpException('Cant join your own course', HttpStatus.BAD_REQUEST);
         }
 
         // cant join twice
-        if (course.users.includes(user.id)) {
+        if (course.users.toString().includes(userId.toString())) {
             throw new HttpException('Already registered in current course', HttpStatus.BAD_REQUEST);
         }
 
-        return await this.courseRepository.findByIdAndUpdate(id, {
+        return await this.courseRepository.findByIdAndUpdate(courseId, {
             $push: {
-                users: user.id,
+                users: userId,
             },
         },)
     }
