@@ -11,12 +11,11 @@ export class PaymentService {
         const partnerCode = process.env.PARTNER_CODE;
         const accessKey = process.env.ACCESS_KEY;
         const secretKey = process.env.SECRET_KEY;
-        var requestId = partnerCode + new Date().getTime();
+        var requestId = partnerCode;
         var orderId = requestId;
         var orderInfo = "pay with MoMo";
         const redirectUrl = 'https://pbl-6-seven.vercel.app/';
         const ipnUrl = 'https://pbl6-production.up.railway.app/payment/test';
-        // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
         var amount = payment.amount.toString();
         var requestType = "payWithATM"
         var extraData = "";
