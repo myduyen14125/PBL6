@@ -11,7 +11,7 @@ export class PaymentService {
         const partnerCode = process.env.PARTNER_CODE;
         const accessKey = process.env.ACCESS_KEY;
         const secretKey = process.env.SECRET_KEY;
-        var requestId = partnerCode;
+        var requestId = partnerCode + new Date().getTime();
         var orderId = requestId;
         var orderInfo = "pay with MoMo";
         const redirectUrl = 'https://pbl-6-seven.vercel.app/';
