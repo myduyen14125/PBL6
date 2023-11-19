@@ -92,7 +92,7 @@ export class PaymentService {
         console.log(ipnData);
         console.log(ipnData.message);
         
-        if(ipnData.message != 'Successful.) throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
+        if(ipnData.message != 'Successful.') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
         // const accessKey = process.env.ACCESS_KEY;
         // const secretKey = process.env.SECRET_KEY;
         // const redirectUrl = process.env.REDIRECT_URL;
