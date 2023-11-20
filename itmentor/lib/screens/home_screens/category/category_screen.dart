@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/all_blogs_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:itmentor/screens/home_screens/category/blogs/blog_detail_screen.dart';
+import 'package:itmentor/utils/constant.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -9,99 +14,113 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  String selectedValue1 = 'Lĩnh vực';
-  String selectedValue2 = 'Đánh giá';
-  String selectedValue3 = 'Đánh giá';
+  List<dynamic> blogs = [];
+
+  Future<void> fetchData() async {
+    final apiUrl = Uri.https(Constants.uri, '/blog');
+    final response = await http.get(apiUrl);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      setState(() {
+        blogs = data['blogs'];
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SafeArea(
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(10), // Adjust the padding as needed
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  // call api get all blogs
-                  // hard code first
-                  Column(
-                    children: [
-                      Card(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Column(
-                            children: [
-                              Image.asset('assets/images/logo.png'),
-                              const Text('Tin tức công nghệ sáng 31//7'),
-                              const Text('Twitter đổi tên sang X'),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.calendar_month),
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 20),
-                                            child: Text('07/10/2023')),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFF195A94),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              20.0), // Đặt bán kính bo tròn
-                                        ),
-                                      ),
-                                      child: const Row(
-                                        children: [
-                                          Text('Xem tiếp'),
-                                          Icon(
-                                            Icons.arrow_circle_right,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
+            Expanded(
+              child: blogs.isEmpty
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      itemCount: blogs.length > 3 ? 3 : blogs.length,
+                      itemBuilder: (context, index) {
+                        final blog = blogs[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlogDetailScreen(
+                                  blogId: blog['_id'],
+                                  blogContent: blog['content'],
+                                ),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundImage: blog['user']['avatar'] == ''
+                                    ? const AssetImage(
+                                        'assets/images/blank_avatar.png')
+                                    : NetworkImage(blog['user']['avatar'])
+                                        as ImageProvider,
+                              ),
+                              title: Text(blog['title']),
+                              subtitle: Text(
+                                stripHtmlTags(blog['content']).length <= 300
+                                    ? stripHtmlTags(blog['content'])
+                                    : '${stripHtmlTags(blog['content']).substring(0, 300)}...',
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AllBlogsScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1369B2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
+                        );
+                      },
                     ),
-                    child: const Text('Xem thêm bài viết'),
-                  ),
-                ],
-              ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AllBlogsScreen();
+                  }));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF195A94),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+                child: const Row(
+                  children: [
+                    Text('Xem thêm bài viết'),
+                    Icon(
+                      Icons.arrow_circle_right,
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  String stripHtmlTags(String htmlString) {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    return htmlString.replaceAll(exp, '');
   }
 }
