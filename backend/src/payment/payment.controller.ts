@@ -18,6 +18,4 @@ export class PaymentController {
     async handlePostPayment(@Body() ipnData: any) {
         return this.paymentService.handlePostPayment(ipnData)
     }
-
-
 }

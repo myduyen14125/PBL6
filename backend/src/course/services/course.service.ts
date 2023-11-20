@@ -14,6 +14,7 @@ export class CourseService {
 
     async createCourse(user: User, courseDto: CreateCourseDto) {
         courseDto.creator = user.id
+        courseDto.discount = 0
         return await this.courseRepository.create(courseDto)
     }
 
@@ -65,6 +66,7 @@ export class CourseService {
                 $group: {
                     _id: '$_id',
                     title: { $first: '$title' },
+                    discount: { $first: '$discount' },
                     lesson_count: { $sum: 1 },
                     description: { $first: '$description' },
                     price: { $first: '$price' },
@@ -88,6 +90,7 @@ export class CourseService {
                     lesson_count: 1,
                     description: 1,
                     price: 1,
+                    discount: 1,
                     user_count: 1,
                     image: 1,
                     creator: 1
@@ -267,24 +270,26 @@ export class CourseService {
 
     }
 
-    async registerCourse(user: User, id: string) {
-        const course = await this.courseRepository.findById(id)
+    async registerCourse(userId: string, courseId: string) {
+        const course = await this.courseRepository.findById(courseId)
         if (!course) {
             throw new HttpException('Course does not exist', HttpStatus.BAD_REQUEST);
         }
+        console.log(course.creator.toString());
+        
         // cant join self-course
-        if (course.creator.equals(user._id)) {
+        if (course.creator.toString() === userId) {
             throw new HttpException('Cant join your own course', HttpStatus.BAD_REQUEST);
         }
 
         // cant join twice
-        if (course.users.includes(user.id)) {
+        if (course.users.toString().includes(userId.toString())) {
             throw new HttpException('Already registered in current course', HttpStatus.BAD_REQUEST);
         }
 
-        return await this.courseRepository.findByIdAndUpdate(id, {
+        return await this.courseRepository.findByIdAndUpdate(courseId, {
             $push: {
-                users: user.id,
+                users: userId,
             },
         },)
     }
@@ -308,16 +313,20 @@ export class CourseService {
         return true
     }
 
-    async getCurrentUserAllCourses(user: User) {
+    async getCurrentUserAllCourses(user: User, page: number, limit: number = 10) {
+        const count = await this.courseRepository.countDocuments({$or: [{ users: { $in: user.id } }, { creator: user.id }]})
+        const countPage = Math.ceil(count / limit)
         const courses = await this.courseRepository.getByCondition(
             {
                 $or: [{ users: { $in: user.id } }, { creator: user.id }]
             },
-            null,
+            ['image', 'title', 'creator'],
             {
                 sort: {
                     _id: -1,
                 },
+                skip: (page - 1) * limit,
+                limit: limit
             },
             {
                 path: 'creator',
@@ -327,13 +336,10 @@ export class CourseService {
                     select: 'name',
                 }
             });
-        const result = courses.map(course => {
-            const { users, ...courseWithoutUsers } = course.toObject();
-            courseWithoutUsers.users_count = course.users.length;
-            return courseWithoutUsers;
-        });
 
-        return result;
+        return {
+            count, countPage, courses
+        }
     }
 
     async updateCourse(user: User, id: string, course: UpdateCourseDto) {

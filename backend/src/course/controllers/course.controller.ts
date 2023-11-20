@@ -19,8 +19,8 @@ export class CourseController {
 
     @Get('my-courses')
     @UseGuards(AuthGuard("jwt"))
-    getCurrentUserAllCourses(@Req() req: any) {
-        return this.courseService.getCurrentUserAllCourses(req.user);
+    getCurrentUserAllCourses(@Req() req: any, @Query() {page, limit}: PaginationCourseDto) {
+        return this.courseService.getCurrentUserAllCourses(req.user, page, limit);
     }
 
     @Get(':id')
