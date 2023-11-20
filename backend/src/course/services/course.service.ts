@@ -105,11 +105,14 @@ export class CourseService {
 
     async getCourseById(id: string) {
         const courseCheck = await this.courseRepository.findById(id);
-        if (!courseCheck) { throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);}
+        if (!courseCheck) { 
+            throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);
+        }
+    
         var mongoose = require('mongoose');
         return await this.courseRepository.aggregate([
             {
-                $match: {_id: new mongoose.Types.ObjectId(id)}
+                $match: { _id: new mongoose.Types.ObjectId(id) }
             },
             {
                 $lookup: {
@@ -118,13 +121,13 @@ export class CourseService {
                     foreignField: '_id',
                     as: 'creator'
                 }
-            }, 
+            },
             {
                 $unwind: '$creator'
             },
             {
                 $lookup: {
-                    from: 'expertises', 
+                    from: 'expertises',
                     localField: 'creator.expertise',
                     foreignField: '_id',
                     as: 'creator.expertise'
@@ -135,7 +138,7 @@ export class CourseService {
             },
             {
                 $lookup: {
-                    from: 'lessons', 
+                    from: 'lessons',
                     localField: '_id',
                     foreignField: 'course',
                     as: 'lessons'
@@ -145,35 +148,42 @@ export class CourseService {
                 $unwind: '$lessons'
             },
             {
+                $group: {
+                    _id: '$_id',
+                    title: { $first: '$title' },
+                    description: { $first: '$description' },
+                    price: { $first: '$price' },
+                    user_count: { $first: { $size: '$users' } },
+                    image: { $first: '$image' },
+                    creator: {
+                        $first: {
+                            name: '$creator.name',
+                            avatar: '$creator.avatar',
+                            expertise: {
+                                name: '$creator.expertise.name'
+                            }
+                        }
+                    },
+                    lessons: { $push: '$lessons' }
+                }
+            },
+            {
                 $project: {
                     _id: 1,
-                    lessons: {
-                        _id: '$lessons._id',
-                        title: '$lessons.title',
-                        description: '$lessons.description',
-                        image: '$lessons.image',
-                        archived: '$lessons.archived',
-                        order: '$lessons.order',
-                    },
-                    title: '$title',
-                    description: '$description',
-                    price: '$price',
-                    user_count: { $size: '$users' },
-                    image: '$image',
-                    creator: {
-                        name: '$creator.name',
-                        avatar: '$creator.avatar',
-                        expertise: {
-                            name: '$creator.expertise.name'
-                        }
-                    }
+                    title: 1,
+                    description: 1,
+                    price: 1,
+                    user_count: 1,
+                    image: 1,
+                    creator: 1,
+                    lessons: 1
                 }
             },
             {
                 $sort: { 'lessons.order': 1 }
             }
-        ])   
-    }
+        ]);
+    }    
 
     async getAllCoursesByCreatorId(id: string, page: number, limit: number = 10) {
         const count = await this.courseRepository.countDocuments({})
