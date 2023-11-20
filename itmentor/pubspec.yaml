@@ -90,6 +90,14 @@ flutter:
     - assets/icons/networking_icon.png
     - assets/icons/software_icon.png
     - assets/icons/done_icon.png
+    - assets/icons/mobile_development.png
+    - assets/icons/web_development.png
+    - assets/icons/web_dev.jpg
+    - assets/icons/game_development.png
+    - assets/icons/security.png
+    - assets/icons/information-technology.png
+    - assets/icons/ai.jpg
+    - assets/icons/ai.png
 
     - assets/course_icon/cplusplus_icon.png
     - assets/course_icon/csharp_icon.png

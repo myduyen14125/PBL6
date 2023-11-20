@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:itmentor/providers/user_provider.dart';
@@ -145,7 +146,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                       CircleAvatar(
                         radius: 50,
                         backgroundImage: widget.avatar != ''
-                            ? NetworkImage(widget.avatar)
+                            ? CachedNetworkImageProvider(widget.avatar)
                             : const AssetImage('assets/images/blank_avatar.png')
                                 as ImageProvider,
                       ),

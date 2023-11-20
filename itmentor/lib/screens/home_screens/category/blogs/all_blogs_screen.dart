@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/blog_detail_screen.dart';
@@ -35,11 +36,9 @@ class _BlogScreenState extends State<AllBlogsScreen> {
                     }),
                     icon: const Icon(Icons.arrow_back)),
                 const Expanded(
-                  child: Center(
-                    child: Text(
-                      'Danh sách blogs',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                  child: Text(
+                    'Danh sách blogs',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
               ],
@@ -58,6 +57,7 @@ class _BlogScreenState extends State<AllBlogsScreen> {
                       itemCount: blogsData!.length,
                       itemBuilder: (context, index) {
                         final blog = blogsData[index];
+                        debugPrint(blog['user']['avatar']);
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -71,22 +71,31 @@ class _BlogScreenState extends State<AllBlogsScreen> {
                             );
                           },
                           child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundImage: blog['user']['avatar'] == ''
+                                    ? const AssetImage(
+                                        'assets/images/blank_avatar.png',
+                                      )
+                                    : CachedNetworkImageProvider(
+                                        blog['user']['avatar'],
+                                      ) as ImageProvider,
+                                child: const InkWell(
+                                  customBorder: CircleBorder(),
+                                ),
                               ),
-                              child: ListTile(
-                                leading: Image.asset(
-                                  'assets/images/female_avatar.png',
-                                  width: 48,
-                                  height: 48,
-                                ),
-                                title: Text(blog['title']),
-                                subtitle: Text(
-                                  stripHtmlTags(blog['content']).length <= 300
-                                      ? stripHtmlTags(blog['content'])
-                                      : '${stripHtmlTags(blog['content']).substring(0, 300)}...', // Limit to 300 characters
-                                ),
-                              )),
+                              title: Text(blog['title']),
+                              subtitle: Text(
+                                stripHtmlTags(blog['content']).length <= 300
+                                    ? stripHtmlTags(blog['content'])
+                                    : '${stripHtmlTags(blog['content']).substring(0, 300)}...', // Limit to 300 characters
+                              ),
+                            ),
+                          ),
                         );
                       },
                     );

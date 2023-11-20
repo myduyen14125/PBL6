@@ -672,10 +672,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                           userData['role'] == 'mentor'
                                               ? menteeAvatar != ''
                                                   ? menteeAvatar
-                                                  : 'assets/images/blank_avatar.jpg'
+                                                  : 'assets/images/blank_avatar.png'
                                               : mentorAvatar != ''
                                                   ? mentorAvatar
-                                                  : 'assets/images/blank_avatar.jpg',
+                                                  : 'assets/images/blank_avatar.png',
                                         ),
                                         child: const InkWell(
                                           customBorder: CircleBorder(),
