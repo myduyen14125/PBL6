@@ -48,7 +48,6 @@ export class LessonService {
     async getLessonById(user: User, id: string) {
         const lesson = await this.lessonRepository.findById(id);
         await this.courseService.checkParticipation(user, lesson.course._id)
-
         return lesson
     }
 
