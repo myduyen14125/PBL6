@@ -8,13 +8,21 @@ import 'package:itmentor/utils/constant.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ChooseSchedule extends StatefulWidget {
   final String mentorId;
   final String mentorName;
+  final String mentorAvatar;
+  final String mentorExpertise;
 
-  ChooseSchedule({Key? key, required this.mentorId, required this.mentorName})
+  ChooseSchedule(
+      {Key? key,
+      required this.mentorId,
+      required this.mentorName,
+      required this.mentorAvatar,
+      required this.mentorExpertise})
       : super(key: key);
 
   @override
@@ -23,11 +31,22 @@ class ChooseSchedule extends StatefulWidget {
 
 class _ChooseScheduleState extends State<ChooseSchedule> {
   List<Map<String, dynamic>> apiData = [];
+  String selectedTime = '';
+  String aToken = '';
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    getAccessToken();
+    print(widget.mentorId);
+  }
+
+  Future<void> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      aToken = prefs.getString('x-auth-token') ?? '';
+    });
   }
 
   Future<void> fetchData() async {
@@ -38,8 +57,11 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
       final List<dynamic> jsonData = json.decode(response.body);
       setState(() {
         apiData = jsonData.cast<Map<String, dynamic>>();
-        apiData =
-            apiData.where((schedule) => schedule['status'] == true).toList();
+        apiData = apiData
+            .where((schedule) =>
+                schedule['status'] == true &&
+                DateTime.parse(schedule['end_at']).isAfter(DateTime.now()))
+            .toList();
         print('apiData: $apiData');
       });
     } else {
@@ -47,39 +69,18 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
     }
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SafeArea(
-  //       child: SfCalendar(
-  //         view: CalendarView.week,
-  //         dataSource: ScheduleDataSource(apiData),
-  //         timeSlotViewSettings: const TimeSlotViewSettings(
-  //           timeInterval: Duration(minutes: 30),
-  //           timeFormat: 'hh:mm a',
-  //         ),
-  //         onTap: (CalendarTapDetails details) {
-  //           if (details.targetElement == CalendarElement.calendarCell) {
-  //             DateTime selectedDate = details.date!;
-  //             print('ko ranh: $selectedDate');
-  //           } else {
-  //             DateTime selectedDate = details.date!;
-  //             print('rảnh: $selectedDate');
-  //             print(
-  //                 "Selected date: ${selectedDate.year}:${selectedDate.month}:${selectedDate.day}T${selectedDate.hour}:${selectedDate.minute}0:00");
-  //             print(
-  //                 "End date: ${selectedDate.year}:${selectedDate.month}:${selectedDate.day}T${selectedDate.hour + 1}:${selectedDate.minute}0:00");
-  //           }
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-    print(user.accessToken);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 94, 157, 144),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Chọn lịch',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SafeArea(
         child: SfCalendar(
           view: CalendarView.week,
@@ -88,6 +89,7 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
             timeInterval: Duration(minutes: 30),
             timeFormat: 'hh:mm a',
           ),
+          minDate: DateTime.now(),
           onTap: (CalendarTapDetails details) {
             if (details.targetElement == CalendarElement.appointment) {
               CustomAppointment selectedAppointment =
@@ -96,11 +98,23 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
 
               print('Selected appointment ID: $appointmentId');
 
-              DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+              // DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+              DateFormat formatter = DateFormat('HH:mm');
+              DateFormat yearFormatter = DateFormat('dd-MM-yyyy');
               String formattedStartTime =
                   formatter.format(selectedAppointment.startTime);
               String formattedEndTime =
                   formatter.format(selectedAppointment.endTime);
+              String formattedYearTime =
+                  yearFormatter.format(selectedAppointment.endTime);
+
+              int duration = selectedAppointment.endTime
+                  .difference(selectedAppointment.startTime)
+                  .inMinutes;
+              print(duration);
+
+              selectedTime =
+                  '$formattedStartTime - $formattedEndTime, $formattedYearTime';
 
               print('Selected appointment startTime: $formattedStartTime');
               print('Selected appointment endTime: $formattedEndTime');
@@ -123,7 +137,7 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              formattedStartTime,
+                              '$formattedStartTime - $formattedEndTime, $formattedYearTime',
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -140,12 +154,17 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
                                       scheduleId: appointmentId,
                                       mentorId: widget.mentorId,
                                       mentorName: widget.mentorName,
+                                      mentorAvatar: widget.mentorAvatar,
+                                      selectedDate: selectedTime,
+                                      duration: duration,
+                                      aToken: aToken,
+                                      mentorExpertise: widget.mentorExpertise,
                                     );
                                   },
                                 ),
                               );
                             },
-                            child: const Text('Lưu'),
+                            child: const Text('Chọn'),
                           ),
                         ],
                       ),
@@ -163,10 +182,10 @@ class ScheduleDataSource extends CalendarDataSource {
   ScheduleDataSource(List<Map<String, dynamic>> source) {
     appointments = source
         .map((data) => CustomAppointment(
-              id: data['_id'], // Add the id field from the API data
-              startTime: DateTime.parse(data['start_at']),
-              endTime: DateTime.parse(data['end_at']),
-            ))
+            id: data['_id'], // Add the id field from the API data
+            startTime: DateTime.parse(data['start_at']),
+            endTime: DateTime.parse(data['end_at']),
+            color: Colors.green))
         .toList();
   }
 }

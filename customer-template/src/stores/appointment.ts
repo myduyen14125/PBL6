@@ -7,11 +7,14 @@ import {
   cancelAppointment,
 } from "./../api/appointment";
 import { CreateAppointmentParams } from "../types/appointment.js";
+import { GetPaginationParams } from "../types/mentor";
 
 export const useAppointment = defineStore("appointment", () => {
   const requestGetAllUserAppointment = async ({
+    params,
     callback,
   }: {
+    params: GetPaginationParams
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);
@@ -19,7 +22,7 @@ export const useAppointment = defineStore("appointment", () => {
     const onFinish = get(callback, "onFinish", noop);
 
     try {
-      const response = await getAllUserAppointment();
+      const response = await getAllUserAppointment(params);
       onSuccess(response);
     } catch (error) {
       onFailure(error);

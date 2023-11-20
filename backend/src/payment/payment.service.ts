@@ -112,8 +112,11 @@ export class PaymentService {
         // if(rawSignature !== ipnData.signature) throw new HttpException('Unmatching signature', HttpStatus.BAD_REQUEST);
         const regex = /user:([^c]+)course:([^c]+)/;
         const match = ipnData.extraData.match(regex);
+        if(!match) console.log("no match")
         const user = match[1];
         const course = match[2];
+        console.log(user);
+        console.log(course);
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
     }

@@ -40,6 +40,8 @@ class AuthServices {
         expiresIn: '',
         accessToken: '',
         refreshToken: '',
+        facebookLink: '',
+        skypeLink: '',
       );
 
       final uri = Uri.https(Constants.uri, '/auth/register');
@@ -112,7 +114,7 @@ class AuthServices {
 
       print(res.body);
     } catch (e) {
-      print(e.toString());
+      print("login error : $e.toString()");
       showSnackBar(ctx, 'Sai tài khoản hoặc mật khẩu');
     }
   }

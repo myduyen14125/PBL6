@@ -94,7 +94,13 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Blog'),
+        backgroundColor: Color.fromARGB(255, 63, 143, 125),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Sửa bài viết',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/schedule/choose_screen_completion_screen.dart';
@@ -12,11 +13,21 @@ class ChooseScheduleDetailScreen extends StatefulWidget {
   final String mentorId;
   final String scheduleId;
   final String mentorName;
+  final String mentorAvatar;
+  final String selectedDate;
+  final int duration;
+  final String aToken;
+  final String mentorExpertise;
   const ChooseScheduleDetailScreen(
       {super.key,
       required this.mentorId,
       required this.scheduleId,
-      required this.mentorName});
+      required this.mentorName,
+      required this.mentorAvatar,
+      required this.selectedDate,
+      required this.duration,
+      required this.aToken,
+      required this.mentorExpertise});
 
   @override
   State<ChooseScheduleDetailScreen> createState() =>
@@ -28,13 +39,14 @@ class _ChooseScheduleDetailScreenState
   String senderDet = 'Sender Details ';
   bool formOpenFlag = false;
 
-  List<String> connectChoices = ['Google Meet', 'Zoom'];
+  List<String> connectChoices = ['Google Meet', 'Skype'];
   String selectedConnectChoice = 'Chọn hình thức kết nối';
 
   List<String> subjectChoices = [
-    'Nghề nghiệp',
-    'Viết bài báo khoa học',
-    'Bất kì'
+    'Định hướng nghề nghiệp',
+    'Nghiên cứu khoa học',
+    'Kỹ năng mềm',
+    'Bất kì',
   ];
   String selectedSubjectChoice = 'Chọn chủ đề';
 
@@ -44,8 +56,6 @@ class _ChooseScheduleDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-
     Future<void> sendAppointmentRequest(
         {required String mentorId,
         required String scheduleId,
@@ -57,31 +67,35 @@ class _ChooseScheduleDetailScreenState
 
       final Map<String, dynamic> data = {
         "mentor": mentorId,
-        "schedule": scheduleId
+        "schedule": scheduleId,
+        "note": _messageController.text
       };
       final response = await http.post(
         uri,
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Connection': 'keep-alive',
-          'Authorization': 'Bearer ${user.accessToken}'
+          'Authorization': 'Bearer ${widget.aToken}'
         },
         body: jsonEncode(data),
       );
 
-      setState(() {
-        isSendingAppointment = false;
-      });
-
       if (response.statusCode == 201) {
         showSnackBar(context, 'Đã đặt lịch thành công');
+        setState(() {
+          isSendingAppointment = false;
+        });
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: ((context) {
               return ChooseScreenCompletionScreen(
-                mentorId: widget.mentorId,
-                scheduleId: widget.scheduleId,
+                mentorAvatar: widget.mentorAvatar,
+                mentorName: widget.mentorName,
+                duration: widget.duration,
+                selectedDate: widget.selectedDate,
+                connectionChoice: selectedConnectChoice,
+                subject: selectedSubjectChoice,
               );
             }),
           ),
@@ -106,14 +120,15 @@ class _ChooseScheduleDetailScreenState
                     icon: const Icon(Icons.arrow_back),
                   ),
                   const Expanded(
-                    child: Center(
-                      child: Text(
-                        'Hoàn tất lịch hẹn',
-                        style: TextStyle(fontSize: 20),
-                      ),
+                    child: Text(
+                      'Hoàn tất lịch hẹn',
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,37 +146,58 @@ class _ChooseScheduleDetailScreenState
                     ],
                   ),
                   ListTile(
-                    leading: const Icon(Icons.star),
-                    title: Text(widget.mentorName),
-                    subtitle:
-                        const Text('Chief Technology Officer tại Mentori'),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage:
+                          CachedNetworkImageProvider(widget.mentorAvatar),
+                      child: const InkWell(
+                        customBorder: CircleBorder(),
+                      ),
+                    ),
+                    title: Text(
+                      widget.mentorName,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    subtitle: Text(
+                      'Lĩnh vực: ${widget.mentorExpertise}',
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ),
                 ],
               ),
-              const Column(
+              Column(
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Icon(Icons.calendar_month),
-                      SizedBox(
+                      const Icon(Icons.calendar_month),
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text('14:30,Chủ Nhật, 29/10/2023'),
+                      Text(
+                        widget.selectedDate,
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Icon(Icons.timelapse),
-                      SizedBox(
+                      const Icon(Icons.timelapse),
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text('60 phút'),
+                      Text(
+                        '${widget.duration} phút',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                 ],
@@ -316,6 +352,11 @@ class _ChooseScheduleDetailScreenState
                   ),
                 ),
               ),
+              isSendingAppointment
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SizedBox()
             ],
           ),
         ),

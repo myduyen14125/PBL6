@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/account_settings_screen/settings_screens/settings_home/profile/profile_edit.dart';
 import 'package:provider/provider.dart';
@@ -36,9 +37,14 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
+  String formatUserDateOfBirth(String dateOfBirth) {
+    return DateFormat('dd/MM/yyyy').format(DateTime.parse(dateOfBirth));
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    print(user.dateOfBirth);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -63,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
                         context,
                         MaterialPageRoute(
                           builder: ((context) {
-                            return const ProfileEdit();
+                            return ProfileEdit(dateOfBirth: user.dateOfBirth,);
                           }),
                         ),
                       );
@@ -79,12 +85,12 @@ class _ProfileViewState extends State<ProfileView> {
               buildInfoRow('Họ và tên', user.name),
               buildInfoRow('Email', user.email),
               buildInfoRow('Số điện thoại', user.phone),
-              buildInfoRow('Địa chỉ', 'address'),
-              buildInfoRow('Ngày sinh', user.dateOfBirth),
-              buildInfoRow('Giới tính', user.gender.toString()),
-              buildInfoRow('Facebook', 'link'),
-              buildInfoRow('Skype', 'skype'),
-              buildInfoRow('Google meeting', 'link meeting'),
+              // buildInfoRow('Ngày sinh', user.dateOfBirth),
+              buildInfoRow(
+                  'Ngày sinh', formatUserDateOfBirth(user.dateOfBirth)),
+              buildInfoRow('Giới tính', user.gender == true ? "Nam" : "Nữ"),
+              buildInfoRow('Facebook', user.facebookLink),
+              buildInfoRow('Skype', user.skypeLink),
             ],
           ),
         ),

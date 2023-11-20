@@ -14,8 +14,11 @@ class SearchMentor extends StatefulWidget {
 
 class _SearchMentorState extends State<SearchMentor> {
   List<dynamic> mentors = [];
+  List<Map<String, dynamic>> expertiseList = [];
 
   bool isLoading = false;
+
+  Map<String, dynamic> selectedExpertise = {};
 
   Future<void> fetchMentors(String name) async {
     setState(() {
@@ -36,77 +39,239 @@ class _SearchMentorState extends State<SearchMentor> {
     }
   }
 
+  Future<void> fetchMentorsWithExpertise(
+      String name, String expertiseId) async {
+    setState(() {
+      isLoading = true;
+    });
+    final uri = Uri.https(Constants.uri, '/mentor/search',
+        {'expertise': expertiseId, 'name': name});
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+
+      setState(() {
+        mentors = jsonData['mentors'];
+        isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load mentors');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchExpertise() async {
+    final apiUrl = Uri.https(Constants.uri, '/expertise');
+
+    try {
+      final response = await http.get(
+        apiUrl,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> jsonResponse = json.decode(response.body);
+
+        setState(() {
+          expertiseList =
+              jsonResponse.map((item) => item as Map<String, dynamic>).toList();
+          print(expertiseList);
+        });
+
+        return expertiseList;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
+      print('Error: $error');
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> fetchMentorsByExpertise(String expertiseId) async {
+    setState(() {
+      isLoading = true;
+    });
+    final url =
+        Uri.https(Constants.uri, '/mentor/search', {'expertise': expertiseId});
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+
+      setState(() {
+        mentors = jsonData['mentors'];
+        isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load mentors');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchExpertise();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Row(
-              children: [
-                IconButton(
-                  onPressed: (() {
-                    Navigator.pop(context);
-                  }),
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                const Expanded(
-                  child: Center(
-                    child: Text(
-                      'Tìm kiếm mentor',
-                      style: TextStyle(fontSize: 20),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: (() {
+                      Navigator.pop(context);
+                    }),
+                    icon: const Icon(Icons.arrow_back),
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text(
+                        'Tìm kiếm mentor',
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+            const Padding(
+              padding: EdgeInsets.all(10),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Lĩnh vực',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            expertiseList.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 4.0,
+                      children: expertiseList.map((expertise) {
+                        return ChoiceChip(
+                          selected: selectedExpertise == expertise,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              if (selected) {
+                                selectedExpertise = expertise;
+                                fetchMentorsByExpertise(expertise['_id']);
+                              } else {
+                                selectedExpertise = {};
+                              }
+                            });
+                          },
+                          label: Text(
+                            expertise['name'],
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: selectedExpertise == expertise
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                          backgroundColor: selectedExpertise == expertise
+                              ? Theme.of(context).colorScheme.secondary
+                              : null,
+                          selectedColor:
+                              Theme.of(context).colorScheme.secondary,
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: selectedExpertise == expertise
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  )
+                : const Center(child: CircularProgressIndicator()),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
-                decoration: const InputDecoration(labelText: 'Tìm theo tên'),
+                decoration: InputDecoration(
+                  labelText: 'Tìm theo tên',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  contentPadding: EdgeInsets.all(12),
+                ),
                 onSubmitted: (value) {
-                  fetchMentors(value);
+                  selectedExpertise.isNotEmpty
+                      ? fetchMentorsWithExpertise(
+                          value, selectedExpertise['_id'])
+                      : fetchMentors(value);
                 },
               ),
             ),
-            isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Expanded(
-                    child: ListView.builder(
+            Expanded(
+              child: isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
                       itemCount: mentors.length,
                       itemBuilder: (context, index) {
                         final mentor = mentors[index];
                         return InkWell(
                           onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: ((context) {
-                              return MentorProfileDetail(
-                                  id: mentor['_id'],
-                                  avatar: mentor['avatar'],
-                                  gender: mentor['gender']);
-                            })));
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: ((context) {
+                                  return MentorProfileDetail(
+                                    id: mentor['_id'],
+                                    avatar: mentor['avatar'],
+                                  );
+                                }),
+                              ),
+                            );
                           },
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              backgroundImage: mentor['avatar'] != ""
-                                  ? NetworkImage(mentor['avatar'] as String)
-                                      as ImageProvider
-                                  : mentor['gender'] == true
-                                      ? const AssetImage(
-                                          'assets/images/male_avatar.jpg')
-                                      : const AssetImage(
-                                          'assets/images/female_avatar.png'),
+                          child: Card(
+                            elevation: 2,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
                             ),
-                            title: Text(mentor['name']),
-                            subtitle: Text(mentor['email']),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                backgroundImage: mentor['avatar'] != ""
+                                    ? NetworkImage(mentor['avatar'] as String)
+                                        as ImageProvider
+                                    : mentor['gender'] == true
+                                        ? const AssetImage(
+                                            'assets/images/male_avatar.jpg')
+                                        : const AssetImage(
+                                            'assets/images/female_avatar.png'),
+                              ),
+                              title: Text(
+                                mentor['name'],
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(mentor['email']),
+                            ),
                           ),
                         );
                       },
                     ),
-                  ),
+            ),
           ],
         ),
       ),
