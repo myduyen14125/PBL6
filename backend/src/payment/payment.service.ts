@@ -16,7 +16,10 @@ export class PaymentService {
     async makePayment(user: User, requestDto: RequestPaymentDto) {
 
         const course = await this.courseService.getCoursePriceAndDiscountById(requestDto.course)
-        
+        const discount = course.discount ?? 0
+        const total = course.price * (100-discount)/100
+
+        if(total === 0) return await this.handlePostPayment({amount: 0,user: user.id, course: course.id})
         const newUuid1: string = uuidv4();
         const newUuid2: string = uuidv4();
         const partnerCode = process.env.PARTNER_CODE;
@@ -27,7 +30,7 @@ export class PaymentService {
         var orderInfo = "pay with MoMo";
         const redirectUrl = process.env.REDIRECT_URL;
         const ipnUrl = process.env.IPN_URL
-        var amount = course.price.toString();
+        var amount = total.toString();
         var requestType = "payWithATM"
         var extraData = "user:" + user.id + "course:" + course.id;
         var rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
@@ -90,9 +93,11 @@ export class PaymentService {
 
     async handlePostPayment(ipnData: any) {
         console.log(ipnData);
-        console.log(ipnData.message);
-        
-        if(ipnData.message != 'Successful.') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
+        if(ipnData.amount === 0) {
+            await this.courseService.registerCourse(ipnData.user, ipnData.course)
+            return "Success"
+        }
+        if(ipnData.resultCode != '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
         // const accessKey = process.env.ACCESS_KEY;
         // const secretKey = process.env.SECRET_KEY;
         // const redirectUrl = process.env.REDIRECT_URL;
@@ -105,7 +110,7 @@ export class PaymentService {
         // console.log(signature);
 
         // if(rawSignature !== ipnData.signature) throw new HttpException('Unmatching signature', HttpStatus.BAD_REQUEST);
-        const regex = /user:([^%]+)course:([^%]+)/;
+        const regex = /user:([^c]+)course:([^c]+)/;
         const match = ipnData.extraData.match(regex);
         if(!match) console.log("no match")
         const user = match[1];

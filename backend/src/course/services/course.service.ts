@@ -14,6 +14,7 @@ export class CourseService {
 
     async createCourse(user: User, courseDto: CreateCourseDto) {
         courseDto.creator = user.id
+        courseDto.discount = 0
         return await this.courseRepository.create(courseDto)
     }
 
@@ -65,6 +66,7 @@ export class CourseService {
                 $group: {
                     _id: '$_id',
                     title: { $first: '$title' },
+                    discount: { $first: '$discount' },
                     lesson_count: { $sum: 1 },
                     description: { $first: '$description' },
                     price: { $first: '$price' },
@@ -88,6 +90,7 @@ export class CourseService {
                     lesson_count: 1,
                     description: 1,
                     price: 1,
+                    discount: 1,
                     user_count: 1,
                     image: 1,
                     creator: 1
@@ -310,16 +313,20 @@ export class CourseService {
         return true
     }
 
-    async getCurrentUserAllCourses(user: User) {
+    async getCurrentUserAllCourses(user: User, page: number, limit: number = 10) {
+        const count = await this.courseRepository.countDocuments({$or: [{ users: { $in: user.id } }, { creator: user.id }]})
+        const countPage = Math.ceil(count / limit)
         const courses = await this.courseRepository.getByCondition(
             {
                 $or: [{ users: { $in: user.id } }, { creator: user.id }]
             },
-            null,
+            ['image', 'title', 'creator'],
             {
                 sort: {
                     _id: -1,
                 },
+                skip: (page - 1) * limit,
+                limit: limit
             },
             {
                 path: 'creator',
@@ -329,13 +336,10 @@ export class CourseService {
                     select: 'name',
                 }
             });
-        const result = courses.map(course => {
-            const { users, ...courseWithoutUsers } = course.toObject();
-            courseWithoutUsers.users_count = course.users.length;
-            return courseWithoutUsers;
-        });
 
-        return result;
+        return {
+            count, countPage, courses
+        }
     }
 
     async updateCourse(user: User, id: string, course: UpdateCourseDto) {

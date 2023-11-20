@@ -10,6 +10,7 @@ export class CreateCourseDto {
     price: number
     @IsNotEmpty()
     image: string
+    discount: number
 }
 
 export class UpdateCourseDto {
