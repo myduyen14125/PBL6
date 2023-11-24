@@ -35,6 +35,9 @@ export default defineComponent({
       handIcon: "handIcon",
       blogIcon: "blogIcon",
       cameraIcon: "cameraIcon",
+      greenTriangle: "greenTriangle",
+      bgDots: "bgDots",
+      bgBlur: "bgBlur",
     };
 
     return {
