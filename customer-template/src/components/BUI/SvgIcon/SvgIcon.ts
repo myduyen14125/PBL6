@@ -36,6 +36,8 @@ export default defineComponent({
       blogIcon: "blogIcon",
       cameraIcon: "cameraIcon",
       greenTriangle: "greenTriangle",
+      bgDots: "bgDots",
+      bgBlur: "bgBlur",
     };
 
     return {

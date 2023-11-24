@@ -1,19 +1,23 @@
 <template>
   <div class="hidden lg:block">
-    <SvgIcon icon="greenTriangle" class="absolute z-100" style="top: 500px; right: 400px;" />
-    <img src="https://cdn.mentorcruise.com/img/home/shapes/green_triangle.svg" alt="Triangle" class="absolute"
-      style="top: 200px; left: 100px; height: 70px; transform: rotate(125deg);">
-    <img src="https://cdn.mentorcruise.com/img/home/shapes/green_triangle.svg" alt="Triangle" class="absolute"
-      style="top: 250px; right: 50px; height: 70px; transform: rotate(20deg);">
-    <img src="https://cdn.mentorcruise.com/img/home/shapes/green_triangle.svg" alt="Triangle" class="absolute"
-      style="top: 480px; left: 300px; height: 70px; transform: rotate(95deg);">
-    <img src="https://cdn.mentorcruise.com/img/home/shapes/green_triangle.svg" alt="Triangle" class="absolute"
-      style="top: 500px; right: 400px; height: 70px; transform: rotate(20deg);">
-    <img src="https://cdn.mentorcruise.com/img/home/shapes/green_triangle.svg" alt="Triangle" class="absolute"
-      style="top: 600px; right: 250px; height: 70px; transform: rotate(90deg);">
-    <img src="https://cdn.mentorcruise.com/img/home/shapes/green_triangle.svg" alt="Triangle" class="absolute"
-      style="top: 750px; left: 50px; height: 70px; transform: rotate(20deg);">
-
+    <SvgIcon icon="greenTriangle" class="absolute" style="top: 200px; right: 100px; transform: rotate(125deg); opacity: 0.7" />
+    <SvgIcon icon="greenTriangle" class="absolute" style="top: 250px; left: 50px; transform: rotate(20deg); opacity: 0.8" />
+    <SvgIcon icon="greenTriangle" class="absolute" style="top: 480px; left: 250px; transform: rotate(95deg); opacity: 0.2" />
+    <SvgIcon icon="greenTriangle" class="absolute" style="top: 500px; right: 400px; transform: rotate(60deg); opacity: 1" />
+    <SvgIcon icon="greenTriangle" class="absolute" style="top: 650px; right: 250px; transform: rotate(135deg); opacity: 0.8" />
+    <SvgIcon icon="greenTriangle" class="absolute" style="top: 750px; left: 50px; transform: rotate(50deg); opacity: 0.7" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 650px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 660px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 670px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 680px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 690px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 700px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 710px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 720px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 730px; right: 125px;" />
+    <SvgIcon icon="bgDots" class="absolute" style="top: 740px; right: 125px;" />
+    <SvgIcon icon="bgBlur" class="absolute" style="top: 160px; left: -200px; transform: rotate(180deg); opacity: 0.25;" />
+    <SvgIcon icon="bgBlur" class="absolute" style="top: 160px; right: -200px; transform: rotate(-180deg); opacity: 0.25;" />
   </div>
 </template>
 <script>
