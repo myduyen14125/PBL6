@@ -22,7 +22,7 @@
             
           </div>
         </div>
-        <div class="search-wrapper shadow-lg rounded-lg w-fit mx-auto px-4 py-2 flex items-center">
+        <div class="search-wrapper shadow-lg rounded-lg w-fit mx-auto px-4 py-2 flex items-center relative">
           <SearchBar @clickSearch="getSearchParams"/>
         </div>
         <HiddenBackground /> 
