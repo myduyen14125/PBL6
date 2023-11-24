@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import Vue3Marquee from "vue3-marquee";
 import router from "./router";
 import App from "./App.vue";
 
@@ -25,5 +26,6 @@ app.component("SvgIcon", SvgIcon);
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);
+app.use(Vue3Marquee);
 
 app.mount("#app");
