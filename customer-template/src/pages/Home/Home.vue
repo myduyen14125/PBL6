@@ -1,7 +1,7 @@
 <template>
   <GuestLayout>
     <div class="home-page">
-      <!-- <section class="hero-section">
+      <section class="hero-section">
         <div class="container">
           <div class="row">
             <div class="pt-16 mb-12 mx-auto max-w-7xl px-4 sm:mt-20 text-center">
@@ -22,7 +22,12 @@
             
           </div>
         </div>
-      </section> -->
+        <div class="search-wrapper shadow-lg rounded-lg w-fit mx-auto px-4 py-2 flex items-center">
+          <SearchBar @clickSearch="getSearchParams"/>
+        </div>
+        
+        <MentorMarquee :mentors="mentors" />
+      </section>
       <section class="banner-section">
         <div class="container">
           <div class="row">
