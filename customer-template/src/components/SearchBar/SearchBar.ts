@@ -1,8 +1,8 @@
-import SvgIcon from "../../../../components/BUI/SvgIcon/SvgIcon.vue";
+import SvgIcon from "@/components/BUI/SvgIcon/SvgIcon.vue";
 import { ref, defineComponent, onMounted } from "vue";
-import { useExpertise } from "../../../../stores/expertise";
-import SwalPopup from "../../../../ultils/swalPopup";
-import { Expertise } from "../../../../types/expertise";
+import { useExpertise } from "@/stores/expertise";
+import SwalPopup from "@/ultils/swalPopup";
+import { Expertise } from "@/types/expertise";
 
 export default defineComponent({
   name: "SearchBar",

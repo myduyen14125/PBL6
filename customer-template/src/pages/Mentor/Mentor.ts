@@ -2,7 +2,7 @@ import { defineComponent, ref, onMounted } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import MentorCard from "../../components/MentorCard/MentorCard.vue";
 import MajorCard from "../../components/MajorCard/MajorCard.vue";
-import SearchBar from "./element/SearchBar/SearchBar.vue";
+import SearchBar from "../../components/SearchBar/SearchBar.vue";
 import { majors } from "../../mockData";
 import imageSaler from "../../assets/image/saler.png";
 import { useMentors } from "../../stores/mentors";

@@ -2,6 +2,8 @@ import { computed, defineComponent, onMounted, ref } from "vue";
 import heroImg from "../../assets/image/hero-section.png";
 import MentorCard from "../../components/MentorCard/MentorCard.vue";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";
+import MentorMarquee from "../../components/Homepage/MentorMarquee.vue";
+import SearchBar from "@/components/SearchBar/SearchBar.vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import { useMentors } from "../../stores/mentors";
 import { useBlog } from "./../../stores/blog";
@@ -11,7 +13,7 @@ import { Blog } from "../../types/blog";
 
 export default defineComponent({
   name: "Home",
-  components: { GuestLayout, MentorCard, MentorPost },
+  components: { GuestLayout, MentorCard, MentorPost, MentorMarquee, SearchBar },
   setup() {
     const mentorsStore = useMentors();
     const blogStore = useBlog();

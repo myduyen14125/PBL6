@@ -35,7 +35,8 @@
     "vue-facing-decorator": "^3.0.3",
     "vue-heroicons": "^0.9.4",
     "vue-quill-editor": "^3.0.6",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue3-marquee": "^4.1.0"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.7",
