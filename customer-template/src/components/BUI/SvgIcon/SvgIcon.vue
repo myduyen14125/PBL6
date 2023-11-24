@@ -646,6 +646,22 @@
         d="M220.6 121.2L271.1 96 448 96v96H333.2c-21.9-15.1-48.5-24-77.2-24s-55.2 8.9-77.2 24H64V128H192c9.9 0 19.7-2.3 28.6-6.8zM0 128V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H271.1c-9.9 0-19.7 2.3-28.6 6.8L192 64H160V48c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16l0 16C28.7 64 0 92.7 0 128zM168 304a88 88 0 1 1 176 0 88 88 0 1 1 -176 0z"
       />
     </svg>
+    <svg
+      v-if="icon == types.greenTriangle"
+      width="77"
+      height="77" 
+      viewBox="0 0 77 77" 
+      fill="#139896" 
+      xmlns="http://www.w3.org/2000/svg">
+      <link xmlns="" type="text/css" rel="stylesheet" id="dark-mode-custom-link"/><link xmlns="" type="text/css" rel="stylesheet" id="dark-mode-general-link"/>
+      <path d="M61.0395 70.4722C59.5277 76.5629 51.9894 78.733 47.4706 74.3783L3.03653 31.5586C-1.48226 27.204 0.407523 19.5907 6.43813 17.8546L65.7381 0.783386C71.7687 -0.952694 77.4172 4.49058 75.9054 10.5813L61.0395 70.4722Z" fill="url(#paint0_linear_0_1449)"/>
+      <defs>
+      <linearGradient id="paint0_linear_0_1449" x1="18.5026" y1="55.2718" x2="125.431" y2="-45.8562" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0F8FE"/>
+      <stop offset="1" stop-color="#00D1B2"/>
+      </linearGradient>
+      </defs>
+    </svg>
   </span>
 </template>
 <script lang="ts" src="./SvgIcon.ts"></script>

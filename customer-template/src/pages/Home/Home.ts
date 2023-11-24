@@ -1,19 +1,20 @@
 import { computed, defineComponent, onMounted, ref } from "vue";
-import heroImg from "../../assets/image/hero-section.png";
-import MentorCard from "../../components/MentorCard/MentorCard.vue";
-import MentorPost from "../../components/MentorPost/MentorPost.vue";
-import MentorMarquee from "../../components/Homepage/MentorMarquee.vue";
+import heroImg from "@/assets/image/hero-section.png";
+import MentorCard from "@/components/MentorCard/MentorCard.vue";
+import MentorPost from "@/components/MentorPost/MentorPost.vue";
+import MentorMarquee from "@/components/Homepage/MentorMarquee.vue";
+import HiddenBackground from "@/components/Homepage/HiddenBackground.vue";
 import SearchBar from "@/components/SearchBar/SearchBar.vue";
-import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
-import { useMentors } from "../../stores/mentors";
-import { useBlog } from "./../../stores/blog";
-import SwalPopup from "../../ultils/swalPopup";
-import { GetPaginationParams, Mentor } from "../../types/mentor";
-import { Blog } from "../../types/blog";
+import GuestLayout from "@/layout/GuestLayout/GuestLayout.vue";
+import { useMentors } from "@/stores/mentors";
+import { useBlog } from "@/stores/blog";
+import SwalPopup from "@/ultils/swalPopup";
+import { GetPaginationParams, Mentor } from "@/types/mentor";
+import { Blog } from "@/types/blog";
 
 export default defineComponent({
   name: "Home",
-  components: { GuestLayout, MentorCard, MentorPost, MentorMarquee, SearchBar },
+  components: { GuestLayout, MentorCard, MentorPost, MentorMarquee, SearchBar, HiddenBackground },
   setup() {
     const mentorsStore = useMentors();
     const blogStore = useBlog();

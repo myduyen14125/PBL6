@@ -25,7 +25,7 @@
         <div class="search-wrapper shadow-lg rounded-lg w-fit mx-auto px-4 py-2 flex items-center">
           <SearchBar @clickSearch="getSearchParams"/>
         </div>
-        
+        <HiddenBackground /> 
         <MentorMarquee :mentors="mentors" />
       </section>
       <section class="banner-section">
