@@ -2,26 +2,7 @@
   <GuestLayout>
     <div class="home-page">
       <section class="hero-section">
-        <div class="container">
-          <div class="row">
-            <div class="pt-16 mb-12 mx-auto max-w-7xl px-4 sm:mt-20 text-center">
-              <p class="text-teal-900 text-md font-normal leading-7 mt-2 mb-6">
-                Học từ một chuyên gia, sáng tạo một dự án, đạt được sự nghiệp mơ ước của bạn.
-              </p>
-              <h1 class="font-normal text-6xl tracking-tight leading-tighter">
-                <span class="font-bold text-navy-900">1-on-1 - </span>
-                <span class="font-bold text-teal-600">
-                  {{ currentText }}
-                  <span v-if="showCursor">|</span>
-                </span>
-              </h1>
-              <h1 class="font-normal text-6xl tracking-tight leading-tighter">
-                <span class="font-bold text-navy-900">IT Mentor</span>
-              </h1>
-            </div>
-            
-          </div>
-        </div>
+        <IntroductionText />
         <div class="search-wrapper shadow-lg rounded-lg w-fit mx-auto px-4 py-2 flex items-center relative">
           <SearchBar @clickSearch="getSearchParams"/>
         </div>

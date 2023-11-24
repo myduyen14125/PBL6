@@ -5,6 +5,7 @@ import MentorPost from "@/components/MentorPost/MentorPost.vue";
 import MentorMarquee from "@/components/Homepage/MentorMarquee.vue";
 import HiddenBackground from "@/components/Homepage/HiddenBackground.vue";
 import SearchBar from "@/components/SearchBar/SearchBar.vue";
+import IntroductionText from "@/components/Homepage/IntroductionText.vue";
 import GuestLayout from "@/layout/GuestLayout/GuestLayout.vue";
 import { useMentors } from "@/stores/mentors";
 import { useBlog } from "@/stores/blog";
@@ -14,7 +15,7 @@ import { Blog } from "@/types/blog";
 
 export default defineComponent({
   name: "Home",
-  components: { GuestLayout, MentorCard, MentorPost, MentorMarquee, SearchBar, HiddenBackground },
+  components: { GuestLayout, MentorCard, MentorPost, MentorMarquee, SearchBar, HiddenBackground, IntroductionText },
   setup() {
     const mentorsStore = useMentors();
     const blogStore = useBlog();
@@ -22,20 +23,10 @@ export default defineComponent({
     const blogs = ref<Blog[]>([]);
     const isLoadingMentor = ref(false);
     const isLoadingBlog = ref(false);
-    const textIndex = ref(0);
-    const charIndex = ref(0);
-    const showCursor = ref(true);
-    const textArray = ["Kết nối", "Phát triển", "Định hướng"];
-
-    const currentText = computed(() => {
-      const currentWord = textArray[textIndex.value];
-      return currentWord.substring(0, charIndex.value);
-    });
 
     onMounted(() => {
       getMentors();
       getBlogs();
-      setInterval(typeText, 300);
     });
 
     const getMentors = () => {
@@ -78,27 +69,12 @@ export default defineComponent({
       });
     };
 
-    const typeText = () => {
-      if (charIndex.value < textArray[textIndex.value].length) {
-        charIndex.value += 1;
-        showCursor.value = true;
-      } else {
-        showCursor.value = false;
-        setTimeout(() => {
-          charIndex.value = 0;
-          textIndex.value = (textIndex.value + 1) % textArray.length;
-        }, 300);
-      }
-    };
-
     return {
       heroImg,
       mentors,
       blogs,
       isLoadingBlog,
       isLoadingMentor,
-      currentText,
-      showCursor,
     };
   },
 });
