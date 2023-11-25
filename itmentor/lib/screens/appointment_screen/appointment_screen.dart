@@ -824,12 +824,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                       onPressed: ((context) {
                                         finishAppointment(
                                             appointmentId, appointment);
-                                        // setState(() {
-                                        //   appointments.removeWhere(
-                                        //       (element) => element['_id'] == appointmentId);
-                                        //   appointmentLists.removeWhere(
-                                        //       (element) => element['_id'] == appointmentId);
-                                        // });
                                       }),
                                       label: 'Hoàn thành',
                                       backgroundColor: Colors.green,
@@ -890,23 +884,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                         backgroundImage: userData['role'] ==
                                                 'mentor'
                                             ? menteeAvatar != ''
-                                                ? NetworkImage(menteeAvatar)
-                                                : menteeGender == true
-                                                    ? Image.asset(
-                                                            'assets/images/male_avatar.jpg')
-                                                        .image
-                                                    : Image.asset(
-                                                            'assets/images/female_avatar.png')
-                                                        .image
+                                                ? CachedNetworkImageProvider(
+                                                    menteeAvatar)
+                                                : Image.asset(
+                                                        'assets/images/blank_avatar.png')
+                                                    .image
                                             : mentorAvatar != ''
-                                                ? NetworkImage(mentorAvatar)
-                                                : mentorGender == true
-                                                    ? Image.asset(
-                                                            'assets/images/male_avatar.jpg')
-                                                        .image
-                                                    : Image.asset(
-                                                            'assets/images/female_avatar.png')
-                                                        .image,
+                                                ? CachedNetworkImageProvider(
+                                                    mentorAvatar)
+                                                : Image.asset(
+                                                        'assets/images/blank_avatar.png')
+                                                    .image,
                                         child: const InkWell(
                                           customBorder: CircleBorder(),
                                         ),
@@ -1097,23 +1085,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                         backgroundImage: userData['role'] ==
                                                 'mentor'
                                             ? menteeAvatar != ''
-                                                ? NetworkImage(menteeAvatar)
-                                                : menteeGender == true
-                                                    ? Image.asset(
-                                                            'assets/images/male_avatar.jpg')
-                                                        .image
-                                                    : Image.asset(
-                                                            'assets/images/female_avatar.png')
-                                                        .image
+                                                ? CachedNetworkImageProvider(menteeAvatar)
+                                                : Image.asset(
+                                                        'assets/images/blank_avatar.png')
+                                                    .image
                                             : mentorAvatar != ''
-                                                ? NetworkImage(mentorAvatar)
-                                                : mentorGender == true
-                                                    ? Image.asset(
-                                                            'assets/images/male_avatar.jpg')
-                                                        .image
-                                                    : Image.asset(
-                                                            'assets/images/female_avatar.png')
-                                                        .image,
+                                                ? CachedNetworkImageProvider(
+                                                    mentorAvatar)
+                                                : Image.asset(
+                                                        'assets/images/blank_avatar.png')
+                                                    .image,
                                         child: const InkWell(
                                           customBorder: CircleBorder(),
                                         ),
@@ -1302,23 +1283,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                         backgroundImage: userData['role'] ==
                                                 'mentor'
                                             ? menteeAvatar != ''
-                                                ? NetworkImage(menteeAvatar)
-                                                : menteeGender == true
-                                                    ? Image.asset(
-                                                            'assets/images/male_avatar.jpg')
-                                                        .image
-                                                    : Image.asset(
-                                                            'assets/images/female_avatar.png')
-                                                        .image
+                                                ? CachedNetworkImageProvider(
+                                                    menteeAvatar)
+                                                : Image.asset(
+                                                        'assets/images/blank_avatar.png')
+                                                    .image
                                             : mentorAvatar != ''
-                                                ? NetworkImage(mentorAvatar)
-                                                : mentorGender == true
-                                                    ? Image.asset(
-                                                            'assets/images/male_avatar.jpg')
-                                                        .image
-                                                    : Image.asset(
-                                                            'assets/images/female_avatar.png')
-                                                        .image,
+                                                ? CachedNetworkImageProvider(mentorAvatar)
+                                                : Image.asset(
+                                                        'assets/images/blank_avatar.png')
+                                                    .image,
                                         child: const InkWell(
                                           customBorder: CircleBorder(),
                                         ),

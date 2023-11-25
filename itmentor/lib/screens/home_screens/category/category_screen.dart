@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:itmentor/screens/home_screens/category/blogs/all_blogs_screen.dart';
 import 'package:http/http.dart' as http;
@@ -74,7 +75,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 backgroundImage: blog['user']['avatar'] == ''
                                     ? const AssetImage(
                                         'assets/images/blank_avatar.png')
-                                    : NetworkImage(blog['user']['avatar'])
+                                    : CachedNetworkImageProvider(
+                                            blog['user']['avatar'])
                                         as ImageProvider,
                               ),
                               title: Text(blog['title']),

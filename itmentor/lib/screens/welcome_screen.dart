@@ -35,6 +35,7 @@ class _LoginScreenState extends State<WelcomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
+                  key: Key('loginButton'),
                   onPressed: () {
                     Navigator.push(
                       context,
