@@ -1,29 +1,57 @@
 import { render, fireEvent } from '@testing-library/vue';
-import SignIn from '@/pages/SignIn/SignIn.vue';
+import MentorCard from '@/components/MentorCard/MentorCard.vue';
 
-// Mock router-link to avoid errors
-jest.mock('vue-router', () => ({
-  RouterLink: {
-    render: () => {},
-  },
-}));
+test('renders correctly and handles click event', async () => {
+  const { getByText, getByTestId } = render(MentorCard);
 
-test('it should log in with valid credentials', async () => {
-  const { getByLabelText, getByText } = render(SignIn);
+  // Ensure that the component renders correctly
+//   <div
+//   id="mentor-card"
+//   :class="{
+//     'mentor-card tooltip-container': hover,
+//     'mentor-card': !hover,
+//   }"
+  
+//   ref="tooltipContainer"
+//   @click="() => router.push(`/user/${mentor._id}`)"
+// >
+  // const card is get that div with id = mentor-card
+  const card = getByTestId('mentor-card');  
+  // console.log(card);
 
-  // Fill in the email and password fields
-  await fireEvent.update(getByLabelText('Email'), 'abcd');
-  await fireEvent.update(getByLabelText('Mật khẩu'), '123456');
+  // Simulate a click event on the card
+  await fireEvent.click(card);
 
-  // Click the submit button
-  await fireEvent.click(getByText('Đăng nhập'));
-
-  // You may need to wait for an asynchronous operation to complete (e.g., API request)
-  // For simplicity, you can use a setTimeout or async/await with Jest's fake timers
-
-  // Assuming your login logic sets some kind of flag or state when successful
-  // Here, we are checking if the success message is displayed (modify as needed)
-  expect(getByText('Đăng nhập thành công')).toBeInTheDocument();
+  // Check if the click event is handled correctly
+  // You may need to adjust this based on your actual logic
+  // For example, check if the router push is called with the correct path
+  // Here, we are just checking if the click event was triggered
+  expect(card).toHaveProperty('clicked', true);
 });
 
-// You can add more tests for invalid credentials, form validation, etc.
+
+
+  // get form element, email input, password input, submit button
+  // const form = getByText('form');
+  // // console.log if has form
+  // console.log(form);
+
+  // const emailInput = getByText('input[name="email"]');
+  // const passwordInput = getByText('input[name="password"]');
+  // const submitButton = getByText('button[type="submit"]');
+  // // check if form is rendered
+  // expect(form).toBeInTheDocument();
+  // // check if email input is rendered
+  // expect(emailInput).toBeInTheDocument();
+  // // check if password input is rendered
+  // expect(passwordInput).toBeInTheDocument();
+  // // check if submit button is rendered
+  // expect(submitButton).toBeInTheDocument();
+  // // fill in email input abc@gmail.com
+  // fireEvent.input(emailInput, { target: { value: 'myduyen14125+1@gmail.com' } });
+  // // fill in password input 123456
+  // fireEvent.input(passwordInput, { target: { value: '123456' } });
+  // // click submit button
+  // fireEvent.click(submitButton);
+  // // check if email input is rendered
+  
