@@ -14,14 +14,14 @@ export default defineComponent({
   components: { MessageCard, SvgIcon },
   setup() {
     const authStore = useAuth();
-    const isLogin = ref(authStore.userInfo ? true : false);
+    const isLogin = ref(authStore.userInfo.value ? true : false);
     const userStore = useUser();
     const userInfo = ref();
 
     watch(
       () => authStore.userInfo,
       function () {
-        isLogin.value = authStore.userInfo ? true : false;
+        isLogin.value = authStore.userInfo.value ? true : false;
       }
     );
 

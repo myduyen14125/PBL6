@@ -12,7 +12,6 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "isCustomElement": "tagName => tagName === 'vue-advanced-chat' || tagName === 'emoji-picker'"
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "tests/**/*.ts"],
   "exclude": ["node_modules"]
