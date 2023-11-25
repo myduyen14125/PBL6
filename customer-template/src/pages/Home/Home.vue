@@ -44,6 +44,9 @@
           </div>
         </div>
       </section>
+      <section class="process-section">
+        <ProcessSection />
+      </section>
       <section class="mentors">
         <div class="container">
           <h2 class="text-center color-primary mb-5">CỐ VẤN NỔI BẬT</h2>
