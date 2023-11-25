@@ -7,7 +7,8 @@
             <h2 class="text-3xl lg:text-center mx-auto max-w-2xl text-white font-bold tracking-tight sm:text-4xl">
               Cơ hội trong tầm tay bạn: kết nối trực tiếp với Mentor.</h2>
             <p class="text-xl lg:text-center mx-auto max-w-3xl">Bạn muốn thành công trong buổi phỏng vấn tiếp theo?
-              Bạn muốn xây dựng nền tảng kiến thức vững chắc? Hay nâng cao những kiến thức "khó nhằn" trong công cuộc học IT? Hãy tiếp cận một cách thông minh và có hiệu quả hơn thông qua chúng tôi. 
+              Bạn muốn xây dựng nền tảng kiến thức vững chắc? Hay nâng cao những kiến thức "khó nhằn" trong công cuộc học
+              IT? Hãy tiếp cận một cách thông minh và có hiệu quả hơn thông qua chúng tôi.
               <br><br>
               Hãy trở thành một thành viên của IT Mentor ngay hôm nay!
             </p>
@@ -26,7 +27,8 @@
                         <img src="https://cdn.mentorcruise.com/img/home/icons/mc-logo.svg" alt="ITMentor">
                       </div>
                       <div>
-                        <p class="my-4 text-base text-center">Khám phá danh mục mentor giàu kinh nghiệm của chúng tôi cho đến khi bạn tìm được người phù hợp hoàn hảo.</p>
+                        <p class="my-4 text-base text-center">Khám phá danh mục mentor giàu kinh nghiệm của chúng tôi cho
+                          đến khi bạn tìm được người phù hợp hoàn hảo.</p>
                       </div>
                     </div>
                   </div>
@@ -46,7 +48,8 @@
                         <img src="https://cdn.mentorcruise.com/img/home/icons/mc-edit.svg" alt="ITMentor">
                       </div>
                       <div>
-                        <p class="my-4 text-base text-center">Kết nối trực tuyến 1 - 1 thông qua các buổi gặp mặt hoặc trải nghiệm khóa học đến từ mentor.</p>
+                        <p class="my-4 text-base text-center">Kết nối trực tuyến 1 - 1 thông qua các buổi gặp mặt hoặc
+                          trải nghiệm khóa học đến từ mentor.</p>
                       </div>
                     </div>
                   </div>
@@ -66,7 +69,8 @@
                         <img src="https://cdn.mentorcruise.com/img/home/icons/mc-rocket.svg" alt="ITMentor">
                       </div>
                       <div>
-                        <p class="my-4 text-base text-center">Mỗi mentor cung cấp các dịch vụ khác nhau để giúp bạn thăng tiến nhanh chóng trong sự nghiệp của mình.</p>
+                        <p class="my-4 text-base text-center">Mỗi mentor cung cấp các dịch vụ khác nhau để giúp bạn thăng
+                          tiến nhanh chóng trong sự nghiệp của mình.</p>
                       </div>
                     </div>
                   </div>
@@ -76,21 +80,19 @@
           </ul>
 
           <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-            <a href="/mentor/browse/">
-              <button
-                class="bg-mc-green hover:bg-mc-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button">
-                Tìm kiếm Mentor
-              </button>
-            </a><a
-              class="flex justify-center w-full md:w-auto text-sm text-white underline font-semibold hover:text-mc-green"
-              href="/mentor/">Become a Mentor</a>
+            <button class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3">
+              Tư vấn trực tiếp
+            </button>
+            <button class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3">
+              Tư vấn trực tiếp
+            </button>
 
           </div>
         </div>
+      </div>
     </div>
   </div>
-</div></template>
+</template>
 <script>
 </script>
 <style lang="css" scoped>
