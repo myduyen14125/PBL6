@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile/mentor_profile_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
@@ -120,13 +121,15 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Container(
-                                    constraints: BoxConstraints(maxHeight: double.infinity),
+                                    constraints: BoxConstraints(
+                                        maxHeight: double.infinity),
                                     child: ListTile(
                                       contentPadding: const EdgeInsets.all(16),
                                       leading: CircleAvatar(
                                         backgroundColor: Colors.white,
                                         backgroundImage: avatar != ""
-                                            ? NetworkImage(avatar as String)
+                                            ? CachedNetworkImageProvider(
+                                                    avatar as String)
                                                 as ImageProvider
                                             : const AssetImage(
                                                 'assets/images/blank_avatar.png'),
@@ -151,13 +154,16 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                                 Icons.email,
                                                 color: Colors.grey,
                                               ),
-                                              const SizedBox(width: 10,),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
                                               Flexible(
                                                 child: Text(
                                                   'Email: ${mentor['email']}',
-                                                  style:
-                                                      const TextStyle(fontSize: 14),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   maxLines: 1,
                                                 ),
                                               ),

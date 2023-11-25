@@ -112,10 +112,45 @@ class AuthServices {
         },
       );
 
+      if (res.statusCode != 201) {
+        showDialog(
+          context: ctx,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              key: Key('LoginError'),
+              title: const Text('Lỗi'),
+              content: const Text('Sai tài khoản hoặc mật khẩu'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+
       print(res.body);
     } catch (e) {
       print("login error : $e.toString()");
-      showSnackBar(ctx, 'Sai tài khoản hoặc mật khẩu');
+      // showSnackBar(ctx, 'Sai tài khoản hoặc mật khẩu');
+      showDialog(
+        context: ctx,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            key: Key('LoginError'),
+            title: const Text('Lỗi'),
+            content: const Text('Sai tài khoản hoặc mật khẩu'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 

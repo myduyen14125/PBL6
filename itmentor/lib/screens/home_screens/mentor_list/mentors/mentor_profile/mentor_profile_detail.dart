@@ -224,6 +224,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton(
+                            key: Key('chooseSchedule'),
                             onPressed: () {
                               currentUserData['role'] != 'mentor'
                                   ? Navigator.push(
