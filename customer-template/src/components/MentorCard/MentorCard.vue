@@ -1,9 +1,11 @@
 <template>
   <div
+    data-testid="mentor-card"
     :class="{
       'mentor-card tooltip-container': hover,
       'mentor-card': !hover,
     }"
+    
     ref="tooltipContainer"
     @click="() => router.push(`/user/${mentor._id}`)"
   >
