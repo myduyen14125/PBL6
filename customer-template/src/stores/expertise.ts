@@ -1,8 +1,8 @@
 import { get, noop } from "lodash";
-import { defineStore } from "pinia";
+
 import { getAllExpertise } from "./../api/expertise";
 
-export const useExpertise = defineStore("expertise", () => {
+export const useExpertise = () => {
   const requestGetAllExpertise = async ({
     callback,
   }: {
@@ -25,4 +25,4 @@ export const useExpertise = defineStore("expertise", () => {
   return {
     requestGetAllExpertise,
   };
-});
+};

@@ -1,5 +1,5 @@
 import { get, noop } from "lodash";
-import { defineStore } from "pinia";
+
 import {
   getUserInfo,
   getUserBlogs,
@@ -12,7 +12,7 @@ import {
 import { GetPaginationParams } from "../types/mentor";
 import { User, ChangePasswordParams } from "../types/auth";
 
-export const useUser = defineStore("user", () => {
+export const useUser = () => {
   const requestGetUserInfo = async ({
     id,
     callback,
@@ -169,4 +169,4 @@ export const useUser = defineStore("user", () => {
     requestMyProfile,
     requestChangePassword,
   };
-});
+};

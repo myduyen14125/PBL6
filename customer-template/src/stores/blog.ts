@@ -1,5 +1,5 @@
 import { get, noop } from "lodash";
-import { defineStore } from "pinia";
+
 import {
   getBlogPagination,
   createBlog,
@@ -10,7 +10,7 @@ import {
 import { CreateBlogParams } from "../types/blog";
 import { GetPaginationParams } from "../types/mentor";
 
-export const useBlog = defineStore("blog", () => {
+export const useBlog = () => {
   const requestGetBlogs = async ({
     params,
     callback,
@@ -125,4 +125,4 @@ export const useBlog = defineStore("blog", () => {
     requestDeleteBlog,
     requestUpdateBlog,
   };
-});
+};

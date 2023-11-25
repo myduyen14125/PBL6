@@ -1,5 +1,4 @@
 import { get, noop } from "lodash";
-import { defineStore } from "pinia";
 import {
   getAllUserAppointment,
   createAppointment,
@@ -9,12 +8,12 @@ import {
 import { CreateAppointmentParams } from "../types/appointment.js";
 import { GetPaginationParams } from "../types/mentor";
 
-export const useAppointment = defineStore("appointment", () => {
+export const useAppointment = () => {
   const requestGetAllUserAppointment = async ({
     params,
     callback,
   }: {
-    params: GetPaginationParams
+    params: GetPaginationParams;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, "onSuccess", noop);
@@ -100,4 +99,4 @@ export const useAppointment = defineStore("appointment", () => {
     requestConfirmAppointment,
     requestCancelAppointment,
   };
-});
+};

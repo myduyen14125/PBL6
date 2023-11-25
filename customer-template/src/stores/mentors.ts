@@ -1,9 +1,9 @@
 import { get, noop } from "lodash";
-import { defineStore } from "pinia";
+
 import { getMentorsPagination, getSearchMentor } from "../api/mentors";
 import { GetPaginationParams, SearchMentorsParams } from "../types/mentor";
 
-export const useMentors = defineStore("mentors", () => {
+export const useMentors = () => {
   const requestGetMentors = async ({
     params,
     callback,
@@ -50,4 +50,4 @@ export const useMentors = defineStore("mentors", () => {
     requestGetMentors,
     requestGetSearchMentor,
   };
-});
+};

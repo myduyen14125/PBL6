@@ -5,7 +5,6 @@ import {
   ForgetPasswordParams,
 } from "../types/auth.js";
 import { signIn, signUp } from "../api/auth.js";
-import { defineStore } from "pinia";
 import {
   getAccessToken,
   revokeUser,
@@ -20,7 +19,7 @@ import { Authorization } from "../types/auth.js";
 import { ref } from "vue";
 import { User } from "../types/auth.js";
 import { getPassword } from "./../api/auth";
-export const useAuth = defineStore("auth", () => {
+export const useAuth = () => {
   const userInfo = ref<User | null>(getUserInfo() || null);
 
   const setUserInfoStore = (info: User | null) => {
@@ -122,4 +121,4 @@ export const useAuth = defineStore("auth", () => {
     userInfo,
     requestGetPassword,
   };
-});
+};

@@ -1,5 +1,5 @@
 import { get, noop } from "lodash";
-import { defineStore } from "pinia";
+
 import {
   createExperience,
   deleteExperience,
@@ -21,7 +21,7 @@ import {
   SkillParams,
 } from "./../types/bio";
 
-export const useBio = defineStore("bio", () => {
+export const useBio = () => {
   const requestCreateExperience = async ({
     params,
     callback,
@@ -296,4 +296,4 @@ export const useBio = defineStore("bio", () => {
     requestDeleteSkill,
     requestUpdateSkill,
   };
-});
+};

@@ -1,5 +1,5 @@
 import { get, noop } from "lodash";
-import { defineStore } from "pinia";
+
 import {
   getMySchedules,
   createSchedule,
@@ -7,7 +7,7 @@ import {
 } from "./../api/schedule";
 import { CreateScheduleParams } from "../types/mentor";
 
-export const useSchedule = defineStore("schedule", () => {
+export const useSchedule = () => {
   const requestGetMySchedules = async ({
     callback,
   }: {
@@ -74,4 +74,4 @@ export const useSchedule = defineStore("schedule", () => {
     requestCreateSchedule,
     requestDeleteSchedule,
   };
-});
+};
