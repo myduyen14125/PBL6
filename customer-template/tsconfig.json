@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "http://localhost:5173",
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -11,9 +12,14 @@
     "types": ["vitest/globals"],
     "paths": {
       "@/*": ["src/*"]
-    },
-    "isCustomElement": "tagName => tagName === 'vue-advanced-chat' || tagName === 'emoji-picker'"
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "tests/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "cypress/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

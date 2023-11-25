@@ -88,9 +88,9 @@
   "resolved" "https://registry.npmjs.org/@element-plus/icons-vue/-/icons-vue-2.1.0.tgz"
   "version" "2.1.0"
 
-"@esbuild/darwin-x64@0.18.20":
-  "integrity" "sha512-pc5gxlMDxzm513qPGbCbDukOdsGtKhfxD1zJKXjCCcU7ju50O7MeAZ8c4krSJcOIJGFR+qx21yMMVYwiQvyTyQ=="
-  "resolved" "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.18.20.tgz"
+"@esbuild/win32-x64@0.18.20":
+  "integrity" "sha512-kTdfRcSiDfQca/y9QIkng02avJ+NCaQvrMejlsB3RRv5sE9rRoeBPISaZpKxHELzRxZyLvNts1P27W3wV+8geQ=="
+  "resolved" "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.18.20.tgz"
   "version" "0.18.20"
 
 "@floating-ui/core@^1.4.2":
@@ -312,6 +312,13 @@
   "integrity" "sha512-SLg07AS9z1Ab2LU+QxzU8RCmzsja80ywjf/t5oqw+4NSH20gIGlhLOrBDm1L3PBWzPa4+wkgFQVZAjE6Ioj2ug=="
   "resolved" "https://registry.npmjs.org/@types/cookie/-/cookie-0.5.3.tgz"
   "version" "0.5.3"
+
+"@types/cypress@^1.1.3":
+  "integrity" "sha512-OXe0Gw8LeCflkG1oPgFpyrYWJmEKqYncBsD/J0r17r0ETx/TnIGDNLwXt/pFYSYuYTpzcq1q3g62M9DrfsBL4g=="
+  "resolved" "https://registry.npmjs.org/@types/cypress/-/cypress-1.1.3.tgz"
+  "version" "1.1.3"
+  dependencies:
+    "cypress" "*"
 
 "@types/eslint-scope@^3.7.3":
   "integrity" "sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg=="
@@ -1539,7 +1546,7 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-3.1.2.tgz"
   "version" "3.1.2"
 
-"cypress@^13.6.0", "cypress@>=7.0.0":
+"cypress@*", "cypress@^13.6.0", "cypress@>=7.0.0":
   "integrity" "sha512-quIsnFmtj4dBUEJYU4OH0H12bABJpSujvWexC24Ju1gTlKMJbeT6tTO0vh7WNfiBPPjoIXLN+OUqVtiKFs6SGw=="
   "resolved" "https://registry.npmjs.org/cypress/-/cypress-13.6.0.tgz"
   "version" "13.6.0"
@@ -2302,11 +2309,6 @@
   "integrity" "sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw=="
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
-
-"fsevents@~2.3.2":
-  "integrity" "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
-  "version" "2.3.3"
 
 "function-bind@^1.1.2":
   "integrity" "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA=="
@@ -3624,14 +3626,6 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-2.3.0.tgz"
   "version" "2.3.0"
 
-"pinia@^2.1.6":
-  "integrity" "sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ=="
-  "resolved" "https://registry.npmjs.org/pinia/-/pinia-2.1.7.tgz"
-  "version" "2.1.7"
-  dependencies:
-    "@vue/devtools-api" "^6.5.0"
-    "vue-demi" ">=0.14.5"
-
 "pirates@^4.0.1":
   "integrity" "sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg=="
   "resolved" "https://registry.npmjs.org/pirates/-/pirates-4.0.6.tgz"
@@ -4691,7 +4685,7 @@
     "for-each" "^0.3.3"
     "is-typed-array" "^1.1.9"
 
-"typescript@*", "typescript@^5.0.2", "typescript@>=4.4.4":
+"typescript@*", "typescript@^5.0.2":
   "integrity" "sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-5.2.2.tgz"
   "version" "5.2.2"
@@ -4833,11 +4827,6 @@
   "resolved" "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.6.tgz"
   "version" "0.14.6"
 
-"vue-demi@>=0.14.5":
-  "integrity" "sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w=="
-  "resolved" "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.6.tgz"
-  "version" "0.14.6"
-
 "vue-facing-decorator@^3.0.3":
   "integrity" "sha512-Lk90PevJllB6qRRdLvLFjATZrv00nof1Ob6afavKL7Pc7V3eEin3vhdvEDRORdWKVvNoXhJbHejngWVuT0Pt0g=="
   "resolved" "https://registry.npmjs.org/vue-facing-decorator/-/vue-facing-decorator-3.0.4.tgz"
@@ -4890,7 +4879,7 @@
     "@vue/compiler-sfc" "2.7.15"
     "csstype" "^3.1.0"
 
-"vue@^2.6.14 || ^3.3.0", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.1", "vue@^3.0.11", "vue@^3.2", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.41", "vue@^3.3.4", "vue@>= 3", "vue@>= 3.0.0 < 4", "vue@>=3.0.0", "vue@3.3.7":
+"vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.1", "vue@^3.0.11", "vue@^3.2", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.41", "vue@^3.3.4", "vue@>= 3", "vue@>= 3.0.0 < 4", "vue@>=3.0.0", "vue@3.3.7":
   "integrity" "sha512-YEMDia1ZTv1TeBbnu6VybatmSteGOS3A3YgfINOfraCbf85wdKHzscD6HSS/vB4GAtI7sa1XPX7HcQaJ1l24zA=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.3.7.tgz"
   "version" "3.3.7"
