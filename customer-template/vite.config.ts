@@ -11,5 +11,10 @@ export default defineConfig({
     alias: {
       "@": "/src"
     }
+  },
+  test: {
+    // enable jest-like global test APIs
+    globals: true,
+    environment: 'happy-dom'
   }
 });
