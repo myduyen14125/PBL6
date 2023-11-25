@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile/mentor_profile_detail.dart';
@@ -201,6 +202,7 @@ class _SearchMentorState extends State<SearchMentor> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
+                key: Key('searchField'),
                 decoration: InputDecoration(
                   labelText: 'Tìm theo tên',
                   border: OutlineInputBorder(
@@ -226,6 +228,7 @@ class _SearchMentorState extends State<SearchMentor> {
                       itemBuilder: (context, index) {
                         final mentor = mentors[index];
                         return InkWell(
+                          key: Key('MentorData'),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -251,13 +254,12 @@ class _SearchMentorState extends State<SearchMentor> {
                               leading: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 backgroundImage: mentor['avatar'] != ""
-                                    ? NetworkImage(mentor['avatar'] as String)
+                                    ? CachedNetworkImageProvider(
+                                            mentor['avatar'] as String)
                                         as ImageProvider
-                                    : mentor['gender'] == true
-                                        ? const AssetImage(
-                                            'assets/images/male_avatar.jpg')
-                                        : const AssetImage(
-                                            'assets/images/female_avatar.png'),
+                                    : Image.asset(
+                                            'assets/images/blank_avatar.png')
+                                        .image,
                               ),
                               title: Text(
                                 mentor['name'],

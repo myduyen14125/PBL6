@@ -49,8 +49,6 @@ class _HomepageScreenState extends State<HomepageScreen>
       final List<dynamic> data = json.decode(response.body);
       return List<Map<String, dynamic>>.from(data);
     } else {
-      // If the server did not return a 200 OK response,
-      // throw an exception.
       throw Exception('Failed to load expertise data');
     }
   }
@@ -106,6 +104,7 @@ class _HomepageScreenState extends State<HomepageScreen>
                             onPressed: (() {}),
                             icon: const Icon(Icons.notifications)),
                         IconButton(
+                          key: Key('searchMentorButton'),
                           onPressed: (() {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -159,22 +158,22 @@ class _HomepageScreenState extends State<HomepageScreen>
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AllMentorsScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1369B2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                  child: const Text('Xem thêm mentor'),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => const AllMentorsScreen()),
+                //     );
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: const Color(0xFF1369B2),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(20.0),
+                //     ),
+                //   ),
+                //   child: const Text('Xem thêm mentor'),
+                // ),
                 Container(
                   margin: const EdgeInsets.only(left: 20),
                   child: const Align(

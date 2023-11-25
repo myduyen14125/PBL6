@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:itmentor/screens/home_screens/mentor_list/mentors/all_mentor_screen.dart';
 import 'package:itmentor/screens/home_screens/mentor_list/mentors/mentor_profile/mentor_profile_detail.dart';
 import 'package:itmentor/services/auth_services.dart';
 
@@ -42,51 +44,71 @@ class _MentorListScreenState extends State<MentorListScreen> {
                   int itemCount =
                       mentorData!.length < 3 ? mentorData.length : 3;
 
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: itemCount,
-                    itemBuilder: (context, index) {
-                      final mentor = mentorData[index];
-                      final avatar = mentor['avatar'];
-                      return Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MentorProfileDetail(
-                                  id: mentor['_id'],
-                                  avatar: avatar,
-                                ),
+                  return Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: itemCount,
+                        itemBuilder: (context, index) {
+                          final mentor = mentorData[index];
+                          final avatar = mentor['avatar'];
+                          return Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MentorProfileDetail(
+                                      id: mentor['_id'],
+                                      avatar: avatar,
+                                    ),
+                                  ),
+                                );
+                              },
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                backgroundImage: avatar != ""
+                                    ? CachedNetworkImageProvider(avatar as String)
+                                        as ImageProvider
+                                    : const AssetImage(
+                                        'assets/images/blank_avatar.png'),
                               ),
-                            );
-                          },
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            backgroundImage: avatar != ""
-                                ? NetworkImage(avatar as String)
-                                    as ImageProvider
-                                : const AssetImage(
-                                    'assets/images/blank_avatar.png'),
-                          ),
-                          title: Text('${mentor['name']}'),
-                          subtitle: Row(
-                            children: [
-                              Text('${mentor['email']}'),
-                              const Spacer(),
-                              const Text(
-                                'Chi tiết',
-                                style: TextStyle(color: Colors.green),
+                              title: Text('${mentor['name']}'),
+                              subtitle: Row(
+                                children: [
+                                  Text('${mentor['email']}'),
+                                  const Spacer(),
+                                  const Text(
+                                    'Chi tiết',
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                          );
+                        },
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AllMentorsScreen()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1369B2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
                         ),
-                      );
-                    },
+                        child: const Text('Xem thêm mentor'),
+                      ),
+                    ],
                   );
                 }
               },
