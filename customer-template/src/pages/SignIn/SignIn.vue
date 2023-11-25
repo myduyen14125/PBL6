@@ -9,13 +9,13 @@
         </div>
         <div class="card-body">
           <form @submit="submitForm">
-            <div className="form-group required mb-3">
+            <div class="form-group required mb-3">
               <label>Email</label>
               <input
                 type="text"
                 v-model="form.email"
                 name="email"
-                :className="
+                :class="
                   ['form-control', error.email ? 'is-invalid' : '']
                     .filter(Boolean)
                     .join(' ')
@@ -27,13 +27,13 @@
                 {{ error.email }}
               </p>
             </div>
-            <div className="form-group required">
+            <div class="form-group required">
               <label>Mật khẩu</label>
               <input
                 type="password"
                 v-model="form.password"
                 name="password"
-                :className="
+                :class="
                   ['form-control', error.password ? 'is-invalid' : '']
                     .filter(Boolean)
                     .join(' ')
@@ -50,13 +50,13 @@
             </div>
             <div class="d-flex align-items-center justify-content-center my-4">
               <button
-                className="btn btn-primary px-4"
+                class="btn btn-primary px-4"
                 type="submit"
                 :disabled="isSubmitting"
               >
                 <span
                   v-if="isSubmitting"
-                  className="spinner-border spinner-border-sm mr-2"
+                  class="spinner-border spinner-border-sm mr-2"
                   role="status"
                   aria-hidden="true"
                 ></span>
