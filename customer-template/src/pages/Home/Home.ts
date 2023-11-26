@@ -14,6 +14,8 @@ import { useBlog } from "@/stores/blog";
 import SwalPopup from "@/ultils/swalPopup";
 import { GetPaginationParams, Mentor } from "@/types/mentor";
 import { Blog } from "@/types/blog";
+import { SearchMentorsParams } from "../../types/mentor";
+import router from "../../router";
 
 export default defineComponent({
   name: "Home",
@@ -25,6 +27,12 @@ export default defineComponent({
     const blogs = ref<Blog[]>([]);
     const isLoadingMentor = ref(false);
     const isLoadingBlog = ref(false);
+    const searchValue = ref<SearchMentorsParams>({
+      page: 1,
+      name: "",
+      expertise: "",
+      limit: 8,
+    });
 
     onMounted(() => {
       getMentors();
@@ -71,12 +79,23 @@ export default defineComponent({
       });
     };
 
+    const getSearchParams = (params: SearchMentorsParams) => {
+      searchValue.value = {
+        ...searchValue.value,
+        ...params,
+        page: 1,
+      };
+      router.push(`/mentors`);
+    };
+
     return {
       heroImg,
       mentors,
       blogs,
       isLoadingBlog,
       isLoadingMentor,
+      searchValue,
+      getSearchParams,
     };
   },
 });
