@@ -12,7 +12,7 @@
             <div class="form-group required mb-3">
               <label>Email</label>
               <input
-                type="text"
+                type="email"
                 v-model="form.email"
                 name="email"
                 :class="
@@ -21,16 +21,16 @@
                     .join(' ')
                 "
                 placeholder="Nhập email"
-                @blur="validateRequired('email')"
+                @blur="validateEmail()"
               />
               <p v-if="error.email" class="error-message mt-1">
                 {{ error.email }}
               </p>
             </div>
-            <div class="form-group required">
+            <div class="form-group required relative">
               <label>Mật khẩu</label>
               <input
-                type="password"
+                :type="isShowPassword ? 'text' : 'password'"
                 v-model="form.password"
                 name="password"
                 :class="
@@ -39,7 +39,14 @@
                     .join(' ')
                 "
                 placeholder="Nhập mật khẩu"
+                @input="validatePassword()"
                 @blur="validateRequired('password')"
+              />
+              <SvgIcon
+                id="eye-icon"
+                class="password-icon absolute right-8 top-[2.6rem] cursor-pointer"
+                :icon="isShowPassword ? 'eye' : 'eyeSlash'"
+                @click="isShowPassword = !isShowPassword"
               />
               <p v-if="error.password" class="error-message mt-1">
                 {{ error.password }}
