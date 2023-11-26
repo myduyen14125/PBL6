@@ -38,6 +38,8 @@ export default defineComponent({
       greenTriangle: "greenTriangle",
       bgDots: "bgDots",
       bgBlur: "bgBlur",
+      eye: "eye",
+      eyeSlash: "eyeSlash",
     };
 
     return {
