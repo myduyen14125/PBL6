@@ -1,8 +1,11 @@
 <template>
   <BModal
+    class="experience_modal"
     v-model:modal="modal"
     id="experience_modal"
-    title="Thêm kinh nghiệm làm việc"
+    :title="
+      data ? 'Chỉnh sửa kinh nghiệm làm việc' : 'Thêm kinh nghiệm làm việc'
+    "
     size="lg"
     animation="fade"
     :noCloseOnBackdrop="true"
@@ -12,6 +15,7 @@
         <div className="form-group required mb-3">
           <p class="label">Tên công ty</p>
           <input
+            data-test-id="input-company"
             type="text"
             v-model="form.company"
             name="company"
@@ -30,6 +34,7 @@
         <div className="form-group required mb-3">
           <p class="label">Vị trí</p>
           <input
+            data-test-id="input-position"
             type="text"
             v-model="form.position"
             name="position"
@@ -49,6 +54,7 @@
           <p class="label">Mô tả</p>
           <textarea
             rows="4"
+            data-test-id="input-description"
             v-model="form.description"
             name="description"
             :className="
@@ -66,13 +72,14 @@
         <div className="form-group required mb-3">
           <p class="label">Thời gian</p>
           <el-date-picker
+            data-test-id="input-date"
             :class="
               ['w-100', error.date ? 'is-valid' : ''].filter(Boolean).join(' ')
             "
             v-model="form.date"
             type="daterange"
             range-separator="đến"
-            start-placeholder="DD/MM/YYY"
+            start-placeholder="DD/MM/YYYY"
             end-placeholder="DD/MM/YYYY"
             format="DD/MM/YYYY"
             value-format="YYYY-MM-DD"
@@ -84,6 +91,7 @@
     </template>
     <template v-slot:footer>
       <BButton
+        data-test-id="experience-submit-btn"
         typeButton="submit"
         classes="btn btn-primary px-5"
         label="Lưu"

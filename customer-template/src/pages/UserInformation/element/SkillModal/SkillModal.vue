@@ -1,7 +1,7 @@
 <template>
   <BModal
     v-model:modal="modal"
-    id="experience_modal"
+    id="skill_modal"
     title="Thêm kỹ năng hoặc chứng chỉ"
     size="lg"
     animation="fade"

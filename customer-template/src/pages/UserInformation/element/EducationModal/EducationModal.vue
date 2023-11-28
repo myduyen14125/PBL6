@@ -1,7 +1,7 @@
 <template>
   <BModal
     v-model:modal="modal"
-    id="experience_modal"
+    id="education_modal"
     title="Thêm quá trình học tập"
     size="lg"
     animation="fade"

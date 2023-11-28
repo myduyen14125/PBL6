@@ -168,10 +168,11 @@
                 fb.com/linh.le.1237
               </div>
             </div>
-            <div class="user-section">
+            <div class="user-section experience-section">
               <div class="flex-center-between">
                 <h5>KINH NGHIỆM LÀM VIỆC</h5>
                 <p
+                  data-test-id="add-experience"
                   v-if="showEdit"
                   class="btn btn-primary px-3"
                   @click="toggleExperience"

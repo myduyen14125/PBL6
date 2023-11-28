@@ -38,6 +38,7 @@
             <SvgIcon
               icon="edit"
               class="p-2 mr-2 bg-edit button"
+              data-test-id="edit-experience"
               @click="toggleEdit"
             />
           </el-tooltip>
@@ -51,6 +52,7 @@
               icon="delete"
               class="p-2 bg-delete button"
               @click="onDelete"
+              data-test-id="delete-experience"
             />
           </el-tooltip>
         </div>

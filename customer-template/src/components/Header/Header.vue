@@ -78,7 +78,7 @@
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            class="dropdown-toggle d-flex align-items-center"
+            class="dropdown-toggle d-flex align-items-center header-menu"
           >
             <img
               :src="userInfo?.avatar ? userInfo?.avatar : avatar"
@@ -101,7 +101,11 @@
                   {{ userInfo?.name || "Trần Thị Ngà" }}
                 </p>
                 <p class="mb-0">
-                  <a :href="`/user/${userInfo?._id}`">Xem hồ sơ của bạn</a>
+                  <a
+                    data-test-id="user-info-link"
+                    :href="`/user/${userInfo?._id}`"
+                    >Xem hồ sơ của bạn</a
+                  >
                 </p>
               </div>
             </li>
