@@ -27,6 +27,7 @@ export default defineComponent({
     const form = ref<SignInParams>(initialForm);
     const error = ref(initialError);
     const isSubmitting = ref(false);
+    const isShowPassword = ref(false);
 
     const validateRequired = (fieldName: keyof SignInParams): string => {
       const err = validate(form.value[fieldName], {
@@ -39,11 +40,45 @@ export default defineComponent({
       return err;
     };
 
+    const validateEmail = (): string => {
+      let err = "";
+      if (form.value.email === "") {
+        err = "Đây là trường bắt buộc";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
+        err = "Email không hợp lệ";
+      }
+    
+      error.value.email = err;
+    
+      return err;
+    };    
+
+    const validatePassword = (): string => {
+      let err = "";
+    
+      if (form.value.password === "") {
+        err = "Đây là trường bắt buộc";
+      } else if (form.value.password.length < 6) {
+        err = "Mật khẩu phải có ít nhất 6 ký tự";
+      } else if (form.value.password.length > 20) {
+        err = "Mật khẩu phải có tối đa 20 ký tự";
+      } else if (!/[A-Z]/.test(form.value.password)) {
+        err = "Mật khẩu phải chứa ít nhất 1 chữ cái in hoa";
+      } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(form.value.password)) {
+        err = "Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt";
+      }
+    
+      error.value.password = err;
+    
+      return err;
+    };    
+
     const validateForm = (): boolean => {
       const arrRes = [];
       arrRes.push(validateRequired("email"));
       arrRes.push(validateRequired("password"));
-
+      arrRes.push(validateEmail());
+      arrRes.push(validatePassword());
       return arrRes.findIndex((x) => x && x.length > 0) < 0;
     };
 
@@ -57,11 +92,16 @@ export default defineComponent({
         callback: {
           onSuccess: (res) => {
             isSubmitting.value = false;
+            SwalPopup.swalResultPopup(
+              "Đăng nhập thành công!",
+              "sucess"
+            );
+            // todo: hide swalpopup after 2s
             router.push({ name: RouterNameEnum.Home });
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
-              "Sorry, looks like there are some errors detected, please try again.",
+              "Xin lỗi, thông tin đăng nhập không chính xác, cần kiểm tra lại email hoặc mật khẩu!",
               "error"
             );
             isSubmitting.value = false;
@@ -79,6 +119,9 @@ export default defineComponent({
       isSubmitting,
       submitForm,
       validateRequired,
+      validateEmail,
+      validatePassword,
+      isShowPassword,
     };
   },
 });

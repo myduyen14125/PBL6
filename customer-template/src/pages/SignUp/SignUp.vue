@@ -21,7 +21,7 @@
                     .join(' ')
                 "
                 placeholder="Nhập email"
-                @blur="validateRequired('email')"
+                @blur="validateEmail()"
               />
               <p v-if="error.email" class="error-message mt-1">
                 {{ error.email }}
@@ -45,10 +45,10 @@
                 {{ error.name }}
               </p>
             </div>
-            <div className="form-group required mb-3">
+            <div className="form-group required mb-3 relative">
               <label>Mật khẩu</label>
               <input
-                type="password"
+                :type="isShowPassword ? 'text' : 'password'"
                 v-model="form.password"
                 name="password"
                 :className="
@@ -57,40 +57,30 @@
                     .join(' ')
                 "
                 placeholder="Nhập mật khẩu"
+                @input="validatePassword()"
                 @blur="validateRequired('password')"
+              />
+              <SvgIcon
+                id="eye-icon"
+                class="password-icon absolute right-8 top-[2.6rem] cursor-pointer"
+                :icon="isShowPassword ? 'eye' : 'eyeSlash'"
+                @click="isShowPassword = !isShowPassword"
               />
               <p v-if="error.password" class="error-message mt-1">
                 {{ error.password }}
               </p>
             </div>
-            <!-- <div className="form-group required mb-3">
-              <label>Nhập lại mật khẩu</label>
-              <input
-                type="password"
-                v-model="form.confirmPassword"
-                name="confirmPassword"
-                :className="
-                  ['form-control', error.confirmPassword ? 'is-invalid' : '']
-                    .filter(Boolean)
-                    .join(' ')
-                "
-                placeholder="Nhập lại mật khẩu"
-                @blur="validateConfirmPassword"
-              />
-              <p v-if="error.confirmPassword" class="error-message mt-1">
-                {{ error.confirmPassword }}
-              </p>
-            </div> -->
             <div className="form-group required mb-3">
               <label>Giới tính</label>
               <el-select
+                id="select-gender-signup"
                 name="gender"
                 v-model="form.gender"
                 class="w-100"
                 placeholder="Chọn giới tính"
               >
-                <el-option label="Nam" :value="false" />
-                <el-option label="Nữ" :value="true" />
+                <el-option id="select-gender-signup-male" label="Nam" :value="false" />
+                <el-option id="select-gender-signup-female" label="Nữ" :value="true" />
               </el-select>
               <p v-if="error.gender" class="error-message mt-1">
                 {{ error.gender }}
@@ -99,6 +89,7 @@
             <div className="form-group required mb-3">
               <label>Ngày sinh</label>
               <el-date-picker
+                id="date-picker-signup"
                 name="date_of_birth"
                 v-model="form.date_of_birth"
                 type="date"
@@ -106,6 +97,7 @@
                 format="DD/MM/YYYY"
                 value-format="YYYY-MM-DD"
                 class="w-100"
+                @change="validateDateOfBirth()"
               >
                 <template #default="cell">
                   <div class="cell" :class="{ current: cell.isCurrent }">
@@ -120,13 +112,14 @@
             <div className="form-group required mb-3">
               <label>Bạn muốn đăng kí với vai trò</label>
               <el-select
+                id="select-role-signup"
                 name="role"
                 v-model="form.role"
                 class="w-100"
                 placeholder="Chọn vai trò"
               >
-                <el-option label="Mentor" value="mentor" />
-                <el-option label="Mentee" value="mentee" />
+                <el-option id="select-role-signup-mentor" label="Mentor" value="mentor" />
+                <el-option id="select-role-signup-mentee" label="Mentee" value="mentee" />
               </el-select>
               <p v-if="error.role" class="error-message mt-1">
                 {{ error.role }}
