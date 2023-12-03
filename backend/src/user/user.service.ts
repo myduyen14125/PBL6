@@ -240,14 +240,14 @@ export class UserService {
         const newPasswordHashed = await bcrypt.hash(newPassword, 10);
         await this.userRepository.findByIdAndUpdate(userCheck.id, { password: newPasswordHashed })
 
-        // await this.mailerService.sendMail({
-        //     to: email,
-        //     subject: 'Your new password',
-        //     template: `./forgotpassword`,
-        //     context: {
-        //         password: newPassword
-        //     }
-        // })
+        await this.mailerService.sendMail({
+            to: email,
+            subject: 'Your new password',
+            template: `./forgotpassword`,
+            context: {
+                password: newPassword
+            }
+        })
 
         return "check your email for new password"
 
@@ -255,13 +255,32 @@ export class UserService {
 
     generateRandomPassword(length: number): string {
         const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const specialCharacters = "!@#$%^&*()_-+=<>?/[]{}|";
+        // Ensure at least one special character
+        const randomSpecialChar = specialCharacters.charAt(Math.floor(Math.random() * specialCharacters.length));
+        // Ensure at least one capital letter
+        const randomCapitalLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(Math.floor(Math.random() * 26));
+        // Generate the remaining part of the password
+        const remainingLength = length - 2; // 1 for special char, 1 for capital letter
         let password = "";
-        for (let i = 0; i < length; i++) {
-            const randomIndex = Math.floor(Math.random() * charset.length);
-            password += charset.charAt(randomIndex);
+        for (let i = 0; i < remainingLength; i++) {
+          const randomIndex = Math.floor(Math.random() * charset.length);
+          password += charset.charAt(randomIndex);
         }
+        // Insert the special character and capital letter at random positions
+        const randomPosition1 = Math.floor(Math.random() * (length - 1)); // position for special char
+        const randomPosition2 = Math.floor(Math.random() * length); // position for capital letter
+      
+        password =
+          password.slice(0, randomPosition1) +
+          randomSpecialChar +
+          password.slice(randomPosition1, randomPosition2) +
+          randomCapitalLetter +
+          password.slice(randomPosition2);
+      
         return password;
-    }
+      }
+      
 
     async checkMentee(mentee_id: string) {
         const mentor = await this.userRepository.findById(mentee_id);

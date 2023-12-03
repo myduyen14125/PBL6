@@ -1,13 +1,13 @@
-import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsUrl, MinLength } from "class-validator";
+import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsUrl, MaxLength, MinLength, Validate } from "class-validator";
+import { IsStrongPassword } from "../validators/password.validator";
 
 export class CreateUserDto {
     @IsNotEmpty() name: string;
     @IsEmail() @IsNotEmpty() email: string;
-    @MinLength(6) @IsNotEmpty() password: string;
+    @MinLength(6) @IsNotEmpty() @MaxLength(20) password: string;
     @IsNotEmpty() date_of_birth: Date;
     @IsNotEmpty() gender: boolean;
-    @IsIn(['mentor', 'mentee']) @IsNotEmpty() role: string;
-    
+    @IsIn(['mentor', 'mentee']) @IsNotEmpty() role: string;  
     phone: string;
     avatar: string;
     number_of_mentees: number;
@@ -18,19 +18,20 @@ export class CreateUserDto {
 
 export class LoginUserDto {
     @IsEmail() @IsNotEmpty() email: string;
-    @MinLength(6) @IsNotEmpty() password: string;
+    @IsNotEmpty() @IsStrongPassword() password: string;
 }
 
 export class UpdateUserDto {
-    name: string;
+    @MaxLength(30) name: string;
     date_of_birth: Date;
-    avatar: string;
-    phone: string;
+    @IsUrl() avatar: string;
+    @MinLength(9) @MaxLength(11) phone: string;
     gender: boolean;
     @IsUrl() facebook_link: string;
     @IsUrl() skype_link: string;
     @IsMongoId() expertise: string;
 }
+
 export class PaginationMentorDto {
     @IsNotEmpty() page: number;
     @IsNotEmpty() limit: number;
