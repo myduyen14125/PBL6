@@ -18,8 +18,6 @@ export class CreateRatingDto {
 }
 
 export class PaginationRatingDto {
-    @IsNotEmpty()
     page: number;
-    @IsNotEmpty()
     limit: number;
 }

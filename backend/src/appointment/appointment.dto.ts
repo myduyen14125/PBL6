@@ -16,6 +16,6 @@ export class UpdateAppointmentDto {
 }
 
 export class PaginationAppointmentDto {
-    @IsNotEmpty() page: number; 
-    @IsNotEmpty() limit: number;
+    page: number; 
+    limit: number;
 }

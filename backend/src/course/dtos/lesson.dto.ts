@@ -26,8 +26,6 @@ export class UpdateLessonDto {
 }
 
 export class PaginationLessonDto {
-    @IsNotEmpty()
     page: number;
-    @IsNotEmpty()
     limit: number;
 }

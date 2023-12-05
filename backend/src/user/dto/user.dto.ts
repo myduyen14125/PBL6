@@ -33,6 +33,6 @@ export class UpdateUserDto {
 }
 
 export class PaginationMentorDto {
-    @IsNotEmpty() page: number;
-    @IsNotEmpty() limit: number;
+    page: number;
+    limit: number;
 }

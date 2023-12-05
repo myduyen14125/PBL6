@@ -15,6 +15,6 @@ export class UpdateBlogDto {
 }
 
 export class PaginationPostDto {
-    @IsNotEmpty() page: number; 
-    @IsNotEmpty() limit: number;
+    page: number; 
+    limit: number;
 }
