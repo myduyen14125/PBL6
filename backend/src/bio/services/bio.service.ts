@@ -1,20 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { BioRepository } from '../repositories/bio.repository';
-import { CreateBioDto } from '../dtos/bio.dto';
 import { User } from 'src/user/user.model';
-import { AwardRepository } from '../repositories/award.repository';
-import { SkillRepository } from '../repositories/skill.repository';
-import { EducationRepository } from '../repositories/education.repository';
-import { ExperienceRepository } from '../repositories/experience.repository';
+import { CreateBioDto } from '../dtos/bio.dto';
+import { BioRepository } from '../repositories/bio.repository';
 
 @Injectable()
 export class BioService {
     constructor(
-        private readonly bioRepository: BioRepository,
-        private readonly awardRepository: AwardRepository,
-        private readonly skillRepository: SkillRepository,
-        private readonly educationRepository: EducationRepository,
-        private readonly experienceRepository: ExperienceRepository,
+        private readonly bioRepository: BioRepository
     ) { }
 
     async createBio(user: User) {

@@ -23,8 +23,6 @@ export class UpdateCourseDto {
 }
 
 export class PaginationCourseDto {
-    @IsNotEmpty()
     page: number;
-    @IsNotEmpty()
     limit: number;
 }
