@@ -1,7 +1,7 @@
 <template>
   <div class="card p-0 border-0">
     <div class="card-image">
-      <img :src="course.image" :alt="course.title" class="rounded-t">
+      <img :src="course.image" :alt="course.title" class="rounded">
     </div>
     <div class="card-content mt-2">
       <div class="media">
