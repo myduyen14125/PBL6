@@ -122,9 +122,15 @@
               </p>
             </li>
             <li v-if="userInfo?.role == 'mentor'">
-              <SvgIcon icon="blogIcon" />
+              <SvgIcon icon="calendarIcon" />
               <p class="mb-0 ml-4">
                 <a href="/my-appointments">Cài đặt lịch rảnh</a>
+              </p>
+            </li>
+            <li v-if="userInfo?.role == 'mentor'">
+              <SvgIcon icon="bookIcon" />
+              <p class="mb-0 ml-4">
+                <a href="/course">Quản lý khóa học</a>
               </p>
             </li>
             <li>

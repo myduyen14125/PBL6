@@ -1,5 +1,5 @@
 describe("template spec", () => {
-  const baseUrl = "http://localhost:5173";
+  var baseUrl = "http://localhost:5173";
 
   beforeEach(() => {
     cy.visit(baseUrl + "/sign-in");
