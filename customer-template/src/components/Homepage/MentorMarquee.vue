@@ -7,7 +7,7 @@
           <img class="block w-16 h-16 mx-auto rounded-full mx-auto object-cover" :src="mentor.avatar ? mentor.avatar : avatar" alt="Naveed Janvekar">
           <div class="mt-4 text-center whitespace-normal overflow-hidden align-bottom">
             <h4 class="font-bold text-navy-900 whitespace-nowrap">{{ mentor.name }}</h4>
-            <span class="text-gray-400 text-sm mt-2" lang="en">{{ mentor.expertise.name }}</span>
+            <span class="text-gray-400 text-sm mt-2" lang="en">{{ mentor?.expertise?.name ? mentor?.expertise?.name : "IT Mentor" }}</span>
           </div>
         </div>
       </div>
