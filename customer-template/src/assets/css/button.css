@@ -25,6 +25,19 @@ button:focus {
   border: 1px solid #138496 !important;
 }
 
+.btn.btn-white {
+  border: 0px;
+  background: white !important;
+  color: #138496 !important;
+}
+
+.btn.btn-white:hover,
+.btn.btn-white:active {
+  background-color: #138496 !important;
+  border: 1px solid #138496 !important;
+  color: white !important;
+}
+
 .btn.btn-outline-primary {
   background-color: transparent;
   color: var(--primary);
