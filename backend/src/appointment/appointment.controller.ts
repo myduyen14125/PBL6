@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateAppointmentDto, PaginationAppointmentDto } from './appointment.dto';
-import { AppointmentService } from './appointment.service';
 import { Role } from 'src/auth/role.decorator';
 import { RoleGuard } from 'src/auth/role.guard';
+import { CreateAppointmentDto, PaginationAppointmentDto } from './appointment.dto';
+import { AppointmentService } from './appointment.service';
 
  @Controller('appointment')
 export class AppointmentController {
@@ -12,7 +12,7 @@ export class AppointmentController {
     @Post()
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @Role('mentee')
-    async createAppointment(@Req() req: any, @Body(new ValidationPipe()) appointment: CreateAppointmentDto) {
+    async createAppointment(@Req() req: any, @Body() appointment: CreateAppointmentDto) {
 
         return this.appointmentService.createAppointment(req.user, appointment);
     }

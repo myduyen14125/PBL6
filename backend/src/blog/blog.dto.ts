@@ -14,7 +14,7 @@ export class UpdateBlogDto {
     image: string
 }
 
-export class PaginationPostDto {
+export class PaginationBlogDto {
     page: number; 
     limit: number;
 }

@@ -93,7 +93,7 @@ export class ScheduleService {
         if (schedule.user.equals(user._id) && schedule.status === true) {
             return await this.scheduleRepository.findByIdAndUpdate(id, {deleted: true});
         }
-        throw new HttpException('No permission', HttpStatus.BAD_REQUEST);
+        throw new HttpException('No permission', HttpStatus.UNAUTHORIZED);
     }
 
     async deleteManySchedules(user: User, ids: string[]) {

@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsIn } from "class-validator";
 
 export class CreateAppointmentDto {
-    mentee: string;
     @IsNotEmpty() mentor: string;
     @IsNotEmpty() schedule: string
+    mentee: string;
     note: string;
     status: string;
 }

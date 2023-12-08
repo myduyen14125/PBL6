@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateExpertiseDto, UpdateExpertiseDto } from './expertise.dto';
-import { User } from 'src/user/user.model';
+import { CreateExpertiseDto } from './expertise.dto';
 import { ExpertiseRepository } from './expertise.repository';
 
 @Injectable()
@@ -16,6 +15,4 @@ export class ExpertiseService {
     async getAllExpertises() {
         return await this.expertiseRepository.getByCondition({})
     }
-
-
 }

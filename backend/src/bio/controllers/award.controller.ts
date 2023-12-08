@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateAwardDto, UpdateAwardDto } from '../dtos/award.dto';
 import { AwardService } from '../services/award.service';
@@ -9,13 +9,13 @@ export class AwardController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    async createAward(@Req() req: any, @Body(new ValidationPipe()) award: CreateAwardDto) {
+    async createAward(@Req() req: any, @Body() award: CreateAwardDto) {
         return this.awardService.createAward(req.user, award);
     }
 
     @UseGuards(AuthGuard("jwt"))
     @Patch(':id')
-    async updateAward(@Req() req: any, @Param('id') id: string, @Body(new ValidationPipe()) award: UpdateAwardDto) {
+    async updateAward(@Req() req: any, @Param('id') id: string, @Body() award: UpdateAwardDto) {
         return this.awardService.updateAward(req.user, id, award)
     }
 

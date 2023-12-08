@@ -1,7 +1,7 @@
-import { Body, Controller, Post, Req, UseGuards, ValidationPipe } from "@nestjs/common";
-import { PaymentService } from "./payment.service";
-import { PaymentDto, RequestPaymentDto } from "./payment.dto";
+import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { RequestPaymentDto } from "./payment.dto";
+import { PaymentService } from "./payment.service";
 
 
 @Controller('payment')
@@ -10,7 +10,7 @@ export class PaymentController {
 
     @Post()
     @UseGuards(AuthGuard("jwt"))
-    async makePayment(@Req() req: any, @Body(new ValidationPipe()) requestPayment: RequestPaymentDto) {
+    async makePayment(@Req() req: any, @Body() requestPayment: RequestPaymentDto) {
         return this.paymentService.makePayment(req.user, requestPayment);
     }
 

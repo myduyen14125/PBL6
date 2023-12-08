@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateChatDto } from '../dto/chat.dto';
 import { ChatService } from '../services/chat.service';
@@ -9,8 +9,8 @@ export class ChatController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    async createChat(@Req() req: any, @Body(new ValidationPipe()) chat: CreateChatDto) {
-        return this.chatService.createChat(req.user, chat);
+    async createChat(@Req() req: any, @Body() dto: CreateChatDto) {
+        return this.chatService.createChat(req.user, dto);
     }
 
     @Get()

@@ -36,22 +36,22 @@ export class BlogService {
         return await blog.populate({ path: 'user', select: 'name avatar expertise', populate: { path: 'expertise', select: 'name' }})
     }
 
-    async createBlog(user: User, blog: CreateBlogDto) {
-        blog.user = user.id;
-        const newBlog = await this.blogRepository.create(blog)
+    async createBlog(user: User, dto: CreateBlogDto) {
+        dto.user = user.id;
+        const newBlog = await this.blogRepository.create(dto)
         return newBlog.populate({ path: 'user', select: 'name avatar' })
     }
 
     async deleteBlog(user: User, id: string) {
         const blog = await this.blogRepository.findById(id)
-        if (!blog.user.equals(user._id)) throw new HttpException('Only creator has permission', HttpStatus.BAD_REQUEST);
+        if (!blog.user.equals(user._id)) throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
         return await this.blogRepository.deleteOne(id);
     }
 
-    async updateBlog(user: User, id: string, blog: UpdateBlogDto) {
+    async updateBlog(user: User, id: string, dto: UpdateBlogDto) {
         const check_post = await this.blogRepository.findById(id)
-        if (!check_post.user.equals(user._id)) throw new HttpException('Only creator has permission', HttpStatus.BAD_REQUEST);
-        return (await this.blogRepository.findByIdAndUpdate(id, blog)).populate({ path: 'user', select: 'name avatar' })
+        if (!check_post.user.equals(user._id)) throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
+        return (await this.blogRepository.findByIdAndUpdate(id, dto)).populate({ path: 'user', select: 'name avatar' })
     }
 
     async getAllBlogsByUserId(id: string, page: number, limit: number = 10) {

@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ScheduleService } from './schedule.service';
-import { CreateScheduleDto } from './schedule.dto';
 import { Role } from 'src/auth/role.decorator';
 import { RoleGuard } from 'src/auth/role.guard';
+import { CreateScheduleDto } from './schedule.dto';
+import { ScheduleService } from './schedule.service';
 
 @Controller('schedule')
 export class ScheduleController {
@@ -12,17 +12,16 @@ export class ScheduleController {
     @Post()
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @Role('mentor')
-    async createSchedule(@Req() req: any, @Body(new ValidationPipe()) schedule: CreateScheduleDto) {
+    async createSchedule(@Req() req: any, @Body() schedule: CreateScheduleDto) {
         return this.scheduleService.createSchedule(req.user, schedule);
     }
 
     @Post('create-schedules')
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @Role('mentor')
-    async createManySchedules(@Req() req: any, @Body(new ValidationPipe()) schedules: CreateScheduleDto[]) {        
+    async createManySchedules(@Req() req: any, @Body() schedules: CreateScheduleDto[]) {        
         return this.scheduleService.createManySchedules(req.user, schedules);
     }
-
 
     @Get()
     @UseGuards(AuthGuard('jwt'))
@@ -41,6 +40,4 @@ export class ScheduleController {
     async deleteSchedule(@Req() req: any, @Param('id') id: string) {
         return this.scheduleService.deleteSchedule(req.user, id)
     }
-
-
 }

@@ -22,32 +22,32 @@ export class AppointmentService {
           dateStyle: "short",
           timeZone: "UTC",
         }).format(date);
-      
         return formattedDate;
     }
 
-    async createAppointment(mentee: User, appointment: CreateAppointmentDto) {
-        const mentor = await this.userService.checkMentor(appointment.mentor)
-        const schedule = await this.scheduleService.getScheduleById(appointment.schedule)
+    async createAppointment(mentee: User, dto: CreateAppointmentDto) {
+        const mentor = await this.userService.checkMentor(dto.mentor)
+        const schedule = await this.scheduleService.getScheduleById(dto.schedule)
+
         if(!mentor) throw new HttpException('Mentor with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule) throw new HttpException('Schedule with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule.status) throw new HttpException('Schedule is already taken', HttpStatus.BAD_REQUEST);
         if(schedule.deleted) throw new HttpException('Schedule is already deleted', HttpStatus.BAD_REQUEST);
-        if(appointment.mentor != schedule.user.toString()) throw new HttpException('Mentor and Schedule Mismatched', HttpStatus.BAD_REQUEST);
+        if(dto.mentor != schedule.user.toString()) throw new HttpException('Mentor and Schedule Mismatched', HttpStatus.BAD_REQUEST);
 
-        appointment.mentee = mentee._id;
-        appointment.mentor = appointment.mentor;
-        appointment.status = "pending";
+        dto.mentee = mentee._id;
+        dto.mentor = dto.mentor;
+        dto.status = "pending";
 
-        const newAppointment = await this.appointmentRepository.create(appointment);
+        const newAppointment = await this.appointmentRepository.create(dto);
         await newAppointment.populate({ path: 'mentee', select: 'name avatar email' });
-        await newAppointment.populate({ path: 'mentor', select: 'name avatar email expertise',populate: {path: 'expertise',select: 'name'}, });
+        await newAppointment.populate({ path: 'mentor', select: 'name avatar email expertise',populate: { path: 'expertise',select: 'name'}});
         await newAppointment.populate({ path: 'schedule' });
-        console.log(newAppointment.mentor.expertise.name);
-        
-        await this.scheduleService.updateScheduleStatus(appointment.schedule, false)
 
-        // mail to mentor
+        // change schedule status to false
+        await this.scheduleService.updateScheduleStatus(dto.schedule, false)
+
+        // notify mail
         await this.mailerService.sendMail({
             to: newAppointment.mentor.email,
             subject: 'You have a new pending appointment!',
@@ -65,16 +65,18 @@ export class AppointmentService {
         return newAppointment
     }
 
-    async getAllUsersAppointments(user_id: string, page:number, limit:number = 6) {
-        const count = await this.appointmentRepository.countDocuments({$or: [{ mentee: user_id }, { mentor: user_id }]})
+    // legacy function
+    async getAllUsersAppointments(userId: string, page:number, limit:number = 6) {
+        const count = await this.appointmentRepository.countDocuments({$or: [{ mentee: userId }, { mentor: userId }]})
         const countPage = Math.ceil(count / limit)
         const skip = (page - 1) * limit || 0
-        const oldAppointments = await this.appointmentRepository.getByCondition({$or: [{ mentee: user_id }, { mentor: user_id }]})
+        const tempAppointments = await this.appointmentRepository.getByCondition({$or: [{ mentee: userId }, { mentor: userId }]})
 
         const currentDate = new Date();
         currentDate.setHours(currentDate.getHours() +7);
 
-        await Promise.all(oldAppointments.map(async (appointment) => {
+        // update status on expired appointments (based on schedule date)
+        await Promise.all(tempAppointments.map(async (appointment) => {
             await appointment.populate({ path: 'schedule' });
             if (appointment.schedule.start_at < currentDate) {
                 if (appointment.status === "pending") {
@@ -91,7 +93,7 @@ export class AppointmentService {
         const appointments = await this.appointmentRepository.aggregate([
             {
                 $match: {
-                    $or: [{ mentee: user_id }, { mentor: user_id }]
+                    $or: [{ mentee: userId }, { mentor: userId }]
                 },
             },
             {
@@ -184,14 +186,13 @@ export class AppointmentService {
             await appointment.populate({ path: 'mentee', select: 'name avatar' });
             await appointment.populate({ path: 'mentor', select: 'name avatar skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
             await appointment.populate({ path: 'schedule' });
-
             return appointment
         } else {
             throw new HttpException('Only participants can view this appointment', HttpStatus.BAD_REQUEST);
         }
     }
 
-    // unused function
+    // legacy function
     async updateAppointment(mentor: User, id: string, appointment: UpdateAppointmentDto) {
         if (await this.userService.checkMentor(mentor._id)) {
             const oldAppointment = await this.appointmentRepository.findById(id)
@@ -224,8 +225,10 @@ export class AppointmentService {
 
     // confirm - mentor
     async confirmAppointment(mentor: User, id: string) {
-        const oldAppointment = await this.appointmentRepository.findById(id)
-        if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
+        const tempAppointment = await this.appointmentRepository.findById(id)
+        if (tempAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
+        if (tempAppointment.mentor != mentor.id) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {status: "confirmed"})
         await updatedAppointment.populate({ path: 'mentee', select: 'name avatar email' });
         await updatedAppointment.populate({ path: 'mentor', select: 'name avatar email skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
@@ -251,18 +254,20 @@ export class AppointmentService {
 
     // cancel - mentee
     async cancelAppointment(user: User, id: string) {
-        const oldAppointment = await this.appointmentRepository.findById(id)
-        if (oldAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
+        const tempAppointment = await this.appointmentRepository.findById(id)
+        if (tempAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
+        if (tempAppointment.mentee != user.id && tempAppointment.mentor != user.id) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
 
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
             status: "canceled"
         })
+
         await updatedAppointment.populate({ path: 'mentee', select: 'name avatar email' });
         await updatedAppointment.populate({ path: 'mentor', select: 'name avatar email skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
         await updatedAppointment.populate({ path: 'schedule' });
         
-        // free schedule
-        await this.scheduleService.updateScheduleStatus(oldAppointment.schedule._id, true)
+        // free up schedule
+        await this.scheduleService.updateScheduleStatus(tempAppointment.schedule._id, true)
 
         // mail to the other
         if(updatedAppointment.mentee._id.toString() == (user.id.toString())) return updatedAppointment;
@@ -284,7 +289,7 @@ export class AppointmentService {
         return updatedAppointment;
     }
 
-    // finished - mentor
+    // legacy function
     async finishAppointment(mentor: User, id: string) {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "confirmed") throw new HttpException('Status must be confirmed', HttpStatus.BAD_REQUEST);
@@ -313,13 +318,13 @@ export class AppointmentService {
         )
         const countPage = Math.ceil(count / limit)
         const skip = (page - 1) * limit || 0
-        const oldAppointments = await this.appointmentRepository.getByCondition({$or: [{ mentee: user_id }, { mentor: user_id }]})
+        const tempAppointments = await this.appointmentRepository.getByCondition({$or: [{ mentee: user_id }, { mentor: user_id }]})
 
         const currentDate = new Date();
         currentDate.setHours(currentDate.getHours() +7);
         
-        
-        await Promise.all(oldAppointments.map(async (appointment) => {
+        // update expired appointments based on their schedules (pass current date)
+        await Promise.all(tempAppointments.map(async (appointment) => {
             await appointment.populate({ path: 'schedule' });
             if (appointment.schedule.start_at < currentDate) {
                 if (appointment.status === "pending") {
