@@ -32,6 +32,15 @@ class _MentorListScreenState extends State<MentorListScreen> {
       child: SafeArea(
         child: Column(
           children: [
+            const Text(
+              'Các mentor mới',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 31, 90, 207),
+                letterSpacing: 1.2,
+              ),
+            ),
             FutureBuilder<List<dynamic>>(
               future: mentors,
               builder: (context, snapshot) {
@@ -42,7 +51,7 @@ class _MentorListScreenState extends State<MentorListScreen> {
                 } else {
                   List<dynamic>? mentorData = snapshot.data;
                   int itemCount =
-                      mentorData!.length < 3 ? mentorData.length : 3;
+                      mentorData!.length > 5 ? 5 : mentorData.length;
 
                   return Column(
                     children: [
@@ -72,8 +81,8 @@ class _MentorListScreenState extends State<MentorListScreen> {
                               leading: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 backgroundImage: avatar != ""
-                                    ? CachedNetworkImageProvider(avatar as String)
-                                        as ImageProvider
+                                    ? CachedNetworkImageProvider(
+                                        avatar as String) as ImageProvider
                                     : const AssetImage(
                                         'assets/images/blank_avatar.png'),
                               ),
@@ -91,22 +100,6 @@ class _MentorListScreenState extends State<MentorListScreen> {
                             ),
                           );
                         },
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AllMentorsScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1369B2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                        child: const Text('Xem thêm mentor'),
                       ),
                     ],
                   );

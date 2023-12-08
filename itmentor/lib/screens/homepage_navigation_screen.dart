@@ -3,6 +3,7 @@ import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/screens/account_settings_screen/account_settings_screen.dart';
 import 'package:itmentor/screens/appointment_screen/appointment_screen.dart';
 import 'package:itmentor/screens/communication_screen/communication_screen.dart';
+import 'package:itmentor/screens/home_screens/course_list/course_list_screen.dart';
 import 'package:itmentor/screens/home_screens/homepage_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +50,8 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
       AppointmentScreen(
         token: accessToken,
       ),
-      const CommunicationScreen(),
+      // const CommunicationScreen(),
+      const CourseListScreen(),
       const ProfileScreen(),
     ];
 
@@ -81,7 +83,7 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
-            label: 'Liên hệ',
+            label: 'Khoá học',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
