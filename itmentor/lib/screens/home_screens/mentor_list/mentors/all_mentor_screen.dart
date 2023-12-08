@@ -121,7 +121,7 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Container(
-                                    constraints: BoxConstraints(
+                                    constraints: const BoxConstraints(
                                         maxHeight: double.infinity),
                                     child: ListTile(
                                       contentPadding: const EdgeInsets.all(16),
@@ -182,7 +182,7 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                                 width: 10,
                                               ),
                                               Text(
-                                                'Chuyên môn: ${mentor['expertise']['name']}',
+                                                mentor['expertise'] != null ? 'Chuyên môn: ${mentor['expertise']['name']}' : 'Chuyên môn: Không hiển thị',
                                               ),
                                             ],
                                           ),
@@ -191,7 +191,7 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                           ),
                                           Row(
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.people,
                                                 color: Colors.purple,
                                               ),

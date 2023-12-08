@@ -125,55 +125,32 @@ class _HomepageScreenState extends State<HomepageScreen>
                 ),
                 Container(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100.0),
-                        child: Card(
-                          child: TabBar(
-                            controller: _tabController,
-                            tabs: tabs,
-                            labelColor: Colors.blue,
-                            unselectedLabelColor: Colors.blueGrey,
-                            labelPadding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            indicatorColor: Colors.blue,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
+                      SizedBox(
                         height: 10.0,
                       ),
-                      SizedBox(
-                        height: 240,
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: const [
-                            MentorListScreen(),
-                            CourseListScreen(),
-                          ],
-                        ),
-                      ),
+                      MentorListScreen(),
                     ],
                   ),
                 ),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => const AllMentorsScreen()),
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: const Color(0xFF1369B2),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(20.0),
-                //     ),
-                //   ),
-                //   child: const Text('Xem thêm mentor'),
-                // ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AllMentorsScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1369B2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  child: const Text('Xem thêm mentor'),
+                ),
                 Container(
                   margin: const EdgeInsets.only(left: 20),
                   child: const Align(
