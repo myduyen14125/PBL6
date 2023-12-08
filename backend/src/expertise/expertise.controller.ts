@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateExpertiseDto } from './expertise.dto';
 import { ExpertiseService } from './expertise.service';
 
@@ -12,7 +12,7 @@ export class ExpertiseController {
     }
 
     @Post()
-    async createExpertise(@Body(new ValidationPipe()) expertise: CreateExpertiseDto) {
+    async createExpertise(@Body() expertise: CreateExpertiseDto) {
         return this.expertiseService.createExpertise(expertise);
     }
 }

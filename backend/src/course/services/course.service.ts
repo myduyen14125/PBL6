@@ -8,14 +8,12 @@ import { LessonService } from "./lesson.service";
 export class CourseService {
     constructor(
         private readonly courseRepository: CourseRepository,
-        private readonly lessonService: LessonService,
     ) { }
 
-
-    async createCourse(user: User, courseDto: CreateCourseDto) {
-        courseDto.creator = user.id
-        courseDto.discount = 0
-        return await this.courseRepository.create(courseDto)
+    async createCourse(user: User, dto: CreateCourseDto) {
+        dto.creator = user.id
+        dto.discount = 0
+        return await this.courseRepository.create(dto)
     }
 
     async getAllCourses(page: number, limit: number = 10) {
@@ -104,8 +102,8 @@ export class CourseService {
     }
 
     async getCourseById(id: string) {
-        const courseCheck = await this.courseRepository.findById(id);
-        if (!courseCheck) { 
+        const course = await this.courseRepository.findById(id);
+        if (!course) { 
             throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);
         }
     
@@ -274,10 +272,9 @@ export class CourseService {
     async deleteCourse(user: User, id: string) {
         const course = await this.courseRepository.findById(id)
         if (!course.creator.equals(user._id)) {
-            throw new HttpException('Only creator has permission', HttpStatus.BAD_REQUEST);
+            throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
         }
         return await this.courseRepository.deleteOne(id);
-
     }
 
     async registerCourse(userId: string, courseId: string) {
@@ -285,7 +282,6 @@ export class CourseService {
         if (!course) {
             throw new HttpException('Course does not exist', HttpStatus.BAD_REQUEST);
         }
-        console.log(course.creator.toString());
         
         // cant join self-course
         if (course.creator.toString() === userId) {
@@ -305,12 +301,8 @@ export class CourseService {
     }
 
     async checkOwnership(user: User, id: string) {
-        console.log(user._id);
-
         const course = await this.courseRepository.findById(id)
-        console.log(course.creator);
-
-        if (!course.creator.equals(user._id)) throw new HttpException('No Permission', HttpStatus.BAD_REQUEST);
+        if (!course.creator.equals(user._id)) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
         return true
     }
 
@@ -319,7 +311,7 @@ export class CourseService {
             {
                 $or: [{ users: { $in: user.id } }, { creator: user.id }]
             });
-        if (!courses) throw new HttpException('No Permission', HttpStatus.BAD_REQUEST);
+        if (!courses) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
         return true
     }
 

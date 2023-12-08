@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateExperienceDto, UpdateExperienceDto } from '../dtos/experience.dto';
 import { ExperienceService } from '../services/experience.service';
@@ -9,13 +9,13 @@ export class ExperienceController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    async createExperience(@Req() req: any, @Body(new ValidationPipe()) experience: CreateExperienceDto) {
+    async createExperience(@Req() req: any, @Body() experience: CreateExperienceDto) {
         return this.experienceService.createExperience(req.user, experience);
     }
 
     @UseGuards(AuthGuard("jwt"))
     @Patch(':id')
-    async updateExperience(@Req() req: any, @Param('id') id: string, @Body(new ValidationPipe()) experience: UpdateExperienceDto) {
+    async updateExperience(@Req() req: any, @Param('id') id: string, @Body() experience: UpdateExperienceDto) {
         return this.experienceService.updateExperience(req.user, id, experience)
     }
 

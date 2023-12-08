@@ -4,8 +4,6 @@ import { Socket } from 'socket.io';
 
 @Injectable()
 export class WsJwtAuthGuard implements CanActivate {
-
-
     canActivate(context: ExecutionContext): any {
         if (context.getType() !== 'ws') {
             return true;

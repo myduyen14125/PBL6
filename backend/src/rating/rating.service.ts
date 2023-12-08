@@ -11,8 +11,6 @@ export class RatingService {
         @Inject(forwardRef(() => AppointmentService)) private readonly appointmentService: AppointmentService
     ) { }
 
-
-
     async createRating(user: User, rating: CreateRatingDto) {
 
         // access #0.5 - check if rating with appointment id already existed
@@ -22,10 +20,8 @@ export class RatingService {
             }
         )
         const numberOfRatings = ratings.length;
-        console.log(numberOfRatings);
 
         if (numberOfRatings >= 1) return new NotFoundException("Existed rating linked to that appointment id.");
-
 
         // access #1 - participants that is mentee only
         const checkAppointment = await this.appointmentService.getAppointmentById(user, rating.appointment)
@@ -56,7 +52,7 @@ export class RatingService {
         return newRating.populate({ path: 'mentee', select: 'name avatar email role' });
 
     }
-    ///////////////////////////////////////
+
     async getAllRatingsByUserId(id: string, page: number, limit: number = 10) {
         const count = await this.ratingRepository.countDocuments({
             mentor: id

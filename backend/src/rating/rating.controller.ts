@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { RatingService } from './rating.service';
 import { CreateRatingDto, PaginationRatingDto } from './rating.dto';
+import { RatingService } from './rating.service';
 
 
 @Controller('rating')

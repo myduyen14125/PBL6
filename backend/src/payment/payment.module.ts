@@ -1,10 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
+import { CourseModule } from 'src/course/course.module';
 import { PaymentController } from './payment.controller';
 import { PaymentService } from './payment.service';
-import { CourseModule } from 'src/course/course.module';
-import { PaymentRepository } from './payment.repository';
-import { MongooseModule } from '@nestjs/mongoose';
-import { PaymentSchema } from './payment.model';
 
 @Module({
     imports: [

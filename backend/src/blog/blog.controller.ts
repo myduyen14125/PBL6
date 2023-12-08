@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateBlogDto, PaginationPostDto, UpdateBlogDto } from './blog.dto';
+import { CreateBlogDto, PaginationBlogDto, UpdateBlogDto } from './blog.dto';
 import { BlogService } from './blog.service';
 
 @Controller('blog')
@@ -8,7 +8,7 @@ export class BlogController {
     constructor(private readonly blogService: BlogService) { }
 
     @Get()
-    getAllBlogs(@Query() { page, limit }: PaginationPostDto) {
+    getAllBlogs(@Query() { page, limit }: PaginationBlogDto) {
         return this.blogService.getAllBlogs(page, limit);
     }
 
@@ -19,8 +19,8 @@ export class BlogController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    async createBlog(@Req() req: any, @Body(new ValidationPipe()) post: CreateBlogDto) {
-        return this.blogService.createBlog(req.user, post);
+    async createBlog(@Req() req: any, @Body() dto: CreateBlogDto) {
+        return this.blogService.createBlog(req.user, dto);
     }
 
 
@@ -32,8 +32,8 @@ export class BlogController {
 
     @UseGuards(AuthGuard("jwt"))
     @Patch(':id')
-    async updateBlog(@Req() req: any, @Param('id') id: string, @Body(new ValidationPipe()) blog: UpdateBlogDto) {
-        return this.blogService.updateBlog(req.user, id, blog)
+    async updateBlog(@Req() req: any, @Param('id') id: string, @Body() dto: UpdateBlogDto) {
+        return this.blogService.updateBlog(req.user, id, dto)
     }
 
 }

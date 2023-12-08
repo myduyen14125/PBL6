@@ -12,23 +12,23 @@ export class MessageService {
         private eventGateway: EventGateway
     ) { }
 
-
     async createMessage(user: User, message: CreateMessageDto) {
         // handle chat participants logic  
         // chat exist
-        const chatExist = await this.chatRepository.findById(message.chat)
-        if (!chatExist) throw new HttpException('Invalid chat', HttpStatus.BAD_REQUEST);
+        const existed = await this.chatRepository.findById(message.chat)
+        if (!existed) throw new HttpException('Invalid chat', HttpStatus.BAD_REQUEST);
 
         message.sender = user._id
-        const createdMessage = await this.messageRepository.create(message)
+        const newMessage = await this.messageRepository.create(message)
         await this.chatRepository.findByIdAndUpdate(message.chat, {
             latest_message: message.text,
             seen: false,
             sender: user.id
         })
 
-        this.eventGateway.sendNewMessage(createdMessage)
-        return createdMessage
+        // emit socket
+        this.eventGateway.sendNewMessage(newMessage)
+        return newMessage
     }
 
 }

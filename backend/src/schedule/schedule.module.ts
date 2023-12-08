@@ -9,7 +9,6 @@ import { BlogModule } from 'src/blog/blog.module';
 import { RatingModule } from 'src/rating/rating.module';
 import { AppointmentModule } from 'src/appointment/appointment.module';
 
-
 @Module({
     imports: [
         MongooseModule.forFeature([
@@ -20,11 +19,9 @@ import { AppointmentModule } from 'src/appointment/appointment.module';
         ]),
         forwardRef(() => UserModule),
         forwardRef(() => BlogModule),
-        // forwardRef(() => ScheduleModule),
         forwardRef(() => RatingModule),
         forwardRef(() => BlogModule),
         forwardRef(() => AppointmentModule),
-
     ],
 
     controllers: [ScheduleController],

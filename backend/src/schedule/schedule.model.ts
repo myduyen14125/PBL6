@@ -1,5 +1,4 @@
-import { Schema, Document } from "mongoose";
-import { Appointment } from "src/appointment/appointment.model";
+import { Document, Schema } from "mongoose";
 import { User } from "src/user/user.model";
 
 const ScheduleSchema = new Schema(

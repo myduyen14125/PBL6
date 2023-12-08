@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateEducationDto, UpdateEducationDto } from '../dtos/education.dto';
 import { EducationService } from '../services/education.service';
@@ -9,13 +9,13 @@ export class EducationController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    async createEducation(@Req() req: any, @Body(new ValidationPipe()) education: CreateEducationDto) {
+    async createEducation(@Req() req: any, @Body() education: CreateEducationDto) {
         return this.educationService.createEducation(req.user, education);
     }
 
     @UseGuards(AuthGuard("jwt"))
     @Patch(':id')
-    async updateEducation(@Req() req: any, @Param('id') id: string, @Body(new ValidationPipe()) education: UpdateEducationDto) {
+    async updateEducation(@Req() req: any, @Param('id') id: string, @Body() education: UpdateEducationDto) {
         return this.educationService.updateEducation(req.user, id, education)
     }
 
