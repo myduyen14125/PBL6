@@ -45,6 +45,41 @@
             {{ error.description }}
           </p>
         </div>
+        <div className="form-group required mb-3">
+          <p class="label">Giá tiền</p>
+          <input
+            type="number"
+            v-model="form.price"
+            name="title"
+            :className="
+              ['form-control', error.price ? 'is-invalid' : '']
+                .filter(Boolean)
+                .join(' ')
+            "
+            placeholder="Nhập giá khóa học"
+            @blur="validateRequired('price')"
+          />
+          <p v-if="error.price" class="error-message mt-1">
+            {{ error.price }}
+          </p>
+        </div>
+        <div className="form-group mb-3">
+          <p class="label">Giá khuyến mãi</p>
+          <input
+            type="number"
+            v-model="form.discount"
+            name="title"
+            :className="
+              ['form-control', error.discount ? 'is-invalid' : '']
+                .filter(Boolean)
+                .join(' ')
+            "
+            placeholder="Nhập giá khuyến mãi"
+          />
+          <p v-if="error.discount" class="error-message mt-1">
+            {{ error.discount }}
+          </p>
+        </div>
 
       </form>
     </template>
@@ -71,10 +106,10 @@ import { EducationParams } from "../../types/bio";
 import SwalPopup from "../../ultils/swalPopup";
 
 interface Form {
-  major: string;
+  price: string;
   title: string;
-  date: Date[] | string[] | string;
   description: string;
+  discount: string;
 }
 
 export default defineComponent({
@@ -97,24 +132,24 @@ export default defineComponent({
     const modal = ref(false);
     const bioStore = useBio();
     const initialForm: Form = {
-      major: "",
+      price: "",
       description: "",
       title: "",
-      date: [],
+      discount: "",
     };
     const initialError: Form = {
-      major: "",
+      price: "",
       title: "",
       description: "",
-      date: "",
+      discount: "",
     };
     const form = ref<Form>(
       props.data
         ? {
-            major: props?.data?.major,
+            price: props?.data?.price,
             title: props?.data?.title,
-            date: [props?.data?.start_date, props?.data?.end_date],
             description: props?.data?.description,
+            discount: props?.data?.discount,
           }
         : { ...initialForm }
     );
@@ -125,10 +160,10 @@ export default defineComponent({
       () => props.data,
       (newData, oldData) => {
         form.value = {
-          major: newData?.major,
+          price: newData?.price,
           title: newData?.title,
-          date: [newData?.start_date, newData?.end_date],
           description: newData?.description,
+          discount: newData?.discount,
         };
       }
     );
@@ -168,9 +203,8 @@ export default defineComponent({
       const params: EducationParams = {
         bio: props?.bio,
         title: form.value.title,
-        major: form.value.major,
-        start_date: form.value.date[0],
-        end_date: form.value.date[1],
+        price: form.value.price,
+        discount: form.value.discount,
         description: form.value.description,
       };
 
