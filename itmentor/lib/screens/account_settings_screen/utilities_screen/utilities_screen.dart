@@ -21,6 +21,7 @@ class UtilitiesScreen extends StatelessWidget {
             ),
           ),
           InkWell(
+            key: Key('HoSoCaNhan'),
             onTap: () {
               Navigator.push(
                 context,

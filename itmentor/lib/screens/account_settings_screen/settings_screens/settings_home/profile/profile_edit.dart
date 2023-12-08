@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileEdit extends StatefulWidget {
-  final String dateOfBirth;
+  final String? dateOfBirth;
   const ProfileEdit({super.key, required this.dateOfBirth});
 
   @override
@@ -31,10 +31,13 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   String? token = '';
 
+  String formattedDate = '';
+
   @override
   void initState() {
     super.initState();
     _getToken();
+    selectedDate2 = DateTime.parse(widget.dateOfBirth!);
   }
 
   Future<void> _getToken() async {
@@ -62,25 +65,14 @@ class _ProfileEditState extends State<ProfileEdit> {
   }
 
   void setData(User user) {
-    DateTime originalDateTime = DateTime.parse(user.dateOfBirth);
-
-    String formattedDateString =
-        DateFormat('dd/MM/yyyy').format(originalDateTime);
     setState(() {
       nameController.text = user.name;
       emailController.text = user.email;
       phoneController.text = user.phone;
-      // dateOfBirthController.text =
-      //     formattedDateString; // Use the same format as the date picker
-      // selectedDateString = form
       genderController.text = user.gender == true ? "Nam" : "Nữ";
       facebookController.text = user.facebookLink;
       skypeController.text = user.skypeLink;
     });
-  }
-
-  String formatUserDateOfBirth(String dateOfBirth) {
-    return DateFormat('yyyy-MM-dd').format(DateTime.parse(dateOfBirth));
   }
 
   Future<void> updateUserData(User user, BuildContext ctx) async {
@@ -129,13 +121,15 @@ class _ProfileEditState extends State<ProfileEdit> {
     }
   }
 
-  DateTime selectedDate = DateTime.now();
+  DateTime? selectedDate;
   String selectedDateString = '';
+
+  DateTime? selectedDate2;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: selectedDate2 ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
@@ -144,6 +138,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       setState(() {
         selectedDate = picked;
         selectedDateString = picked.toLocal().toString();
+        formattedDate = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
   }
@@ -151,6 +146,9 @@ class _ProfileEditState extends State<ProfileEdit> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+
+    formattedDate = widget.dateOfBirth != null ? DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.dateOfBirth!)) : '';
+
     setData(user);
     return Scaffold(
       body: SafeArea(
@@ -175,27 +173,27 @@ class _ProfileEditState extends State<ProfileEdit> {
               _buildTextFormField('Họ và tên', nameController),
               _buildTextFormField('Email', emailController),
               _buildTextFormField('Số điện thoại', phoneController),
-              // // _buildTextFormField('Ngày sinh', dateOfBirthController),
-              // _buildDateOfBirthPicker(
-              //     'Ngày sinh', dateOfBirthController, context),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Ngày sinh: ',
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
-                    '${widget.dateOfBirth}'.split(' ')[0],
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    selectedDate != null
+                        ? DateFormat('dd/MM/yyyy').format(selectedDate!)
+                        : formattedDate,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   ElevatedButton(
                     onPressed: () => _selectDate(context),
-                    child: Text('Chọn ngày'),
+                    child: const Text('Chọn ngày'),
                   ),
                 ],
               ),

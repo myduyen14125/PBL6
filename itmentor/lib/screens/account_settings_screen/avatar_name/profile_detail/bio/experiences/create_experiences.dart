@@ -42,7 +42,7 @@ class _CreateExperiencesState extends State<CreateExperiences> {
   void showStartDatePicker() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime(2023, 6, 10),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
@@ -57,7 +57,7 @@ class _CreateExperiencesState extends State<CreateExperiences> {
   void showEndDatePicker() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime(2023, 10, 10),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
@@ -69,7 +69,57 @@ class _CreateExperiencesState extends State<CreateExperiences> {
     }
   }
 
+  bool validateInputs() {
+    if (positionController.text.isEmpty ||
+        companyController.text.isEmpty ||
+        startDate.isEmpty ||
+        endDate.isEmpty ||
+        descriptionController.text.isEmpty) {
+      showSnackBar(context, 'Vui lòng điền đầy đủ thông tin');
+      return false;
+    }
+    return true;
+  }
+
+  String? validateNonEmpty(String value, String fieldName) {
+    if (value.isEmpty) {
+      return 'Vui lòng điền $fieldName';
+    }
+
+    final validTextRegex = RegExp(r'^[a-zA-Z0-9.,!? ]*$');
+    if (!validTextRegex.hasMatch(value)) {
+      return 'Vui lòng nhập $fieldName hợp lệ';
+    }
+
+    return null;
+  }
+
+  String? validateDate(String value, String fieldName) {
+    if (value.isEmpty) {
+      return 'Vui lòng chọn $fieldName';
+    }
+    return null;
+  }
+
+  bool validateDateOrder() {
+    if (startDate.isNotEmpty && endDate.isNotEmpty) {
+      final startDateTime = DateTime.parse(startDate);
+      final endDateTime = DateTime.parse(endDate);
+      if (startDateTime.isAfter(endDateTime)) {
+        showSnackBar(context, 'Ngày bắt đầu phải trước ngày kết thúc');
+        return false;
+      }
+    }
+    return true;
+  }
+
   void postExperienceData() async {
+    if (!validateInputs()) {
+      return;
+    }
+    if (!validateDateOrder()) {
+      return;
+    }
     setState(() {
       isLoading = true;
     });
@@ -115,6 +165,7 @@ class _CreateExperiencesState extends State<CreateExperiences> {
   @override
   Widget build(BuildContext context) {
     print('experience token: ${widget.token}');
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 63, 143, 125),
@@ -127,60 +178,82 @@ class _CreateExperiencesState extends State<CreateExperiences> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: positionController,
-              decoration: const InputDecoration(labelText: 'Vị trí'),
-            ),
-            TextFormField(
-              controller: companyController,
-              decoration: const InputDecoration(labelText: 'Công ty'),
-            ),
-            TextFormField(
-              controller: descriptionController,
-              decoration: const InputDecoration(labelText: 'Mô tả'),
-            ),
-            GestureDetector(
-              onTap: showStartDatePicker, // Show the startDate picker
-              child: AbsorbPointer(
-                child: TextFormField(
-                  controller: TextEditingController(text: startDate),
-                  decoration: const InputDecoration(labelText: 'Ngày bắt đầu'),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  key: Key('Position'),
+                  controller: positionController,
+                  decoration: const InputDecoration(labelText: 'Vị trí'),
+                  validator: (value) => validateNonEmpty(value!, 'vị trí'),
                 ),
-              ),
-            ),
-            GestureDetector(
-              onTap: showEndDatePicker, // Show the endDate picker
-              child: AbsorbPointer(
-                child: TextFormField(
-                  controller: TextEditingController(text: endDate),
-                  decoration: const InputDecoration(labelText: 'Ngày kết thúc'),
+                TextFormField(
+                  key: Key('Company'),
+                  controller: companyController,
+                  decoration: const InputDecoration(labelText: 'Công ty'),
+                  validator: (value) => validateNonEmpty(value!, 'công ty'),
                 ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                postExperienceData();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 63, 143, 125),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                TextFormField(
+                  key: Key('Description'),
+                  controller: descriptionController,
+                  decoration: const InputDecoration(labelText: 'Mô tả'),
+                  validator: (value) => validateNonEmpty(value!, 'mô tả'),
                 ),
-              ),
-              child: const Text('Thêm kinh nghiệm'),
+                GestureDetector(
+                  onTap: showStartDatePicker,
+                  child: AbsorbPointer(
+                    key: Key('StartDatePicker'),
+                    child: TextFormField(
+                      controller: TextEditingController(text: startDate),
+                      decoration:
+                          const InputDecoration(labelText: 'Ngày bắt đầu'),
+                      validator: (value) =>
+                          validateDate(value!, 'ngày bắt đầu'),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: showEndDatePicker,
+                  child: AbsorbPointer(
+                    key: Key('EndDatePicker'),
+                    child: TextFormField(
+                      controller: TextEditingController(text: endDate),
+                      decoration:
+                          const InputDecoration(labelText: 'Ngày kết thúc'),
+                      validator: (value) =>
+                          validateDate(value!, 'ngày kết thúc'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  key: Key('ButtonAddExperience'),
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      postExperienceData();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 63, 143, 125),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  child: const Text('Thêm kinh nghiệm'),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : const SizedBox()
+              ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : const SizedBox()
-          ],
+          ),
         ),
       ),
     );

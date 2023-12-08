@@ -80,6 +80,7 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('ScrollHoSoCaNhan'),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 94, 157, 144),
         elevation: 0,

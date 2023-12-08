@@ -69,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
                         context,
                         MaterialPageRoute(
                           builder: ((context) {
-                            return ProfileEdit(dateOfBirth: user.dateOfBirth,);
+                            return ProfileEdit(dateOfBirth: user.dateOfBirth);
                           }),
                         ),
                       );
