@@ -160,6 +160,7 @@ class _BioScreenState extends State<BioScreen> {
                           Row(
                             children: [
                               IconButton(
+                                key: Key('AddExperience'),
                                 icon: const Icon(Icons.add),
                                 onPressed: () {
                                   Navigator.of(context).push(
@@ -173,6 +174,7 @@ class _BioScreenState extends State<BioScreen> {
                                 },
                               ),
                               IconButton(
+                                key: Key('DeleteExperience'),
                                 icon: const Icon(
                                   Icons.delete,
                                   color: Colors.red,
@@ -219,6 +221,7 @@ class _BioScreenState extends State<BioScreen> {
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   child: ListTile(
+                    key: Key('Experience'),
                     contentPadding: const EdgeInsets.all(16),
                     leading: const CircleAvatar(
                       backgroundColor: Color.fromARGB(255, 59, 105, 255),

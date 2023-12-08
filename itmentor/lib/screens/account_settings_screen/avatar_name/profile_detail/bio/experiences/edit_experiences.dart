@@ -36,8 +36,8 @@ class _EditExperiencesState extends State<EditExperiences> {
     if (response.statusCode == 200) {
       print('Experiences data deleted successfully.');
       widget.onExperienceDeleted(experienceId);
-      showSnackBar(context, 'Đã xoá kinh nghiệm làm việc');
       Navigator.of(context).pop();
+      showSnackBar(context, 'Đã xoá kinh nghiệm làm việc');
     } else {
       print('Failed to delete experiences data: ${response.statusCode}');
     }
@@ -74,9 +74,10 @@ class _EditExperiencesState extends State<EditExperiences> {
               child: const Text('Không'),
             ),
             TextButton(
+              key: Key('ConfirmDeleteExperience'),
               onPressed: () {
-                Navigator.of(context).pop();
                 deleteExperience(experienceId);
+                Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(foregroundColor: Colors.red),
               child: const Text('Có'),
@@ -164,6 +165,7 @@ class _EditExperiencesState extends State<EditExperiences> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
+                          key: Key('IconDeleteExperience'),
                           icon: Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
                             // deleteExperience(experience['_id']);

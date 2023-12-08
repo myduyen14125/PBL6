@@ -8,6 +8,7 @@ import 'package:itmentor/providers/user_provider.dart';
 import 'package:itmentor/utils/constant.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AppointmentDetailScreen extends StatefulWidget {
   final String accessToken;
@@ -81,16 +82,16 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     },
   ];
 
-  void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(Uri.parse('https://flutter.dev'),
+        mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch ');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -116,6 +117,27 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                 ],
               ),
             ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.all(5),
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.calendar_today,
+                    color: Colors.blueGrey,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'Cuộc hẹn với:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: FutureBuilder<Map<String, dynamic>>(
                 future: fetchData(),
@@ -126,7 +148,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                     return Center(
                       child: Text(
                         'Lỗi: ${snapshot.error}',
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     );
                   } else {
@@ -146,38 +168,34 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppointmentDetailTile(
-                            avatarUrl: data['mentor']['avatar'],
-                            name: data['mentor']['name'],
-                            position: 'Lĩnh vực: ${widget.position}',
-                          ),
+                          user.role == "mentee"
+                              ? AppointmentDetailTile(
+                                  avatarUrl: data['mentor']['avatar'],
+                                  name: data['mentor']['name'],
+                                  position: 'Lĩnh vực: ${widget.position}',
+                                )
+                              : AppointmentDetailTile(
+                                  avatarUrl: data['mentee']['avatar'],
+                                  name: data['mentee']['name'],
+                                  position: 'Mentee',
+                                ),
                           const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Icon(Icons.subject),
-                              const SizedBox(width: 8),
-                              Text('Chủ đề: Chủ đề bất kì',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Icon(Icons.swipe_down),
+                              const Icon(Icons.verified),
                               const SizedBox(width: 8),
                               Text('Trạng thái: $appointmentStatus',
-                                  style: TextStyle(fontSize: 16)),
+                                  style: const TextStyle(fontSize: 16)),
                             ],
                           ),
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Icon(Icons.calendar_month_outlined),
+                              const Icon(Icons.calendar_month_outlined),
                               const SizedBox(width: 8),
                               Text('Ngày: ${widget.date}',
-                                  style: TextStyle(fontSize: 16)),
+                                  style: const TextStyle(fontSize: 16)),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -217,7 +235,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                                         ),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            _launchURL(meetingLink);
+                                            _launchUrl();
                                             print('Meeting link tapped!');
                                           },
                                       ),
@@ -232,7 +250,8 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                             elevation: 3,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(color: Colors.grey, width: 1.0),
+                              side: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
                             ),
                             child: ListTile(
                               leading: CircleAvatar(

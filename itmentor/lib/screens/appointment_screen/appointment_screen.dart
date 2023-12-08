@@ -998,11 +998,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         final appointment = appointmentLists[index];
                         final mentorName = appointment['mentor']['name'];
                         final mentorAvatar = appointment['mentor']['avatar'];
-                        final mentorGender = appointment['mentor']['gender'];
 
                         final menteeName = appointment['mentee']['name'];
                         final menteeAvatar = appointment['mentee']['avatar'];
-                        final menteeGender = appointment['mentee']['gender'];
 
                         final startAt =
                             appointment['schedule']?['start_at'] != null

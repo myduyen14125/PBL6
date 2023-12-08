@@ -137,6 +137,7 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
       body: userData.isNotEmpty
           ? SafeArea(
               child: SingleChildScrollView(
+                key: Key('mentorProfile'),
                 child: Center(
                   child: Column(
                     children: [
