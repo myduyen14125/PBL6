@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Patch, Query, Req, UploadedFile, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { PaginationPostDto } from 'src/blog/blog.dto';
 import { PaginationRatingDto } from 'src/rating/rating.dto';
 import { UpdatePasswordDto } from '../dto/password.dto';
 import { UpdateUserDto } from '../dto/user.dto';
 import { UserService } from '../user.service';
 import { PaginationCourseDto } from 'src/course/dtos/course.dto';
+import { PaginationBlogDto } from 'src/blog/blog.dto';
 
 @Controller('user')
 export class UserController {
@@ -30,7 +30,7 @@ export class UserController {
     }
 
     @Get(':id/blogs')
-    getAllBlogsByUserId(@Param('id') id: string, @Query() { page, limit }: PaginationPostDto) {
+    getAllBlogsByUserId(@Param('id') id: string, @Query() { page, limit }: PaginationBlogDto) {
         return this.userService.getAllBlogsByUserId(id, page, limit);
     }
 
