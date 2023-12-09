@@ -1,4 +1,4 @@
-import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsUrl, MaxLength, MinLength, Validate } from "class-validator";
+import { IsEmail, IsIn, IsNotEmpty, MaxLength, MinLength } from "class-validator";
 import { IsStrongPassword } from "../validators/password.validator";
 
 export class CreateUserDto {
@@ -22,14 +22,14 @@ export class LoginUserDto {
 }
 
 export class UpdateUserDto {
-    @MaxLength(30) name: string;
+    name: string;
     date_of_birth: Date;
-    @IsUrl() avatar: string;
-    @MinLength(9) @MaxLength(11) phone: string;
+    avatar: string;
+    phone: string;
     gender: boolean;
-    @IsUrl() facebook_link: string;
-    @IsUrl() skype_link: string;
-    @IsMongoId() expertise: string;
+    facebook_link: string;
+    skype_link: string;
+    expertise: string;
 }
 
 export class PaginationMentorDto {

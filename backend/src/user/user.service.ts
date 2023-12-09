@@ -255,7 +255,7 @@ export class UserService {
 
     generateRandomPassword(length: number): string {
         const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        const specialCharacters = "!@#$%^&*()_-+=<>?/[]{}|";
+        const specialCharacters = "!@#$%&*";
         // Ensure at least one special character
         const randomSpecialChar = specialCharacters.charAt(Math.floor(Math.random() * specialCharacters.length));
         // Ensure at least one capital letter
@@ -297,4 +297,6 @@ export class UserService {
         }
         return false
     }
+
+    // admin section
 }
