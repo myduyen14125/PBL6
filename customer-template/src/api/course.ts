@@ -10,6 +10,7 @@ export const getAllCourses = async (
 export const getCoursePagination = async (
   params: GetPaginationParams
 ): Promise<any> => httpRequest.get<any>("/course/my-courses", { params });
+
 export const createCourse = async (params: CreateCourseParams): Promise<any> =>
   httpRequest.post("/course", params);
 

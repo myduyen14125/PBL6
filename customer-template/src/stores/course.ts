@@ -46,8 +46,10 @@ export const useCourse = () => {
     try {
       const response = await createCourse(params);
       onSuccess(response);
+      console.log("hehhehee: ", response);
     } catch (error) {
       onFailure(error);
+      console.log("fairlureee ")
     } finally {
       onFinish();
     }
