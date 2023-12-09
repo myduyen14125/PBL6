@@ -60,8 +60,8 @@ export default defineComponent({
       isLoadingAppointment.value = true;
       appointmentsStore.requestGetAllUserAppointment({
         params: {
-          page: pagination.value.page,
-          limit: pagination.value.limit,
+          page: 1,
+          limit: 100,
         } as GetPaginationParams,
         callback: {
           onSuccess: (res) => {

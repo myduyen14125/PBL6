@@ -78,7 +78,7 @@
               </el-tab-pane>
             </el-tabs>
             <div class="my-5 d-flex">
-              <el-pagination
+              <!-- <el-pagination
                 class="ms-auto"
                 v-model:current-page="pagination.page"
                 :page-size="pagination.limit"
@@ -86,7 +86,7 @@
                 layout="prev, pager, next"
                 :total="pagination.count"
                 @current-change="getAllUserAppointment"
-              />
+              /> -->
             </div>
           </div>
         </div>
