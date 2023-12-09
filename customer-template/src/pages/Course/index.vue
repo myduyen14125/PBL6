@@ -13,7 +13,7 @@
     <CourseModal 
       ref="courseModal"
       :course="currentCourse?._id || ''"
-      @updatedModal="() => getCourseInformation(id)" />
+      @updatedModal="getCourses" />
   </GuestLayout>
 </template>
 <script lang="ts">
@@ -64,12 +64,12 @@ export default defineComponent({
     }
 
     const getCourseInformation = (id: string) => {
-      useCourse().requestGetCourseInformation({
+      useCourse().requestGetCourseById({
         params: {
           id
         },
         callback: {
-          onSuccess: (res) => {
+          onSuccess: (response) => {
             courses.value = res.courses;
             totalElement.value = res.count;
           },
@@ -93,6 +93,7 @@ export default defineComponent({
       getCourses,
       toggleModalCourse,
       courseModal,
+      getCourseInformation
     }
   }
 })
