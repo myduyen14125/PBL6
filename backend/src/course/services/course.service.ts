@@ -318,11 +318,11 @@ export class CourseService {
     async getCurrentUserAllCourses(user: User, page: number, limit: number = 10) {
         const count = await this.courseRepository.countDocuments({$or: [{ users: { $in: user.id } }, { creator: user.id }]})
         const countPage = Math.ceil(count / limit)
-        const courses = await this.courseRepository.getByCondition(
+        const tempCourses = await this.courseRepository.getByCondition(
             {
                 $or: [{ users: { $in: user.id } }, { creator: user.id }]
             },
-            ['image', 'title', 'creator'],
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users'],
             {
                 sort: {
                     _id: -1,
@@ -337,6 +337,17 @@ export class CourseService {
                     path: 'expertise',
                     select: 'name',
                 }
+            });
+        
+            const courses = tempCourses.map(course => {
+                const courseObj = course.toObject();
+                const user_count = courseObj.users ? courseObj.users.length : 0;
+                delete courseObj.users
+    
+                return {
+                    ...courseObj,
+                    user_count,
+                };
             });
 
         return {
