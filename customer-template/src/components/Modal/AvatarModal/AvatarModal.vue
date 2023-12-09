@@ -2,7 +2,7 @@
   <BModal
     v-model:modal="modal"
     id="avatar_modal"
-    title="Cập nhật ảnh đại diện"
+    title="Cập nhật ảnh bìa"
     size="lg"
     animation="fade"
     :noCloseOnBackdrop="true"

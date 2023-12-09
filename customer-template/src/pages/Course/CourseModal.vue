@@ -1,24 +1,55 @@
 <template>
-  <BModal v-model:modal="modal" id="course_modal" :title="data ? 'Chỉnh sửa khóa học' : 'Thêm khóa học'" size="lg"
-    animation="fade" :noCloseOnBackdrop="true">
+  <BModal
+    v-model:modal="modal"
+    id="course_modal"
+    size="lg"
+    animation="fade"
+    :noCloseOnBackdrop="true"
+  >
+    <template v-slot:header>
+      <div class="d-flex align-items-center w-100">
+        <h5 class="modal-title">
+          {{ data ? "Chỉnh sửa khóa học" : "Thêm khóa học" }}
+        </h5>
+        <span class="cursor-pointer ml-auto" @click="hide">
+          <SvgIcon icon="closeModal" />
+        </span>
+      </div>
+    </template>
     <template v-slot:body>
       <form>
         <div className="form-group required mb-3">
           <p class="label">Tên khóa học</p>
-          <input type="text" v-model="form.title" name="title" :className="['form-control', error.title ? 'is-invalid' : '']
-            .filter(Boolean)
-            .join(' ')
-            " placeholder="Nhập tên khóa học" @blur="validateRequired('title')" />
+          <input
+            type="text"
+            v-model="form.title"
+            name="title"
+            :className="
+              ['form-control', error.title ? 'is-invalid' : '']
+                .filter(Boolean)
+                .join(' ')
+            "
+            placeholder="Nhập tên khóa học"
+            @blur="validateRequired('title')"
+          />
           <p v-if="error.title" class="error-message mt-1">
             {{ error.title }}
           </p>
         </div>
         <div className="form-group required mb-3">
           <p class="label">Mô tả khóa học</p>
-          <textarea rows="4" v-model="form.description" name="title" :className="['form-control', error.description ? 'is-invalid' : '']
-            .filter(Boolean)
-            .join(' ')
-            " placeholder="Nhập mô tả khóa học" @blur="validateRequired('description')" />
+          <textarea
+            rows="4"
+            v-model="form.description"
+            name="title"
+            :className="
+              ['form-control', error.description ? 'is-invalid' : '']
+                .filter(Boolean)
+                .join(' ')
+            "
+            placeholder="Nhập mô tả khóa học"
+            @blur="validateRequired('description')"
+          />
           <p v-if="error.description" class="error-message mt-1">
             {{ error.description }}
           </p>
@@ -26,20 +57,35 @@
         <div class="flex items-start">
           <div className="form-group required mb-3 w-1/2">
             <p class="label">Giá tiền</p>
-            <input type="number" v-model="form.price" name="title" :className="['form-control', error.price ? 'is-invalid' : '']
-              .filter(Boolean)
-              .join(' ')
-              " placeholder="Nhập giá khóa học" @blur="validateRequired('price')" />
+            <input
+              type="number"
+              v-model="form.price"
+              name="title"
+              :className="
+                ['form-control', error.price ? 'is-invalid' : '']
+                  .filter(Boolean)
+                  .join(' ')
+              "
+              placeholder="Nhập giá khóa học"
+              @blur="validateRequired('price')"
+            />
             <p v-if="error.price" class="error-message mt-1">
               {{ error.price }}
             </p>
           </div>
           <div className="form-group mb-3 w-1/2 ml-4">
             <p class="label">Giá khuyến mãi</p>
-            <input type="number" v-model="form.discount" name="title" :className="['form-control', error.discount ? 'is-invalid' : '']
-              .filter(Boolean)
-              .join(' ')
-              " placeholder="Nhập giá khuyến mãi" />
+            <input
+              type="number"
+              v-model="form.discount"
+              name="title"
+              :className="
+                ['form-control', error.discount ? 'is-invalid' : '']
+                  .filter(Boolean)
+                  .join(' ')
+              "
+              placeholder="Nhập giá khuyến mãi"
+            />
             <p v-if="error.discount" class="error-message mt-1">
               {{ error.discount }}
             </p>
@@ -47,28 +93,48 @@
         </div>
         <div className="form-group required mb-3">
           <p class="label">Ảnh bìa</p>
-          <input type="text" v-model="form.image" name="title" :className="['form-control', error.image ? 'is-invalid' : '']
-            .filter(Boolean)
-            .join(' ')
-            " placeholder="Nhập link ảnh bìa" @blur="validateRequired('image')" />
           <div class="p-3 avatar-img" @click="clickInputFile">
-            <img :src="data?.avatar || fileImage" alt="avatar" ref="avatarSrc" />
-            <SvgIcon v-if="showEdit" class="cameraIcon" icon="cameraIcon" />
-            <input v-if="showEdit" ref="fileRef" class="cameraInput" type="file" id="avatar" name="avatar"
-              accept="image/*" @change="toggleAvatar" />
+            <img
+              :src="
+                form?.image ||
+                fileImage ||
+                'https://itmentor.s3.ap-southeast-1.amazonaws.com/6551a2f9a44daf1d5c95de67/maxresdefault.jpg'
+              "
+              alt="avatar"
+              ref="avatarSrc"
+            />
+            <SvgIcon class="cameraIcon" icon="cameraIcon" />
+            <input
+              ref="fileRef"
+              class="cameraInput"
+              type="file"
+              id="avatar"
+              name="avatar"
+              accept="image/*"
+              @change="toggleAvatar"
+            />
           </div>
           <p v-if="error.image" class="error-message mt-1">
             {{ error.image }}
           </p>
         </div>
-
       </form>
     </template>
     <template v-slot:footer>
-      <BButton typeButton="submit" classes="btn btn-primary px-5" label="Lưu" @click="submitForm"
-        :isLoading="isSubmitting" />
+      <BButton
+        typeButton="submit"
+        classes="btn btn-primary px-5"
+        label="Lưu"
+        @click="submitForm"
+        :isLoading="isSubmitting"
+      />
     </template>
   </BModal>
+  <AvatarModal
+    ref="avatarModal"
+    @updated="uploadAvatar"
+    :avatar="getAvatar()"
+  />
 </template>
 <script lang="ts">
 import { useCourse } from "../../stores/course";
@@ -87,12 +153,12 @@ interface Form {
   title: string;
   description: string;
   discount: string;
-  image: string;
+  image: string | null;
 }
 
 export default defineComponent({
   name: "CourseModal",
-  components: { BModal, BButton, SvgIcon },
+  components: { BModal, BButton, SvgIcon, AvatarModal },
   props: {
     course: {
       type: String,
@@ -114,7 +180,7 @@ export default defineComponent({
       description: "",
       title: "",
       discount: "",
-      image: "",
+      image: null,
     };
     const initialError: Form = {
       price: "",
@@ -126,17 +192,16 @@ export default defineComponent({
     const form = ref<Form>(
       props.data
         ? {
-          price: props?.data?.price,
-          title: props?.data?.title,
-          description: props?.data?.description,
-          discount: props?.data?.discount,
-          image: props?.data?.image,
-        }
+            price: props?.data?.price,
+            title: props?.data?.title,
+            description: props?.data?.description,
+            discount: props?.data?.discount,
+            image: props?.data?.image,
+          }
         : { ...initialForm }
     );
     const error = ref<Form>({ ...initialError });
     const isSubmitting = ref(false);
-    const showEdit = false;
     const fileImage = ref<any>(null);
     const fileRef: Ref<HTMLDivElement | null> = ref(null);
     const avatarModal: Ref<any> = ref<typeof AvatarModal | null>(null);
@@ -155,18 +220,32 @@ export default defineComponent({
     );
 
     const show = () => {
-      console.log("show modal")
       modal.value = true;
     };
 
     const hide = () => {
-      modal.value = false;
+      console.log("abc");
       resetData();
+      modal.value = false;
     };
 
     const resetData = () => {
-      form.value = { ...initialForm };
-      error.value = { ...initialError };
+      fileImage.value = null;
+      fileRef.value = null;
+      form.value = {
+        price: "",
+        description: "",
+        title: "",
+        discount: "",
+        image: "",
+      };
+      error.value = {
+        price: "",
+        description: "",
+        title: "",
+        discount: "",
+        image: "",
+      };
     };
 
     const validateRequired = (fieldName: keyof Form): string => {
@@ -191,7 +270,7 @@ export default defineComponent({
         price: parseInt(form.value.price),
         discount: parseInt(form.value.discount),
         description: form.value.description,
-        image: form.value.image,
+        image: form.value.image ? form.value.image : "",
       };
 
       if (props?.data) {
@@ -245,10 +324,8 @@ export default defineComponent({
     };
 
     const clickInputFile = () => {
-      if (showEdit) {
-        if (fileRef.value) {
-          fileRef.value.click();
-        }
+      if (fileRef.value) {
+        fileRef.value.click();
       }
     };
 
@@ -259,23 +336,66 @@ export default defineComponent({
       avatarModal?.value?.show();
     };
 
+    const uploadAvatar = () => {
+      form.value.image = URL.createObjectURL(fileImage.value);
+    };
+
+    const getAvatar = () => {
+      if (fileImage.value) {
+        return URL.createObjectURL(fileImage.value);
+      }
+      return "";
+    };
 
     return {
       form,
       error,
       modal,
       isSubmitting,
+      avatarModal,
       submitForm,
       validateRequired,
       show,
       hide,
       clickInputFile,
       fileImage,
-      showEdit,
       toggleAvatar,
+      uploadAvatar,
+      getAvatar,
+      fileRef,
     };
   },
 });
-
-
 </script>
+
+<style scoped>
+.avatar-img {
+  position: relative;
+}
+
+.avatar-img:hover .cameraIcon {
+  display: block;
+}
+
+.avatar-img img {
+  cursor: pointer;
+}
+
+.avatar-img .cameraIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  cursor: pointer;
+}
+
+.avatar-img .cameraInput {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  cursor: pointer;
+}
+</style>
