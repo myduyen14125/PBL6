@@ -17,7 +17,7 @@
   </GuestLayout>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, type Ref } from "vue";
 import { Course } from "@/types/course"; 
 import { useCourse } from "@/stores/course";
 import { useMentors } from "@/stores/mentors";
