@@ -98,8 +98,9 @@
               :src="
                 form?.image ||
                 fileImage ||
-                'https://itmentor.s3.ap-southeast-1.amazonaws.com/6551a2f9a44daf1d5c95de67/maxresdefault.jpg'
+                'https://montevista.greatheartsamerica.org/wp-content/uploads/sites/2/2016/11/default-placeholder.png'
               "
+              style="width: 100%; height: 300px; object-fit: cover;"
               alt="avatar"
               ref="avatarSrc"
             />
