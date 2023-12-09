@@ -108,7 +108,7 @@ export default defineComponent({
   emits: ["updatedModal"],
   setup(props, { emit }) {
     const modal = ref(false);
-    const bioStore = useCourse();
+    const courseStore = useCourse();
     const initialForm: Form = {
       price: "",
       description: "",
@@ -203,7 +203,7 @@ export default defineComponent({
 
     const createCourse = (params: CreateCourseParams) => {
       isSubmitting.value = true;
-      bioStore.requestCreateEducation({
+      courseStore.requestCreateCourse({
         params: params,
         callback: {
           onSuccess: (res) => {
@@ -224,7 +224,7 @@ export default defineComponent({
 
     const updateCourse = (params: CreateCourseParams) => {
       isSubmitting.value = true;
-      bioStore.requestUpdateEducation({
+      courseStore.requestUpdateCourse({
         id: props?.data?._id,
         params: params,
         callback: {

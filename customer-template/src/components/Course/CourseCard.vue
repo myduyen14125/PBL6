@@ -16,15 +16,15 @@
         <div class="media-content">
           <p class="title font-bold m-0">{{ course.title }}</p>
           <div class="price flex items-center">
-            <p class="subtitle text-gray-500 line-through my-0">{{ course.price }}đ</p>
-            <p class="subtitle text-red-700 my-0 ml-2">{{ course.discount }}đ</p>
+            <p class="subtitle text-gray-500 line-through my-0">{{ course.price ? course.price : 0 }}đ</p>
+            <p class="subtitle text-red-700 my-0 ml-2">{{ course.discount ? course.discount : 0 }}đ</p>
           </div>
           <div v-if="getUserInfo().role == 'mentee'" class="flex items-center">
             <img :src="course.creator.avatar" :alt="course.creator.name" class="rounded-full w-8 h-8"/>
             <p class="subtitle text-gray-500 ml-2 mt-3">{{ course.creator.name }}</p>
           </div>
           <div v-else>
-            <p class="subtitle text-gray-500 my-0">{{ course.user_count }} học viên</p>
+            <p class="subtitle text-gray-500 my-0">{{ course.user_count ? course.user_count : 0 }} học viên</p>
           </div>
         </div>
       </div>
