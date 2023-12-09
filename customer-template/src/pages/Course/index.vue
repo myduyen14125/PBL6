@@ -1,8 +1,8 @@
 <template>
   <GuestLayout>
-    <div class="container relative py-14 px-0 lg-px-24 text-lg min-h-[62vh]">
+    <div class="container relative py-14 px-0 lg:px-16 text-lg min-h-[62vh]">
       <h1 class="text-3xl font-bold text-teal-600 mb-4">Các khóa học của tôi</h1>
-      <button class="absolute top-14 right-0 btn btn-primary mb-4" @click="toggleModalCourse"
+      <button class="absolute top-14 right-14 btn btn-primary mb-4" @click="toggleModalCourse"
       >Tạo khóa học</button>
       <div class="flex flex-wrap gap-4">
         <div class="" v-for="course in courses" :key="course.id">
@@ -13,7 +13,7 @@
     <CourseModal 
       ref="courseModal"
       :course="currentCourse?._id || ''"
-      @updatedModal="() => getCourseInformation(id)" />
+      @updatedModal="getCourses" />
   </GuestLayout>
 </template>
 <script lang="ts">
@@ -64,12 +64,12 @@ export default defineComponent({
     }
 
     const getCourseInformation = (id: string) => {
-      useCourse().requestGetCourseInformation({
+      useCourse().requestGetCourseById({
         params: {
           id
         },
         callback: {
-          onSuccess: (res) => {
+          onSuccess: (response) => {
             courses.value = res.courses;
             totalElement.value = res.count;
           },
@@ -93,6 +93,7 @@ export default defineComponent({
       getCourses,
       toggleModalCourse,
       courseModal,
+      getCourseInformation
     }
   }
 })
