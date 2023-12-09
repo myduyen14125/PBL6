@@ -12,7 +12,7 @@
     </div>
     <CourseModal 
       ref="courseModal"
-      :bio="userInfo?.bio?._id || ''"
+      :course="currentCourse?._id || ''"
       @updatedModal="() => getCourseInformation(id)" />
   </GuestLayout>
 </template>

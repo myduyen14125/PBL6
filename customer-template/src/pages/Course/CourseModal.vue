@@ -1,122 +1,100 @@
 <template>
-  <BModal
-    v-model:modal="modal"
-    id="course_modal"
-    :title="data ? 'Chỉnh sửa khóa học' : 'Thêm khóa học'"
-    size="lg"
-    animation="fade"
-    :noCloseOnBackdrop="true"
-  >
+  <BModal v-model:modal="modal" id="course_modal" :title="data ? 'Chỉnh sửa khóa học' : 'Thêm khóa học'" size="lg"
+    animation="fade" :noCloseOnBackdrop="true">
     <template v-slot:body>
       <form>
         <div className="form-group required mb-3">
           <p class="label">Tên khóa học</p>
-          <input
-            type="text"
-            v-model="form.title"
-            name="title"
-            :className="
-              ['form-control', error.title ? 'is-invalid' : '']
-                .filter(Boolean)
-                .join(' ')
-            "
-            placeholder="Nhập tên khóa học"
-            @blur="validateRequired('title')"
-          />
+          <input type="text" v-model="form.title" name="title" :className="['form-control', error.title ? 'is-invalid' : '']
+            .filter(Boolean)
+            .join(' ')
+            " placeholder="Nhập tên khóa học" @blur="validateRequired('title')" />
           <p v-if="error.title" class="error-message mt-1">
             {{ error.title }}
           </p>
         </div>
         <div className="form-group required mb-3">
           <p class="label">Mô tả khóa học</p>
-          <textarea
-            rows="4"
-            v-model="form.description"
-            name="title"
-            :className="
-              ['form-control', error.description ? 'is-invalid' : '']
-                .filter(Boolean)
-                .join(' ')
-            "
-            placeholder="Nhập mô tả khóa học"
-            @blur="validateRequired('description')"
-          />
+          <textarea rows="4" v-model="form.description" name="title" :className="['form-control', error.description ? 'is-invalid' : '']
+            .filter(Boolean)
+            .join(' ')
+            " placeholder="Nhập mô tả khóa học" @blur="validateRequired('description')" />
           <p v-if="error.description" class="error-message mt-1">
             {{ error.description }}
           </p>
         </div>
-        <div className="form-group required mb-3">
-          <p class="label">Giá tiền</p>
-          <input
-            type="number"
-            v-model="form.price"
-            name="title"
-            :className="
-              ['form-control', error.price ? 'is-invalid' : '']
-                .filter(Boolean)
-                .join(' ')
-            "
-            placeholder="Nhập giá khóa học"
-            @blur="validateRequired('price')"
-          />
-          <p v-if="error.price" class="error-message mt-1">
-            {{ error.price }}
-          </p>
+        <div class="flex items-start">
+          <div className="form-group required mb-3 w-1/2">
+            <p class="label">Giá tiền</p>
+            <input type="number" v-model="form.price" name="title" :className="['form-control', error.price ? 'is-invalid' : '']
+              .filter(Boolean)
+              .join(' ')
+              " placeholder="Nhập giá khóa học" @blur="validateRequired('price')" />
+            <p v-if="error.price" class="error-message mt-1">
+              {{ error.price }}
+            </p>
+          </div>
+          <div className="form-group mb-3 w-1/2 ml-4">
+            <p class="label">Giá khuyến mãi</p>
+            <input type="number" v-model="form.discount" name="title" :className="['form-control', error.discount ? 'is-invalid' : '']
+              .filter(Boolean)
+              .join(' ')
+              " placeholder="Nhập giá khuyến mãi" />
+            <p v-if="error.discount" class="error-message mt-1">
+              {{ error.discount }}
+            </p>
+          </div>
         </div>
-        <div className="form-group mb-3">
-          <p class="label">Giá khuyến mãi</p>
-          <input
-            type="number"
-            v-model="form.discount"
-            name="title"
-            :className="
-              ['form-control', error.discount ? 'is-invalid' : '']
-                .filter(Boolean)
-                .join(' ')
-            "
-            placeholder="Nhập giá khuyến mãi"
-          />
-          <p v-if="error.discount" class="error-message mt-1">
-            {{ error.discount }}
+        <div className="form-group required mb-3">
+          <p class="label">Ảnh bìa</p>
+          <input type="text" v-model="form.image" name="title" :className="['form-control', error.image ? 'is-invalid' : '']
+            .filter(Boolean)
+            .join(' ')
+            " placeholder="Nhập link ảnh bìa" @blur="validateRequired('image')" />
+          <div class="p-3 avatar-img" @click="clickInputFile">
+            <img :src="data?.avatar || fileImage" alt="avatar" ref="avatarSrc" />
+            <SvgIcon v-if="showEdit" class="cameraIcon" icon="cameraIcon" />
+            <input v-if="showEdit" ref="fileRef" class="cameraInput" type="file" id="avatar" name="avatar"
+              accept="image/*" @change="toggleAvatar" />
+          </div>
+          <p v-if="error.image" class="error-message mt-1">
+            {{ error.image }}
           </p>
         </div>
 
       </form>
     </template>
     <template v-slot:footer>
-      <BButton
-        typeButton="submit"
-        classes="btn btn-primary px-5"
-        label="Lưu"
-        @click="submitForm"
-        :isLoading="isSubmitting"
-      />
+      <BButton typeButton="submit" classes="btn btn-primary px-5" label="Lưu" @click="submitForm"
+        :isLoading="isSubmitting" />
     </template>
   </BModal>
 </template>
 <script lang="ts">
-import { useBio } from "../../stores/bio";
-import { ref, defineComponent, watch, onMounted } from "vue";
+import { useCourse } from "../../stores/course";
+import { ref, defineComponent, watch, onMounted, type Ref } from "vue";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import { PropType } from "vue";
 import BModal from "../../components/BUI/BModal/BModal.vue";
 import BButton from "../../components/BUI/BButton/BButton.vue";
 import { validate } from "../../ultils/validators";
-import { EducationParams } from "../../types/bio";
+import { CreateCourseParams } from "../../types/course";
 import SwalPopup from "../../ultils/swalPopup";
+import AvatarModal from "../../components/Modal/AvatarModal/AvatarModal.vue";
 
 interface Form {
   price: string;
   title: string;
   description: string;
   discount: string;
+  image: string;
 }
 
 export default defineComponent({
   name: "CourseModal",
   components: { BModal, BButton, SvgIcon },
   props: {
-    bio: {
+    course: {
       type: String,
       required: false,
       default: "",
@@ -130,31 +108,38 @@ export default defineComponent({
   emits: ["updatedModal"],
   setup(props, { emit }) {
     const modal = ref(false);
-    const bioStore = useBio();
+    const bioStore = useCourse();
     const initialForm: Form = {
       price: "",
       description: "",
       title: "",
       discount: "",
+      image: "",
     };
     const initialError: Form = {
       price: "",
       title: "",
       description: "",
       discount: "",
+      image: "",
     };
     const form = ref<Form>(
       props.data
         ? {
-            price: props?.data?.price,
-            title: props?.data?.title,
-            description: props?.data?.description,
-            discount: props?.data?.discount,
-          }
+          price: props?.data?.price,
+          title: props?.data?.title,
+          description: props?.data?.description,
+          discount: props?.data?.discount,
+          image: props?.data?.image,
+        }
         : { ...initialForm }
     );
     const error = ref<Form>({ ...initialError });
     const isSubmitting = ref(false);
+    const showEdit = false;
+    const fileImage = ref<any>(null);
+    const fileRef: Ref<HTMLDivElement | null> = ref(null);
+    const avatarModal: Ref<any> = ref<typeof AvatarModal | null>(null);
 
     watch(
       () => props.data,
@@ -164,6 +149,7 @@ export default defineComponent({
           title: newData?.title,
           description: newData?.description,
           discount: newData?.discount,
+          image: newData?.image,
         };
       }
     );
@@ -200,22 +186,22 @@ export default defineComponent({
 
     const submitForm = () => {
       if (!validateForm()) return;
-      const params: EducationParams = {
-        bio: props?.bio,
+      const params: CreateCourseParams = {
         title: form.value.title,
-        price: form.value.price,
-        discount: form.value.discount,
+        price: parseInt(form.value.price),
+        discount: parseInt(form.value.discount),
         description: form.value.description,
+        image: form.value.image,
       };
 
       if (props?.data) {
-        updateExperience(params);
+        updateCourse(params);
       } else {
-        createExperience(params);
+        createCourse(params);
       }
     };
 
-    const createExperience = (params: EducationParams) => {
+    const createCourse = (params: CreateCourseParams) => {
       isSubmitting.value = true;
       bioStore.requestCreateEducation({
         params: params,
@@ -236,7 +222,7 @@ export default defineComponent({
       });
     };
 
-    const updateExperience = (params: EducationParams) => {
+    const updateCourse = (params: CreateCourseParams) => {
       isSubmitting.value = true;
       bioStore.requestUpdateEducation({
         id: props?.data?._id,
@@ -258,6 +244,22 @@ export default defineComponent({
       });
     };
 
+    const clickInputFile = () => {
+      if (showEdit) {
+        if (fileRef.value) {
+          fileRef.value.click();
+        }
+      }
+    };
+
+    const toggleAvatar = (e: any): void => {
+      const avatar = e.target.files[0];
+      if (!avatar) return;
+      fileImage.value = avatar;
+      avatarModal?.value?.show();
+    };
+
+
     return {
       form,
       error,
@@ -267,6 +269,10 @@ export default defineComponent({
       validateRequired,
       show,
       hide,
+      clickInputFile,
+      fileImage,
+      showEdit,
+      toggleAvatar,
     };
   },
 });
