@@ -1,6 +1,5 @@
 import { defineComponent, ref } from "vue";
-import SwalPopup from "../../../../ultils/swalPopup";
-import BModal from "../../../../components/BUI/BModal/BModal.vue";
+import BModal from "../../BUI/BModal/BModal.vue";
 
 export default defineComponent({
   name: "AvatarModal",
