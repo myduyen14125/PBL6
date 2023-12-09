@@ -12,7 +12,6 @@ export class CourseService {
 
     async createCourse(user: User, dto: CreateCourseDto) {
         dto.creator = user.id
-        dto.discount = 0
         return await this.courseRepository.create(dto)
     }
 
