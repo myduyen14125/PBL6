@@ -70,8 +70,8 @@ export default defineComponent({
         },
         callback: {
           onSuccess: (response) => {
-            courses.value = res.courses;
-            totalElement.value = res.count;
+            courses.value = response.courses;
+            totalElement.value = response.count;
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(

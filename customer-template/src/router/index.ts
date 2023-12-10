@@ -27,6 +27,7 @@ const ForgetPassword = () =>
   import("../pages/ForgetPassword/ForgetPassword.vue");
 const Chat = () => import("../pages/Chat/index.vue");
 const Course = () => import("../pages/Course/index.vue");
+const CourseDetail = () => import("../pages/Course/_id/index.vue");
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -134,6 +135,12 @@ const constantRoutes: RouteRecordRaw[] = [
     path: "/course",
     name: "Course",
     component: Course,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/course/:id",
+    name: "CourseDetail",
+    component: CourseDetail,
     meta: { requiresAuth: true },
   },
 
