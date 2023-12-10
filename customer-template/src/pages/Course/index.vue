@@ -18,14 +18,14 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, onMounted, type Ref } from "vue";
-import { Course } from "@/types/course"; 
-import { useCourse } from "@/stores/course";
-import { useMentors } from "@/stores/mentors";
-import { GetPaginationParams, Mentor } from "@/types/mentor";
-import GuestLayout from "@/layout/GuestLayout/GuestLayout.vue";
-import CourseCard from '@/components/Course/CourseCard.vue';
-import SwalPopup from "@/ultils/swalPopup";
-import CourseModal from "@/pages/Course/CourseModal.vue";
+import { Course } from "../../types/course"; 
+import { useCourse } from "../../stores/course";
+import { useMentors } from "../../stores/mentors";
+import { GetPaginationParams, Mentor } from "../../types/mentor";
+import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
+import CourseCard from '../../components/Course/CourseCard.vue';
+import SwalPopup from "../../ultils/swalPopup";
+import CourseModal from "../../pages/Course/CourseModal.vue";
 
 export default defineComponent({
   name: 'Course',
@@ -36,6 +36,7 @@ export default defineComponent({
     const courses = ref<Course[]>([]);
     const totalElement = ref(0);
     const courseModal: Ref<any> = ref<typeof CourseModal | null>(null);
+    const currentCourse = ref<Course>;
 
     onMounted(() => {
       getCourses();
@@ -65,9 +66,7 @@ export default defineComponent({
 
     const getCourseInformation = (id: string) => {
       useCourse().requestGetCourseById({
-        params: {
-          id
-        },
+        id: id,
         callback: {
           onSuccess: (response) => {
             courses.value = response.courses;
