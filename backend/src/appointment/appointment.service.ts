@@ -16,13 +16,18 @@ export class AppointmentService {
         private mailerService: MailerService
     ) { }
 
-    formatUtcDate(date: Date): string {
-        const formattedDate = new Intl.DateTimeFormat("en-GB", {
-          timeStyle: "short",
-          dateStyle: "short",
-          timeZone: "UTC",
-        }).format(date);
-        return formattedDate;
+    private formatUtcDate(date: Date): any {
+        const hours = date.getUTCHours();
+        const minutes = date.getUTCMinutes();
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        
+        const day = date.getUTCDate();
+        const month = date.getUTCMonth() + 1; // months are zero-based
+        const year = date.getUTCFullYear();
+    
+        const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+    
+        return {formattedTime, formattedDate};
     }
 
     async createAppointment(mentee: User, dto: CreateAppointmentDto) {
@@ -55,8 +60,9 @@ export class AppointmentService {
             context: {
                 mentee: newAppointment.mentee.name,
                 mentor: newAppointment.mentor.name,
-                start_at: this.formatUtcDate(newAppointment.schedule.start_at),
-                end_at: this.formatUtcDate(newAppointment.schedule.end_at),
+                start_at: this.formatUtcDate(newAppointment.schedule.start_at).formattedTime,
+                end_at: this.formatUtcDate(newAppointment.schedule.end_at).formattedTime,
+                date: this.formatUtcDate(newAppointment.schedule.end_at).formatUtcDate,
                 note: newAppointment.note,
                 expertise: newAppointment.mentor.expertise.name
             }
@@ -242,8 +248,9 @@ export class AppointmentService {
             context: {
                 mentee: updatedAppointment.mentee.name,
                 mentor: updatedAppointment.mentor.name,
-                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at),
-                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at),
+                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at).formattedTime,
+                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedTime,
+                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formatUtcDate,
                 note: updatedAppointment.note,
                 link: updatedAppointment.mentor.skype_link,
                 expertise: updatedAppointment.mentor.expertise.name
@@ -279,8 +286,9 @@ export class AppointmentService {
             context: {
                 mentee: updatedAppointment.mentee.name,
                 mentor: updatedAppointment.mentor.name,
-                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at),
-                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at),
+                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at).formattedTime,
+                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedTime,
+                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formatUtcDate,
                 note: updatedAppointment.note,
                 expertise: updatedAppointment.mentor.expertise.name
             }
