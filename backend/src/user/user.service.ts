@@ -298,5 +298,47 @@ export class UserService {
         return false
     }
 
-    // admin section
+    // admin only
+    async getAllMentees(page: number, limit: number = 10) {
+        const count = await this.userRepository.countDocuments({ role: 'mentee' })
+        const countPage = Math.ceil(count / limit)
+        const mentees = await this.userRepository.getByCondition(
+            { role: 'mentee' },
+            ['name', 'avatar', 'email', 'date_of_birth', 'gender', 'facebook_link', 'skype_link', 'phone'],
+            {
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+        );
+
+        return { count, countPage, mentees }
+    }
+
+    async searchMentee(name: string, page: number, limit: number = 10) {
+        let query: { role: string; name?: { $regex: RegExp };} = {
+            role: 'mentee'
+        };
+
+        if (name) { query.name = { $regex: new RegExp(name, 'i') };}
+
+        const count = await this.userRepository.countDocuments(query)
+        const countPage = Math.ceil(count / limit)
+
+        const mentees = await this.userRepository.getByCondition(
+            query,
+            ['name', 'avatar', 'email', 'date_of_birth', 'gender', 'facebook_link', 'skype_link', 'phone'],
+            {
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+        );
+
+        return { count, countPage, mentees }
+    }
 }

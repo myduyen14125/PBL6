@@ -12,6 +12,7 @@ const CourseSchema = new Schema(
         creator: { type: Schema.Types.ObjectId, ref: 'User' }
     },
     {
+        toObject: {virtuals: true},
         timestamps: true,
         collection: 'courses',
     }
