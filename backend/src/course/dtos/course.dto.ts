@@ -11,6 +11,7 @@ export class CreateCourseDto {
     @IsNotEmpty()
     image: string
     discount: number
+    duration: number
 }
 
 export class UpdateCourseDto {
