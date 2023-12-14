@@ -34,12 +34,6 @@ export class CourseController {
         return this.courseService.deleteCourse(req.user, id)
     }
 
-    // @UseGuards(AuthGuard("jwt"))
-    // @Patch('register-course/:id')
-    // async registerCourse(@Req() req: any, @Param('id') id: string) {
-    //     return this.courseService.registerCourse(req.user, id)
-    // }
-
     @Get()
     getAllCourses(@Query() {page, limit}: PaginationCourseDto) {
         return this.courseService.getAllCourses(page, limit);

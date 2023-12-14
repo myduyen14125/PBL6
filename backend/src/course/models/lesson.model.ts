@@ -7,7 +7,6 @@ const LessonSchema = new Schema(
         description: String,
         image: String,
         video: String,
-        archived: Boolean,
         order: Number,
         course: { type: Schema.Types.ObjectId, ref: 'Course' }
     },
@@ -24,7 +23,6 @@ export interface Lesson extends Document {
     image: string
     video: string
     order: Number
-    archived: boolean
     course: Course
 
 }

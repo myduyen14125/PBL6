@@ -6,7 +6,6 @@ import { UserService } from "src/user/user.service";
 import { CreateAppointmentDto, UpdateAppointmentDto } from "./appointment.dto";
 import { AppointmentRepository } from "./appointment.repository";
 
-
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -30,7 +29,7 @@ export class AppointmentService {
         return {formattedTime, formattedDate};
     }
 
-    async createAppointment(mentee: User, dto: CreateAppointmentDto) {
+    async createAppointment(mentee: User, dto: CreateAppointmentDto) {      
         const mentor = await this.userService.checkMentor(dto.mentor)
         const schedule = await this.scheduleService.getScheduleById(dto.schedule)
 
@@ -62,7 +61,7 @@ export class AppointmentService {
                 mentor: newAppointment.mentor.name,
                 start_at: this.formatUtcDate(newAppointment.schedule.start_at).formattedTime,
                 end_at: this.formatUtcDate(newAppointment.schedule.end_at).formattedTime,
-                date: this.formatUtcDate(newAppointment.schedule.end_at).formatUtcDate,
+                date: this.formatUtcDate(newAppointment.schedule.end_at).formattedDate,
                 note: newAppointment.note,
                 expertise: newAppointment.mentor.expertise.name
             }
@@ -250,7 +249,7 @@ export class AppointmentService {
                 mentor: updatedAppointment.mentor.name,
                 start_at: this.formatUtcDate(updatedAppointment.schedule.start_at).formattedTime,
                 end_at: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedTime,
-                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formatUtcDate,
+                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedDate,
                 note: updatedAppointment.note,
                 link: updatedAppointment.mentor.skype_link,
                 expertise: updatedAppointment.mentor.expertise.name
@@ -288,7 +287,7 @@ export class AppointmentService {
                 mentor: updatedAppointment.mentor.name,
                 start_at: this.formatUtcDate(updatedAppointment.schedule.start_at).formattedTime,
                 end_at: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedTime,
-                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formatUtcDate,
+                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedDate,
                 note: updatedAppointment.note,
                 expertise: updatedAppointment.mentor.expertise.name
             }
@@ -435,21 +434,5 @@ export class AppointmentService {
         return {
             count, countPage, appointments
         }
-    }
-
-    async getAllUserPendingAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "pending")
-    }
-
-    async getAllUserCanceledAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "canceled")
-    }
-
-    async getAllUserConfirmedAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "confirmed")
-    }
-
-    async getAllUserFinishedAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "finished")
     }
 }

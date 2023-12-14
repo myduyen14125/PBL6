@@ -10,7 +10,9 @@ export class CourseService {
     ) { }
 
     async createCourse(user: User, dto: CreateCourseDto) {
+        if(!dto.discount) dto.discount = 0
         dto.creator = user.id
+        dto.duration = 0
         return await this.courseRepository.create(dto)
     }
 
@@ -63,6 +65,7 @@ export class CourseService {
                     _id: '$_id',
                     title: { $first: '$title' },
                     discount: { $first: '$discount' },
+                    duration: { $first: '$duration'},
                     lesson_count: { $sum: 1 },
                     description: { $first: '$description' },
                     price: { $first: '$price' },
@@ -83,6 +86,7 @@ export class CourseService {
                 $project: {
                     _id: 1,
                     title: 1,
+                    duration: 1,
                     lesson_count: 1,
                     description: 1,
                     price: 1,
@@ -147,85 +151,48 @@ export class CourseService {
     }    
 
     async getAllCoursesByCreatorId(id: string, page: number, limit: number = 10) {
-        const count = await this.courseRepository.countDocuments({})
+        const count = await this.courseRepository.countDocuments({creator: id})
         const countPage = Math.ceil(count / limit)
-        const skip = (page - 1) * limit || 0
-        const courses = await this.courseRepository.aggregate([
+        const tempCourses = await this.courseRepository.getByCondition(
             {
-                $match: {creator: id}
+                creator: id
             },
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
             {
-                $lookup: {
-                    from: 'users',
-                    localField: 'creator',
-                    foreignField: '_id',
-                    as: 'creator'
-                }
-            }, 
-            {
-                $unwind: '$creator'
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
             },
-            {
-                $skip: skip
-            },
-            {
-                $limit: Number(limit)
-            },
-            {
-                $lookup: {
-                    from: 'expertises', 
-                    localField: 'creator.expertise',
-                    foreignField: '_id',
-                    as: 'creator.expertise'
-                }
-            },
-            {
-                $unwind: '$creator.expertise'
-            },
-            {
-                $lookup: {
-                    from: 'lessons', 
-                    localField: '_id',
-                    foreignField: 'course',
-                    as: 'lessons'
-                }
-            },
-            {
-                $unwind: '$lessons'
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    title: { $first: '$title' },
-                    lesson_count: { $sum: 1 },
-                    description: { $first: '$description' },
-                    price: { $first: '$price' },
-                    user_count: { $first: { $size: '$users' } },
-                    image: { $first: '$image' },
-                    creator: {
-                        $first: {
-                            name: '$creator.name',
-                            avatar: '$creator.avatar',
-                            expertise: {
-                                name: '$creator.expertise.name'
-                            }
-                        }
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
                     }
+                },
+                {
+                    path: 'lessons',
                 }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    title: 1,
-                    lesson_count: 1,
-                    description: 1,
-                    price: 1,
-                    user_count: 1,
-                    image: 1,
-                    creator: 1
-                }
-            },
-        ])    
+            ]
+        );
+        
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
+    
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
 
         return {
             count, countPage, courses
@@ -285,7 +252,7 @@ export class CourseService {
         const countPage = Math.ceil(count / limit)
         const tempCourses = await this.courseRepository.getByCondition(
             query,
-            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users'],
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
             {
                 sort: {
                     _id: -1,
@@ -293,25 +260,34 @@ export class CourseService {
                 skip: (page - 1) * limit,
                 limit: limit
             },
-            {
-                path: 'creator',
-                select: 'name avatar expertise',
-                populate: {
-                    path: 'expertise',
-                    select: 'name',
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
+                    }
+                },
+                {
+                    path: 'lessons',
                 }
-            });
+            ]
+        );
         
-            const courses = tempCourses.map(course => {
-                const courseObj = course.toObject();
-                const user_count = courseObj.users ? courseObj.users.length : 0;
-                delete courseObj.users
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
     
-                return {
-                    ...courseObj,
-                    user_count,
-                };
-            });
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
 
         return {
             count, countPage, courses
@@ -327,5 +303,10 @@ export class CourseService {
         const course = await this.courseRepository.findById(id);
         if (!course) { throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);}
         return course
+    }
+
+    async updateDuration(id: string, option: boolean, change: number) {
+        if(option) return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: change } })
+        return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: -change } })
     }
 } 

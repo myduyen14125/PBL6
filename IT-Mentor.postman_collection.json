@@ -55,9 +55,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{deploy}}/auth/login",
+							"raw": "{{host}}/auth/login",
 							"host": [
-								"{{deploy}}"
+								"{{host}}"
 							],
 							"path": [
 								"auth",
@@ -899,6 +899,56 @@
 					"response": []
 				},
 				{
+					"name": "Get Rated Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/finished?page=1&limit=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"finished"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Book Appointment",
 					"request": {
 						"auth": {
@@ -1121,7 +1171,7 @@
 								}
 							]
 						},
-						"method": "PATCH",
+						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "{{host}}/schedule/655643ed84ff31eac89daee7",
@@ -1149,7 +1199,7 @@
 								}
 							]
 						},
-						"method": "PATCH",
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -1606,7 +1656,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/PC/Downloads/intro.mp4"
+									"src": "/C:/Users/PC/Downloads/intro2.mp4"
 								}
 							]
 						},
@@ -2229,7 +2279,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjEwMTgzNiwiZXhwIjoxNzAyMTA0NDI4fQ.BQjl4vc2dLfLLr0IH-S4yd0b9Mv7nSArdpD9CBKHOss",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2238,7 +2288,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Python Programming Basics\",\r\n    \"description\": \"Master the basics of Python programming in this concise course. Learn fundamental concepts, syntax, and application development. Perfect for beginners looking to establish a strong foundation in Python for web development, data analysis, and automation.\",\r\n    \"price\": 100000,\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Python Programming Basics\",\r\n    \"description\": \"Master the basics of Python programming in this concise course. Learn fundamental concepts, syntax, and application development. Perfect for beginners looking to establish a strong foundation in Python for web development, data analysis, and automation.\",\r\n    \"price\": 100000,\r\n    \"image\": \"https://www.freecodecamp.org/news/content/images/2022/02/Banner-10.png\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2246,9 +2296,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{deploy}}/course",
+							"raw": "{{host}}/course",
 							"host": [
-								"{{deploy}}"
+								"{{host}}"
 							],
 							"path": [
 								"course"
@@ -2273,9 +2323,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{deploy}}/course",
+							"raw": "{{host}}/course",
 							"host": [
-								"{{deploy}}"
+								"{{host}}"
 							],
 							"path": [
 								"course"
@@ -2290,13 +2340,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/course/655adad26551224ae9801374",
+							"raw": "{{host}}/course/657a8e14ab8c14698af386bd",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"course",
-								"655adad26551224ae9801374"
+								"657a8e14ab8c14698af386bd"
 							]
 						}
 					},
@@ -2310,7 +2360,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjEwODM1OCwiZXhwIjoxNzAyMTEwOTUwfQ.z-_h-gHMYojLqjveY7qknCcfDvF2sb6TUCHd7sa2m5E",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2325,6 +2375,35 @@
 							"path": [
 								"course",
 								"my-courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Courses By Mentor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/6551a1a8a44daf1d5c95ddf5/courses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"6551a1a8a44daf1d5c95ddf5",
+								"courses"
 							]
 						}
 					},
@@ -2421,7 +2500,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2430,7 +2509,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"course\": \"655adbd01af3dea1a1477ed7\",\r\n    \"title\": \"Lesson No3\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\",\r\n    \"title\": \"Lesson No3\",\r\n    \"description\": \"RestAPI Forming\",\r\n    \"image\": \"https://www.freecodecamp.org/news/content/images/2022/02/Banner-10.png\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/6573374a32378fb625527bd8/intro.mp4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2438,26 +2517,64 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/lesson",
+							"raw": "{{host}}/lesson/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"lesson"
+								"lesson",
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update Lesson [ chua lam ]",
+					"name": "Delete Lesson",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/lesson/657a86447aa39f04bdde71a6",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"lesson",
+								"657a86447aa39f04bdde71a6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Lesson",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2466,7 +2583,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Lesson Modified\",\r\n    \"description\": \"RestAPI Forming\",\r\n    \"image\": \"https://www.freecodecamp.org/news/content/images/2022/02/Banner-10.png\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/657a8d424bdaa5345e99c42b/intro2.mp4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2474,48 +2591,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/lesson",
+							"raw": "{{host}}/lesson/657a8e1dab8c14698af386c3",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"lesson"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Archive Lesson [ chua lam ]",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{mentor}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/lesson",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"lesson"
+								"lesson",
+								"657a8e1dab8c14698af386c3"
 							]
 						}
 					},
@@ -2693,6 +2775,155 @@
 									"value": "",
 									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Expertise Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Game Development\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Expertise",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Game Development\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise/12312312132",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise",
+								"12312312132"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Expertise",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise/12312312132",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise",
+								"12312312132"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Expertises Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise"
 							]
 						}
 					},
