@@ -97,13 +97,15 @@ export class PaymentService {
             return "Success"
         }
         if(ipnData.resultCode != '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
-        const regex = /user:([^c]+)course:([^c]+)/;
-        const match = ipnData.extraData.match(regex);
-        if(!match) console.log("no match")
-        const user = match[1];
-        const course = match[2];
-        console.log(user);
-        console.log(course);
+        // const match = ipnData.extraData.match(regex);
+        const parts = ipnData.extraData.split("%3A");
+
+        // Extract user ID and course ID
+        const user = parts[1].slice(0, -5);
+        const course = parts[2].split("course%3A").toString();
+        
+        console.log("User ID:", user);
+        console.log("Course ID:", course);
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
     }
