@@ -1,21 +1,15 @@
 <template>
-  <header :class="{'white-nav bg-white': isScroll}">
+  <header :class="{ 'white-nav bg-white': isScroll }">
     <client-only>
       <div
-        class="
-          navbar-wrapper
-          container
-          d-flex
-          justify-content-between
-          align-items-center
-        "
+        class="navbar-wrapper container d-flex justify-content-between align-items-center"
       >
         <div class="logo">
           <nuxt-link to="/">
             <img src="~/assets/images/logo-it.png" alt="" />
           </nuxt-link>
         </div>
-        
+
         <div class="right-nav d-flex align-items-center">
           <!-- contain switch language and button -->
           <!-- <select class="switch-wrapper cursor-pointer">
@@ -23,51 +17,52 @@
             <option class="px-3" value="vi"><span class="switch--item">VI</span></option>
             <option class="px-3" value="vi"><span class="switch--item">JA</span></option>
           </select> -->
-          <button class="btn-custom btn-blue"><nuxt-link to="/login" @click.prevent.stop>Login</nuxt-link></button>
+          <button class="btn-custom btn-blue">
+            <nuxt-link to="/login" @click.prevent.stop>Login</nuxt-link>
+          </button>
         </div>
       </div>
     </client-only>
   </header>
 </template>
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from "vue";
 
 export default {
   props: {
-    isNavbarWhite: Boolean
+    isNavbarWhite: Boolean,
   },
 
   setup(props) {
-    
-    const isScroll = props.isNavbarWhite ? ref(true) : ref(false)
+    const isScroll = props.isNavbarWhite ? ref(true) : ref(false);
     const handleScroll = () => {
       if (window.scrollY > 0) {
-        isScroll.value = true
+        isScroll.value = true;
       } else {
-        isScroll.value = false
+        isScroll.value = false;
       }
-    }
+    };
 
     onMounted(() => {
-      window.addEventListener('scroll', {
+      window.addEventListener("scroll", {
         // if isNavbarWhite is true, it will not do the handleScroll function
         handleEvent: () => {
           if (!props.isNavbarWhite) {
-            handleScroll()
+            handleScroll();
           }
-        }
-      })
-    })
+        },
+      });
+    });
     return {
       isScroll,
-      handleScroll
-    }
+      handleScroll,
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '~/assets/scss/active-navbar.scss';
+@import "~/assets/scss/active-navbar.scss";
 header {
   position: fixed;
   top: 0;
@@ -133,5 +128,4 @@ header {
     font-weight: 400;
   }
 }
-
 </style>

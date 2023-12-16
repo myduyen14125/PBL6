@@ -1,76 +1,62 @@
 <template>
   <div class="table-wrapper w-100">
-    <div class="table-header d-flex align-items-center justify-content-between mb-2">
+    <div
+      class="table-header d-flex align-items-center justify-content-between mb-2"
+    >
       <h1 class="title">{{ title }}</h1>
-      <div class="d-flex">
-        <ComboBox 
-          v-if="subjectList.length > 0" 
-          :options-prop="subjectList"
-          :placeholder="'Select subject'"
-          class="mr-4"
-          @selection-change="handleSelect"
-        />
-        <ComboBox 
-          :options-prop="statusList"
-          :placeholder="'Select status'"
-          @selection-change="handleSelectStatus"
-        />
-      </div>
-      <SearchInput @search="handleSearch"/>
+      <SearchInput @search="handleSearch" />
       <!-- <nuxt-link to="/mentor/create">
         <button class="btn-custom btn-blue" >
           Create contact
         </button>
       </nuxt-link> -->
     </div>
-    <hr class="mt-2 mb-0">
+    <hr class="mt-2 mb-0" />
     <div ref="table" class="table-overflow overflow-auto d-block h-90">
       <div class="layer-block"></div>
       <table class="table table-striped">
         <thead class="color-primary table-head">
           <tr>
+            <th scope="col">Avatar</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">Gender</th>
-            <th scope="col">Major</th>
-            <th scope="col">Date</th>
-            <th scope="col">Status</th>
+            <th scope="col">Expertise</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in data" :key="index" class="cursor-pointer table-row" @click="handleRouting(item.id)">
-            <td class="color-primary d-flex justify-content-center">
-              <span class="td-content">
-                <nuxt-link :to="`/mentor/${item.id}`" class="cursor-pointer color-primary">{{ item.name }}</nuxt-link>
+          <tr
+            v-for="(item, index) in data"
+            :key="index"
+            class="cursor-pointer"
+            @click="handleRouting(item?._id)"
+          >
+            <td>
+              <img v-if="item?.avatar" class="avatar" :src="item?.avatar" />
+            </td>
+            <td class="color-primary">
+              <span class="td-content text-start">
+                <nuxt-link
+                  :to="`/mentor/${item?._id}`"
+                  class="cursor-pointer color-primary"
+                  >{{ item?.name }}</nuxt-link
+                >
               </span>
             </td>
             <td class="color-secondary">
-              <span class="td-content">{{ item.email }}</span>
+              <span class="td-content text-start">{{ item?.email }}</span>
             </td>
             <td class="color-secondary">
-              <span class="td-content">{{ item.phone }}</span>
+              <span class="td-content text-start">{{ item?.phone }}</span>
             </td>
             <td class="color-secondary">
-              <span class="td-content">{{ item.gender ? 'Female' : 'Male' }}</span>
+              <span class="td-content">{{
+                item?.gender ? "Female" : "Male"
+              }}</span>
             </td>
             <td class="color-secondary">
-              <span class="td-subject">{{ getSubjectName(item.subject_id) }}</span>
-            </td>
-            <td class="color-secondary">
-              <span class="td-content">{{ formatDateTime(item.created_at) }}</span>
-            </td>
-            <td>
-              <div 
-                class="status mx-auto"
-                :class="{
-                  'status-done': item.status === 'DONE',
-                  'status-doing': item.status === 'DOING',
-                  'status-todo': item.status === 'TODO'
-                }"
-              >
-                  {{ item.status }}
-              </div>
+              <span class="td-content">{{ item?.expertise?.name }}</span>
             </td>
           </tr>
         </tbody>
@@ -79,94 +65,37 @@
   </div>
 </template>
 <script>
-import moment from 'moment';
-import { mapActions, mapGetters } from 'vuex';
-import SearchInput from '../uncommon/SearchInput.vue';
-import ComboBox from '../uncommon/ComboBox.vue';
+import SearchInput from "../uncommon/SearchInput.vue";
 
 export default {
   components: {
     SearchInput,
-    ComboBox,
   },
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     title: {
       type: String,
-      default: 'Quản lý mentor'
-    }
+      default: "Quản lý mentor",
+    },
   },
   data() {
-    return {
-      statusList: [
-        {
-          id: 'TODO',
-          title: 'Todo'
-        },
-        {
-          id: 'DOING',
-          title: 'Doing'
-        },
-        {
-          id: 'DONE',
-          title: 'Done'
-        }
-      ]
-    }
-  },
-  computed: {
-    ...mapGetters({
-      subjectList: 'subject/getSubjects'
-    })
-  },
-  mounted() {
-    this.fetchSubjectList();
+    return {};
   },
   methods: {
-    ...mapActions({
-      fetchSubjectList: 'subject/fetchList'
-    }),
     handleRouting(id) {
       this.$router.push(`/mentor/${id}`);
     },
-    getSubjectName(id) {
-      const subject = this.subjectList.find(item => item.id === id);
-      return subject ? subject.title : '-';
-    },
-    formatDateTime(date) {
-      return moment(date).format('DD.MM.YYYY HH:mm');
-    },
+
     handleSearch(content) {
-      this.$emit('searchContent', content);
+      this.$emit("searchContent", content);
     },
-    handleSelect(id) {
-      this.$emit('selectCategory', id);
-    },
-    handleSelectStatus(status) {
-      this.$emit('selectStatus', status);
-    },
-    scrollToTop() {
-      this.$refs.table.scrollTop = 0;
-    }
-  }
-   
-}
+  },
+};
 </script>
 <style lang="scss" scoped>
-.w-1-6 {
-  width: 16.6666666667% !important;
-  // background: red;
-}
-.w-2of1-6 {
-  width: 11.1111111111% !important;
-  // background: yellow;
-}
-.w-1of1-6 {
-  width: 5.5555555556% !important;
-}
 .td-content {
   white-space: nowrap;
   overflow: hidden;
@@ -207,4 +136,13 @@ hr {
   margin: 8px 0;
 }
 
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.text-start {
+  text-align: start;
+}
 </style>
