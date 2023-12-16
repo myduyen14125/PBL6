@@ -5,8 +5,8 @@
       method="POST"
       @submit.prevent="onSubmit()"
     >
-      <div class="d-flex">
-        <div class="col-lg-6">
+      <div class="row">
+        <div class="col-md-6">
           <div class="form-group color-primary">
             <label for="name">
               Name
@@ -49,16 +49,10 @@
               required
             ></textarea>
           </div>
-          <!-- Button submit -->
-          <div class="form-group mt-4">
-            <button type="submit" class="btn-custom btn-blue">
-              Submit form
-            </button>
-          </div>
         </div>
 
         <!-- Col right -->
-        <div class="col-lg-6">
+        <div class="col-md-6">
           <div class="form-group color-primary">
             <label for="email">
               Email
@@ -92,6 +86,16 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <button type="submit" class="btn-custom btn-blue">
+              Submit form
+            </button>
+          </div>
+          <!-- Button submit -->
+        </div>
+      </div>
     </form>
   </div>
 </template>
@@ -102,10 +106,6 @@ export default {
     submit: {
       type: Function,
       default: () => {},
-    },
-    subjects: {
-      type: Array,
-      default: () => [],
     },
   },
   data() {
@@ -139,11 +139,11 @@ export default {
       this.$router.push({ query: this.params });
     },
     onSubmit() {
-      this.data.subject_id = this.selectedOption.value;
-      this.$api.contact.createNewContact(this.data).then((res) => {
-        alert("Create new contact successfully");
-        this.$router.push("/mentor");
-      });
+      // this.data.subject_id = this.selectedOption.value;
+      // this.$api.contact.createNewContact(this.data).then((res) => {
+      //   alert("Create new contact successfully");
+      //   this.$router.push("/mentor");
+      // });
     },
   },
 };
