@@ -148,6 +148,10 @@ export default {
             },
           })
           .then((res) => {
+            sessionStorage.setItem(
+              "IT_MENTOR_accessToken",
+              res?.data?.accessToken
+            );
             this.$router.push("/mentor");
           })
           .catch((err) => {

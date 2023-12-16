@@ -19,6 +19,17 @@ export default (axios1, axios2) => ({
     return await axios1.get("/expertise");
   },
 
+  getListMentee: async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get("/user/mentees", config);
+  },
+
   getListBlog: async (queryObj = {}) => {
     const { page = 1 } = queryObj;
     return await axios1.get(`/blog?page=${page}`);
