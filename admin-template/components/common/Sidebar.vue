@@ -1,24 +1,53 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="sidebar mt-4 mr-4 bg-white" :class="isToggleNavbar ? 'sidebar-toggle' : ''">
+  <div
+    class="sidebar mt-4 mr-4 bg-white"
+    :class="isToggleNavbar ? 'sidebar-toggle' : ''"
+  >
     <div class="menu">
       <h4 class="menu-title color-gray px-4">Page</h4>
       <ul class="menu-list mt-2-5 color-secondary">
-        <li v-for="(item, index) in menu" :key="index" @mouseover="item.isShowTitle = true" @mouseleave="item.isShowTitle = false">
-          <div 
+        <li
+          v-for="(item, index) in menu"
+          :key="index"
+          @mouseover="item.isShowTitle = true"
+          @mouseleave="item.isShowTitle = false"
+        >
+          <div
             class="menu-item d-flex align-items-center cursor-pointer"
-            :class="(item.isShowTitle && isToggleNavbar) ? 'w-fit-content' : ''"
+            :class="item.isShowTitle && isToggleNavbar ? 'w-fit-content' : ''"
           >
             <nuxt-link
               :to="item.link"
               class="d-flex align-items-center w-100 h-100 px-4 position-relative"
             >
-              <font-awesome-icon v-if="item.icon" class="mr-3 menu-item-icon" :icon="item.icon"/>
-              <div v-else class="mr-3 menu-item-icon">
-                <img class="mb-1" :src="($route.path == item.link || $route.path.includes(item.link +'/')) ? item.iconSrcActive : item.iconSrc">
+              <font-awesome-icon
+                v-if="item.icon"
+                class="menu-item-icon"
+                :icon="item.icon"
+              />
+              <div v-else class="menu-item-icon">
+                <img
+                  class="mb-1"
+                  :src="
+                    $route.path == item.link ||
+                    $route.path.includes(item.link + '/')
+                      ? item.iconSrcActive
+                      : item.iconSrc
+                  "
+                />
               </div>
-              <span v-if="!isToggleNavbar || item.isShowTitle" class="mr-2">{{ item.title }}</span>
-              <notification-icon v-if="item.count" :count="item.count" :is-toggle="isToggleNavbar" :is-show-title="item.isShowTitle"/>
+              <span
+                v-if="!isToggleNavbar || item.isShowTitle"
+                class="mr-2 ml-3"
+                >{{ item.title }}</span
+              >
+              <notification-icon
+                v-if="item.count"
+                :count="item.count"
+                :is-toggle="isToggleNavbar"
+                :is-show-title="item.isShowTitle"
+              />
               <font-awesome-icon
                 v-if="item.subMenu && !isToggleNavbar"
                 class="dropdown-icon"
@@ -29,7 +58,12 @@
             </nuxt-link>
           </div>
           <!-- sub menu -->
-          <ul v-if="item.subMenu && (item.isToggleSubItem == true) && !isToggleNavbar" class="pl-4">
+          <ul
+            v-if="
+              item.subMenu && item.isToggleSubItem == true && !isToggleNavbar
+            "
+            class="pl-4"
+          >
             <li v-for="sub in item.subMenu" :key="sub.id">
               <nuxt-link
                 :to="sub.link"
@@ -46,11 +80,11 @@
   </div>
 </template>
 <script>
-import NotificationIcon from '../uncommon/NotificationIcon.vue';
+import NotificationIcon from "../uncommon/NotificationIcon.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Sidebar',
+  name: "Sidebar",
   components: {
     // eslint-disable-next-line vue/no-unused-components
     NotificationIcon,
@@ -65,137 +99,143 @@ export default {
     return {
       menu: [
         {
-          title: 'Mentors',
+          title: "Mentors",
           // icon: 'fa-solid fa-address-book',
-          iconSrc: '/icons/job-gray.svg',
-          iconSrcActive: '/icons/job-white.svg',
-          link: '/mentor',
+          iconSrc: "/icons/job-gray.svg",
+          iconSrcActive: "/icons/job-white.svg",
+          link: "/mentor",
           isToggleSubItem: true,
           subMenu: [
             {
-              title: 'Contact subject',
-              icon: 'fa-solid fa-circle',
-              link: '/contact-subject',
+              title: "Contact subject",
+              icon: "fa-solid fa-circle",
+              link: "/contact-subject",
             },
           ],
           isShowTitle: false,
-          count: 0
+          count: 0,
         },
         {
-          title: 'Mentees',
+          title: "Mentees",
           // icon: 'fa-solid fa-address-book',
-          iconSrc: '/icons/job-gray.svg',
-          iconSrcActive: '/icons/job-white.svg',
-          link: '/mentee',
+          iconSrc: "/icons/job-gray.svg",
+          iconSrcActive: "/icons/job-white.svg",
+          link: "/mentee",
           isToggleSubItem: true,
           subMenu: [
             {
-              title: 'Contact subject',
-              icon: 'fa-solid fa-circle',
-              link: '/contact-subject',
+              title: "Contact subject",
+              icon: "fa-solid fa-circle",
+              link: "/contact-subject",
             },
           ],
           isShowTitle: false,
-          count: 0
+          count: 0,
         },
         {
-          title: 'Blogs',
+          title: "Blogs",
           // icon: 'fa-solid fa-table-list',
-          iconSrc: '/icons/news-gray.svg',
-          iconSrcActive: '/icons/news-white.svg',
-          link: '/news',
+          iconSrc: "/icons/news-gray.svg",
+          iconSrcActive: "/icons/news-white.svg",
+          link: "/news",
           isToggleSubItem: true,
           subMenu: [
             {
-              title: 'News category',
-              icon: 'fa-solid fa-circle',
-              link: '/news-category',
+              title: "News category",
+              icon: "fa-solid fa-circle",
+              link: "/news-category",
             },
           ],
           isShowTitle: false,
         },
         {
-          title: 'Appointment',
+          title: "Appointment",
           // icon: 'fa-solid fa-shield',
-          iconSrc: '/icons/product-gray.svg',
-          iconSrcActive: '/icons/product-white.svg',
-          link: '/product',
+          iconSrc: "/icons/product-gray.svg",
+          iconSrcActive: "/icons/product-white.svg",
+          link: "/product",
           isShowTitle: false,
         },
         {
-          title: 'Activity',
+          title: "Activity",
           // icon: 'fa-solid fa-users',
-          iconSrc: '/icons/activity-gray.svg',
-          iconSrcActive: '/icons/activity-white.svg',
-          link: '/activity',
+          iconSrc: "/icons/activity-gray.svg",
+          iconSrcActive: "/icons/activity-white.svg",
+          link: "/activity",
           isShowTitle: false,
         },
         {
-          title: 'Statistic',
+          title: "Statistic",
           // icon: 'fa-solid fa-gear',
-          iconSrc: '/icons/recruitment-gray.svg',
-          iconSrcActive: '/icons/recruitment-white.svg',
-          link: '/recruitment',
+          iconSrc: "/icons/recruitment-gray.svg",
+          iconSrcActive: "/icons/recruitment-white.svg",
+          link: "/recruitment",
           isToggleSubItem: true,
           subMenu: [
             {
-              title: 'Position',
-              icon: 'fa-solid fa-circle',
-              link: '/recruitment-position',
+              title: "Position",
+              icon: "fa-solid fa-circle",
+              link: "/recruitment-position",
             },
           ],
           isShowTitle: false,
-          count: 0
+          count: 0,
         },
         {
-          title: 'Service',
+          title: "Service",
           // icon: 'fa-solid fa-envelope',
-          iconSrc: '/icons/24htime-gray.svg',
-          iconSrcActive: '/icons/24htime-white.svg',
-          link: '/service',
+          iconSrc: "/icons/24htime-gray.svg",
+          iconSrcActive: "/icons/24htime-white.svg",
+          link: "/service",
           isToggleSubItem: true,
           subMenu: [
             {
-              title: 'Service category',
-              icon: 'fa-solid fa-circle',
-              link: '/service-category',
+              title: "Service category",
+              icon: "fa-solid fa-circle",
+              link: "/service-category",
             },
           ],
           isShowTitle: false,
-          count: 0
+          count: 0,
         },
       ],
-    }
+    };
   },
   mounted() {
     // Call the API and update the value of item.count in the callback
     // this.getNotification('contact')
     // this.getNotification('service')
     // this.getNotification('application')
-    this.deactiveToggleSubItem()
+    this.deactiveToggleSubItem();
   },
   methods: {
     getNotification(field) {
-      return this.$api[field].getNotificationCount().then((res) => {
-        return res.data.data.count
-      })
-      .then((count) => {
-        if (field === 'application') field = 'recruitment' 
-        this.menu.find(item => item.title.toLocaleLowerCase() === field).count = count;
-      });
+      return this.$api[field]
+        .getNotificationCount()
+        .then((res) => {
+          return res.data.data.count;
+        })
+        .then((count) => {
+          if (field === "application") field = "recruitment";
+          this.menu.find(
+            (item) => item.title.toLocaleLowerCase() === field
+          ).count = count;
+        });
     },
     toggleSubItem(item) {
-      item.isToggleSubItem = !item.isToggleSubItem
+      item.isToggleSubItem = !item.isToggleSubItem;
     },
     deactiveToggleSubItem() {
       this.menu.forEach((item) => {
-        if (item.isToggleSubItem !== this.$route.path.includes(item.link + '-')) {
-          item.isToggleSubItem = false
+        if (
+          item.isToggleSubItem !== this.$route.path.includes(item.link + "-")
+        ) {
+          item.isToggleSubItem = false;
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 a {
@@ -209,7 +249,7 @@ a {
   padding: 12px 0;
 }
 .sidebar-toggle {
-  width: 72px !important;
+  width: 90px !important;
 }
 .menu {
   &-title {

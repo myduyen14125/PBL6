@@ -41,8 +41,8 @@
               <td>
                 <img v-if="item?.avatar" class="avatar" :src="item?.avatar" />
               </td>
-              <td class="color-primary">
-                <span class="td-content text-start">
+              <td class="color-primary text-start">
+                <span class="td-content">
                   <nuxt-link
                     :to="`/mentor/${item?._id}`"
                     class="cursor-pointer color-primary"
@@ -50,11 +50,11 @@
                   >
                 </span>
               </td>
-              <td class="color-secondary">
-                <span class="td-content text-start">{{ item?.email }}</span>
+              <td class="color-secondary text-start">
+                <span class="td-content">{{ item?.email }}</span>
               </td>
-              <td class="color-secondary">
-                <span class="td-content text-start">{{ item?.phone }}</span>
+              <td class="color-secondary text-start">
+                <span class="td-content">{{ item?.phone }}</span>
               </td>
               <td class="color-secondary">
                 <span class="td-content">{{
@@ -120,7 +120,6 @@ export default {
     },
 
     handleSelect(expertise) {
-      console.log(expertise);
       this.$emit("changeSelect", expertise);
     },
   },
@@ -128,18 +127,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .td-content {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 180px;
-  justify-content: center;
-  display: inline-block;
-}
-.td-subject {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 120px;
   justify-content: center;
   display: inline-block;
 }
