@@ -90,20 +90,22 @@ export class PaymentService {
         });
     }
 
-    async handlePostPayment(ipnData: any) {
+   async handlePostPayment(ipnData: any) {
         console.log(ipnData);
         if(ipnData.amount === 0) {
             await this.courseService.registerCourse(ipnData.user, ipnData.course)
             return "Success"
         }
         if(ipnData.resultCode != '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
-        const regex = /user:([^c]+)course:([^c]+)/;
-        const match = ipnData.extraData.match(regex);
-        if(!match) console.log("no match")
-        const user = match[1];
-        const course = match[2];
-        console.log(user);
-        console.log(course);
+        // const match = ipnData.extraData.match(regex);
+        const parts = ipnData.extraData.split(":");
+
+        // Extract user ID and course ID
+        const user = parts[1].slice(0, -6);
+        const course = parts[2].split("course:").toString();
+        
+        console.log("User ID:", user);
+        console.log("Course ID:", course);
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
     }
