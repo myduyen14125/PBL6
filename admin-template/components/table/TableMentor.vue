@@ -14,11 +14,9 @@
         />
       </div>
       <SearchInput @search="handleSearch" />
-      <!-- <nuxt-link to="/mentor/create">
-        <button class="btn-custom btn-blue" >
-          Create contact
-        </button>
-      </nuxt-link> -->
+      <nuxt-link to="/mentor/create">
+        <button class="btn-custom btn-blue">Create mentor</button>
+      </nuxt-link>
     </div>
     <hr class="mt-2 mb-0" />
     <div ref="table" class="table-overflow overflow-auto d-block h-90">

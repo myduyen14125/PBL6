@@ -1,7 +1,7 @@
 @import "variables";
 
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 a {
   &:hover {
@@ -9,9 +9,12 @@ a {
   }
 }
 
-Custom v-slect
-.style-chooser .vs__search::placeholder
-.style-chooser .vs__search::placeholder {
+Custom
+  v-slect
+  .style-chooser
+  .vs__search::placeholder
+  .style-chooser
+  .vs__search::placeholder {
   color: $color-secondary;
   font-size: 14px;
   font-weight: 400;
@@ -28,10 +31,9 @@ Custom v-slect
   height: 48px;
   display: flex;
   align-items: center;
-  width: 780px;
+  width: 100%;
   font-size: 14px;
   font-weight: 400;
-  
 }
 .style-chooser .vs__actions {
   padding-right: 21px !important;
@@ -63,7 +65,7 @@ Custom v-slect
 }
 .style-chooser .vs__search {
   padding: 12px;
-  opacity: .7;
+  opacity: 0.7;
   font-size: 14px;
   font-weight: 400;
 }
@@ -72,12 +74,29 @@ Custom v-slect
   font-size: 14px;
   font-weight: 400;
 }
-the following code is used to hide the selected value when the dropdown is open
-.style-chooser .vs--single.vs--loading .vs__selected, .vs--single.vs--open .vs__selected {
+the
+  following
+  code
+  is
+  used
+  to
+  hide
+  the
+  selected
+  value
+  when
+  the
+  dropdown
+  is
+  open
+  .style-chooser
+  .vs--single.vs--loading
+  .vs__selected,
+.vs--single.vs--open .vs__selected {
   // opacity: 0;
   margin-top: 16px;
 }
-// Custom only 1 row for v-select 
+// Custom only 1 row for v-select
 :deep(.vs--single) {
   transition: 0s;
   &:not(.vs--open) .vs__selected + .vs__search {
@@ -109,8 +128,7 @@ the following code is used to hide the selected value when the dropdown is open
   }
 }
 
-
-// Custom input 
+// Custom input
 .form-control {
   color: $color-secondary !important;
 }
@@ -155,10 +173,10 @@ textarea {
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 .img-fluid {
-  height:   revert-layer !important;
+  height: revert-layer !important;
 }
 .fit-content {
   width: fit-content;
@@ -348,7 +366,7 @@ a {
     color: $color-primary;
   }
 }
-// Custom path 
+// Custom path
 .path {
   font-weight: 400;
   font-size: 14px;
@@ -506,14 +524,13 @@ a {
 // animation
 .show {
   transform: translateX(0%);
-  transition: all .7s ease;
+  transition: all 0.7s ease;
 }
 
 .hide {
   transform: translateX(120%);
-  transition: all .7s ease;
+  transition: all 0.7s ease;
 }
-
 
 ///////////////////////////
 .hiddenBottom {

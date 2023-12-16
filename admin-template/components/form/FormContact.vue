@@ -1,6 +1,10 @@
 <template>
   <div>
-    <form class="form-wrapper mx-auto" method="POST" @submit.prevent="onSubmit()">
+    <form
+      class="form-wrapper mx-auto"
+      method="POST"
+      @submit.prevent="onSubmit()"
+    >
       <div class="d-flex">
         <div class="col-lg-6">
           <div class="form-group color-primary">
@@ -11,7 +15,7 @@
             <input
               v-model="data.name"
               type="text"
-              class="form-control color-secondary"
+              class="form-control color-secondary w-100"
               name="name"
               placeholder="Enter your name"
               required
@@ -25,7 +29,7 @@
             <input
               v-model="data.phone"
               type="text"
-              class="form-control color-secondary"
+              class="form-control color-secondary w-100"
               name="phone"
               placeholder="Enter your phone"
               required
@@ -38,7 +42,7 @@
             </label>
             <textarea
               v-model="data.content"
-              class="form-control color-secondary"
+              class="form-control color-secondary w-100"
               name="message"
               rows="5"
               placeholder="Enter your message"
@@ -47,10 +51,7 @@
           </div>
           <!-- Button submit -->
           <div class="form-group mt-4">
-            <button
-              type="submit"
-              class="btn-custom btn-blue"
-            >
+            <button type="submit" class="btn-custom btn-blue">
               Submit form
             </button>
           </div>
@@ -66,7 +67,7 @@
             <input
               v-model="data.email"
               type="email"
-              class="form-control color-secondary"
+              class="form-control color-secondary w-100"
               name="email"
               placeholder="Enter your email"
               required
@@ -79,9 +80,14 @@
             >
             <v-select
               v-model="selectedOption"
-              class="style-chooser"
+              class="style-chooser w-100"
               placeholder="Choose Subject"
-              :options="options"
+              :options="
+                expertiseList.map((item) => ({
+                  value: item.id,
+                  label: item.title,
+                }))
+              "
             />
           </div>
         </div>
@@ -91,7 +97,7 @@
 </template>
 <script>
 export default {
-  name: 'FormContact',
+  name: "FormContact",
   props: {
     submit: {
       type: Function,
@@ -104,36 +110,43 @@ export default {
   },
   data() {
     return {
-      options: this.subjects.map((item) => ({
-        value: item.id,
-        label: item.title,
-      })),
-      selectedOption: {
-        value: '',
-        label: '',
-      },
+      expertiseList: [],
+      selectedOption: null,
       data: {
-        name: '',
-        email: '',
-        phone: '',
-        content: '',
-        subject_id: '',
+        name: "",
+        email: "",
+        phone: "",
+        content: "",
+        subject_id: "",
       },
-    }
+    };
   },
   mounted() {
+    this.getListExpertise();
   },
   methods: {
+    getListExpertise() {
+      this.$api.contact.getListSearchExpertise().then((res) => {
+        this.expertiseList = res?.data
+          ? res?.data?.map((item) => {
+              return {
+                id: item._id,
+                title: item.name,
+              };
+            })
+          : [];
+      });
+      this.$router.push({ query: this.params });
+    },
     onSubmit() {
-      this.data.subject_id = this.selectedOption.value
-      this.$api.contact.createNewContact(this.data)
-      .then((res) => {
-        alert('Create new contact successfully')
-        this.$router.push('/mentor')
-      })
+      this.data.subject_id = this.selectedOption.value;
+      this.$api.contact.createNewContact(this.data).then((res) => {
+        alert("Create new contact successfully");
+        this.$router.push("/mentor");
+      });
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .form-group {
@@ -141,7 +154,6 @@ export default {
     font-size: 14px;
   }
   input {
-    width: 292px;
     &::placeholder {
       color: $color-secondary;
     }
