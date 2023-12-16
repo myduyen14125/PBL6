@@ -1,6 +1,11 @@
 <template>
   <div class="main-wrapper h-100 position-relative">
-    <TableMentor ref="table" :data="mentors" @searchContent="onSearchContent" />
+    <TableMentor
+      ref="table"
+      :data="mentors"
+      @searchContent="onSearchContent"
+      @changeSelect="onSelectExpertise"
+    />
     <div
       v-if="mentors.length == 0"
       class="d-flex justify-content-center align-items-center no-result"
@@ -60,6 +65,10 @@ export default {
     },
     onSearchContent(content) {
       this.params.name = content;
+      this.getListMentor(this.params);
+    },
+    onSelectExpertise(id) {
+      this.params.expertise = id;
       this.getListMentor(this.params);
     },
   },

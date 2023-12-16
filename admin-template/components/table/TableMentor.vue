@@ -4,6 +4,15 @@
       class="table-header d-flex align-items-center justify-content-between mb-2"
     >
       <h1 class="title">{{ title }}</h1>
+      <div class="d-flex">
+        <ComboBox
+          v-if="expertiseList.length > 0"
+          :options-prop="expertiseList"
+          :placeholder="'Select expertise'"
+          class="mr-4"
+          @selection-change="handleSelect"
+        />
+      </div>
       <SearchInput @search="handleSearch" />
       <!-- <nuxt-link to="/mentor/create">
         <button class="btn-custom btn-blue" >
@@ -66,10 +75,12 @@
 </template>
 <script>
 import SearchInput from "../uncommon/SearchInput.vue";
+import ComboBox from "../uncommon/ComboBox.vue";
 
 export default {
   components: {
     SearchInput,
+    ComboBox,
   },
   props: {
     data: {
@@ -82,15 +93,37 @@ export default {
     },
   },
   data() {
-    return {};
+    return { expertiseList: [] };
+  },
+  mounted() {
+    this.getListExpertise();
   },
   methods: {
+    getListExpertise() {
+      this.$api.contact.getListSearchExpertise().then((res) => {
+        this.expertiseList = res?.data
+          ? res?.data?.map((item) => {
+              return {
+                id: item._id,
+                title: item.name,
+              };
+            })
+          : [];
+      });
+      this.$router.push({ query: this.params });
+    },
+
     handleRouting(id) {
       this.$router.push(`/mentor/${id}`);
     },
 
     handleSearch(content) {
       this.$emit("searchContent", content);
+    },
+
+    handleSelect(expertise) {
+      console.log(expertise);
+      this.$emit("changeSelect", expertise);
     },
   },
 };

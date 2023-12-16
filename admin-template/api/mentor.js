@@ -15,6 +15,10 @@ export default (axios1, axios2) => ({
     );
   },
 
+  getListSearchExpertise: async () => {
+    return await axios1.get("/expertise");
+  },
+
   getContactById: async (id) => {
     return await axios1.get(`/contacts/${id}`);
   },
