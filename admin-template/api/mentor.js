@@ -19,6 +19,11 @@ export default (axios1, axios2) => ({
     return await axios1.get("/expertise");
   },
 
+  getListBlog: async (queryObj = {}) => {
+    const { page = 1 } = queryObj;
+    return await axios1.get(`/blog?page=${page}`);
+  },
+
   getContactById: async (id) => {
     return await axios1.get(`/contacts/${id}`);
   },
