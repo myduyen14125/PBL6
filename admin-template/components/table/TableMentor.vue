@@ -13,9 +13,9 @@
         />
       </div>
       <SearchInput @search="handleSearch" />
-      <nuxt-link to="/mentor/create">
+      <!-- <nuxt-link to="/mentor/create">
         <button class="btn-custom btn-blue">Create mentor</button>
-      </nuxt-link>
+      </nuxt-link> -->
     </div>
     <div class="table-wrapper w-100 position-relative">
       <div class="layer-new-block"></div>

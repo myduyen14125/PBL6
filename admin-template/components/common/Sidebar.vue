@@ -105,13 +105,13 @@ export default {
           iconSrcActive: "/icons/job-white.svg",
           link: "/mentor",
           isToggleSubItem: true,
-          subMenu: [
-            {
-              title: "Contact subject",
-              icon: "fa-solid fa-circle",
-              link: "/contact-subject",
-            },
-          ],
+          // subMenu: [
+          //   {
+          //     title: "Contact subject",
+          //     icon: "fa-solid fa-circle",
+          //     link: "/contact-subject",
+          //   },
+          // ],
           isShowTitle: false,
           count: 0,
         },
@@ -122,13 +122,13 @@ export default {
           iconSrcActive: "/icons/job-white.svg",
           link: "/mentee",
           isToggleSubItem: true,
-          subMenu: [
-            {
-              title: "Contact subject",
-              icon: "fa-solid fa-circle",
-              link: "/contact-subject",
-            },
-          ],
+          // subMenu: [
+          //   {
+          //     title: "Contact subject",
+          //     icon: "fa-solid fa-circle",
+          //     link: "/contact-subject",
+          //   },
+          // ],
           isShowTitle: false,
           count: 0,
         },
@@ -137,15 +137,15 @@ export default {
           // icon: 'fa-solid fa-table-list',
           iconSrc: "/icons/news-gray.svg",
           iconSrcActive: "/icons/news-white.svg",
-          link: "/news",
+          link: "/blogs",
           isToggleSubItem: true,
-          subMenu: [
-            {
-              title: "News category",
-              icon: "fa-solid fa-circle",
-              link: "/news-category",
-            },
-          ],
+          // subMenu: [
+          //   {
+          //     title: "News category",
+          //     icon: "fa-solid fa-circle",
+          //     link: "/news-category",
+          //   },
+          // ],
           isShowTitle: false,
         },
         {
