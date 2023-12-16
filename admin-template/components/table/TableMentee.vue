@@ -4,18 +4,18 @@
       class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
     >
       <h1 class="title">{{ title }}</h1>
-      <div class="d-flex">
+      <!-- <div class="d-flex">
         <ComboBox
           v-if="expertiseList.length > 0"
           :options-prop="expertiseList"
           :placeholder="'Select expertise'"
           @selection-change="handleSelect"
         />
-      </div>
+      </div> -->
       <SearchInput @search="handleSearch" />
       <!-- <nuxt-link to="/mentor/create">
-        <button class="btn-custom btn-blue">Create mentor</button>
-      </nuxt-link> -->
+          <button class="btn-custom btn-blue">Create mentor</button>
+        </nuxt-link> -->
     </div>
     <div class="table-wrapper w-100 position-relative">
       <div class="layer-new-block"></div>
@@ -24,10 +24,10 @@
           <thead class="color-primary table-head">
             <tr>
               <th scope="col">Avatar</th>
-              <th scope="col" class="col-2">Title</th>
-              <th scope="col" class="col-6">Content</th>
-              <th scope="col">Author</th>
-              <th scope="col">Expertise</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Gender</th>
             </tr>
           </thead>
           <tbody>
@@ -38,28 +38,31 @@
               @click="handleRouting(item?._id)"
             >
               <td>
-                <img v-if="item?.image" class="avatar" :src="item?.image" />
+                <img v-if="item?.avatar" class="avatar" :src="item?.avatar" />
               </td>
               <td class="color-primary text-start">
                 <span class="td-content">
                   <nuxt-link
-                    :to="`/mentor/${item?._id}`"
+                    :to="`/mentee/${item?._id}`"
                     class="cursor-pointer color-primary"
-                    >{{ item?.title }}</nuxt-link
+                    >{{ item?.name }}</nuxt-link
                   >
                 </span>
               </td>
               <td class="color-secondary text-start">
-                <span class="td-content">{{ item?.content }}</span>
+                <span class="td-content">{{ item?.email }}</span>
               </td>
-              <td class="color-secondary text-start">
-                <span class="td-content">{{ item?.user?.name }}</span>
+              <td class="color-secondary">
+                <span class="td-content">{{ item?.phone }}</span>
               </td>
               <td class="color-secondary">
                 <span class="td-content">{{
-                  item?.user?.expertise?.name
+                  item?.gender ? "Female" : "Male"
                 }}</span>
               </td>
+              <!-- <td class="color-secondary">
+                <span class="td-content">{{ item?.expertise?.name }}</span>
+              </td> -->
             </tr>
           </tbody>
         </table>
@@ -69,12 +72,12 @@
 </template>
 <script>
 import SearchInput from "../uncommon/SearchInput.vue";
-import ComboBox from "../uncommon/ComboBox.vue";
+// import ComboBox from "../uncommon/ComboBox.vue";
 
 export default {
   components: {
     SearchInput,
-    ComboBox,
+    // ComboBox,
   },
   props: {
     data: {
@@ -83,32 +86,25 @@ export default {
     },
     title: {
       type: String,
-      default: "Quản lý mentor",
+      default: "Quản lý mentee",
     },
   },
   data() {
-    return { expertiseList: [] };
+    return { menteeList: [] };
   },
   mounted() {
-    this.getListExpertise();
+    this.getListMentee();
   },
   methods: {
-    getListExpertise() {
-      this.$api.contact.getListSearchExpertise().then((res) => {
-        this.expertiseList = res?.data
-          ? res?.data?.map((item) => {
-              return {
-                id: item._id,
-                title: item.name,
-              };
-            })
-          : [];
+    getListMentee() {
+      this.$api.contact.getListMentee().then((res) => {
+        this.menteeList = res?.data.mentees ? res?.data.mentees : [];
       });
       this.$router.push({ query: this.params });
     },
 
     handleRouting(id) {
-      this.$router.push(`/mentor/${id}`);
+      this.$router.push(`/mentee/${id}`);
     },
 
     handleSearch(content) {
