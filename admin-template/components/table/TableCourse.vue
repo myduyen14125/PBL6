@@ -32,7 +32,7 @@
               class="cursor-pointer"
               @click="handleRouting(item?._id)"
             >
-              <td>
+              <td class="text-start">
                 <img v-if="item?.image" class="avatar" :src="item?.image" />
               </td>
               <td class="color-primary text-start">

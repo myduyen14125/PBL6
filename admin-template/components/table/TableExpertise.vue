@@ -14,8 +14,8 @@
         <table class="table table-striped">
           <thead class="color-primary table-head">
             <tr>
-              <th scope="col" class="col-1">No</th>
-              <th scope="col" class="col-4">Name</th>
+              <th scope="col" class="col-1 text-start">No</th>
+              <th scope="col" class="col-11 text-start">Name</th>
             </tr>
           </thead>
           <tbody>
@@ -25,16 +25,16 @@
               class="cursor-pointer"
               @click="handleRouting(item?._id)"
             >
-              <td class="color-primary">
+              <td class="color-primary text-start">
                 <span class="td-content">
                   <nuxt-link
                     :to="`/mentee/${item?._id}`"
                     class="cursor-pointer color-primary"
-                    >{{ index }}</nuxt-link
+                    >{{ index + 1 }}</nuxt-link
                   >
                 </span>
               </td>
-              <td class="color-secondary">
+              <td class="color-secondary text-start">
                 <span class="td-content">{{ item?.name }}</span>
               </td>
             </tr>
