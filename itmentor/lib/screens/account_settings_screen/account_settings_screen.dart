@@ -87,13 +87,13 @@ class _AccountSettingsScreenState extends State<ProfileScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : const SingleChildScrollView(
+            : SingleChildScrollView(
                 child: Center(
                   child: Column(
                     children: [
                       // AvatarName(profileName: profileName),
-                      UtilitiesScreen(),
-                      SettingsScreen(),
+                      const UtilitiesScreen(),
+                      SettingsScreen(token: aToken),
                     ],
                   ),
                 ),
