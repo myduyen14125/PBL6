@@ -28,7 +28,6 @@ export class BlogController {
         return this.blogService.createBlog(req.user, dto);
     }
 
-
     @UseGuards(AuthGuard("jwt"))
     @Delete(':id')
     async deleteBlog(@Req() req: any, @Param('id') id: string) {
@@ -40,5 +39,4 @@ export class BlogController {
     async updateBlog(@Req() req: any, @Param('id') id: string, @Body() dto: UpdateBlogDto) {
         return this.blogService.updateBlog(req.user, id, dto)
     }
-
 }

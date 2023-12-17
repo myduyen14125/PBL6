@@ -19,84 +19,44 @@ export class CourseService {
     async getAllCourses(page: number, limit: number = 10) {
         const count = await this.courseRepository.countDocuments({})
         const countPage = Math.ceil(count / limit)
-        const skip = (page - 1) * limit || 0
-        const courses = await this.courseRepository.aggregate([
+        const tempCourses = await this.courseRepository.getByCondition(
+            null,
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
             {
-                $lookup: {
-                    from: 'users',
-                    localField: 'creator',
-                    foreignField: '_id',
-                    as: 'creator'
-                }
-            }, 
-            {
-                $unwind: '$creator'
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
             },
-            {
-                $skip: skip
-            },
-            {
-                $limit: Number(limit)
-            },
-            {
-                $lookup: {
-                    from: 'expertises', 
-                    localField: 'creator.expertise',
-                    foreignField: '_id',
-                    as: 'creator.expertise'
-                }
-            },
-            {
-                $unwind: '$creator.expertise'
-            },
-            {
-                $lookup: {
-                    from: 'lessons', 
-                    localField: '_id',
-                    foreignField: 'course',
-                    as: 'lessons'
-                }
-            },
-            {
-                $unwind: '$lessons'
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    title: { $first: '$title' },
-                    discount: { $first: '$discount' },
-                    duration: { $first: '$duration'},
-                    lesson_count: { $sum: 1 },
-                    description: { $first: '$description' },
-                    price: { $first: '$price' },
-                    user_count: { $first: { $size: '$users' } },
-                    image: { $first: '$image' },
-                    creator: {
-                        $first: {
-                            name: '$creator.name',
-                            avatar: '$creator.avatar',
-                            expertise: {
-                                name: '$creator.expertise.name'
-                            }
-                        }
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
                     }
+                },
+                {
+                    path: 'lessons',
                 }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    title: 1,
-                    duration: 1,
-                    lesson_count: 1,
-                    description: 1,
-                    price: 1,
-                    discount: 1,
-                    user_count: 1,
-                    image: 1,
-                    creator: 1
-                }
-            },
-        ])    
+            ]
+        );
+        
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
+    
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
 
         return {
             count, countPage, courses
@@ -305,5 +265,53 @@ export class CourseService {
     async updateDuration(id: string, option: boolean, change: number) {
         if(option) return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: change } })
         return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: -change } })
+    }
+
+    async searchCourse(keyword: string, page: number, limit: number = 10) {
+        let query = { title: { $regex: new RegExp(keyword, 'i') } }
+        const count = await this.courseRepository.countDocuments(query)
+        const countPage = Math.ceil(count / limit)
+        const tempCourses = await this.courseRepository.getByCondition(
+            query,
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
+            {
+                sort: {
+                    createdAt: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
+                    }
+                },
+                {
+                    path: 'lessons',
+                }
+            ]
+        );
+        
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
+    
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
+
+        return {
+            count, countPage, courses
+        }
     }
 } 

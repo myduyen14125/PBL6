@@ -16,6 +16,14 @@ export class AppointmentController {
         return this.appointmentService.createAppointment(req.user, appointment);
     }
 
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @Role('admin')
+    @Get('all')
+    @UseGuards(AuthGuard('jwt'))
+    async getAllAppointments(@Query('status') status: string, @Query() { page, limit }: PaginationAppointmentDto) {
+        return this.appointmentService.getAllAppointments(page, limit, status)
+    }
+
     @Get()
     @UseGuards(AuthGuard('jwt'))
     async getAllUsersAppointments(@Req() req: any, @Query() { page, limit }: PaginationAppointmentDto) {
@@ -58,8 +66,7 @@ export class AppointmentController {
         return this.appointmentService.getAppointmentById(req.user, id);
     }
 
-    @UseGuards(AuthGuard('jwt'), RoleGuard)
-    @Role('mentor')
+    @UseGuards(AuthGuard('jwt'))
     @Patch(':id/confirm')
     async confirmAppointment(@Req() req: any, @Param('id') id: string) {
         return this.appointmentService.confirmAppointment(req.user, id)
@@ -71,8 +78,7 @@ export class AppointmentController {
         return this.appointmentService.cancelAppointment(req.user, id)
     }
 
-    @UseGuards(AuthGuard('jwt'), RoleGuard)
-    @Role('mentor')
+    @UseGuards(AuthGuard('jwt'))
     @Patch(':id/finish')
     async finishAppointment(@Req() req: any, @Param('id') id: string) {
         return this.appointmentService.finishAppointment(req.user, id)

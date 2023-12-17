@@ -119,4 +119,27 @@ export class PaymentService {
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
     }
+
+    async getPaymentLog(sort: string, page: number, limit: number = 10) {
+        let option = null
+        if(sort === 'newest') option = { createdAt: -1}
+        if(sort === 'oldest') option = { createdAt: 1}
+        if(sort === 'highest') option = { amount: -1}
+        if(sort === 'lowest') option = { amount: 1}
+        const count = await this.paymentRepository.countDocuments({})
+        const countPage = Math.ceil(count / limit)
+        const payments = await this.paymentRepository.getByCondition(
+            {},
+            null,
+            {
+                sort: option,
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            { path: 'user', select: 'name avatar phone email gender date_of_birth'}
+        );
+        return {
+            count, countPage, payments
+        }
+    }
 } 

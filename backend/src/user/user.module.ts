@@ -26,23 +26,6 @@ import { CourseModule } from 'src/course/course.module';
                 schema: UserSchema
             }
         ]),
-
-        PassportModule.register({
-            defaultStrategy: 'jwt',
-            property: 'user',
-            session: false,
-        }),
-
-        JwtModule.registerAsync({
-            imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
-                secret: configService.get('SECRETKEY'),
-                signOptions: {
-                    expiresIn: configService.get('EXPIRESIN'),
-                },
-            }),
-            inject: [ConfigService]
-        }),
         forwardRef(() => AuthModule),
         forwardRef(() => BioModule),
         forwardRef(() => MediaModule),

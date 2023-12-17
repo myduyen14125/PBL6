@@ -23,6 +23,11 @@ export class CourseController {
         return this.courseService.getCurrentUserAllCourses(req.user, page, limit);
     }
 
+    @Get('search')
+    searchCourse(@Query('title') keyword: string, @Query() {page, limit}: PaginationCourseDto) {
+        return this.courseService.searchCourse(keyword, page, limit);
+    }
+
     @Get(':id')
     getCourseById(@Param('id') id: string) {
         return this.courseService.getCourseById(id);
@@ -44,10 +49,4 @@ export class CourseController {
     async updateCourse(@Req() req: any, @Param('id') id: string, @Body() course: UpdateCourseDto) {
         return this.courseService.updateCourse(req.user, id, course)
     }
-
-
-
-
-
-
 }
