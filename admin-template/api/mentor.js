@@ -19,6 +19,43 @@ export default (axios1, axios2) => ({
     return await axios1.get("/expertise");
   },
 
+  addExpertise: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    await axios1.post("/expertise", data, config);
+  },
+
+  deleteExpertise: async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.delete(`/expertise/${id}`, config);
+  },
+
+  updateExpertise: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    console.log("data name:", data.name);
+    let name = {
+      name: data.name,
+    };
+    return await axios1.patch(`/expertise/${data._id}`, name, config);
+  },
+
   getListMentee: async () => {
     const config = {
       headers: {
@@ -94,18 +131,18 @@ export default (axios1, axios2) => ({
     return await axios1.get(`/blog/${id}`, config);
   },
 
-  getContactById: async (id) => {
-    return await axios1.get(`/contacts/${id}`);
-  },
-  createNewContact: async (data) => {
-    return await axios2.post(`/contacts`, data);
-  },
-  markDoneContact: async (id) => {
-    return await axios1.patch(`/contacts/${id}/mark-done`);
-  },
-  markDoingContact: async (id) => {
-    return await axios1.patch(`/contacts/${id}/mark-doing`);
-  },
+  // getContactById: async (id) => {
+  //   return await axios1.get(`/contacts/${id}`);
+  // },
+  // createNewContact: async (data) => {
+  //   return await axios2.post(`/contacts`, data);
+  // },
+  // markDoneContact: async (id) => {
+  //   return await axios1.patch(`/contacts/${id}/mark-done`);
+  // },
+  // markDoingContact: async (id) => {
+  //   return await axios1.patch(`/contacts/${id}/mark-doing`);
+  // },
   // getNotificationCount: async () => {
   //   return await axios1.get(`/contacts/count`)
   // }
