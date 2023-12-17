@@ -157,6 +157,14 @@ export default {
           isShowTitle: false,
         },
         {
+          title: "Course",
+          // icon: 'fa-solid fa-shield',
+          iconSrc: "/icons/product-gray.svg",
+          iconSrcActive: "/icons/product-white.svg",
+          link: "/course",
+          isShowTitle: false,
+        },
+        {
           title: "Expertise",
           // icon: 'fa-solid fa-shield',
           iconSrc: "/icons/news-gray.svg",
