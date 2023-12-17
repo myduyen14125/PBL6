@@ -160,7 +160,7 @@ export default {
           title: "Expertise",
           // icon: 'fa-solid fa-shield',
           iconSrc: "/icons/news-gray.svg",
-          iconSrcActive: "/icons/job-white.svg",
+          iconSrcActive: "/icons/news-white.svg",
           link: "/expertise",
           isShowTitle: false,
         },
