@@ -200,10 +200,7 @@ export class CourseService {
     }
 
     async deleteCourse(user: User, id: string) {
-        const course = await this.courseRepository.findById(id)
-        if (!course.creator.equals(user._id)) {
-            throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
-        }
+        await this.checkOwnership(user, id);
         return await this.courseRepository.deleteOne(id);
     }
 
@@ -232,7 +229,7 @@ export class CourseService {
 
     async checkOwnership(user: User, id: string) {
         const course = await this.courseRepository.findById(id)
-        if (!course.creator.equals(user._id)) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+        if (!course.creator.equals(user._id) && user.role !== 'admin') throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
         return true
     }
 
