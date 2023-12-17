@@ -61,6 +61,17 @@ export default (axios1, axios2) => ({
     return await axios1.post("/blog", data, config);
   },
 
+  updateBlog: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.patch(`/blog/${data?._id}`, data, config);
+  },
+
   deleteBlog: async (id) => {
     const config = {
       headers: {
@@ -70,6 +81,17 @@ export default (axios1, axios2) => ({
       },
     };
     return await axios1.delete(`/blog/${id}`, config);
+  },
+
+  getBlogById: async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(`/blog/${id}`, config);
   },
 
   getContactById: async (id) => {

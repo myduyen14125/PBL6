@@ -76,7 +76,7 @@
                 type="submit"
                 class="btn-custom btn-blue"
               >
-                {{ blog.id ? "Update" : "Create" }}
+                {{ blog._id ? "Update" : "Create" }}
               </button>
             </div>
           </div>
