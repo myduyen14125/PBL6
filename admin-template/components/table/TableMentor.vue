@@ -23,10 +23,10 @@
         <table class="table table-striped">
           <thead class="color-primary table-head">
             <tr>
-              <th scope="col">Avatar</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
+              <th scope="col" class="text-start">Avatar</th>
+              <th scope="col" class="text-start">Name</th>
+              <th scope="col" class="text-start">Email</th>
+              <th scope="col" class="text-start">Phone</th>
               <th scope="col">Gender</th>
               <th scope="col">Expertise</th>
             </tr>

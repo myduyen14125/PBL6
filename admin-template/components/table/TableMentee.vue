@@ -4,14 +4,6 @@
       class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
     >
       <h1 class="title">{{ title }}</h1>
-      <!-- <div class="d-flex">
-        <ComboBox
-          v-if="expertiseList.length > 0"
-          :options-prop="expertiseList"
-          :placeholder="'Select expertise'"
-          @selection-change="handleSelect"
-        />
-      </div> -->
       <SearchInput @search="handleSearch" />
       <!-- <nuxt-link to="/mentor/create">
           <button class="btn-custom btn-blue">Create mentor</button>
@@ -23,10 +15,10 @@
         <table class="table table-striped">
           <thead class="color-primary table-head">
             <tr>
-              <th scope="col">Avatar</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
+              <th scope="col" class="text-start">Avatar</th>
+              <th scope="col" class="text-start">Name</th>
+              <th scope="col" class="text-start">Email</th>
+              <th scope="col" class="text-start">Phone</th>
               <th scope="col">Gender</th>
             </tr>
           </thead>

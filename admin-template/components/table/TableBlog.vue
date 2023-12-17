@@ -4,18 +4,18 @@
       class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
     >
       <h1 class="title">{{ title }}</h1>
-      <div class="d-flex">
+      <!-- <div class="d-flex">
         <ComboBox
-          v-if="expertiseList.length > 0"
-          :options-prop="expertiseList"
-          :placeholder="'Select expertise'"
+          v-if="blogList.length > 0"
+          :options-prop="blogList"
+          :placeholder="'Select blog'"
           @selection-change="handleSelect"
         />
-      </div>
+      </div> -->
       <SearchInput @search="handleSearch" />
-      <!-- <nuxt-link to="/mentor/create">
-        <button class="btn-custom btn-blue">Create mentor</button>
-      </nuxt-link> -->
+      <nuxt-link to="/blogs/create">
+        <button class="btn-custom btn-blue">Create blog</button>
+      </nuxt-link>
     </div>
     <div class="table-wrapper w-100 position-relative">
       <div class="layer-new-block"></div>
@@ -23,11 +23,9 @@
         <table class="table table-striped">
           <thead class="color-primary table-head">
             <tr>
-              <th scope="col">Avatar</th>
-              <th scope="col" class="col-2">Title</th>
-              <th scope="col" class="col-6">Content</th>
-              <th scope="col">Author</th>
-              <th scope="col">Expertise</th>
+              <th scope="col" class="text-start">Image</th>
+              <th scope="col" class="text-start">Title</th>
+              <th scope="col" class="text-start">Author</th>
             </tr>
           </thead>
           <tbody>
@@ -50,15 +48,7 @@
                 </span>
               </td>
               <td class="color-secondary text-start">
-                <span class="td-content">{{ item?.content }}</span>
-              </td>
-              <td class="color-secondary text-start">
                 <span class="td-content">{{ item?.user?.name }}</span>
-              </td>
-              <td class="color-secondary">
-                <span class="td-content">{{
-                  item?.user?.expertise?.name
-                }}</span>
               </td>
             </tr>
           </tbody>
@@ -69,12 +59,12 @@
 </template>
 <script>
 import SearchInput from "../uncommon/SearchInput.vue";
-import ComboBox from "../uncommon/ComboBox.vue";
+// import ComboBox from "../uncommon/ComboBox.vue";
 
 export default {
   components: {
     SearchInput,
-    ComboBox,
+    // ComboBox,
   },
   props: {
     data: {
@@ -87,36 +77,16 @@ export default {
     },
   },
   data() {
-    return { expertiseList: [] };
+    return {};
   },
-  mounted() {
-    this.getListExpertise();
-  },
+  mounted() {},
   methods: {
-    getListExpertise() {
-      this.$api.contact.getListSearchExpertise().then((res) => {
-        this.expertiseList = res?.data
-          ? res?.data?.map((item) => {
-              return {
-                id: item._id,
-                title: item.name,
-              };
-            })
-          : [];
-      });
-      this.$router.push({ query: this.params });
-    },
-
     handleRouting(id) {
-      this.$router.push(`/mentor/${id}`);
+      this.$router.push(`/blog/${id}`);
     },
 
     handleSearch(content) {
       this.$emit("searchContent", content);
-    },
-
-    handleSelect(expertise) {
-      this.$emit("changeSelect", expertise);
     },
   },
 };
@@ -153,7 +123,6 @@ hr {
 .avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
 }
 
 .text-start {
