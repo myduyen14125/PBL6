@@ -21,7 +21,7 @@
 import FormProduct from "~/components/form/FormProduct.vue";
 
 export default {
-  name: "Appointment",
+  name: "AppointmentCreate",
   components: {
     FormProduct,
   },
