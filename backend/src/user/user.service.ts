@@ -159,7 +159,7 @@ export class UserService {
 
         const mentors = await this.userRepository.getByCondition(
             query,
-            ['name', 'avatar', 'email', 'number_of_mentees'],
+            ['name', 'avatar', 'email', 'number_of_mentees', 'phone', 'gender'],
             {
                 sort: {
                     _id: -1,

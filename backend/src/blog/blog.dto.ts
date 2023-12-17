@@ -9,8 +9,8 @@ export class CreateBlogDto {
 
 export class UpdateBlogDto {
     id: string;
-    @IsNotEmpty() title: string;
-    @IsNotEmpty() content: string;
+    title: string;
+    content: string;
     image: string
 }
 
