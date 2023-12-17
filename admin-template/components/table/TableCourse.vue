@@ -39,19 +39,23 @@
                 <span class="td-content">
                   <nuxt-link
                     :to="`/course/${item?._id}`"
-                    class="cursor-pointer color-primary"
+                    class="cursor-pointer color-primary text-break"
                     >{{ item?.title }}</nuxt-link
                   >
                 </span>
               </td>
               <td class="color-secondary text-start">
-                <span class="td-content">{{ item?.description }}</span>
+                <span class="td-content text-break">{{
+                  item?.description
+                }}</span>
               </td>
-              <td class="color-secondary">
-                <span class="td-content">{{ item?.price }} VNĐ</span>
+              <td class="color-secondary text-start">
+                <span class="td-content text-break">{{ item?.price }} VNĐ</span>
               </td>
-              <td class="color-secondary">
-                <span class="td-content">{{ item?.creator.name }} VNĐ</span>
+              <td class="color-secondary text-start">
+                <span class="td-content text-break">{{
+                  item?.creator.name
+                }}</span>
               </td>
               <!-- <td class="color-secondary">
                   <span class="td-content">{{ item?.expertise?.name }}</span>
@@ -101,7 +105,7 @@ export default {
     },
 
     handleSearch(content) {
-        this.$emit("searchContent", content);
+      this.$emit("searchContent", content);
     },
 
     // handleSelect(expertise) {
