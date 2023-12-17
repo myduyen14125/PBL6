@@ -15,4 +15,15 @@ export default (axios1, axios2) => ({
       config
     );
   },
+
+  getAppointmentById: async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(`/appointment/${id}`, config);
+  },
 });

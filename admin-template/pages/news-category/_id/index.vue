@@ -82,7 +82,7 @@ export default {
       this.$router.push(`/news-category/${id}/update`);
     },
     formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     openModal() {
       this.showModal = true;

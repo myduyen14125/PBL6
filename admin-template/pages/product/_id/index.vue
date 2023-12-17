@@ -113,7 +113,7 @@ export default {
       });
     },
     formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
   },
 };

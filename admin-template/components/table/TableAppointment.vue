@@ -32,7 +32,7 @@
             v-for="(item, index) in data"
             :key="index"
             class="table-row"
-            @click="handleRouting"
+            @click="handleRouting(item?._id)"
           >
             <td class="color-primary text-start">
               <span class="td-content">
@@ -111,7 +111,7 @@ export default {
       this.$router.push(`/appointment/${id}`);
     },
     formatDateTime(date, format) {
-      return moment(date).format(format);
+      return moment(new Date(date)).format(format);
     },
     handleSelect(status) {
       this.$emit("changeSelect", status);

@@ -43,7 +43,7 @@
         <li class="list-item px-4 py-2 d-flex h-48">
           <div class="content-title mr-3">Gender</div>
           <div class="content-desc">
-            {{person?.gender ? "Female" : "Male" }}
+            {{ person?.gender ? "Female" : "Male" }}
           </div>
         </li>
         <button
@@ -105,20 +105,19 @@ export default {
     // });
     // let menteeList;
     this.$api.contact.getListMentee().then((res) => {
-      console.log('res',res.data.mentees);
+      console.log("res", res.data.mentees);
       for (const mentee of res.data.mentees) {
-        console.log('mentee', mentee);
+        console.log("mentee", mentee);
         if (mentee._id == this.$route.params.id) {
           this.person = mentee;
-          this.person.date_of_birth = moment(this.person.date_of_birth).format("DD-MM-YYYY")
+          this.person.date_of_birth = moment(this.person.date_of_birth).format(
+            "DD-MM-YYYY"
+          );
           break;
-        }
-        else {
+        } else {
           this.person = [];
-
         }
       }
-      
     });
   },
   methods: {
@@ -160,7 +159,7 @@ export default {
       this.$router.go(-1);
     },
     formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     openModal() {
       this.showModal = true;

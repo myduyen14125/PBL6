@@ -10,73 +10,54 @@
           class="mr-1 cursor-pointer"
           @click="goBack()"
         />
-        <h1 class="title">Product detail</h1>
+        <h1 class="title">Appointment Detail</h1>
       </div>
-      <button class="btn-custom btn-blue" @click="goToUpdate(product.id)">
-        Update
-      </button>
     </div>
     <hr class="my-2" />
     <div class="content">
-      <div class="d-flex align-items-center mb-4">
-        <div class="content-title">
-          <img class="content-image mr-3" :src="product.thumbnail_url" alt="" />
-        </div>
-        <h1 v-if="product.title" class="title w-60 break-word white-space ml-4">
-          {{ product.title.trim() }}
-        </h1>
-      </div>
-      <div class="mb-2">
-        <img
-          class="content-image-detail mr-3"
-          :src="product.background_url"
-          alt="Background image"
-        />
-      </div>
       <ul>
         <li class="list-item px-3 py-2 d-flex align-items-center h-38">
-          <div class="content-title w-90px mr-3">Created at:</div>
+          <div class="content-title mr-3">Mentor</div>
           <div class="content-desc">
-            {{ formatDateTime(product.created_at) }}
+            {{ appointment?.mentor?.name }}
           </div>
         </li>
         <li class="list-item px-3 py-2 d-flex align-items-center h-38">
-          <div class="color-yellow content-title w-90px mr-3">Publish at:</div>
+          <div class="content-title mr-3">Mentee</div>
+          <div class="content-desc">
+            {{ appointment?.mentee?.name }}
+          </div>
+        </li>
+        <li class="list-item px-3 py-2 d-flex align-items-center h-38">
+          <div class="content-title mr-3">Date:</div>
           <div class="content-desc">
             {{
-              product.published_at ? formatDateTime(product.published_at) : "-"
+              `${formatDateTime(
+                appointment?.schedule?.start_at,
+                "DD/MM/YYYY"
+              )} ${formatDateTime(
+                appointment?.schedule?.start_at,
+                "HH:mm"
+              )} - ${formatDateTime(appointment?.schedule?.end_at, "HH:mm")}`
             }}
           </div>
         </li>
         <li class="list-item px-3 py-2 d-flex align-items-center">
-          <div class="content-title mr-3">Logo</div>
-          <img
-            class="content-image-logo"
-            :src="product.logo_url"
-            alt="Logo image"
-          />
-        </li>
-        <li class="list-item px-3 py-2 d-flex">
-          <div class="content-title mr-3">Description</div>
-          <div class="content-desc">{{ product.description }}</div>
-        </li>
-        <li class="list-item px-3 py-2 d-flex">
-          <div class="content-title mr-3">Link product</div>
-          <div class="content-desc break-word product-link">
-            <a :href="product.link" target="_blank">{{ product.link }}</a>
+          <div class="content-title mr-3">Note</div>
+          <div class="content-desc">
+            {{ appointment?.note }}
           </div>
         </li>
-        <li class="list-item px-3 py-2 d-flex align-items-center h-57">
-          <div class="content-title mr-3">Published</div>
-          <div class="switch-toggle">
-            <label class="switch">
-              <input
-                v-model="product.published"
-                type="checkbox"
-                @click="markPublic()"
-              />
-              <span class="slider round"></span>
-            </label>
+        <li class="list-item px-3 py-2 d-flex">
+          <div class="content-title mr-3">Status</div>
+          <div class="content-desc">{{ appointment?.status }}</div>
+        </li>
+        <li class="list-item px-3 py-2 d-flex">
+          <div class="content-title mr-3">Link appointment</div>
+          <div class="content-desc break-word appointment-link">
+            <a :href="appointment?.mentor?.skype_link" target="_blank">{{
+              appointment?.mentor?.skype_link
+            }}</a>
           </div>
         </li>
       </ul>
@@ -90,30 +71,23 @@ export default {
   layout: "secret",
   data() {
     return {
-      product: {},
+      appointment: {},
     };
   },
   created() {
-    this.$api.product.getProductById(this.$route.params.id).then((res) => {
-      this.product = res.data.data;
-    });
+    this.$api.appointment
+      .getAppointmentById(this.$route.params.id)
+      .then((res) => {
+        this.appointment = res.data;
+      });
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
-    goToUpdate(id) {
-      this.$router.push(`/product/${id}/update`);
-    },
-    markPublic() {
-      this.$api.product.markPublicProduct(this.product.id).then((res) => {
-        this.$toast.success("Change status public successfully!", {
-          className: "my-toast",
-        });
-      });
-    },
-    formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+
+    formatDateTime(date, format) {
+      return date ? moment(new Date(date)).format(format) : "";
     },
   },
 };
@@ -155,12 +129,9 @@ export default {
   }
 }
 
-.product-link {
+.appointment-link {
   a {
     color: $color-blue;
   }
-}
-.w-90px {
-  width: 95px;
 }
 </style>
