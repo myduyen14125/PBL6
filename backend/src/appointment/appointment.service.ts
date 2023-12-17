@@ -187,7 +187,7 @@ export class AppointmentService {
 
     async getAppointmentById(user: User, id: string) {
         const appointment = await this.appointmentRepository.findById(id);
-        if (appointment.mentee.equals(user._id) || appointment.mentor.equals(user._id)) {
+        if (appointment.mentee.equals(user._id) || appointment.mentor.equals(user._id) || user.role === 'admin' ) {
             await appointment.populate({ path: 'mentee', select: 'name avatar' });
             await appointment.populate({ path: 'mentor', select: 'name avatar skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
             await appointment.populate({ path: 'schedule' });

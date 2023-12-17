@@ -1,8 +1,8 @@
 <template>
   <div class="main-wrapper h-100 position-relative">
-    <TableMentee ref="table" :data="mentees" @searchContent="onSearchContent" />
+    <TableCourse ref="table" :data="courses" @searchContent="onSearchContent" />
     <div
-      v-if="mentees.length == 0"
+      v-if="courses.length == 0"
       class="d-flex justify-content-center align-items-center no-result"
     >
       <div>
@@ -11,7 +11,7 @@
       </div>
     </div>
     <pagination
-      v-if="mentees.length > 0"
+      v-if="courses.length > 0"
       :current-page="params.page"
       :total-pages="meta.total_pages"
       @page-changed="changePage"
@@ -20,19 +20,19 @@
 </template>
 
 <script>
-import TableMentee from "~/components/table/TableMentee.vue";
+import TableCourse from "~/components/table/TableCourse.vue";
 import Pagination from "@/components/common/Pagination.vue";
 
 export default {
-  name: "MenteeManagement",
+  name: "CourseManagement",
   components: {
-    TableMentee,
+    TableCourse,
     Pagination,
   },
   layout: "secret",
   data() {
     return {
-      mentees: [],
+      courses: [],
       params: {
         page: 1,
       },
@@ -43,24 +43,25 @@ export default {
     };
   },
   mounted() {
-    this.getListMentee(this.params);
+    this.getListCourse(this.params);
   },
   methods: {
-    getListMentee(params) {
-      this.$api.contact.getListSearchMentee(params).then((res) => {
-        this.mentees = res.data?.mentees || [];
+    getListCourse(params) {
+      this.$api.contact.getListSearchCourse(params).then((res) => {
+        this.courses = res.data?.courses || [];
         this.meta.total_pages = parseInt(res.data?.countPage);
         this.meta.total_count = res.data?.count;
       });
       this.$router.push({ query: this.params });
     },
+
     changePage(pageNumber) {
       this.params.page = pageNumber;
-      this.getListMentee(this.params);
+      this.getListCourse(this.params);
     },
-    onSearchContent(content) {
-      this.params.name = content;
-      this.getListMentee(this.params);
+    onSearchContent(title) {
+      this.params.title = title;
+      this.getListCourse(this.params);
     },
   },
 };
