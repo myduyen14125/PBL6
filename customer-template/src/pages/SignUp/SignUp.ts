@@ -111,12 +111,23 @@ export default defineComponent({
       return err;
     };
 
+    const validateGender = (): string => {
+      let err = "";
+      if (form.value.gender == null) {
+        err = "Đây là trường bắt buộc";
+      }
+
+      error.value.gender = err;
+
+      return err;
+    };
+
     const validateForm = (): boolean => {
       const arrRes = [];
       arrRes.push(validateRequired("email"));
       arrRes.push(validateRequired("name"));
       arrRes.push(validateRequired("password"));
-      arrRes.push(validateRequired("gender"));
+      arrRes.push(validateGender());
       arrRes.push(validateRequired("date_of_birth"));
       arrRes.push(validateRequired("role"));
       arrRes.push(validateEmail());
