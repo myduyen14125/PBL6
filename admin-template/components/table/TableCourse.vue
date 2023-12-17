@@ -32,7 +32,7 @@
               class="cursor-pointer"
               @click="handleRouting(item?._id)"
             >
-              <td>
+              <td class="text-start">
                 <img v-if="item?.image" class="avatar" :src="item?.image" />
               </td>
               <td class="color-primary text-start">
@@ -47,11 +47,11 @@
               <td class="color-secondary text-start">
                 <span class="td-content">{{ item?.description }}</span>
               </td>
-              <td class="color-secondary">
+              <td class="color-secondary text-start">
                 <span class="td-content">{{ item?.price }} VNĐ</span>
               </td>
-              <td class="color-secondary">
-                <span class="td-content">{{ item?.creator.name }} VNĐ</span>
+              <td class="color-secondary text-start">
+                <span class="td-content ">{{ item?.creator.name }}</span>
               </td>
               <!-- <td class="color-secondary">
                   <span class="td-content">{{ item?.expertise?.name }}</span>

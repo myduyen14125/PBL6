@@ -29,7 +29,7 @@
               class="cursor-pointer"
               @click="handleRouting(item?._id)"
             >
-              <td>
+              <td class="text-start">
                 <img v-if="item?.avatar" class="avatar" :src="item?.avatar" />
               </td>
               <td class="color-primary text-start">
@@ -44,7 +44,7 @@
               <td class="color-secondary text-start">
                 <span class="td-content">{{ item?.email }}</span>
               </td>
-              <td class="color-secondary">
+              <td class="color-secondary text-start">
                 <span class="td-content">{{ item?.phone }}</span>
               </td>
               <td class="color-secondary">
