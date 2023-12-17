@@ -131,19 +131,30 @@ export default (axios1, axios2) => ({
     return await axios1.get(`/blog/${id}`, config);
   },
 
-  // getContactById: async (id) => {
-  //   return await axios1.get(`/contacts/${id}`);
-  // },
-  // createNewContact: async (data) => {
-  //   return await axios2.post(`/contacts`, data);
-  // },
-  // markDoneContact: async (id) => {
-  //   return await axios1.patch(`/contacts/${id}/mark-done`);
-  // },
-  // markDoingContact: async (id) => {
-  //   return await axios1.patch(`/contacts/${id}/mark-doing`);
-  // },
-  // getNotificationCount: async () => {
-  //   return await axios1.get(`/contacts/count`)
-  // }
+  getListCourse: async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(`/course`, config);
+  },
+
+  getListSearchCourse: async (queryObj = {}) => {
+    const { page = 1, title } = queryObj;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(
+      `/course/search?page=${page}&title=${title ?? ""}`,
+      config
+    );
+  },
 });
