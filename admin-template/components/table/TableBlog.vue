@@ -26,29 +26,51 @@
               <th scope="col" class="text-start">Image</th>
               <th scope="col" class="text-start">Title</th>
               <th scope="col" class="text-start">Author</th>
+              <th scope="col" class="text-start">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(item, index) in data"
-              :key="index"
-              class="cursor-pointer"
-              @click="handleRouting(item?._id)"
-            >
+            <tr v-for="(item, index) in data" :key="index">
               <td>
                 <img v-if="item?.image" class="avatar" :src="item?.image" />
               </td>
               <td class="color-primary text-start">
                 <span class="td-content">
                   <nuxt-link
-                    :to="`/mentor/${item?._id}`"
-                    class="cursor-pointer color-primary"
+                    :to="`/blogs/${item?._id}`"
+                    class="cursor-pointer color-primary text-hover-color"
                     >{{ item?.title }}</nuxt-link
                   >
                 </span>
               </td>
-              <td class="color-secondary text-start">
-                <span class="td-content">{{ item?.user?.name }}</span>
+              <td class="cursor-pointer text-start">
+                <nuxt-link
+                  :to="`/mentor/${item?._id}`"
+                  class="td-content color-secondary text-hover-color"
+                  >{{ item?.user?.name }}</nuxt-link
+                >
+              </td>
+              <td class="color-secondary pl-4 w-25-2 d-flex">
+                <button
+                  class="btn rounded bg-white border-2 border-secondary mr-3 bg-hover"
+                >
+                  <nuxt-link :to="`/blogs/${item._id}/update`">
+                    <font-awesome-icon
+                      class="icon color-secondary"
+                      icon="fa-solid fa-pen-clip"
+                    />
+                  </nuxt-link>
+                </button>
+
+                <button
+                  class="btn rounded bg-white border-2 border-secondary bg-hover"
+                >
+                  <font-awesome-icon
+                    class="icon cursor-pointer"
+                    icon="fa-solid fa-trash-alt"
+                    @click="(e) => onDeleteBlog(e, item?._id)"
+                  />
+                </button>
               </td>
             </tr>
           </tbody>
@@ -60,6 +82,7 @@
 <script>
 import SearchInput from "../uncommon/SearchInput.vue";
 // import ComboBox from "../uncommon/ComboBox.vue";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -82,11 +105,42 @@ export default {
   mounted() {},
   methods: {
     handleRouting(id) {
-      this.$router.push(`/blog/${id}`);
+      this.$router.push(`/blogs/${id}`);
     },
-
     handleSearch(content) {
       this.$emit("searchContent", content);
+    },
+    onDeleteBlog(e, id) {
+      e.stopPropagation();
+      Swal.fire({
+        title: "Are you sure you want to delete?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deleteBlog(id);
+        }
+      });
+    },
+    deleteBlog(id) {
+      // eslint-disable-next-line no-console
+      this.$api.contact
+        .deleteBlog(id)
+        .then((res) => {
+          this.$toast.success("Create successfully!", {
+            className: "my-toast",
+          });
+          this.$emit("reloadTable");
+        })
+        .catch((err) => {
+          this.$toast.error("Create failed!", {
+            className: "my-toast",
+          });
+        });
     },
   },
 };
@@ -127,5 +181,13 @@ hr {
 
 .text-start {
   text-align: start;
+}
+
+.bg-hover:hover {
+  background-color: cadetblue !important;
+}
+
+.text-hover-color:hover {
+  color: black !important;
 }
 </style>

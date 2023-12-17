@@ -50,6 +50,28 @@ export default (axios1, axios2) => ({
     return await axios1.get(`/blog?page=${page}`);
   },
 
+  createBlog: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.post("/blog", data, config);
+  },
+
+  deleteBlog: async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.delete(`/blog/${id}`, config);
+  },
+
   getContactById: async (id) => {
     return await axios1.get(`/contacts/${id}`);
   },

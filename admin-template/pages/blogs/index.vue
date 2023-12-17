@@ -5,6 +5,7 @@
       :data="blogs"
       @searchContent="onSearchContent"
       @changeSelect="onSelectExpertise"
+      @reloadTable="getListBlog"
       title="Quản lý bài viết"
     />
     <div
@@ -52,7 +53,7 @@ export default {
     this.getListBlog(this.params);
   },
   methods: {
-    getListBlog(params) {
+    getListBlog(params = this.params) {
       this.$api.contact.getListBlog(params).then((res) => {
         this.blogs = res.data?.blogs || [];
         this.meta.total_pages = parseInt(res.data?.countPage);
