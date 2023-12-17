@@ -50,7 +50,7 @@ class _LoginScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   child: const Text(
-                    'ĐĂNG NHẬP',
+                    'Đăng nhập',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   child: const Text(
-                    'ĐĂNG KÝ',
+                    'Đăng ký',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,

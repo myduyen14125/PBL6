@@ -128,7 +128,6 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 63, 143, 125),
         elevation: 0,
-        centerTitle: true,
         title: const Text(
           'Thông tin mentor',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -235,7 +234,8 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                           mentorId: userData['_id'],
                                           mentorName: userData['name'],
                                           mentorAvatar: userData['avatar'],
-                                          mentorExpertise: userData['expertise']['name'],
+                                          mentorExpertise: userData['expertise'] != null ?
+                                              userData['expertise']['name'] : '`',
                                         ),
                                       ),
                                     )

@@ -88,7 +88,7 @@ class _ProfileViewState extends State<ProfileView> {
               // buildInfoRow('Ngày sinh', user.dateOfBirth),
               buildInfoRow(
                   'Ngày sinh', formatUserDateOfBirth(user.dateOfBirth)),
-              buildInfoRow('Giới tính', user.gender == true ? "Nam" : "Nữ"),
+              buildInfoRow('Giới tính', user.gender == true ? "Nữ" : "Nam"),
               buildInfoRow('Facebook', user.facebookLink),
               buildInfoRow('Skype', user.skypeLink),
             ],

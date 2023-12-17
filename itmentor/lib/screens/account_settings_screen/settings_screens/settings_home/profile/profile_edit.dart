@@ -27,7 +27,7 @@ class _ProfileEditState extends State<ProfileEdit> {
   final TextEditingController skypeController = TextEditingController();
   final TextEditingController meetingController = TextEditingController();
 
-  String updatedDateOfBirth = '';
+  String selectedGender = '';
 
   String? token = '';
 
@@ -86,8 +86,8 @@ class _ProfileEditState extends State<ProfileEdit> {
       'name': nameController.text,
       'email': emailController.text,
       'phone': phoneController.text,
-      'date_of_birth': selectedDateString,
-      'gender': genderController.text == "Nam" ? true : false,
+      'date_of_birth': selectedDate == null ? widget.dateOfBirth : selectedDateString,
+      // 'gender': selectedGender == "Nam" ? true : false,
     });
 
     try {
@@ -105,10 +105,10 @@ class _ProfileEditState extends State<ProfileEdit> {
         user.name = nameController.text;
         user.email = emailController.text;
         user.phone = phoneController.text;
-        user.gender = genderController.text == "Nam" ? true : false;
+        // user.gender = selectedGender == "Nam" ? true : false;
         user.facebookLink = facebookController.text;
         user.skypeLink = skypeController.text;
-        user.dateOfBirth = selectedDateString;
+        user.dateOfBirth = selectedDate == null ? widget.dateOfBirth! : selectedDateString;
         print('updated: ${user.name}');
 
         Provider.of<UserProvider>(ctx, listen: false).updateUser(user);
@@ -141,13 +141,24 @@ class _ProfileEditState extends State<ProfileEdit> {
         formattedDate = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
+
+    // debugPrint("${selectedDateString}");
+    // debugPrint(
+    //     "${DateFormat('dd/MM/yyyy').format(DateTime.parse(selectedDateString))}");
+    // debugPrint(
+    //     "${DateFormat('dd/MM/yyyy').format(DateTime.parse(selectedDateString)) == formattedDate}");
+    // debugPrint("${formattedDate}");
+    // debugPrint(
+    //     "${DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.dateOfBirth!)) == formattedDate}");
   }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
 
-    formattedDate = widget.dateOfBirth != null ? DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.dateOfBirth!)) : '';
+    formattedDate = widget.dateOfBirth != null
+        ? DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.dateOfBirth!))
+        : '';
 
     setData(user);
     return Scaffold(
@@ -192,12 +203,46 @@ class _ProfileEditState extends State<ProfileEdit> {
                     width: 20,
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1369B2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
                     onPressed: () => _selectDate(context),
                     child: const Text('Chọn ngày'),
                   ),
                 ],
               ),
-              _buildTextFormField('Giới tính', genderController),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text(
+              //       'Giới tính',
+              //       style: TextStyle(fontSize: 18),
+              //     ),
+              //     Radio(
+              //       value: 'Nam',
+              //       groupValue: selectedGender,
+              //       onChanged: (value) {
+              //         setState(() {
+              //           selectedGender = value.toString();
+              //         });
+              //       },
+              //     ),
+              //     Text('Nam'),
+              //     Radio(
+              //       value: 'Nữ',
+              //       groupValue: selectedGender,
+              //       onChanged: (value) {
+              //         setState(() {
+              //           selectedGender = value.toString();
+              //         });
+              //       },
+              //     ),
+              //     Text('Nữ'),
+              //   ],
+              // ),
               _buildTextFormField('Facebook', facebookController),
               _buildTextFormField('Skype', skypeController),
               Center(

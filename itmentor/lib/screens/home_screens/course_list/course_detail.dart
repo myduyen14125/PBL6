@@ -140,7 +140,14 @@ class _CourseDetailState extends State<CourseDetail> {
                             radius: 30, // Adjust the radius as needed
                           ),
                           title: const Text('Giảng viên'),
-                          subtitle: Text(course['creator']['name']),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(course['creator']['name']),
+                              Text(
+                                  'Chuyên ngành: ${course['creator']['expertise']['name']}')
+                            ],
+                          ),
                         ),
                         ListTile(
                           title: const Text(
@@ -169,43 +176,78 @@ class _CourseDetailState extends State<CourseDetail> {
                             ),
                           ),
                           subtitle: Text(
-                            '\$${course['price']}',
+                            '${course['price']} VND',
                             style: const TextStyle(
-                                fontSize: 16, // Adjust the font size
-                                color: Color.fromARGB(
-                                    255, 213, 29, 109) // Change the text color
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 213, 29, 109),
+                            ),
+                          ),
+                        ),
+
+                        (course['price'] == 0)
+                            ? const Text(
+                                'Lessons:',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                          ),
-                        ),
-                        ListTile(
-                          title: const Text('Chuyên ngành'),
-                          subtitle:
-                              Text(course['creator']['expertise']['name']),
-                        ),
-                        const Text(
-                          'Lessons:',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        for (var lesson in course['lessons'])
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListTile(
-                                title: const Text('Tên bài học'),
-                                subtitle: Text(lesson['title']),
+                              )
+                            : SizedBox(),
+                        // for (var lesson in course['lessons'])
+                        //   Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: [
+                        //       ListTile(
+                        //         title: const Text('Tên bài học'),
+                        //         subtitle: Text(lesson['title']),
+                        //       ),
+                        //       ListTile(
+                        //         title: const Text('Mô tả bài học'),
+                        //         subtitle: Text(lesson['description']),
+                        //       ),
+                        //       const Divider(),
+                        //       if (lesson['video'] != null)
+                        //         _buildVideoPlayer(lesson['video']),
+                        //     ],
+                        //   )
+                        (course['price'] == 0)
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  for (var lesson in course['lessons'])
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ListTile(
+                                          title: const Text('Tên bài học'),
+                                          subtitle: Text(lesson['title']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('Mô tả bài học'),
+                                          subtitle: Text(lesson['description']),
+                                        ),
+                                        const Divider(),
+                                        if (lesson['video'] != null)
+                                          _buildVideoPlayer(lesson['video']),
+                                      ],
+                                    ),
+                                ],
+                              )
+                            : Center(
+                                child: ElevatedButton(
+                                  key: const Key('ButtonAddExperience'),
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 63, 143, 125),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                  ),
+                                  child: const Text('Mua khoá học'),
+                                ),
                               ),
-                              ListTile(
-                                title: const Text('Mô tả bài học'),
-                                subtitle: Text(lesson['description']),
-                              ),
-                              const Divider(),
-                              if (lesson['video'] != null)
-                                _buildVideoPlayer(lesson['video']),
-                            ],
-                          ),
                       ],
                     ),
                   ),
