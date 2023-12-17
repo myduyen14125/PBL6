@@ -150,7 +150,7 @@ export default defineComponent({
           onSuccess: (res) => {
             SwalPopup.swalResultPopup(
               "Đăng ký tài khoản thành công! Chào mừng bạn đến với IT Mentor! Vui lòng cập nhật thông tin của bạn.",
-              "sucess",
+              "success",
               {
                 onConfirmed: () => {
                   router.push({ path: "/personal-info" });

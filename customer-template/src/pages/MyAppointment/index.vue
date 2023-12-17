@@ -129,7 +129,7 @@ export default {
       } else {
         SwalPopup.swalResultPopup(
           "Vui lòng cập nhật link Google Meet của bạn trước khi đặt lịch rảnh. Cuộc hẹn giữa bạn và mentee sẽ diễn ra tại link Google Meet này.",
-          "sucess",
+          "success",
           {
             onConfirmed: () => {
               router.push({ path: "/personal-info" });

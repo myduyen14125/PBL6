@@ -93,7 +93,7 @@ export default defineComponent({
         callback: {
           onSuccess: (res) => {
             isSubmitting.value = false;
-            SwalPopup.swalResultPopup("Đăng nhập thành công!", "sucess");
+            SwalPopup.swalResultPopup("Đăng nhập thành công!", "success");
             // todo: hide swalpopup after 2s
             router.push({ name: RouterNameEnum.Home });
           },
