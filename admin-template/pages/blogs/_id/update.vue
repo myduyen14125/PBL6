@@ -32,7 +32,7 @@ import FormBlog from "~/components/form/FormBlog.vue";
 import BaseModal from "~/components/modal/BaseModal.vue";
 
 export default {
-  name: "BlogDetail",
+  name: "BlogUpdate",
   components: {
     FormBlog,
     BaseModal,

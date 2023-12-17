@@ -9,121 +9,69 @@
           width="20px"
           height="20px"
           class="mr-1 cursor-pointer"
-          @click="goBack()"
+          @click="$router.go(-1)"
         />
-        <h1 class="title">News detail</h1>
+        <h1 class="title">Blog detail</h1>
       </div>
-      <button class="btn-custom btn-blue" @click="goToUpdate(news.id)">
+      <button class="btn-custom btn-blue" @click="goToUpdate(blog.id)">
         Update
       </button>
     </div>
     <hr class="my-2" />
     <div class="content">
-      <div class="d-flex align-items-center mb-2">
-        <div class="content-title">
-          <img class="content-image" :src="news.thumbnail_url" alt="" />
-        </div>
-        <h1 v-if="news.title" class="title w-60 break-word white-space ml-4">
-          {{ news.title.trim() }}
+      <div class="d-flex align-items-center">
+        <h1 v-if="blog.title" class="title w-60 break-word">
+          {{ blog.title.trim() }}
         </h1>
       </div>
-      <div class="mb-2">
+      <div class="d-flex align-items-center py-3">
+        <img :src="blog?.user?.avatar || ''" class="avatar-img mx-3" />
+        <div>
+          <p class="author mb-0">{{ blog?.user?.name || "" }}</p>
+          <p class="job mb-1">CEO tại Babylux Viet Nam</p>
+          <p class="mb-0">
+            {{ `Đăng ngày ${formatDate(blog?.createdAt) || ""}` }}
+          </p>
+        </div>
+      </div>
+      <div class="mb-5">
         <img
-          class="content-image-detail"
-          :src="news.detail_thumbnail_url"
+          v-if="blog.image"
+          class="content-image w-100"
+          :src="blog.image"
           alt=""
         />
       </div>
-      <ul>
-        <li class="list-item py-2 d-flex align-items-center h-38">
-          <div class="content-title pl-3 w-90px mr-4">Created at:</div>
-          <div class="content-desc">{{ formatDateTime(news.created_at) }}</div>
-        </li>
-        <li class="list-item py-2 d-flex align-items-center h-38">
-          <div class="color-yellow content-title pl-3 w-90px mr-4">
-            Publish at:
-          </div>
-          <div class="content-desc">
-            {{ news.published_at ? formatDateTime(news.published_at) : "-" }}
-          </div>
-        </li>
-        <li class="list-item py-2 d-flex align-items-center h-57">
-          <div class="content-title pl-3 mr-4">Category</div>
-          <div class="content-desc" :class="news.category_id ? 'category' : ''">
-            {{ getCategoryName(news.category_id) }}
-          </div>
-        </li>
-        <li class="list-item py-2 d-flex">
-          <div class="content-title pl-3 mr-4">Content</div>
-          <div
-            class="content-desc break-word html-content ql-editor"
-            v-html="news.content"
-          ></div>
-        </li>
-        <li class="list-item py-2 d-flex align-items-center h-57">
-          <div class="content-title pl-3 mr-4">Published</div>
-          <div class="switch-toggle">
-            <label class="switch">
-              <input
-                v-model="news.published"
-                type="checkbox"
-                @click="markPublic()"
-              />
-              <span class="slider round"></span>
-            </label>
-          </div>
-        </li>
-      </ul>
+      <div v-html="blog.content"></div>
     </div>
   </div>
 </template>
 <script>
 import moment from "moment";
-import { mapActions, mapGetters } from "vuex";
+
 export default {
-  name: "NewsDetail",
+  name: "BlogDetail",
   layout: "secret",
   data() {
     return {
-      news: {},
+      blog: {},
     };
   },
-  computed: {
-    ...mapGetters({
-      categories: "newsCategory/getCategories",
-    }),
-  },
   created() {
-    this.$api.news.getNewsById(this.$route.params.id).then((res) => {
-      this.news = res.data.data;
-    });
+    this.getBlogDetail();
   },
-  mounted() {
-    this.fetchCategoryList();
-  },
+  mounted() {},
   methods: {
-    ...mapActions({
-      fetchCategoryList: "newsCategory/fetchList",
-    }),
-    getCategoryName(id) {
-      const category = this.categories.find((item) => item.id === id);
-      return category ? category.title : "-";
-    },
-    markPublic() {
-      this.$api.news.markPublicNews(this.news.id).then((res) => {
-        this.$toast.success("Change status public successfully!", {
-          className: "my-toast",
-        });
+    getBlogDetail() {
+      this.$api.contact.getBlogById(this.$route.params.id).then((res) => {
+        this.blog = res?.data;
       });
     },
-    goBack() {
-      this.$router.go(-1);
-    },
     goToUpdate(id) {
-      this.$router.push(`/news/${id}/update`);
+      this.$router.push(`/blog/${id}/update`);
     },
-    formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+    formatDate(date) {
+      return moment(date).format("DD/MM/YYYY");
     },
   },
 };
@@ -169,5 +117,21 @@ export default {
 }
 .w-90px {
   width: 120px;
+}
+
+.avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author {
+  font-weight: 600;
+  color: $color-primary;
+}
+
+.job {
+  color: #949ba1;
 }
 </style>
