@@ -49,7 +49,13 @@ export class AuthService {
     }
 
     private async _createToken({ email }) {
-        const accessToken = this.jwtService.sign({ email })
+        const accessToken = this.jwtService.sign(
+            { email },
+            {
+                secret: process.env.SECRETKEY,
+                expiresIn: process.env.EXPIRESIN
+            }
+        );
         const refreshToken = this.jwtService.sign(
             { email },
             {

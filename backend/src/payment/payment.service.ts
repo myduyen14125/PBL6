@@ -2,13 +2,14 @@ import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from "@nest
 import { CourseService } from "src/course/services/course.service";
 import { User } from "src/user/user.model";
 import { v4 as uuidv4 } from 'uuid';
-import { RequestPaymentDto } from "./payment.dto";
+import { PaymentDto, RequestPaymentDto } from "./payment.dto";
+import { PaymentRepository } from "./payment.repository";
 
 
 @Injectable()
 export class PaymentService {
     constructor(
-        // private readonly paymentRepository: PaymentRepository,
+        private readonly paymentRepository: PaymentRepository,
         @Inject(forwardRef(() => CourseService)) private readonly courseService: CourseService,
     ) { }
 
@@ -90,22 +91,31 @@ export class PaymentService {
         });
     }
 
-   async handlePostPayment(ipnData: any) {
+    async handlePostPayment(ipnData: any) {
         console.log(ipnData);
         if(ipnData.amount === 0) {
             await this.courseService.registerCourse(ipnData.user, ipnData.course)
             return "Success"
         }
         if(ipnData.resultCode != '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
-        // const match = ipnData.extraData.match(regex);
-        const parts = ipnData.extraData.split(":");
 
-        // Extract user ID and course ID
+        const parts = ipnData.extraData.split(":");
         const user = parts[1].slice(0, -6);
         const course = parts[2].split("course:").toString();
+    
+        let dto = new PaymentDto
+        dto.user = user
+        dto.partnerCode= ipnData.partnerCode;
+        dto.orderId= ipnData.orderId;
+        dto.orderInfo= ipnData.orderInfo;
+        dto.amount= ipnData.amount.toString();
+        dto.requestId= ipnData.requestId;
+        dto.requestType= ipnData.requestType;
+        dto.signature= ipnData.signature;
+        dto.transId= ipnData.transId;
+        dto.payType= ipnData.payType;
         
-        console.log("User ID:", user);
-        console.log("Course ID:", course);
+        await this.paymentRepository.create(dto)
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
     }

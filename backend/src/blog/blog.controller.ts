@@ -12,6 +12,11 @@ export class BlogController {
         return this.blogService.getAllBlogs(page, limit);
     }
 
+    @Get('search')
+    searchBlog(@Query('title') keyword: string, @Query() { page, limit }: PaginationBlogDto) {
+        return this.blogService.searchBlog(keyword, page, limit);
+    }
+
     @Get(':id')
     getBlogById(@Param('id') id: string) {
         return this.blogService.getBlogById(id);

@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBlogDto, UpdateBlogDto } from './blog.dto';
 import { User } from 'src/user/user.model';
 import { BlogRepository } from './blog.repository';
+import { use } from 'passport';
 
 @Injectable()
 export class BlogService {
@@ -15,6 +16,27 @@ export class BlogService {
         const countPage = Math.ceil(count / limit)
         const blogs = await this.blogRepository.getByCondition(
             {},
+            null,
+            {
+                sort: {
+                    createdAt: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            { path: 'user', select: 'name avatar expertise', populate: { path: 'expertise', select: 'name' }}
+        );
+        return {
+            count, countPage, blogs
+        }
+    }
+
+    async searchBlog(keyword: string, page:number, limit:number = 10) {
+        let query = { title: { $regex: new RegExp(keyword, 'i') } }
+        const count = await this.blogRepository.countDocuments(query)
+        const countPage = Math.ceil(count / limit)
+        const blogs = await this.blogRepository.getByCondition(
+            query,
             null,
             {
                 sort: {
@@ -44,13 +66,13 @@ export class BlogService {
 
     async deleteBlog(user: User, id: string) {
         const blog = await this.blogRepository.findById(id)
-        if (!blog.user.equals(user._id)) throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
+        if (!blog.user.equals(user._id) && user.role !== 'admin') throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
         return await this.blogRepository.deleteOne(id);
     }
 
     async updateBlog(user: User, id: string, dto: UpdateBlogDto) {
         const check_post = await this.blogRepository.findById(id)
-        if (!check_post.user.equals(user._id)) throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
+        if (!check_post.user.equals(user._id) && user.role !== 'admin') throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
         return (await this.blogRepository.findByIdAndUpdate(id, dto)).populate({ path: 'user', select: 'name avatar' })
     }
 
