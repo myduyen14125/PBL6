@@ -23,6 +23,11 @@ export class CourseController {
         return this.courseService.getCurrentUserAllCourses(req.user, page, limit);
     }
 
+    @Get('search')
+    searchCourse(@Query('title') keyword: string, @Query() {page, limit}: PaginationCourseDto) {
+        return this.courseService.searchCourse(keyword, page, limit);
+    }
+
     @Get(':id')
     getCourseById(@Param('id') id: string) {
         return this.courseService.getCourseById(id);

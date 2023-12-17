@@ -306,4 +306,52 @@ export class CourseService {
         if(option) return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: change } })
         return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: -change } })
     }
+
+    async searchCourse(keyword: string, page: number, limit: number = 10) {
+        let query = { title: { $regex: new RegExp(keyword, 'i') } }
+        const count = await this.courseRepository.countDocuments(query)
+        const countPage = Math.ceil(count / limit)
+        const tempCourses = await this.courseRepository.getByCondition(
+            query,
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
+            {
+                sort: {
+                    createdAt: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
+                    }
+                },
+                {
+                    path: 'lessons',
+                }
+            ]
+        );
+        
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
+    
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
+
+        return {
+            count, countPage, courses
+        }
+    }
 } 

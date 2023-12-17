@@ -38,7 +38,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZUBnbWFpbC5jb20iLCJpYXQiOjE2OTcwMzE0OTMsImV4cCI6MTY5NzAzNDA4NX0.TSe8SDerDBZWwXFc0QbAtSKjAYKDlNdKIFb4ZcuJorY",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5nb2NodW5nbGUxMzMxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjcxMTkzMiwiZXhwIjoxNzAyNzE0NTI0fQ.qr8f8P3F4S7x6NAX3jUuY73JJb5kLaXzQt3g9sGzKKo",
 									"type": "string"
 								}
 							]
@@ -47,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"phvntiendat@gmail.com\",\r\n    \"password\": \"GNR25a&t2O\"\r\n}",
+							"raw": "{\r\n    \"email\": \"phvntiendat+0@gmail.com\",\r\n    \"password\": \"GNR25a&t2O\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -502,6 +502,41 @@
 					"response": []
 				},
 				{
+					"name": "Search Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/blog/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CurrentUser/Blogs",
 					"request": {
 						"auth": {
@@ -591,17 +626,13 @@
 							}
 						},
 						"url": {
-							"raw": "https://pbl6-test-production.up.railway.app/blog/6538e03ba2f3c81cd4670c6a",
-							"protocol": "https",
+							"raw": "{{host}}/blog/657e68da41847a714b42b15f",
 							"host": [
-								"pbl6-test-production",
-								"up",
-								"railway",
-								"app"
+								"{{host}}"
 							],
 							"path": [
 								"blog",
-								"6538e03ba2f3c81cd4670c6a"
+								"657e68da41847a714b42b15f"
 							]
 						}
 					},
@@ -615,7 +646,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQwNjA4NiwiZXhwIjoxNjk2NDA4Njc4fQ.3syFcOrIbKMmJxSHnc0_sacZe1isLlvg5JnIuMRSd5I",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4MzkwMCwiZXhwIjoxNzAyNzg2NDkyfQ.OZ3anGJzPBIw90uXnLhzuj0xJI_80NsK4xlvZFOKuiU",
 									"type": "string"
 								}
 							]
@@ -624,7 +655,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"Updated post\",\r\n    \"title\": \"Modified\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Modified\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -632,13 +663,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/blog/651d1b1479b9b2797396164c",
+							"raw": "{{host}}/blog/657e68da41847a714b42b15f",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"blog",
-								"651d1b1479b9b2797396164c"
+								"657e68da41847a714b42b15f"
 							]
 						}
 					},
@@ -2238,7 +2269,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentee}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4OTI4MSwiZXhwIjoxNzAzMDQ4NDgxfQ.9rewflgAK6oV0SrSBZn4Dd5u8XcsOiD5S2j1u3VAUpo",
 									"type": "string"
 								}
 							]
@@ -2247,7 +2278,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"course\": \"655adbd01af3dea1a1477ed7\"\r\n}",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2255,12 +2286,87 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/payment",
+							"raw": "{{deploy}}/payment/",
+							"host": [
+								"{{deploy}}"
+							],
+							"path": [
+								"payment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Payment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4OTI4MSwiZXhwIjoxNzAzMDQ4NDgxfQ.9rewflgAK6oV0SrSBZn4Dd5u8XcsOiD5S2j1u3VAUpo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{deploy}}/payment/",
+							"host": [
+								"{{deploy}}"
+							],
+							"path": [
+								"payment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Payment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5nb2NodW5nbGUxMzMxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjcxMTk0MCwiZXhwIjoxNzAyNzE0NTMyfQ.8FBFIAHXOVJaGiWBQOojPVUJxiLGb3YXThJpiBD3KvY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"extraData\": \"user:6551a85fa44daf1d5c95e0fecourse:657a8e14ab8c14698af386bd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/payment/ipn",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"payment"
+								"payment",
+								"ipn"
 							]
 						}
 					},
@@ -2680,7 +2786,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Blogs Copy",
+					"name": "Get All Blogs",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2781,7 +2887,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Expertise Copy",
+					"name": "Create Expertise",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2824,7 +2930,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4NjE3NSwiZXhwIjoxNzAzMDQ1Mzc1fQ.XmKlqW6S8-EVyMG_tlUAM5yioEmRl0p7gaZ1MGJA9wo",
 									"type": "string"
 								}
 							]
@@ -2833,7 +2939,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Game Development\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Networking\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2841,13 +2947,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/expertise/12312312132",
+							"raw": "{{host}}/expertise/6551a272a44daf1d5c95de2e",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"expertise",
-								"12312312132"
+								"6551a272a44daf1d5c95de2e"
 							]
 						}
 					},
@@ -2891,7 +2997,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Expertises Copy",
+					"name": "Get All Expertises",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2924,6 +3030,119 @@
 							],
 							"path": [
 								"expertise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Log",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjc5MDMxMywiZXhwIjoxNzAzMDQ5NTEzfQ.dkfi5ZPI7EipF5rZOdPjJqa0u13Pf9b3hbmIHhjUFGU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/payment/?sort=highest&sort=lowest&sort=newest&sort=oldest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"payment",
+								""
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "highest"
+								},
+								{
+									"key": "sort",
+									"value": "lowest"
+								},
+								{
+									"key": "sort",
+									"value": "newest"
+								},
+								{
+									"key": "sort",
+									"value": "oldest"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/course",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/course/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course",
+								"search"
 							]
 						}
 					},

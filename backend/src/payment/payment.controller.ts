@@ -1,7 +1,9 @@
-import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { RequestPaymentDto } from "./payment.dto";
+import { PaginationPaymentDto, RequestPaymentDto } from "./payment.dto";
 import { PaymentService } from "./payment.service";
+import { Role } from "src/auth/role.decorator";
+import { RoleGuard } from "src/auth/role.guard";
 
 
 @Controller('payment')
@@ -17,5 +19,12 @@ export class PaymentController {
     @Post('/ipn')
     async handlePostPayment(@Body() ipnData: any) {
         return this.paymentService.handlePostPayment(ipnData)
+    }
+
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @Role('admin')
+    @Get()
+    async getPaymentLog(@Query('sort') sort: string ,@Query() { page, limit }: PaginationPaymentDto) {
+        return await this.paymentService.getPaymentLog(sort, page,limit)
     }
 }
