@@ -26,7 +26,7 @@
           <thead class="color-primary table-head">
             <tr>
               <th scope="col" class="text-start">Image</th>
-              <th scope="col" class="text-start">Title</th>
+              <th scope="col" style="width: 50%" class="text-start">Title</th>
               <th scope="col" class="text-start">Author</th>
               <th scope="col" class="text-start">Actions</th>
             </tr>
@@ -40,7 +40,7 @@
                 <span class="td-content">
                   <nuxt-link
                     :to="`/blogs/${item?._id}`"
-                    class="cursor-pointer color-primary text-hover-color"
+                    class="cursor-pointer color-primary text-hover-color text-break"
                     >{{ item?.title }}</nuxt-link
                   >
                 </span>
