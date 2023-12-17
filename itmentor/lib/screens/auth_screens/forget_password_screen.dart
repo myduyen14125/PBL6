@@ -1,49 +1,66 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:itmentor/screens/auth_screens/forget_password_screen.dart';
+import 'package:itmentor/screens/auth_screens/login_screen.dart';
 import 'package:itmentor/screens/auth_screens/register_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:itmentor/utils/utils.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ForgetPassword extends StatefulWidget {
+  const ForgetPassword({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgetPasswordState extends State<ForgetPassword> {
   TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  AuthServices authServices = AuthServices();
-  bool _isLoggingIn = false;
-  bool _obscurePassword = true;
+  bool isLoading = false;
 
-  void login() async {
+  Future<void> callForgetPasswordApi(String email) async {
     setState(() {
-      _isLoggingIn = true;
+      isLoading = true;
     });
+    final apiUrl = Uri.https(Constants.uri, '/auth/forgot-password');
 
     try {
-      await authServices.signInUser(
-        ctx: context,
-        email: _usernameController.text,
-        password: _passwordController.text,
+      final response = await http.post(
+        apiUrl,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email}),
       );
 
-      setState(() {
-        _isLoggingIn = false;
-      });
+      if (response.statusCode == 201) {
+        // Handle success
+        setState(() {
+          isLoading = false;
+        });
+        print('Forget Password API call successful');
+        print('Response: ${response.body}');
+        showSnackBar(
+            context, 'Thành công. Hãy kiểm tra email để lấy mật khẩu mới!');
+        setState(() {
+          _usernameController.text = "";
+        });
+      } else {
+        // Handle error
+        setState(() {
+          isLoading = false;
+        });
+        showSnackBar(context, 'Email không hợp lệ hoặc chưa đăng kí');
+        print(
+            'Forget Password API call failed with status ${response.statusCode}');
+        print('Error: ${response.body}');
+      }
     } catch (e) {
       setState(() {
-        _isLoggingIn = false;
+        isLoading = false;
       });
+      showSnackBar(context, 'Email không hợp lệ hoặc chưa đăng kí');
+      print('Error: $e');
     }
-  }
-
-  void _togglePasswordVisibility() {
-    setState(() {
-      _obscurePassword = !_obscurePassword;
-    });
   }
 
   @override
@@ -77,34 +94,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      labelText: 'Tài khoản',
+                      labelText: 'Email',
                       labelStyle: const TextStyle(
                         color: Color(0xFF1BB55C),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin:
-                      const EdgeInsets.only(left: 50, bottom: 10, right: 50),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'Mật khẩu',
-                      labelStyle: const TextStyle(
-                        color: Color(0xFF1BB55C),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                        onPressed: _togglePasswordVisibility,
                       ),
                     ),
                   ),
@@ -112,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Quên mật khẩu? '),
+                    const Text('Đã có tài khoản? '),
                     const SizedBox(
                       width: 20,
                     ),
@@ -122,13 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return const ForgetPassword();
+                              return const LoginScreen();
                             },
                           ),
                         );
                       }),
                       child: const Text(
-                        'Bấm tại đây',
+                        'Đăng nhập',
                       ),
                     ),
                   ],
@@ -152,13 +144,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                if (_isLoggingIn) // Hiển thị circular progress indicator nếu isLoading là true
-                  const CircularProgressIndicator(),
-                const SizedBox(height: 20),
+                if (isLoading) const CircularProgressIndicator(),
                 ElevatedButton(
-                  key: const Key('loginButton'),
+                  key: const Key('forgetPassword'),
                   onPressed: () {
-                    login();
+                    if (_usernameController.text.isEmpty) {
+                      showSnackBar(context, 'Vui lòng nhập email');
+                      return;
+                    }
+                    callForgetPasswordApi(_usernameController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF1369B2),
@@ -167,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: const Text(
-                    'Đăng nhập',
+                    'Lấy lại mật khẩu',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -192,12 +186,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }

@@ -42,7 +42,7 @@ class _CreateExperiencesState extends State<CreateExperiences> {
   void showStartDatePicker() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime(2023, 6, 10),
+      initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
@@ -57,7 +57,7 @@ class _CreateExperiencesState extends State<CreateExperiences> {
   void showEndDatePicker() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime(2023, 10, 10),
+      initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );

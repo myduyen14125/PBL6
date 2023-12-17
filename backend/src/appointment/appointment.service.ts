@@ -454,7 +454,8 @@ export class AppointmentService {
             },
             [
                 { path: 'mentor', select: 'name avatar email phone gender skype_link facebook_link', populate: { path: 'expertise', select: 'name' }},
-                { path: 'mentee', select: 'name avatar email phone gender'}
+                { path: 'mentee', select: 'name avatar email phone gender'},
+                { path: 'schedule'}
             ]
         )
 

@@ -21,6 +21,52 @@ class _SearchMentorState extends State<SearchMentor> {
 
   Map<String, dynamic> selectedExpertise = {};
 
+  ScrollController _scrollController = ScrollController();
+
+  var currentPage = 1;
+  var searchedName = '';
+
+  void _scrollListener() {
+    if (!isLoadMore &&
+        _scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+      debugPrint(searchedName);
+      debugPrint(currentPage.toString());
+      loadMoreMentors(searchedName);
+    }
+  }
+
+  bool isLoadMore = false;
+  Future<void> loadMoreMentors(String name) async {
+    if (isLoadMore) {
+      return;
+    }
+
+    currentPage++;
+
+    setState(() {
+      isLoadMore = true;
+    });
+
+    final uri = Uri.https(
+        Constants.uri, '/mentor/search', {'name': name, 'page': '$currentPage'});
+
+    final response = await http.get(uri);
+    final data = json.decode(response.body);
+
+    if (data['mentors'] != null) {
+      debugPrint("loadmore mentor: ${data['mentors']}");
+      setState(() {
+        mentors.addAll(data['mentors']);
+        isLoadMore = false;
+      });
+    } else {
+      setState(() {
+        isLoadMore = false;
+      });
+    }
+  }
+
   Future<void> fetchMentors(String name) async {
     setState(() {
       isLoading = true;
@@ -113,6 +159,7 @@ class _SearchMentorState extends State<SearchMentor> {
   void initState() {
     super.initState();
     fetchExpertise();
+    _scrollController.addListener(_scrollListener);
   }
 
   @override
@@ -211,6 +258,9 @@ class _SearchMentorState extends State<SearchMentor> {
                   contentPadding: EdgeInsets.all(12),
                 ),
                 onSubmitted: (value) {
+                  setState(() {
+                    searchedName = value;
+                  });
                   selectedExpertise.isNotEmpty
                       ? fetchMentorsWithExpertise(
                           value, selectedExpertise['_id'])
@@ -224,6 +274,7 @@ class _SearchMentorState extends State<SearchMentor> {
                       child: CircularProgressIndicator(),
                     )
                   : ListView.builder(
+                      controller: _scrollController,
                       itemCount: mentors.length,
                       itemBuilder: (context, index) {
                         final mentor = mentors[index];
@@ -244,15 +295,15 @@ class _SearchMentorState extends State<SearchMentor> {
                           child: Card(
                             elevation: 2,
                             margin: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
+                                horizontal: 16, vertical: 8),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: ListTile(
+                              contentPadding: const EdgeInsets.all(16),
                               leading: CircleAvatar(
                                 backgroundColor: Colors.white,
+                                radius: 30,
                                 backgroundImage: mentor['avatar'] != ""
                                     ? CachedNetworkImageProvider(
                                             mentor['avatar'] as String)
@@ -263,17 +314,53 @@ class _SearchMentorState extends State<SearchMentor> {
                               ),
                               title: Text(
                                 mentor['name'],
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
                               ),
-                              subtitle: Text(mentor['email']),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 8),
+                                  Text(
+                                    mentor['email'],
+                                    style: TextStyle(color: Colors.grey[600]),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Số lượng mentee: ${mentor['number_of_mentees']}',
+                                    style: TextStyle(color: Colors.grey[600]),
+                                  ),
+                                  SizedBox(height: 8),
+                                  mentor['expertise'] != null
+                                      ? Text(
+                                          'Chuyên ngành: ${mentor['expertise']['name']}',
+                                          style: TextStyle(
+                                              color: Colors.grey[600]),
+                                        )
+                                      : Text(
+                                          'Chưa chọn chuyên ngành',
+                                          style: TextStyle(
+                                              color: Colors.grey[600]),
+                                        ),
+                                ],
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.blue,
+                              ),
                             ),
                           ),
                         );
                       },
                     ),
             ),
+            isLoadMore
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : const SizedBox()
           ],
         ),
       ),
