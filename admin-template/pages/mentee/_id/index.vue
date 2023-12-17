@@ -15,11 +15,13 @@
     </div>
     <hr class="mt-2 mb-1" />
     <div class="content overflow-auto h-90">
-      <div class="created-at d-flex bg-gray px-4 py-2 align-items-center h-38">
-        <div class="content-title w-auto mr-3">Created at:</div>
-        <div class="content-desc">{{ formatDateTime(person.created_at) }}</div>
-      </div>
       <ul>
+        <li class="list-item px-4 py-2 d-flex min-h-48">
+          <div class="content-title mr-3">Avatar</div>
+          <div v-if="person.avatar" class="content-desc">
+            <img v-if="person?.avatar" class="avatar" :src="person?.avatar" />
+          </div>
+        </li>
         <li class="list-item px-4 py-2 d-flex min-h-48">
           <div class="content-title mr-3">Name</div>
           <div v-if="person.name" class="content-desc">
@@ -35,26 +37,13 @@
           <div class="content-desc">{{ person.phone }}</div>
         </li>
         <li class="list-item px-4 py-2 d-flex min-h-48">
-          <div class="content-title mr-3">Content</div>
-          <div class="content-desc w-60">{{ person.content }}</div>
+          <div class="content-title mr-3">Date of birth</div>
+          <div class="content-desc w-60">{{ person.date_of_birth }}</div>
         </li>
         <li class="list-item px-4 py-2 d-flex h-48">
-          <div class="content-title mr-3">Subject</div>
+          <div class="content-title mr-3">Gender</div>
           <div class="content-desc">
-            {{ getSubjectName(person.subject_id) }}
-          </div>
-        </li>
-        <li class="list-item px-4 py-2 d-flex h-48">
-          <div class="content-title mr-3">Status</div>
-          <div
-            class="content-desc w-auto status"
-            :class="{
-              'status-done': person.status === 'DONE',
-              'status-doing': person.status === 'DOING',
-              'status-todo': person.status === 'TODO',
-            }"
-          >
-            {{ person.status }}
+            {{person?.gender ? "Female" : "Male" }}
           </div>
         </li>
         <button
@@ -111,8 +100,25 @@ export default {
     }),
   },
   created() {
-    this.$api.contact.getContactById(this.$route.params.id).then((res) => {
-      this.person = res.data.data;
+    // this.$api.contact.getListMentee().then((res) => {
+    //   this.person = res.data.data;
+    // });
+    // let menteeList;
+    this.$api.contact.getListMentee().then((res) => {
+      console.log('res',res.data.mentees);
+      for (const mentee of res.data.mentees) {
+        console.log('mentee', mentee);
+        if (mentee._id == this.$route.params.id) {
+          this.person = mentee;
+          this.person.date_of_birth = moment(this.person.date_of_birth).format("DD-MM-YYYY")
+          break;
+        }
+        else {
+          this.person = [];
+
+        }
+      }
+      
     });
   },
   methods: {
@@ -166,6 +172,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
 .content {
   &-title {
     font-weight: 500;
