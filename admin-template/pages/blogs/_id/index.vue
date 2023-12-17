@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="h-100 position-relative">
+  <div class="h-100 position-relative pb-5">
     <div class="header d-flex justify-content-between">
       <div class="d-flex align-items-center">
         <img

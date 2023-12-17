@@ -4,15 +4,18 @@
       class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
     >
       <h1 class="title">{{ title }}</h1>
-      <div class="d-flex">
-        <ComboBox
-          v-if="expertiseList.length > 0"
-          :options-prop="expertiseList"
-          :placeholder="'Select expertise'"
-          @selection-change="handleSelect"
-        />
+      <div class="ml-auto d-flex flex-wrap align-items-center">
+        <div class="d-flex mr-3">
+          <ComboBox
+            v-if="expertiseList.length > 0"
+            :options-prop="expertiseList"
+            :placeholder="'Select expertise'"
+            @selection-change="handleSelect"
+          />
+        </div>
+        <SearchInput @search="handleSearch" />
       </div>
-      <SearchInput @search="handleSearch" />
+
       <!-- <nuxt-link to="/mentor/create">
         <button class="btn-custom btn-blue">Create mentor</button>
       </nuxt-link> -->

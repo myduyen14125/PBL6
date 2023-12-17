@@ -12,10 +12,12 @@
           @selection-change="handleSelect"
         />
       </div> -->
-      <SearchInput @search="handleSearch" />
-      <nuxt-link to="/blogs/create">
-        <button class="btn-custom btn-blue">Create blog</button>
-      </nuxt-link>
+      <div class="ml-auto d-flex align-items-center">
+        <SearchInput @search="handleSearch" class="mr-3" />
+        <nuxt-link to="/blogs/create">
+          <button class="btn-custom btn-blue">Create blog</button>
+        </nuxt-link>
+      </div>
     </div>
     <div class="table-wrapper w-100 position-relative">
       <div class="layer-new-block"></div>

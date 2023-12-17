@@ -66,7 +66,7 @@ export default {
       this.getListBlog(this.params);
     },
     onSearchContent(content) {
-      this.params.name = content;
+      this.params.title = content;
       this.getListBlog(this.params);
     },
     onSelectExpertise(id) {

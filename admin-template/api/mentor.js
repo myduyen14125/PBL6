@@ -31,7 +31,7 @@ export default (axios1, axios2) => ({
   },
 
   getListSearchMentee: async (queryObj = {}) => {
-    const { page = 1, title = "" } = queryObj;
+    const { page = 1, name = "" } = queryObj;
     const config = {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem(
@@ -40,14 +40,14 @@ export default (axios1, axios2) => ({
       },
     };
     return await axios1.get(
-      `/user/search?page=${page}&title=${title ?? ""}`,
+      `/user/search?page=${page}&name=${name ?? ""}`,
       config
     );
   },
 
   getListBlog: async (queryObj = {}) => {
-    const { page = 1 } = queryObj;
-    return await axios1.get(`/blog?page=${page}`);
+    const { page = 1, title = "" } = queryObj;
+    return await axios1.get(`/blog/search?page=${page}&title=${title ?? ""}`);
   },
 
   createBlog: async (data) => {
