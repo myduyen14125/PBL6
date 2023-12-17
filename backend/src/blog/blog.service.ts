@@ -1,14 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateBlogDto, UpdateBlogDto } from './blog.dto';
 import { User } from 'src/user/user.model';
+import { CreateBlogDto, UpdateBlogDto } from './blog.dto';
 import { BlogRepository } from './blog.repository';
-import { use } from 'passport';
 
 @Injectable()
 export class BlogService {
     constructor(
         private readonly blogRepository: BlogRepository,
-
     ) { }
 
     async getAllBlogs(page: number, limit: number = 10) {

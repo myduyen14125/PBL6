@@ -232,7 +232,7 @@ export class AppointmentService {
     async confirmAppointment(mentor: User, id: string) {
         const tempAppointment = await this.appointmentRepository.findById(id)
         if (tempAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
-        if (tempAppointment.mentor != mentor.id) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+        if (tempAppointment.mentor != mentor.id && mentor.role !== 'admin') throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
 
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {status: "confirmed"})
         await updatedAppointment.populate({ path: 'mentee', select: 'name avatar email' });
@@ -262,7 +262,7 @@ export class AppointmentService {
     async cancelAppointment(user: User, id: string) {
         const tempAppointment = await this.appointmentRepository.findById(id)
         if (tempAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
-        if (tempAppointment.mentee != user.id && tempAppointment.mentor != user.id) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+        if (tempAppointment.mentee != user.id && tempAppointment.mentor != user.id && user.role !== 'admin') throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
 
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
             status: "canceled"
@@ -296,7 +296,7 @@ export class AppointmentService {
         return updatedAppointment;
     }
 
-    // legacy function
+    // Legacy function
     async finishAppointment(mentor: User, id: string) {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "confirmed") throw new HttpException('Status must be confirmed', HttpStatus.BAD_REQUEST);
@@ -430,6 +430,33 @@ export class AppointmentService {
                 }
             },
         ])
+
+        return {
+            count, countPage, appointments
+        }
+    }
+
+    // Admin access
+    async getAllAppointments(page:number, limit:number = 6, status: string) {
+        let query = null;
+        if(status) query = {status: status}
+        const count = await this.appointmentRepository.countDocuments(query)
+        const countPage = Math.ceil(count / limit)
+        const appointments = await this.appointmentRepository.getByCondition(
+            query,
+            null,
+            {
+                sort: {
+                    createdAt: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            [
+                { path: 'mentor', select: 'name avatar email phone gender skype_link facebook_link', populate: { path: 'expertise', select: 'name' }},
+                { path: 'mentee', select: 'name avatar email phone gender'}
+            ]
+        )
 
         return {
             count, countPage, appointments

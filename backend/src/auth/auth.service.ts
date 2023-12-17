@@ -11,11 +11,13 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) { }
 
-    async register(userDto: CreateUserDto) {
-        if (userDto.role === "mentor") {
-            userDto.number_of_mentees = 0;
+    async register(dto: CreateUserDto) {
+        // Mentor's account additional property
+        if (dto.role === "mentor") {
+            dto.number_of_mentees = 0;
         }
-        const user = await this.userService.createUser(userDto);
+        const user = await this.userService.createUser(dto);
+
         const userObject = user.toObject ? user.toObject() : user;
         delete userObject.refreshToken;
 

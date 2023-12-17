@@ -25,29 +25,26 @@ export class UserService {
         private mailerService: MailerService
     ) { }
 
-    async createUser(userDto: CreateUserDto) {
-
+    async createUser(dto: CreateUserDto) {
         // Check if user already existed
-        const userInDb = await this.userRepository.findByCondition({email: userDto.email})
-
+        const userInDb = await this.userRepository.findByCondition({email: dto.email})
         if (userInDb) {throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);}
 
         // Handle pre-creation
-        if (!userDto.avatar) userDto.avatar = ""
-        userDto.password = await bcrypt.hash(userDto.password, 10);
-
-        const newUser = await this.userRepository.create(userDto)
+        if (!dto.avatar) dto.avatar = ""
+        dto.password = await bcrypt.hash(dto.password, 10);
+        const newUser = await this.userRepository.create(dto)
 
         // Create empty bio
         await this.bioService.createBio(newUser)
 
         // Send registration email
         await this.mailerService.sendMail({
-            to: userDto.email,
+            to: dto.email,
             subject: 'Welcome to IT-Mentor Community!',
             template: `./register`,
             context: {
-                name: userDto.name
+                name: dto.name
             }
         })
 
@@ -73,13 +70,12 @@ export class UserService {
         return await this.userRepository.findByConditionAndUpdate(filter, update);
     }
 
-    async updateUserInfo(user: User, userDto: UpdateUserDto) {
+    async updateUserInfo(user: User, dto: UpdateUserDto) {
+        // Remove expertise from mentee, Comment if unnecessary
         if (user.role === 'mentee') {
-            delete userDto.expertise;
+            delete dto.expertise;
         }
-        // Remove avatar field (already has a different route)
-        delete userDto.avatar;
-        return (await this.userRepository.findByIdAndUpdate(user.id, userDto)).populate({ path: 'expertise', select: 'name' });
+        return (await this.userRepository.findByIdAndUpdate(user.id, dto)).populate({ path: 'expertise', select: 'name' });
     }
 
     private reverse(s) {
@@ -87,12 +83,11 @@ export class UserService {
     }
 
     async findByEmail(email) {
-        return await this.userRepository.findByCondition({
-            email: email,
-        });
+        return await this.userRepository.findByCondition({email: email});
     }
 
     async getUserById(id: string) {
+        // Hide private fields
         const user = await this.userRepository.findById(id, ['-password', '-refreshToken', '-date_of_birth', '-skype_link', '-facebook_link']);
         if (!user) throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
         await user.populate(
@@ -135,7 +130,7 @@ export class UserService {
             ['name', 'avatar', 'email', 'number_of_mentees'],
             {
                 sort: {
-                    _id: -1,
+                    name: 1,
                 },
                 skip: (page - 1) * limit,
                 limit: limit
@@ -147,9 +142,7 @@ export class UserService {
     }
 
     async searchMentor(name: string, expertise: string, page: number, limit: number = 10) {
-        let query: { role: string; name?: { $regex: RegExp }; expertise?: string } = {
-            role: 'mentor'
-        };
+        let query: { role: string; name?: { $regex: RegExp }; expertise?: string } = { role: 'mentor'};
 
         if (name) { query.name = { $regex: new RegExp(name, 'i') };}
         if (expertise) {query.expertise = expertise; }
@@ -162,7 +155,7 @@ export class UserService {
             ['name', 'avatar', 'email', 'number_of_mentees', 'phone', 'gender'],
             {
                 sort: {
-                    _id: -1,
+                    name: 1,
                 },
                 skip: (page - 1) * limit,
                 limit: limit
@@ -174,6 +167,7 @@ export class UserService {
     }
 
     async updateUserNumberOfMentees(id: string) {
+        // Increase by one upon finishing an appointment
         return await this.userRepository.findByIdAndUpdate(id, { $inc: { number_of_mentees: 1 } });
     }
 
@@ -187,7 +181,7 @@ export class UserService {
 
     async getAllCoursesByCreatorId(id: string, page: number, limit: number = 10) {
         const user = await this.userRepository.findById(id)
-        if (user.role === "mentee") return
+        if (user.role !== "mentor") return
         return await this.courseService.getAllCoursesByCreatorId(id, page, limit)
     }
 
@@ -197,17 +191,13 @@ export class UserService {
 
     async getUserByRefresh(refresh_token, email) {
         const user = await this.findByEmail(email);
-        if (!user) {
-            throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
-        }
-        const is_equal = await bcrypt.compare(
+        if (!user) throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+
+        const isEqual = await bcrypt.compare(
             this.reverse(refresh_token),
             user.refreshToken,
         );
-
-        if (!is_equal) {
-            throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
-        }
+        if (!isEqual) throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
 
         return user;
     }
@@ -233,12 +223,13 @@ export class UserService {
     }
 
     async forgotPassword(email: string) {
-        const userCheck = await this.userRepository.findByCondition({ email: email })
-        if (!userCheck) throw new HttpException('No such email exists', HttpStatus.BAD_REQUEST);
+        // const userCheck = await this.userRepository.findByCondition({ email: email })
+        const user = await this.findByEmail(email)
+        if (!user) throw new HttpException('No such email exists', HttpStatus.BAD_REQUEST);
 
         const newPassword = this.generateRandomPassword(10);
         const newPasswordHashed = await bcrypt.hash(newPassword, 10);
-        await this.userRepository.findByIdAndUpdate(userCheck.id, { password: newPasswordHashed })
+        await this.userRepository.findByIdAndUpdate(user.id, { password: newPasswordHashed })
 
         await this.mailerService.sendMail({
             to: email,
@@ -249,7 +240,7 @@ export class UserService {
             }
         })
 
-        return "check your email for new password"
+        return "Email sent"
 
     }
 
@@ -264,24 +255,23 @@ export class UserService {
         const remainingLength = length - 2; // 1 for special char, 1 for capital letter
         let password = "";
         for (let i = 0; i < remainingLength; i++) {
-          const randomIndex = Math.floor(Math.random() * charset.length);
-          password += charset.charAt(randomIndex);
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset.charAt(randomIndex);
         }
         // Insert the special character and capital letter at random positions
         const randomPosition1 = Math.floor(Math.random() * (length - 1)); // position for special char
         const randomPosition2 = Math.floor(Math.random() * length); // position for capital letter
       
         password =
-          password.slice(0, randomPosition1) +
-          randomSpecialChar +
-          password.slice(randomPosition1, randomPosition2) +
-          randomCapitalLetter +
-          password.slice(randomPosition2);
+            password.slice(0, randomPosition1) +
+            randomSpecialChar +
+            password.slice(randomPosition1, randomPosition2) +
+            randomCapitalLetter +
+            password.slice(randomPosition2);
       
         return password;
-      }
+    }
       
-
     async checkMentee(mentee_id: string) {
         const mentor = await this.userRepository.findById(mentee_id);
         if (mentor && mentor.role == "mentee") {
@@ -298,7 +288,7 @@ export class UserService {
         return false
     }
 
-    // admin only
+    // Admin access
     async getAllMentees(page: number, limit: number = 10) {
         const count = await this.userRepository.countDocuments({ role: 'mentee' })
         const countPage = Math.ceil(count / limit)
@@ -307,7 +297,7 @@ export class UserService {
             ['name', 'avatar', 'email', 'date_of_birth', 'gender', 'facebook_link', 'skype_link', 'phone'],
             {
                 sort: {
-                    _id: -1,
+                    name: 1,
                 },
                 skip: (page - 1) * limit,
                 limit: limit
@@ -332,7 +322,7 @@ export class UserService {
             ['name', 'avatar', 'email', 'date_of_birth', 'gender', 'facebook_link', 'skype_link', 'phone'],
             {
                 sort: {
-                    _id: -1,
+                    name: 1,
                 },
                 skip: (page - 1) * limit,
                 limit: limit

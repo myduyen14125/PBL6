@@ -49,10 +49,4 @@ export class CourseController {
     async updateCourse(@Req() req: any, @Param('id') id: string, @Body() course: UpdateCourseDto) {
         return this.courseService.updateCourse(req.user, id, course)
     }
-
-
-
-
-
-
 }
