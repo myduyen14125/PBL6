@@ -4,10 +4,10 @@
       <nav
         class="position-relative px-4 py-4 d-flex justify-content-between align-items-center"
       >
-        <a href="/" class="flex items-center">
+        <router-link to="/" class="flex items-center">
           <img :src="logo" alt="Logo" width="60" height="60" class="mb-2" />
           <span class="text-white text-xl font-bold">IT MENTOR</span>
-        </a>
+        </router-link>
 
         <ul
           class="d-none ms-lg-auto d-lg-flex align-items-lg-center w-lg-auto gap-4 mb-lg-0"
@@ -112,37 +112,41 @@
             <li>
               <SvgIcon icon="userInfoIcon" />
               <p class="mb-0 ml-3">
-                <a href="/personal-info">Thông tin cá nhân</a>
+                <router-link to="/personal-info">Thông tin cá nhân</router-link>
               </p>
             </li>
             <li v-if="userInfo?.role == 'mentor'">
               <SvgIcon icon="blogIcon" />
               <p class="mb-0 ml-4">
-                <a href="/my-blogs">Quản lý blog</a>
+                <router-link to="/my-blogs">Quản lý blog</router-link>
               </p>
             </li>
             <li v-if="userInfo?.role == 'mentor'">
               <SvgIcon icon="calendarIcon" />
               <p class="mb-0 ml-4">
-                <a href="/my-appointments">Cài đặt lịch rảnh</a>
+                <router-link to="/my-appointments"
+                  >Cài đặt lịch rảnh</router-link
+                >
               </p>
             </li>
             <li v-if="userInfo?.role == 'mentor'">
               <SvgIcon icon="bookIcon" />
               <p class="mb-0 ml-4">
-                <a href="/course">Quản lý khóa học</a>
+                <router-link to="/course">Quản lý khóa học</router-link>
               </p>
             </li>
             <li>
               <SvgIcon icon="changePassIcon" />
               <p class="mb-0 ml-3">
-                <a href="/change-password">Đổi mật khẩu</a>
+                <router-link to="/change-password">Đổi mật khẩu</router-link>
               </p>
             </li>
-            <li>
+            <!-- <li>
               <SvgIcon icon="helpIcon" />
-              <p class="mb-0 ml-3"><a href="#">Trợ giúp và hỗ trợ</a></p>
-            </li>
+              <p class="mb-0 ml-3">
+                <router-link to="#">Trợ giúp và hỗ trợ</router-link>
+              </p>
+            </li> -->
             <li
               class="justify-content-center border-0"
               @click="authStore.logout()"

@@ -14,7 +14,7 @@ import { useMentors } from "../../stores/mentors";
 import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
 import { getUserInfo } from "../../ultils/cache/cookies";
-import router from "../../router";
+import { useRouter } from "vue-router";
 import { GetPaginationParams, Mentor } from "../../types/mentor";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import AvatarModal from "./element/AvatarModal/AvatarModal.vue";
@@ -44,6 +44,7 @@ export default defineComponent({
     },
   },
   setup(props: any) {
+    const router = useRouter();
     const userStore = useUser();
     const mentorsStore = useMentors();
     const authStore = useAuth();

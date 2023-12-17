@@ -2,7 +2,14 @@ import Swal from "sweetalert2";
 import { Vue } from "vue-facing-decorator";
 
 export default class SwalPopup extends Vue {
-  public static swalResultPopup(title: string, type: string | any): void {
+  public static swalResultPopup(
+    title: string,
+    type: string | any,
+    callback: { onConfirmed?: () => void; onCanceled?: () => void } = {
+      onConfirmed: () => {},
+      onCanceled: () => {},
+    }
+  ): void {
     Swal.fire({
       text: `${title}`,
       icon: type,
@@ -12,6 +19,10 @@ export default class SwalPopup extends Vue {
       customClass: {
         confirmButton: "btn btn-primary",
       },
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        if (callback.onConfirmed) callback.onConfirmed();
+      }
     });
   }
 

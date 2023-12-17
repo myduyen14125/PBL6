@@ -93,7 +93,8 @@
   text-decoration: none;
 }
 
-.select_user_box li:hover a {
+.select_user_box li:hover a,
+.select_user_box a.router-link-active {
   color: var(--primary);
 }
 

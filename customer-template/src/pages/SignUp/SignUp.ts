@@ -1,5 +1,4 @@
 import { defineComponent, ref } from "vue";
-import router from "../../router";
 import { RouterNameEnum } from "../../constants/routeName";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import logo from "../../assets/svg/logo-color.svg";
@@ -10,11 +9,13 @@ import { SignUpParams } from "../../types/auth";
 import { useAuth } from "../../stores/auth";
 import SwalPopup from "../../ultils/swalPopup";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "SignUp",
   components: { GuestLayout, SvgIcon },
   setup() {
+    const router = useRouter();
     const authStore = useAuth();
     const initialForm: SignUpParams = {
       email: "",
@@ -55,12 +56,14 @@ export default defineComponent({
         err = "Đây là trường bắt buộc";
       } else if (form.value.date_of_birth.length !== 10) {
         err = "Ngày sinh không hợp lệ";
-      } else if (new Date(form.value.date_of_birth).getTime() > new Date().getTime()) {
+      } else if (
+        new Date(form.value.date_of_birth).getTime() > new Date().getTime()
+      ) {
         err = "Ngày sinh không được lớn hơn ngày hiện tại";
       }
       error.value.date_of_birth = err;
       return err;
-    }
+    };
 
     const validateEmail = (): string => {
       let err = "";
@@ -69,15 +72,15 @@ export default defineComponent({
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
         err = "Email không hợp lệ";
       }
-    
+
       error.value.email = err;
-    
+
       return err;
-    };    
+    };
 
     const validatePassword = (): string => {
       let err = "";
-    
+
       if (form.value.password === "") {
         err = "Đây là trường bắt buộc";
       } else if (form.value.password.length < 6) {
@@ -89,11 +92,11 @@ export default defineComponent({
       } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(form.value.password)) {
         err = "Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt";
       }
-    
+
       error.value.password = err;
-    
+
       return err;
-    };    
+    };
 
     const validateConfirmPassword = (): string => {
       let err = "";
@@ -135,8 +138,13 @@ export default defineComponent({
         callback: {
           onSuccess: (res) => {
             SwalPopup.swalResultPopup(
-              "Đăng ký tài khoản thành công! Chào mừng bạn đến với IT Mentor!",
-              "sucess"
+              "Đăng ký tài khoản thành công! Chào mừng bạn đến với IT Mentor! Vui lòng cập nhật thông tin của bạn.",
+              "sucess",
+              {
+                onConfirmed: () => {
+                  router.push({ path: "/personal-info" });
+                },
+              }
             );
             router.push({ name: RouterNameEnum.Home });
             isSubmitting.value = false;

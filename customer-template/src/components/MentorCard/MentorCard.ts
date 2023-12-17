@@ -9,8 +9,8 @@ import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import avatar from "../../assets/image/avatar.png";
 import icMentee from "../../assets/image/ic-mentee.png";
 import icFollowed from "../../assets/image/followed.png";
-import router from "../../router";
 import { Blog } from "../../types/blog";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "MentorCard",
@@ -28,6 +28,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const router = useRouter();
     const isTooltipRight = ref(true);
     const tooltipContainer = ref<HTMLElement | null>(null);
 

@@ -13,13 +13,14 @@ import {
   setUserInfo,
   getUserInfo,
 } from "../ultils/cache/cookies.js";
-import router from "../router";
+import { useRouter } from "vue-router";
 import { RouterNameEnum } from "../constants/routeName";
 import { Authorization } from "../types/auth.js";
 import { ref } from "vue";
 import { User } from "../types/auth.js";
 import { getPassword } from "./../api/auth";
 export const useAuth = () => {
+  const router = useRouter();
   const userInfo = ref<User | null>(getUserInfo() || null);
 
   const setUserInfoStore = (info: User | null) => {
