@@ -1,5 +1,5 @@
 import { defineComponent, ref } from "vue";
-import router from "../../router";
+import { useRouter } from "vue-router";
 import { RouterNameEnum } from "../../constants/routeName";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import logo from "../../assets/svg/logo-color.svg";
@@ -15,6 +15,7 @@ export default defineComponent({
   name: "SignIn",
   components: { GuestLayout, SvgIcon },
   setup() {
+    const router = useRouter();
     const authStore = useAuth();
     const initialForm: SignInParams = {
       email: "",
@@ -47,15 +48,15 @@ export default defineComponent({
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
         err = "Email không hợp lệ";
       }
-    
+
       error.value.email = err;
-    
+
       return err;
-    };    
+    };
 
     const validatePassword = (): string => {
       let err = "";
-    
+
       if (form.value.password === "") {
         err = "Đây là trường bắt buộc";
       } else if (form.value.password.length < 6) {
@@ -67,11 +68,11 @@ export default defineComponent({
       } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(form.value.password)) {
         err = "Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt";
       }
-    
+
       error.value.password = err;
-    
+
       return err;
-    };    
+    };
 
     const validateForm = (): boolean => {
       const arrRes = [];
@@ -92,10 +93,7 @@ export default defineComponent({
         callback: {
           onSuccess: (res) => {
             isSubmitting.value = false;
-            SwalPopup.swalResultPopup(
-              "Đăng nhập thành công!",
-              "sucess"
-            );
+            SwalPopup.swalResultPopup("Đăng nhập thành công!", "success");
             // todo: hide swalpopup after 2s
             router.push({ name: RouterNameEnum.Home });
           },

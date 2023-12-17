@@ -1,5 +1,5 @@
 <template>
-  <div class="main-wrapper h-100 position-relative">
+  <div class="main-wrapper overflow-hidden h-100 position-relative">
     <TableMentor
       ref="table"
       :data="mentors"

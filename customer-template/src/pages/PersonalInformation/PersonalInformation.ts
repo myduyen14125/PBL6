@@ -34,6 +34,7 @@ export default defineComponent({
     const error = ref({
       name: "",
       phone: "",
+      skype_link: "",
     });
     const isSubmitting = ref(false);
     const isLoading = ref(false);
@@ -45,6 +46,15 @@ export default defineComponent({
 
     const validateName = (): string => {
       error.value.name = validate(userInfo.value.name, {
+        required: true,
+        errorsMessage: { required: "Đây là trường bắt buộc" },
+      });
+
+      return error.value.name;
+    };
+
+    const validateSkypeLink = (): string => {
+      error.value.skype_link = validate(userInfo.value.skype_link, {
         required: true,
         errorsMessage: { required: "Đây là trường bắt buộc" },
       });
@@ -74,6 +84,7 @@ export default defineComponent({
     const validateForm = (): boolean => {
       const arrRes = [];
       arrRes.push(validateName());
+      arrRes.push(validateSkypeLink());
       arrRes.push(validatePhone());
 
       return arrRes.findIndex((x) => x && x.length > 0) < 0;
@@ -180,6 +191,7 @@ export default defineComponent({
       isLoading,
       validatePhone,
       validateName,
+      validateSkypeLink,
       submitUpdateForm,
       updateInfo,
       getUserInfo,

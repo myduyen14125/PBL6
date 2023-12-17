@@ -1,7 +1,7 @@
 <template>
   <GuestLayout>
     <div class="appointment-wrapper">
-      <div class="container flex flex-col py-14 text-lg max-h-[92vh]">
+      <div class="container flex flex-col py-14 text-lg">
         <el-steps :active="activeStep" align-center>
           <el-step title="Chọn thời gian" />
           <el-step title="Xác nhận" />
@@ -11,7 +11,7 @@
           <FullCalendar :options="calendarOptions" class="full-calendar" />
         </div>
 
-        <div v-else-if="activeStep === 1" class="mt-3 text-xl mb-4 h-[72vh]">
+        <div v-else-if="activeStep === 1" class="mt-3 text-xl mb-4">
           <AppointmentDetail
             :userInfo="userInfo"
             :selectedSchedule="selectedSchedule"
@@ -59,12 +59,9 @@
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import FullCalendar from "@fullcalendar/vue3";
-import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import AppointmentDetail from "../../components/AppointmentCard/AppointmentDetail.vue";
-
-import { useSchedule } from "../../stores/schedule";
 import { useUser } from "../../stores/user";
 import { useAppointment } from "../../stores/appointment";
 import { formatDate, formatTimeFullCalendar } from "../../ultils/date";

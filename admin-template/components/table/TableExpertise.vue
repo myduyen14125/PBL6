@@ -4,21 +4,10 @@
       class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
     >
       <h1 class="title">{{ title }}</h1>
-      <div class="ml-auto d-flex flex-wrap align-items-center">
-        <div class="d-flex mr-3">
-          <ComboBox
-            v-if="expertiseList.length > 0"
-            :options-prop="expertiseList"
-            :placeholder="'Select expertise'"
-            @selection-change="handleSelect"
-          />
-        </div>
-        <SearchInput @search="handleSearch" />
-      </div>
-
-      <!-- <nuxt-link to="/mentor/create">
-        <button class="btn-custom btn-blue">Create mentor</button>
-      </nuxt-link> -->
+      <SearchInput @search="handleSearch" />
+      <nuxt-link to="/expertise/create">
+        <button class="btn-custom btn-blue">Create expertise</button>
+      </nuxt-link>
     </div>
     <div class="table-wrapper w-100 position-relative">
       <div class="layer-new-block"></div>
@@ -26,12 +15,8 @@
         <table class="table table-striped">
           <thead class="color-primary table-head">
             <tr>
-              <th scope="col" class="text-start">Avatar</th>
-              <th scope="col" class="text-start">Name</th>
-              <th scope="col" class="text-start">Email</th>
-              <th scope="col" class="text-start">Phone</th>
-              <th scope="col">Gender</th>
-              <th scope="col">Expertise</th>
+              <th scope="col" class="col-1">No</th>
+              <th scope="col" class="col-4">Name</th>
             </tr>
           </thead>
           <tbody>
@@ -41,31 +26,17 @@
               class="cursor-pointer"
               @click="handleRouting(item?._id)"
             >
-              <td>
-                <img v-if="item?.avatar" class="avatar" :src="item?.avatar" />
-              </td>
-              <td class="color-primary text-start">
+              <td class="color-primary">
                 <span class="td-content">
                   <nuxt-link
-                    :to="`/mentor/${item?._id}`"
+                    :to="`/mentee/${item?._id}`"
                     class="cursor-pointer color-primary"
-                    >{{ item?.name }}</nuxt-link
+                    >{{ index }}</nuxt-link
                   >
                 </span>
               </td>
-              <td class="color-secondary text-start">
-                <span class="td-content">{{ item?.email }}</span>
-              </td>
-              <td class="color-secondary text-start">
-                <span class="td-content">{{ item?.phone }}</span>
-              </td>
               <td class="color-secondary">
-                <span class="td-content">{{
-                  item?.gender ? "Female" : "Male"
-                }}</span>
-              </td>
-              <td class="color-secondary">
-                <span class="td-content">{{ item?.expertise?.name }}</span>
+                <span class="td-content">{{ item?.name }}</span>
               </td>
             </tr>
           </tbody>
@@ -76,12 +47,10 @@
 </template>
 <script>
 import SearchInput from "../uncommon/SearchInput.vue";
-import ComboBox from "../uncommon/ComboBox.vue";
 
 export default {
   components: {
     SearchInput,
-    ComboBox,
   },
   props: {
     data: {
@@ -90,7 +59,7 @@ export default {
     },
     title: {
       type: String,
-      default: "Quản lý mentor",
+      default: "Quản lý expertise",
     },
   },
   data() {
@@ -99,23 +68,16 @@ export default {
   mounted() {
     this.getListExpertise();
   },
+
   methods: {
     getListExpertise() {
       this.$api.contact.getListSearchExpertise().then((res) => {
-        this.expertiseList = res?.data
-          ? res?.data?.map((item) => {
-              return {
-                id: item._id,
-                title: item.name,
-              };
-            })
-          : [];
+        this.expertiseList = res.data || [];
       });
-      this.$router.push({ query: this.params });
     },
 
     handleRouting(id) {
-      this.$router.push(`/mentor/${id}`);
+      this.$router.push(`/expertise/${id}`);
     },
 
     handleSearch(content) {

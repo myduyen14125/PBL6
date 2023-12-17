@@ -1,8 +1,15 @@
 <template>
-  <div class="main-wrapper h-100 position-relative">
-    <TableMentee ref="table" :data="mentees" @searchContent="onSearchContent" />
+  <div class="main-wrapper overflow-hidden h-100 position-relative">
+    <TableBlog
+      ref="table"
+      :data="blogs"
+      @searchContent="onSearchContent"
+      @changeSelect="onSelectExpertise"
+      @reloadTable="getListBlog"
+      title="Quản lý bài viết"
+    />
     <div
-      v-if="mentees.length == 0"
+      v-if="blogs.length == 0"
       class="d-flex justify-content-center align-items-center no-result"
     >
       <div>
@@ -11,7 +18,7 @@
       </div>
     </div>
     <pagination
-      v-if="mentees.length > 0"
+      v-if="blogs.length > 0"
       :current-page="params.page"
       :total-pages="meta.total_pages"
       @page-changed="changePage"
@@ -20,19 +27,19 @@
 </template>
 
 <script>
-import TableMentee from "~/components/table/TableMentee.vue";
+import TableBlog from "~/components/table/TableBlog.vue";
 import Pagination from "@/components/common/Pagination.vue";
 
 export default {
-  name: "MenteeManagement",
+  name: "BlogManagement",
   components: {
-    TableMentee,
+    TableBlog,
     Pagination,
   },
   layout: "secret",
   data() {
     return {
-      mentees: [],
+      blogs: [],
       params: {
         page: 1,
       },
@@ -43,12 +50,12 @@ export default {
     };
   },
   mounted() {
-    this.getListMentee(this.params);
+    this.getListBlog(this.params);
   },
   methods: {
-    getListMentee(params) {
-      this.$api.contact.getListSearchMentee(params).then((res) => {
-        this.mentees = res.data?.mentees || [];
+    getListBlog(params = this.params) {
+      this.$api.contact.getListBlog(params).then((res) => {
+        this.blogs = res.data?.blogs || [];
         this.meta.total_pages = parseInt(res.data?.countPage);
         this.meta.total_count = res.data?.count;
       });
@@ -56,16 +63,18 @@ export default {
     },
     changePage(pageNumber) {
       this.params.page = pageNumber;
-      this.getListMentee(this.params);
+      this.getListBlog(this.params);
     },
     onSearchContent(content) {
-      this.params.name = content;
-      this.getListMentee(this.params);
+      this.params.title = content;
+      this.getListBlog(this.params);
     },
-    // onSelectExpertise(id) {
-    //   this.params.expertise = id;
-    //   this.getListMentor(this.params);
-    // },
+    onSelectExpertise(id) {
+      this.params.expertise = id;
+      this.getListBlog(this.params);
+    },
   },
 };
 </script>
+
+<style lang="scss"></style>
