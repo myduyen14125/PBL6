@@ -157,6 +157,14 @@ export default {
           isShowTitle: false,
         },
         {
+          title: "Expertise",
+          // icon: 'fa-solid fa-shield',
+          iconSrc: "/icons/news-gray.svg",
+          iconSrcActive: "/icons/job-white.svg",
+          link: "/expertise",
+          isShowTitle: false,
+        },
+        {
           title: "Activity",
           // icon: 'fa-solid fa-users',
           iconSrc: "/icons/activity-gray.svg",
