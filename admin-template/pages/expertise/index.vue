@@ -2,12 +2,11 @@
   <div class="main-wrapper h-100 position-relative">
     <TableExpertise
       ref="table"
-      :data="expertises"
-      @searchContent="onSearchContent"
+      :data="expertiseList"
       @getListExpertise="getListExpertise"
     />
     <div
-      v-if="expertises.length == 0"
+      v-if="expertiseList.length == 0"
       class="d-flex justify-content-center align-items-center no-result"
     >
       <div>
@@ -31,14 +30,7 @@ export default {
   layout: "secret",
   data() {
     return {
-      expertises: [],
-      //   params: {
-      //     page: 1,
-      //   },
-      //   meta: {
-      //     total_pages: 1,
-      //     total_count: "",
-      //   },
+      expertiseList: [],
     };
   },
   mounted() {
@@ -47,12 +39,8 @@ export default {
   methods: {
     getListExpertise() {
       this.$api.contact.getListSearchExpertise().then((res) => {
-        this.expertises = res.data || [];
+        this.expertiseList = res.data || [];
       });
-    },
-    onSearchContent(content) {
-      //   this.params.name = content;
-      this.getListExpertise();
     },
   },
 };

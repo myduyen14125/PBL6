@@ -3,11 +3,10 @@
     <div
       class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
     >
-      <h1 class="title">{{ title }}</h1>
-      <SearchInput @search="handleSearch" />
-      <nuxt-link to="/expertise/create">
-        <button class="btn-custom btn-blue">Create expertise</button>
-      </nuxt-link>
+      <h1 class="title">Quản lý expertise</h1>
+      <button class="btn-custom btn-blue" @click="addExpertise">
+        Create expertise
+      </button>
     </div>
     <div class="table-wrapper w-100 position-relative">
       <div class="layer-new-block"></div>
@@ -41,51 +40,48 @@
             </tr>
           </tbody>
         </table>
+        <ExpertiseModal
+          v-if="showModal"
+          @closeExpertise="closeExpertise"
+          @loadExpertiseTable="reloadTable"
+        >
+        </ExpertiseModal>
       </div>
     </div>
   </div>
 </template>
 <script>
-import SearchInput from "../uncommon/SearchInput.vue";
+import ExpertiseModal from "../modal/ExpertiseModal.vue";
 
 export default {
   components: {
-    SearchInput,
+    ExpertiseModal,
   },
   props: {
     data: {
       type: Array,
       default: () => [],
     },
-    title: {
-      type: String,
-      default: "Quản lý expertise",
-    },
   },
   data() {
-    return { expertiseList: [] };
-  },
-  mounted() {
-    this.getListExpertise();
+    return { expertiseList: [], showModal: false };
   },
 
   methods: {
-    getListExpertise() {
-      this.$api.contact.getListSearchExpertise().then((res) => {
-        this.expertiseList = res.data || [];
-      });
-    },
-
     handleRouting(id) {
       this.$router.push(`/expertise/${id}`);
     },
 
-    handleSearch(content) {
-      this.$emit("searchContent", content);
+    addExpertise() {
+      this.showModal = true;
     },
 
-    handleSelect(expertise) {
-      this.$emit("changeSelect", expertise);
+    closeExpertise() {
+      this.showModal = false;
+    },
+
+    reloadTable() {
+      this.$emit("getListExpertise");
     },
   },
 };
@@ -117,15 +113,5 @@ export default {
 
 hr {
   margin: 8px 0;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.text-start {
-  text-align: start;
 }
 </style>
