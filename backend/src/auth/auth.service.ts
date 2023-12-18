@@ -56,8 +56,7 @@ export class AuthService {
             {
                 secret: process.env.SECRETKEY,
                 expiresIn: process.env.EXPIRESIN
-            }
-        )
+            });
         const refreshToken = this.jwtService.sign(
             { email },
             {

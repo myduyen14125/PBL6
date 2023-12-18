@@ -75,7 +75,6 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 94, 157, 144),
         elevation: 0,
-        centerTitle: true,
         title: const Text(
           'Chọn lịch',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

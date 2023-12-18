@@ -13,7 +13,7 @@ import { RoleGuard } from 'src/auth/role.guard';
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) { }
-    
+  
     @UseGuards(AuthGuard('jwt'))
     @Get('profile')
     async getProfile(@Req() req: any) {

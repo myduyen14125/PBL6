@@ -23,8 +23,8 @@
   </div>
 </template>
 <script>
-import { debounce } from 'vue-debounce'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { debounce } from "vue-debounce";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 export default {
   components: {
     ValidationObserver,
@@ -33,29 +33,29 @@ export default {
   props: {
     content: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   data() {
     return {
       // All text editor function settings are written in editorOption
       editorOption: {
-        theme: 'snow',
+        theme: "snow",
         modules: {
           toolbar: {
             container: [
               // ['bold', 'italic', 'underline', 'strike', 'code'],
-              ['bold', 'italic', 'underline'],
-              ['blockquote', 'code-block'],
+              ["bold", "italic", "underline"],
+              ["blockquote", "code-block"],
               [{ header: [false, 1, 2, 3, 4] }],
-              [{ list: 'ordered' }, { list: 'bullet' }],
+              [{ list: "ordered" }, { list: "bullet" }],
               // [{ script: 'sub' }, { script: 'super' }],
-              [{ indent: '-1' }, { indent: '+1' }],
-              [{ size: ['small', false, 'large', 'huge'] }],
+              [{ indent: "-1" }, { indent: "+1" }],
+              [{ size: ["small", false, "large", "huge"] }],
               [{ color: [] }, { background: [] }],
               [{ align: [] }],
               // ['clean'],
-              ['image', 'link'],
+              ["image", "link"],
             ],
             // customize image upload function
             handlers: {
@@ -66,23 +66,22 @@ export default {
       },
       hasSpaces: false,
       isMouseOver: false,
-    }
+    };
   },
   // The issue might be related to the timing of when the content prop is passed down to the child component and when the child component's data object is set.
   computed: {
     editedContent: {
       get() {
-        console.log('Content: ', this.content)
-        return this.content
+        return this.content;
       },
       set(value) {
-        this.$emit('input', value)
+        this.$emit("input", value);
       },
     },
   },
   watch: {
     hasSpaces(newVal) {
-      this.$emit('has-spaces', newVal)
+      this.$emit("has-spaces", newVal);
     },
   },
   methods: {
@@ -90,56 +89,57 @@ export default {
       // console.log('Content debounce: ', this.editedContent)
       if (this.checkSpacesBetweenHtmlTag(this.editedContent)) {
         // console.log("spacessss ")
-        this.hasSpaces = true
-      }
-      else {
+        this.hasSpaces = true;
+      } else {
         // console.log("no spacessss ")
-        this.hasSpaces = false
+        this.hasSpaces = false;
       }
-      this.$emit('text-change', this.editedContent)
-      this.$emit('has-spaces', this.hasSpaces)
+      this.$emit("text-change", this.editedContent);
+      this.$emit("has-spaces", this.hasSpaces);
     }, 500),
     uploadFunction() {
       // create a new file input element
-      const input = document.createElement('input')
-      input.setAttribute('type', 'file')
-      input.setAttribute('accept', 'image/*')
+      const input = document.createElement("input");
+      input.setAttribute("type", "file");
+      input.setAttribute("accept", "image/*");
       // input.setAttribute('style', 'display:none')
       // add event listener to capture the selected file
-      input.addEventListener('change', () => {
+      input.addEventListener("change", () => {
         // read the file and convert it to a data URL
-        const file = input.files[0]
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
         reader.onload = async () => {
-          const url = await this.uploadImage(file)
+          const url = await this.uploadImage(file);
           // insert the image into the editor
-          const range = this.$refs.editor.quill.getSelection()
-          this.$refs.editor.quill.insertEmbed(range.index, 'image', url)
-        }
-      })
+          const range = this.$refs.editor.quill.getSelection();
+          this.$refs.editor.quill.insertEmbed(range.index, "image", url);
+        };
+      });
       // trigger a click event on the input element
-      document.body.appendChild(input)
-      input.click()
-      document.body.removeChild(input)
+      document.body.appendChild(input);
+      input.click();
+      document.body.removeChild(input);
     },
     async uploadImage(file) {
       // console.log("file", file)
-      const formData = new FormData()
-      formData.append('file', file)
-      const response = await this.uploadFile(formData)
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await this.uploadFile(formData);
       // console.log("response", response)
-      return response
+      return response;
     },
     uploadFile(data) {
       // console.log("formData", data)
-      return this.$api.upload.uploadFile(data)
-      .then((res) => {
-        return res.data.data
-      })
-      .catch((error) => {
-        // console.error("Error in uploadFile()", error)
-        throw error })
+      return this.$api.upload
+        .uploadFile(data)
+        .then((res) => {
+          return res.data.data;
+        })
+        .catch((error) => {
+          // console.error("Error in uploadFile()", error)
+          throw error;
+        });
     },
     checkSpacesBetweenHtmlTag(string) {
       const regexSplitPair = /(<.*?>)([\s\S]*?)(<\/.*?>)/g;
@@ -154,15 +154,14 @@ export default {
       return true;
     },
     changeMouseOver(value) {
-      this.isMouseOver = value
-      console.log("this isMouseOver", this.isMouseOver)
+      this.isMouseOver = value;
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .quill-editor {
-  width: 780px;
+  // width: 780px;
   min-height: 200px;
   max-height: 65vh;
   // overflow-y: auto;

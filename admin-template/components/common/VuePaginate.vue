@@ -1,14 +1,26 @@
 <template>
-  <div class=''>
-    <div class='container px-0'>
-      <div style="display: flex; justify-content: center; flex-direction: row;">
+  <div class="">
+    <div class="container px-0">
+      <div style="display: flex; justify-content: center; flex-direction: row">
         <client-only>
-          <v-paginate 
-            v-model="currentPage" :page-count="pageCount" :click-handler="onClickPage" :page-range="3"
-            :prev-text="iconPrev" :first-last-button="true" :first-button-text="iconFirst" :last-button-text="iconLast"
-            :next-text="iconNext" :container-class="'pagination'" :page-class="'page-item'"
-            :page-link-class="'page-link'" :prev-class="'page-item'" :prev-link-class="'page-link'"
-            :next-class="'page-item'" :next-link-class="'page-link'">
+          <v-paginate
+            v-model="currentPage"
+            :page-count="pageCount"
+            :click-handler="onClickPage"
+            :page-range="3"
+            :prev-text="iconPrev"
+            :first-last-button="true"
+            :first-button-text="iconFirst"
+            :last-button-text="iconLast"
+            :next-text="iconNext"
+            :container-class="'pagination'"
+            :page-class="'page-item'"
+            :page-link-class="'page-link'"
+            :prev-class="'page-item'"
+            :prev-link-class="'page-link'"
+            :next-class="'page-item'"
+            :next-link-class="'page-link'"
+          >
           </v-paginate>
         </client-only>
       </div>
@@ -17,9 +29,16 @@
 </template>
 
 <script>
-import qs from 'qs';
+import qs from "qs";
 export default {
-  props: ['baseUrl', 'optionParam', 'ClassObject', 'paging', 'startFetch', 'startPageCount'],
+  props: [
+    "baseUrl",
+    "optionParam",
+    "ClassObject",
+    "paging",
+    "startFetch",
+    "startPageCount",
+  ],
   data() {
     return {
       currentPage: 1,
@@ -45,50 +64,51 @@ export default {
 							</svg>`,
       iconPrev: `<svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M11.9868 2.66634L12.9023 3.55524L8.32447 7.99969L12.9023 12.4441L11.9867 13.333L6.49325 7.99974L11.9868 2.66634Z" fill="#8D92AA"/>
-							</svg>`
-    }
+							</svg>`,
+    };
   },
 
   async fetch() {
     try {
-      this.$emit('before-fetch', true);
-      this.currentPage = this.$route.query.page ? +this.$route.query.page : this.currentPage;
+      this.$emit("before-fetch", true);
+      this.currentPage = this.$route.query.page
+        ? +this.$route.query.page
+        : this.currentPage;
       if (!this.fetchingData || !this.baseUrl) {
         if (this.startPageCountData) {
           this.pageCount = this.startPageCountData;
         } else {
           this.pageCount = 0;
         }
-        this.$emit('before-fetch', false);
+        this.$emit("before-fetch", false);
         return;
       }
       this.isBeforeFetch = true;
       if (this.currentPage === 1 && this.isPage1Loading) {
-        this.$emit('before-fetch', this.isBeforeFetch);
+        this.$emit("before-fetch", this.isBeforeFetch);
       }
       const queryParam = this.$route.query;
-      console.log("queryParam")
-      console.log(queryParam); 
-      console.log("querySearch1")
       const querySearch = this.stringifyQuery(queryParam);
-      console.log("querySearch", querySearch);
-      const result = await this.$axios.$get(`${this.baseUrl}?${querySearch ?? ('page=' + this.currentPage)}&paging=${this.paging}${this.optionParam ? ('&' + this.optionParam) : ''}`);
-      console.log("result", result);
+      const result = await this.$axios.$get(
+        `${this.baseUrl}?${querySearch ?? "page=" + this.currentPage}&paging=${
+          this.paging
+        }${this.optionParam ? "&" + this.optionParam : ""}`
+      );
       this.objectResults = result.data;
       this.pageCount = result.meta.total_pages;
       this.isBeforeFetch = false;
-      this.$emit('before-fetch', this.isBeforeFetch);
-      this.$emit('fetch-success', this.objectResults);
-      this.$emit('total-count', result.meta.total_count);
+      this.$emit("before-fetch", this.isBeforeFetch);
+      this.$emit("fetch-success", this.objectResults);
+      this.$emit("total-count", result.meta.total_count);
     } catch (error) {
-      this.$emit('fetch-error', false);
+      this.$emit("fetch-error", false);
     }
   },
-  
+
   watch: {
     "$route.query": function (newVal, oldVal) {
       // newVal?.hasOwnProperty('page')
-      if (Object.prototype.hasOwnProperty.call(newVal, 'page')) {
+      if (Object.prototype.hasOwnProperty.call(newVal, "page")) {
         this.isPage1Loading = false;
         this.currentPage = newVal.page ? +newVal.page : this.currentPage;
       } else {
@@ -98,77 +118,75 @@ export default {
       this.fetchingData = true;
       this.startPageCountData = 0;
       this.fetchData();
-    }
+    },
   },
-
 
   created() {
     this.fetchingData = this.startFetch;
     this.startPageCountData = this.startPageCount;
   },
-  mounted() {
-
-  },
+  mounted() {},
 
   methods: {
     stringifyQuery(query) {
-      try{
+      try {
         const result = qs.stringify(query);
-      return result ?? "";
-      }catch(e){
-        console.log("errrrrrrrrrrrrr")
+        return result ?? "";
+      } catch (e) {
+        console.log(e?.message);
       }
-
     },
     async fetchData() {
       try {
-        console.log("fetchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
-        this.$emit('before-fetch', true);
-        this.currentPage = this.$route.query.page ? +this.$route.query.page : this.currentPage;
-        console.log('current page: ' + this.currentPage);
+        this.$emit("before-fetch", true);
+        this.currentPage = this.$route.query.page
+          ? +this.$route.query.page
+          : this.currentPage;
         if (!this.fetchingData || !this.baseUrl) {
           if (this.startPageCountData) {
             this.pageCount = this.startPageCountData;
           } else {
             this.pageCount = 0;
           }
-          this.$emit('before-fetch', false);
+          this.$emit("before-fetch", false);
           return;
         }
         this.isBeforeFetch = true;
         if (this.currentPage === 1 && this.isPage1Loading) {
-          this.$emit('before-fetch', this.isBeforeFetch);
+          this.$emit("before-fetch", this.isBeforeFetch);
         }
         const queryParam = this.$route.query;
         const querySearch = this.stringifyQuery(queryParam);
-        const result = await this.$axios.$get(`${this.baseUrl}?${querySearch ?? ('page=' + this.currentPage)}&paging=${this.paging}${this.optionParam ? ('&' + this.optionParam) : ''}`);
-        console.log("dataFetch", result)
+        const result = await this.$axios.$get(
+          `${this.baseUrl}?${
+            querySearch ?? "page=" + this.currentPage
+          }&paging=${this.paging}${
+            this.optionParam ? "&" + this.optionParam : ""
+          }`
+        );
         this.objectResults = result.data;
         this.pageCount = result.meta.total_pages;
         this.isBeforeFetch = false;
 
-        this.$emit('before-fetch', this.isBeforeFetch);
-        this.$emit('fetch-success', this.objectResults);
-        this.$emit('total-count', result.meta.total_count);
+        this.$emit("before-fetch", this.isBeforeFetch);
+        this.$emit("fetch-success", this.objectResults);
+        this.$emit("total-count", result.meta.total_count);
       } catch (error) {
-        this.$emit('fetch-error', false);
+        this.$emit("fetch-error", false);
       }
     },
     onClickPage(pageNum) {
       this.$router.push({
-        name: this.$route.name || '',
+        name: this.$route.name || "",
         params: this.$route.params || {},
         query: { ...this.$route.query, page: pageNum },
-        hash: this.$route.hash
+        hash: this.$route.hash,
       });
       setTimeout(() => {
-        this.$emit('click-page');
+        this.$emit("click-page");
       });
-    }
+    },
   },
-}
-
+};
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

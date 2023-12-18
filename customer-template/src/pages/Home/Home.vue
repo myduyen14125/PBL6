@@ -3,10 +3,12 @@
     <div class="home-page">
       <section class="hero-section">
         <IntroductionText />
-        <div class="search-wrapper shadow-lg rounded-lg w-fit mx-auto px-4 py-2 flex items-center relative">
-          <SearchBar @clickSearch="getSearchParams"/>
+        <div
+          class="search-wrapper shadow-lg rounded-lg w-fit mx-auto px-4 py-2 flex items-center relative"
+        >
+          <SearchBar @clickSearch="getSearchParams" />
         </div>
-        <HiddenBackground /> 
+        <HiddenBackground />
         <MentorMarquee :mentors="mentors" />
       </section>
       <section class="banner-section">

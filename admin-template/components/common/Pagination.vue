@@ -7,7 +7,10 @@
       @click.prevent="changePage(1)"
     >
       <font-awesome-icon icon="fa-solid fa-chevron-left" />
-      <font-awesome-icon class="chevron-double-left" icon="fa-solid fa-chevron-left" />
+      <font-awesome-icon
+        class="chevron-double-left"
+        icon="fa-solid fa-chevron-left"
+      />
     </div>
     <div
       class="pagination__prev mr-2-5"
@@ -18,13 +21,17 @@
     </div>
 
     <div v-for="(pageNumber, index) in pages" :key="index">
-      <span 
-        v-if="pageNumber" 
+      <span
+        v-if="pageNumber"
         class="pagination__link"
-        :class="[{ active: pageNumber === currentPageLocal }, { 'pagination__link--dots': pageNumber == '...'}]"
+        :class="[
+          { active: pageNumber === currentPageLocal },
+          { 'pagination__link--dots': pageNumber == '...' },
+        ]"
         @click.prevent="changePage(pageNumber)"
-      > 
-        {{ pageNumber }}</span>
+      >
+        {{ pageNumber }}</span
+      >
     </div>
 
     <div
@@ -39,7 +46,10 @@
       :disabled="currentPageLocal === totalPages"
       @click.prevent="changePage(totalPages)"
     >
-      <font-awesome-icon class="chevron-double-right" icon="fa-solid fa-chevron-right" />
+      <font-awesome-icon
+        class="chevron-double-right"
+        icon="fa-solid fa-chevron-right"
+      />
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
     </div>
   </div>
@@ -65,7 +75,7 @@ export default {
     return {
       pages: [],
       currentPageLocal: null,
-    }
+    };
   },
   computed: {
     // pages() {
@@ -78,72 +88,71 @@ export default {
   },
   watch: {
     currentPageLocal: {
-      handler(){
+      handler() {
         this.handlePages();
-      }
+      },
     },
     currentPage: {
       handler() {
-        this.currentPageLocal = this.currentPage
+        this.currentPageLocal = this.currentPage;
       },
     },
     totalPages: {
       handler() {
-        this.handlePages()
+        this.handlePages();
       },
     },
   },
   created() {
-    this.currentPageLocal = this.currentPage
-    this.currentPageLocal = this.$route.query.page ? parseInt(this.$route.query.page) : 1
+    this.currentPageLocal = this.currentPage;
+    this.currentPageLocal = this.$route.query.page
+      ? parseInt(this.$route.query.page)
+      : 1;
   },
   mounted() {
-    this.handlePages()
-    console.log("totalpages prop:", this.totalPages)
-    console.log("pages: ", this.pages)
-    // console.log("pages", this.pages)
-    // console.log("totalPages", this.totalPages)
+    this.handlePages();
   },
   methods: {
     changePage(pageNumber) {
-      const regexNumber = /^[0-9]*$/
+      const regexNumber = /^[0-9]*$/;
       if (!regexNumber.test(pageNumber)) {
-        return
+        return;
       }
-      this.$emit('page-changed', pageNumber)
+      this.$emit("page-changed", pageNumber);
     },
     handlePages() {
-      this.pages = []
+      this.pages = [];
       for (let i = 1; i <= this.totalPages; i++) {
-        if(this.showPage(i)){
-          this.pages.push(i)
+        if (this.showPage(i)) {
+          this.pages.push(i);
         }
       }
       this.pages = this.pages.reduce((acc, curr) => {
-        // console.log("current", acc.length)
-        if(acc.length && curr - acc[acc.length - 1] > 1) {
-          acc.push('...')
+        if (acc.length && curr - acc[acc.length - 1] > 1) {
+          acc.push("...");
         }
-          // console.log("acc", acc);
-        
-        acc.push(curr)
+
+        acc.push(curr);
         return acc;
-      }, [])
+      }, []);
     },
     showPage(currentPageLocal) {
       if (currentPageLocal === 1 || currentPageLocal === this.totalPages) {
-        return true
+        return true;
       }
-      if(this.currentPageLocal === 1 || this.currentPageLocal === this.totalPages) {
-        if ((Math.abs(currentPageLocal - this.currentPageLocal) <= 2)) {    
-          return true
-      }}
-      else if ((Math.abs(currentPageLocal - this.currentPageLocal) <= 1)) {    
-          return true
+      if (
+        this.currentPageLocal === 1 ||
+        this.currentPageLocal === this.totalPages
+      ) {
+        if (Math.abs(currentPageLocal - this.currentPageLocal) <= 2) {
+          return true;
         }
-    }
+      } else if (Math.abs(currentPageLocal - this.currentPageLocal) <= 1) {
+        return true;
+      }
+    },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

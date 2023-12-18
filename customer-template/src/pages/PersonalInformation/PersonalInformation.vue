@@ -120,25 +120,36 @@
                     <el-option label="Nữ" :value="true" />
                   </el-select>
                 </div>
-                <div class="form-group mb-3">
+                <div class="form-group mb-3 required">
                   <label for="skype">Link Google Meet:</label>
                   <input
-                    class="form-control"
+                    :className="
+                      ['form-control', error.skype_link ? 'is-invalid' : '']
+                        .filter(Boolean)
+                        .join(' ')
+                    "
                     type="text"
                     id="skype"
                     name="skype"
                     v-model="userInfo.skype_link"
-                    placeholder="Nhập link skype"
+                    placeholder="Nhập Google Meet"
+                    @blur="validateSkypeLink()"
                   />
                 </div>
               </div>
             </div>
             <div class="row py-4">
+              <p><strong>Lưu ý:</strong></p>
               <p>
-                <strong>Lưu ý:</strong> IT Mentor sẽ liên lạc với bạn qua số
+                IT Mentor sẽ liên lạc với bạn qua số
                 <strong>Điện thoại</strong> trên khi gặp các trường hợp khẩn cấp
                 trong quá trình bạn kết nối cố vấn. Ví dụ cố vấn/người nhận cố
                 vấn quên xác nhận lịch hẹn hoặc không đến buổi hẹn...
+              </p>
+              <p>
+                IT Mentor sẽ gửi email thông báo đến Mentee địa điểm cuộc hẹn
+                giữa bạn và Mentee sẽ diễn ra tại
+                <strong>Link Google Meet</strong> trên.
               </p>
             </div>
           </div>

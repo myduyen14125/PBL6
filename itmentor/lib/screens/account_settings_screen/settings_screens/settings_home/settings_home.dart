@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:itmentor/screens/account_settings_screen/custom_row.dart';
+import 'package:itmentor/screens/account_settings_screen/settings_screens/settings_home/change_password/change_password.dart';
 import 'package:itmentor/screens/account_settings_screen/settings_screens/settings_home/profile/profile_view.dart';
 
 class SettingsHome extends StatelessWidget {
-  const SettingsHome({super.key});
+  final String token;
+  const SettingsHome({super.key, required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -66,18 +68,30 @@ class SettingsHome extends StatelessWidget {
                       ),
                     ),
                   ),
-                  CustomRow(
-                    const Icon(
-                      Icons.security,
-                      color: Colors.black,
-                    ),
-                    const Text(
-                      'Đổi mật khẩu',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const Icon(
-                      Icons.chevron_right,
-                      color: Colors.grey,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ChangePassword(token: token);
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomRow(
+                      const Icon(
+                        Icons.security,
+                        color: Colors.black,
+                      ),
+                      const Text(
+                        'Đổi mật khẩu',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const Icon(
+                        Icons.chevron_right,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                   CustomRow(

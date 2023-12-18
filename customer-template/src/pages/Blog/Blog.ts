@@ -7,7 +7,7 @@ import MentorPost from "../../components/MentorPost/MentorPost.vue";
 import { useBlog } from "./../../stores/blog";
 import { useMentors } from "./../../stores/mentors";
 import SwalPopup from "../../ultils/swalPopup";
-import router from "../../router";
+import { useRouter } from "vue-router";
 import { Blog } from "../../types/blog";
 import { GetPaginationParams, Mentor } from "../../types/mentor";
 
@@ -15,6 +15,7 @@ export default defineComponent({
   name: "Blog",
   components: { GuestLayout, MentorPost },
   setup() {
+    const router = useRouter();
     const mentorsStore = useMentors();
     const blogStore = useBlog();
     const blogs = ref<Blog[]>([]);

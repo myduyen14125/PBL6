@@ -1,24 +1,26 @@
 <template>
   <div class="table-wrapper w-100">
-    <div class="table-header d-flex align-items-center justify-content-between mb-2">
+    <div
+      class="table-header d-flex align-items-center justify-content-between mb-2"
+    >
       <h1 class="title">Recruitment</h1>
       <div class="d-flex">
-        <ComboBox 
-          v-if="positionList.length > 0" 
+        <ComboBox
+          v-if="positionList.length > 0"
           :options-prop="positionList"
           :placeholder="'Select position'"
           class="mr-4"
           @selection-change="handleSelect"
         />
-        <ComboBox 
+        <ComboBox
           :options-prop="statusList"
           :placeholder="'Select status'"
           @selection-change="handleSelectStatus"
         />
       </div>
-      <SearchInput @search="handleSearch"/>
+      <SearchInput @search="handleSearch" />
     </div>
-    <hr class="mt-2 mb-0">
+    <hr class="mt-2 mb-0" />
     <div ref="table" class="table-overflow overflow-auto d-block h-90">
       <div class="layer-block"></div>
       <table class="table table-striped">
@@ -34,10 +36,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in data" :key="index" class="cursor-pointer table-row" @click="handleRouting(item.id)">
+          <tr
+            v-for="(item, index) in data"
+            :key="index"
+            class="cursor-pointer table-row"
+            @click="handleRouting(item.id)"
+          >
             <td class="color-primary d-flex justify-content-center">
               <span class="td-content">
-                <nuxt-link :to="`/recruitment/${item.id}`" class="cursor-pointer color-primary">{{ item.full_name.trim() }}</nuxt-link>
+                <nuxt-link
+                  :to="`/recruitment/${item.id}`"
+                  class="cursor-pointer color-primary"
+                  >{{ item.full_name.trim() }}</nuxt-link
+                >
               </span>
             </td>
             <td class="color-secondary">
@@ -47,24 +58,28 @@
               <span class="td-content">{{ item.phone }}</span>
             </td>
             <td class="color-secondary">
-              <span class="td-smaller">{{ getPositionName(item.position_id) }}</span>
+              <span class="td-smaller">{{
+                getPositionName(item.position_id)
+              }}</span>
             </td>
             <td class="color-secondary">
               <span class="td-smaller">{{ item.link_cv }}</span>
             </td>
             <td class="color-secondary w-15">
-              <span class="td-content">{{ formatDateTime(item.created_at) }}</span>
+              <span class="td-content">{{
+                formatDateTime(item.created_at)
+              }}</span>
             </td>
             <td>
-              <div 
+              <div
                 class="status mx-auto"
                 :class="{
                   'status-done': item.status === 'DONE',
                   'status-doing': item.status === 'DOING',
-                  'status-todo': item.status === 'TODO'
+                  'status-todo': item.status === 'TODO',
                 }"
               >
-                  {{ item.status }}
+                {{ item.status }}
               </div>
             </td>
           </tr>
@@ -74,77 +89,76 @@
   </div>
 </template>
 <script>
-import moment from 'moment';
-import { mapActions, mapGetters } from 'vuex';
-import SearchInput from '../uncommon/SearchInput.vue';
-import ComboBox from '../uncommon/ComboBox.vue';
+import moment from "moment";
+import { mapActions, mapGetters } from "vuex";
+import SearchInput from "../uncommon/SearchInput.vue";
+import ComboBox from "../uncommon/ComboBox.vue";
 
 export default {
   components: {
     SearchInput,
-    ComboBox
+    ComboBox,
   },
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
   data() {
     return {
       statusList: [
         {
-          id: 'TODO',
-          title: 'Todo'
+          id: "TODO",
+          title: "Todo",
         },
         {
-          id: 'DOING',
-          title: 'Doing'
+          id: "DOING",
+          title: "Doing",
         },
         {
-          id: 'DONE',
-          title: 'Done'
-        }
-      ]
-    }
+          id: "DONE",
+          title: "Done",
+        },
+      ],
+    };
   },
   computed: {
     ...mapGetters({
-      positionList: 'position/getPositions'
-    })
+      positionList: "position/getPositions",
+    }),
   },
   mounted() {
     this.fetchPositionList();
   },
   methods: {
     ...mapActions({
-      fetchPositionList: 'position/fetchList'
+      fetchPositionList: "position/fetchList",
     }),
     handleRouting(id) {
       this.$router.push(`/recruitment/${id}`);
     },
     getPositionName(id) {
-      const subject = this.positionList.find(item => item.id === id);
-      return subject ? subject.title : '-';
+      const subject = this.positionList.find((item) => item.id === id);
+      return subject ? subject.title : "-";
     },
     formatDateTime(date) {
-      return moment(date).format('DD.MM.YYYY HH:mm');
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     handleSearch(content) {
-      this.$emit('searchContent', content);
+      this.$emit("searchContent", content);
     },
     handleSelect(id) {
-      this.$emit('selectPosition', id);
+      this.$emit("selectPosition", id);
     },
     handleSelectStatus(status) {
-      this.$emit('selectStatus', status);
+      this.$emit("selectStatus", status);
     },
     scrollToTop() {
       this.$refs.table.scrollTop = 0;
-    }
-  }
-   
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .td-content {
@@ -178,5 +192,4 @@ export default {
 hr {
   margin: 8px 0;
 }
-
 </style>

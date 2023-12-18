@@ -36,6 +36,7 @@
     "sass": "^1.57.1",
     "sass-loader": "^10.1.1",
     "scss": "^0.2.4",
+    "sweetalert2": "^11.10.1",
     "v-click-outside": "^3.2.0",
     "vee-validate": "^2.2.13",
     "vue": "^2.7.10",

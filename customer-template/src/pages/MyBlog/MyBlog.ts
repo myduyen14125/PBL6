@@ -7,12 +7,13 @@ import MentorPost from "../../components/MentorPost/MentorPost.vue";
 import { getUserInfo } from "../../ultils/cache/cookies";
 import { Blog } from "../../types/blog";
 import { GetPaginationParams } from "../../types/mentor";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "MyBlog",
   components: { GuestLayout, MentorPost },
   setup() {
+    const router = useRouter();
     const userStore = useUser();
     const blogStore = useBlog();
     const isLoadingBlog = ref(false);

@@ -100,7 +100,7 @@
                 fileImage ||
                 'https://montevista.greatheartsamerica.org/wp-content/uploads/sites/2/2016/11/default-placeholder.png'
               "
-              style="width: 100%; height: 300px; object-fit: cover;"
+              style="width: 100%; height: 300px; object-fit: cover"
               alt="avatar"
               ref="avatarSrc"
             />
@@ -225,7 +225,6 @@ export default defineComponent({
     };
 
     const hide = () => {
-      console.log("abc");
       resetData();
       modal.value = false;
     };

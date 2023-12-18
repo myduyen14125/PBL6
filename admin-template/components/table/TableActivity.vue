@@ -1,15 +1,15 @@
 <template>
   <div class="table-wrapper w-100">
-    <div class="table-header d-flex align-items-center justify-content-between mb-2">
-      <h1 class="title">Activities </h1>
-      <SearchInput @search="handleSearch"/>
+    <div
+      class="table-header d-flex align-items-center justify-content-between mb-2"
+    >
+      <h1 class="title">Activities</h1>
+      <SearchInput @search="handleSearch" />
       <nuxt-link to="/activity/create">
-        <button class="btn-custom btn-blue" >
-          Create
-        </button>
+        <button class="btn-custom btn-blue">Create</button>
       </nuxt-link>
     </div>
-    <hr class="mt-2 mb-0">
+    <hr class="mt-2 mb-0" />
     <div ref="table" class="table-overflow overflow-auto d-block h-90">
       <div class="layer-block"></div>
       <table class="table table-hover table-striped">
@@ -25,20 +25,33 @@
           <tr v-for="(item, index) in data" :key="index" class="table-row">
             <td class="color-primary d-flex mt-30px">
               <div class="td-content">
-                <nuxt-link :to="`/activity/${item.id}`" class="cursor-pointer color-primary" @click="handleRouting(item.id)">{{ item.title.trim() }}</nuxt-link>
+                <nuxt-link
+                  :to="`/activity/${item.id}`"
+                  class="cursor-pointer color-primary"
+                  @click="handleRouting(item.id)"
+                  >{{ item.title.trim() }}</nuxt-link
+                >
               </div>
             </td>
             <td class="color-secondary w-25">
-              <img :src="item.thumbnail_url" alt="image" width="146px" height="89px">
+              <img
+                :src="item.thumbnail_url"
+                alt="image"
+                width="146px"
+                height="89px"
+              />
             </td>
-            <td class="color-secondary w-25 pt-42px">{{ formatDateTime(item.created_at) }}</td>
+            <td class="color-secondary w-25 pt-42px">
+              {{ formatDateTime(item.created_at) }}
+            </td>
             <td class="color-secondary w-25 pt-42px">
               <div class="switch-toggle">
                 <label class="switch">
-                  <input 
-                    v-model="item.published" 
-                    type="checkbox" 
-                    @click="markPublic(item.id)">
+                  <input
+                    v-model="item.published"
+                    type="checkbox"
+                    @click="markPublic(item.id)"
+                  />
                   <span class="slider round"></span>
                 </label>
               </div>
@@ -50,17 +63,17 @@
   </div>
 </template>
 <script>
-import moment from 'moment';
-import SearchInput from '../uncommon/SearchInput.vue';
+import moment from "moment";
+import SearchInput from "../uncommon/SearchInput.vue";
 
 export default {
   components: {
-    SearchInput
+    SearchInput,
   },
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
   methods: {
@@ -68,26 +81,24 @@ export default {
       this.$router.push(`/activity/${id}`);
     },
     formatDateTime(date) {
-      return moment(date).format('DD.MM.YYYY HH:mm');
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     markPublic(id) {
-      this.$api.activity.markPublicActivity(id)
-        .then((res) => {
-          this.$toast.success('Change status public successfully!', {
-            className: 'my-toast',
-          })
-        })
+      this.$api.activity.markPublicActivity(id).then((res) => {
+        this.$toast.success("Change status public successfully!", {
+          className: "my-toast",
+        });
+      });
     },
     handleSearch(content) {
-      console.log("handlesearch")
-      this.$emit('searchContent', content);
+      console.log("handlesearch");
+      this.$emit("searchContent", content);
     },
     scrollToTop() {
       this.$refs.table.scrollTop = 0;
-    }
-  }
-   
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/toggle.scss";
@@ -130,5 +141,4 @@ img {
 .pt-42px {
   padding-top: 42px !important; // 30px + 12px
 }
-
 </style>

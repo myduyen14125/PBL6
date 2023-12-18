@@ -1,5 +1,9 @@
 <template>
-  <div class="wrapper-upload cursor-pointer" :class="$attrs.imgsrc !== '' ? '' : 'bg-default'"  @click="toggleShow">
+  <div
+    class="wrapper-upload cursor-pointer"
+    :class="$attrs.imgsrc !== '' ? '' : 'bg-default'"
+    @click="toggleShow"
+  >
     <div class="d-flex align-items-center">
       <div class="btn-upload cursor-pointer">
         <img src="~/assets/icons/cloud-upload.svg" alt="icon upload" />
@@ -14,20 +18,21 @@
           :height="$attrs.height"
           :lang-type="'en'"
           :max-size="25000"
-          :value.sync="show"
+          :value="show"
           @crop-success="cropSuccess"
           @crop-upload-success="cropUploadSuccess"
           @crop-upload-fail="cropUploadFail"
         ></vue-image-crop-upload>
       </div>
-      <div 
+      <div
         :class="[
-          {'image-thumbnail': $attrs.imgtype === ''},
-          {'image-logo': $attrs.imgtype === 'logo'},
-          {'image-background': $attrs.imgtype === 'background'},
-          {'image-detail': $attrs.imgtype === 'detail'},
-        ]" 
-        class="image">
+          { 'image-thumbnail': $attrs.imgtype === '' },
+          { 'image-logo': $attrs.imgtype === 'logo' },
+          { 'image-background': $attrs.imgtype === 'background' },
+          { 'image-detail': $attrs.imgtype === 'detail' },
+        ]"
+        class="image"
+      >
         <img v-if="$attrs.imgsrc !== ''" :src="$attrs.imgsrc" alt="" />
         <img v-else-if="imgDataUrl" :src="imgDataUrl" />
       </div>
@@ -40,7 +45,7 @@
 // import { ValidationProvider } from 'vee-validate'
 
 export default {
-  name: 'VImageCropUpload',
+  name: "VImageCropUpload",
   components: {
     // ValidationProvider,
   },
@@ -54,32 +59,32 @@ export default {
     return {
       show: false,
       headers: {
-        smail: '*_~',
+        smail: "*_~",
       },
-      imgDataUrl: '', // the datebase64 url of created image
+      imgDataUrl: "", // the datebase64 url of created image
       canUpload: false,
-    }
+    };
   },
   computed: {
     getUploadUrl() {
-      return process.env.BASE_URL_API + '/storages'
+      return process.env.BASE_URL_API + "/storages";
     },
   },
   methods: {
     toggleShow() {
-      this.show = !this.show
+      this.show = !this.show;
     },
     cropSuccess(imgDataUrl, field) {
-      this.imgDataUrl = imgDataUrl
+      this.imgDataUrl = imgDataUrl;
     },
     cropUploadSuccess(jsonData, field) {
-      this.$emit('get-data-url', jsonData.data)
-      this.show = false
-      return jsonData.data
+      this.$emit("get-data-url", jsonData.data);
+      this.show = false;
+      return jsonData.data;
     },
     cropUploadFail(status, field) {},
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .wrapper-upload {
@@ -96,10 +101,15 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 0;
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(('~/assets/images/no-result.png'));
+  background-image: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0.3)
+    ),
+    url(('~/assets/images/no-result.png'));
   background-size: contain;
-  background-repeat: no-repeat; 
-  background-position: center; 
+  background-repeat: no-repeat;
+  background-position: center;
   border-radius: 10px;
 }
 

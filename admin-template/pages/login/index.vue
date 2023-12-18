@@ -2,30 +2,32 @@
   <div class="login-wrapper d-flex align-items-center bg-gray">
     <div class="left-col d-flex flex-column align-items-center">
       <div class="logo text-center">
-        <img src="~/assets/icons/icon-logo.png" alt="">
+        <img src="~/assets/icons/icon-logo.png" alt="" />
       </div>
       <div class="image mt-5">
-        <img src="~/assets/images/login/sticker-1.png" alt="">
+        <img src="~/assets/images/login/sticker-1.png" alt="" />
       </div>
     </div>
-    <div class="right-col d-flex justify-content-center align-items-center bg-white h-100">
+    <div
+      class="right-col d-flex justify-content-center align-items-center bg-white h-100"
+    >
       <LoginForm />
     </div>
   </div>
 </template>
 
 <script>
-import LoginForm from '~/components/form/LoginForm.vue';
+import LoginForm from "~/components/form/LoginForm.vue";
 export default {
-  name: 'Home',
+  name: "LoginPge",
   components: {
-    LoginForm
+    LoginForm,
   },
-  layout: 'unauth',
+  layout: "unauth",
   mounted() {
     this.$handleAllLazyLoad();
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">

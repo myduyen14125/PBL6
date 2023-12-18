@@ -3,7 +3,7 @@ import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import avatar from "../../assets/image/avatar.png";
 import postImg from "../../assets/image/post-img.png";
 import { formatDate } from "../../ultils/date";
-import router from "../../router";
+import { useRouter } from "vue-router";
 import { getUserInfo } from "../../ultils/cache/cookies";
 
 export default defineComponent({
@@ -23,6 +23,8 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const router = useRouter();
+
     const deleteBlog = () => {
       emit("deleteBlog", props.blog?._id, props.blog?.title);
     };

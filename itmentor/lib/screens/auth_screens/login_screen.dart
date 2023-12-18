@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itmentor/screens/auth_screens/forget_password_screen.dart';
 import 'package:itmentor/screens/auth_screens/register_screen.dart';
 import 'package:itmentor/services/auth_services.dart';
 import 'package:itmentor/utils/constant.dart';
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   AuthServices authServices = AuthServices();
   bool _isLoggingIn = false;
+  bool _obscurePassword = true;
 
   void login() async {
     setState(() {
@@ -36,6 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoggingIn = false;
       });
     }
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
   }
 
   @override
@@ -81,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const EdgeInsets.only(left: 50, bottom: 10, right: 50),
                   child: TextFormField(
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -89,6 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelText: 'Mật khẩu',
                       labelStyle: const TextStyle(
                         color: Color(0xFF1BB55C),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: _togglePasswordVisibility,
                       ),
                     ),
                   ),
@@ -101,7 +117,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 20,
                     ),
                     TextButton(
-                      onPressed: (() {}),
+                      onPressed: (() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const ForgetPassword();
+                            },
+                          ),
+                        );
+                      }),
                       child: const Text(
                         'Bấm tại đây',
                       ),
@@ -114,11 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text('Chưa có tài khoản? '),
                     TextButton(
                       onPressed: (() {
-                        Navigator.of(context).pushAndRemoveUntil(
+                        Navigator.push(
+                          context,
                           MaterialPageRoute(
                             builder: (context) => RegisterScreen(),
                           ),
-                          (route) => false,
                         );
                       }),
                       child: const Text(
@@ -131,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const CircularProgressIndicator(),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  key: Key('loginButton'),
+                  key: const Key('loginButton'),
                   onPressed: () {
                     login();
                   },
@@ -142,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: const Text(
-                    'ĐĂNG NHẬP',
+                    'Đăng nhập',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
