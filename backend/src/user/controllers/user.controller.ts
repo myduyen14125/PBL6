@@ -13,7 +13,8 @@ import { RoleGuard } from 'src/auth/role.guard';
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) { }
-    @UseGuards(AuthGuard())
+    
+    @UseGuards(AuthGuard('jwt'))
     @Get('profile')
     async getProfile(@Req() req: any) {
         return this.userService.getProfile(req.user);
@@ -24,26 +25,6 @@ export class UserController {
     async getBlogs(@Req() req: any) {
         await req.user.populate('blogs')
         return req.user.blogs
-    }
-    
-    @Get(':id/blogs')
-    getAllBlogsByUserId(@Param('id') id: string, @Query() { page, limit }: PaginationBlogDto) {
-        return this.userService.getAllBlogsByUserId(id, page, limit);
-    }
-
-    @Get(':id/schedules')
-    getAllSchedulesByUserId(@Param('id') id: string) {
-        return this.userService.getAllSchedulesByUserId(id);
-    }
-
-    @Get(':id/courses')
-    getAllCoursesByCreatorId(@Param('id') id: string, @Query() { page, limit }: PaginationCourseDto) {
-        return this.userService.getAllCoursesByCreatorId(id, page, limit);
-    }
-
-    @Get(':id/ratings')
-    getAllRatingsByUserId(@Param('id') id: string, @Query() { page, limit }: PaginationRatingDto) {
-        return this.userService.getAllRatingsByUserId(id, page, limit);
     }
 
     @UseGuards(AuthGuard('jwt'))

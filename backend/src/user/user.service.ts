@@ -1,27 +1,19 @@
-import { HttpException, HttpStatus, Injectable, forwardRef, Inject } from '@nestjs/common';
-import { UserRepository } from './user.repository';
-import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto/user.dto';
+import { MailerService } from '@nestjs-modules/mailer';
+import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { User } from './user.model';
-import { BlogService } from 'src/blog/blog.service';
-import { ScheduleService } from 'src/schedule/schedule.service';
-import { RatingService } from 'src/rating/rating.service';
 import { BioService } from 'src/bio/services/bio.service';
 import { MediaService } from 'src/media/media.service';
-import { MailerService } from '@nestjs-modules/mailer';
 import { UpdatePasswordDto } from './dto/password.dto';
-import { CourseService } from 'src/course/services/course.service';
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto/user.dto';
+import { User } from './user.model';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
-        @Inject(forwardRef(() => BlogService)) private readonly blogService: BlogService,
-        @Inject(forwardRef(() => ScheduleService)) private readonly scheduleService: ScheduleService,
-        @Inject(forwardRef(() => RatingService)) private readonly ratingService: RatingService,
         @Inject(forwardRef(() => BioService)) private readonly bioService: BioService,
         @Inject(forwardRef(() => MediaService)) private readonly mediaService: MediaService,
-        @Inject(forwardRef(() => CourseService)) private readonly courseService: CourseService,
         private mailerService: MailerService
     ) { }
 
@@ -169,24 +161,6 @@ export class UserService {
     async updateUserNumberOfMentees(id: string) {
         // Increase by one upon finishing an appointment
         return await this.userRepository.findByIdAndUpdate(id, { $inc: { number_of_mentees: 1 } });
-    }
-
-    async getAllBlogsByUserId(id: string, page: number, limit: number) {
-        return await this.blogService.getAllBlogsByUserId(id, page, limit)
-    }
-
-    async getAllSchedulesByUserId(id: string) {
-        return await this.scheduleService.getAllSchedulesByUserId(id)
-    }
-
-    async getAllCoursesByCreatorId(id: string, page: number, limit: number = 10) {
-        const user = await this.userRepository.findById(id)
-        if (user.role !== "mentor") return
-        return await this.courseService.getAllCoursesByCreatorId(id, page, limit)
-    }
-
-    async getAllRatingsByUserId(id: string, page: number, limit: number) {
-        return await this.ratingService.getAllRatingsByUserId(id, page, limit)
     }
 
     async getUserByRefresh(refresh_token, email) {
