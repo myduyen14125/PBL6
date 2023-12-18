@@ -9,13 +9,13 @@ export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
     @Post('register')
-    async register(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
-        return await this.authService.register(createUserDto);
+    async register(@Body(new ValidationPipe()) dto: CreateUserDto) {
+        return await this.authService.register(dto);
     }
 
     @Post('login')
-    async login(@Body() loginUserDto: LoginUserDto) {
-        return await this.authService.login(loginUserDto);
+    async login(@Body() dto: LoginUserDto) {
+        return await this.authService.login(dto);
     }
 
     @UseGuards(AuthGuard("jwt"))
