@@ -11,11 +11,6 @@
           @click="goBack()"
         />
         <h1 class="title mx-2">Expertise detail</h1>
-        <div>
-          <button class="btn-custom btn-white" @click="$router.go(-1)">
-            Cancel
-          </button>
-        </div>
       </div>
     </div>
     <hr class="mt-2 mb-1" />
@@ -43,13 +38,13 @@
           Update
         </button>
 
-        <button
+        <!-- <button
           type="submit"
           class="btn-custom btn-danger"
           @click="delExpertise()"
         >
           Delete
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
