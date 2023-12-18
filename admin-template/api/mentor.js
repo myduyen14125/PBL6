@@ -157,4 +157,8 @@ export default (axios1, axios2) => ({
       config
     );
   },
+
+  getMentorDetails: async (id) => {
+    return await axios1.get(`/user/${id}`);
+  },
 });
