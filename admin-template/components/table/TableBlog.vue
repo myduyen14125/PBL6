@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
-    >
+    <div class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4">
       <h1 class="title">{{ title }}</h1>
       <!-- <div class="d-flex">
         <ComboBox
@@ -38,40 +36,24 @@
               </td>
               <td class="color-primary text-start">
                 <span class="td-content">
-                  <nuxt-link
-                    :to="`/blogs/${item?._id}`"
-                    class="cursor-pointer color-primary text-hover-color text-break"
-                    >{{ item?.title }}</nuxt-link
-                  >
+                  <nuxt-link :to="`/blogs/${item?._id}`"
+                    class="cursor-pointer color-primary text-hover-color text-break">{{ item?.title }}</nuxt-link>
                 </span>
               </td>
               <td class="cursor-pointer text-start">
-                <nuxt-link
-                  :to="`/mentor/${item?._id}`"
-                  class="td-content color-secondary text-hover-color"
-                  >{{ item?.user?.name }}</nuxt-link
-                >
+                <nuxt-link :to="`/mentor/${item?._id}`" class="td-content color-secondary text-hover-color">{{
+                  item?.user?.name }}</nuxt-link>
               </td>
               <td class="color-secondary pl-4 w-25-2 d-flex">
-                <button
-                  class="btn rounded bg-white border-2 border-secondary mr-3 bg-hover"
-                >
+                <button class="btn rounded bg-white border-2 border-secondary mr-3 bg-hover">
                   <nuxt-link :to="`/blogs/${item._id}/update`">
-                    <font-awesome-icon
-                      class="icon color-secondary"
-                      icon="fa-solid fa-pen-clip"
-                    />
+                    <font-awesome-icon class="icon color-secondary" icon="fa-solid fa-pen-clip" />
                   </nuxt-link>
                 </button>
 
-                <button
-                  class="btn rounded bg-white border-2 border-secondary bg-hover"
-                >
-                  <font-awesome-icon
-                    class="icon cursor-pointer"
-                    icon="fa-solid fa-trash-alt"
-                    @click="(e) => onDeleteBlog(e, item?._id)"
-                  />
+                <button class="btn rounded bg-white border-2 border-secondary bg-hover">
+                  <font-awesome-icon class="icon cursor-pointer" icon="fa-solid fa-trash-alt"
+                    @click="openModal(item?._id)" />
                 </button>
               </td>
             </tr>
@@ -79,16 +61,25 @@
         </table>
       </div>
     </div>
+    <BaseModal v-if="showModal" 
+      :title="'Delete Blog'" 
+      :description="'Are you sure you want to delete this blog?'"
+      :function-text="'Delete'" 
+      @function-action="deleteBlog()" 
+      @close="closeModal">
+    </BaseModal>
   </div>
 </template>
 <script>
 import SearchInput from "../uncommon/SearchInput.vue";
+import BaseModal from "~/components/modal/BaseModal.vue";
 // import ComboBox from "../uncommon/ComboBox.vue";
 import Swal from "sweetalert2";
 
 export default {
   components: {
     SearchInput,
+    BaseModal
     // ComboBox,
   },
   props: {
@@ -102,9 +93,12 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      showModal: false,
+      currentDeleteId: "",
+    };
   },
-  mounted() {},
+  mounted() { },
   methods: {
     handleRouting(id) {
       this.$router.push(`/blogs/${id}`);
@@ -128,21 +122,30 @@ export default {
         }
       });
     },
-    deleteBlog(id) {
+    deleteBlog() {
       // eslint-disable-next-line no-console
       this.$api.contact
-        .deleteBlog(id)
+        .deleteBlog(this.currentDeleteId)
         .then((res) => {
-          this.$toast.success("Create successfully!", {
+          this.$toast.success("Delete successfully!", {
             className: "my-toast",
           });
           this.$emit("reloadTable");
+          this.closeModal();
         })
         .catch((err) => {
-          this.$toast.error("Create failed!", {
+          this.$toast.error("Delete failed!", {
             className: "my-toast",
           });
         });
+    },
+    openModal(id) {
+      this.showModal = true;
+      this.currentDeleteId = id;
+    },
+    closeModal() {
+      this.showModal = false;
+      this.currentDeleteId = "";
     },
   },
 };
@@ -155,18 +158,23 @@ export default {
 
 .table {
   font-size: 14px;
+
   &-head {
     font-weight: 600;
   }
+
   &-row {
     margin: 8px 0;
+
     &:hover {
       background-color: $color-blue-hover !important;
     }
+
     &:first-child {
       margin-top: 0;
     }
   }
+
   td {
     word-break: break-all;
   }
