@@ -49,20 +49,21 @@
       <div class="card w-100">
         <div class="card-body">
           <h5 class="card-title border-bottom pb-2">Giới thiệu bản thân</h5>
-          <p class="card-text">{{ mentor.name }}</p>
+          <ul class="pl-0">
+            <li>
+              <strong>Tên mentor:</strong>
+              {{ mentor.name }}
+            </li>
+            <li>
+              <strong>Email:</strong>
+              {{ mentor.email }}
+            </li>
+          </ul>
           <h5 class="card-title border-bottom pb-2">Chủ đề mentoring</h5>
           <ul class="pl-0">
             <li>
-              <strong>Định hướng và chia sẻ kinh nghiệm nghề nghiệp:</strong>
-              Research Consultant tại WorldQuant VRC
-            </li>
-            <li>
-              <strong>Định hướng và chia sẻ kinh nghiệm nghề nghiệp:</strong>
-              Research Consultant tại WorldQuant VRC
-            </li>
-            <li>
-              <strong>Định hướng và chia sẻ kinh nghiệm nghề nghiệp:</strong>
-              Research Consultant tại WorldQuant VRC
+              <strong>Lĩnh vực:</strong>
+              {{ mentor?.expertise?.name }}
             </li>
           </ul>
           <a

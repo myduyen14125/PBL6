@@ -6,7 +6,7 @@
         @click="() => router.push(`/blogs/${blog._id}`)"
       >
         <div class="post-img d-flex justify-content-center w-100">
-          <img :src="blog?.avatar || postImg" alt="Post" />
+          <img :src="blog?.image || `https://picsum.photos/200/300`" alt="Post" style="width: 300px; height: 250px; object-fit: cover;"/>
         </div>
       </div>
       <div
