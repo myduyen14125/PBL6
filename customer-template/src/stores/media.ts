@@ -4,10 +4,10 @@ import { uploadMedia } from '../api/upload';
 
 export const useMedia = () => {
   const requestUploadMedia = async ({
-    media,
+    file,
     callback,
   }: {
-    media: any;
+    file: any;
     callback: App.Callback;
   }): Promise<void> => {
     const onSuccess = get(callback, 'onSuccess', noop);
@@ -15,12 +15,16 @@ export const useMedia = () => {
     const onFinish = get(callback, 'onFinish', noop);
 
     try {
-      const response = await uploadMedia(media);
+      const response = await uploadMedia(file);
       onSuccess(response);
     } catch (error) {
       onFailure(error);
     } finally {
       onFinish();
     }
-  }
+  };
+
+  return {
+    requestUploadMedia,
+  };
 }

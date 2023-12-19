@@ -344,16 +344,17 @@ export default defineComponent({
       form.value.image = URL.createObjectURL(fileImage.value);
 
       mediaStore.requestUploadMedia({
-        media: fileImage.value,
+        file: fileImage.value,
         callback: {
           onSuccess: (res) => {
-            form.value.image = res.data.url;
+            form.value.image = res.url;
           },
           onFailure: () => {
-            SwalPopup.swalResultPopup(
-              "Sorry, looks like there are some errors detected, please try again.",
-              "error"
-            );
+            form.value.image = res.url;
+            // SwalPopup.swalResultPopup(
+            //   "Sorry, looks like there are some errors detected, please try again.",
+            //   "error"
+            // );
           },
         },
       });
