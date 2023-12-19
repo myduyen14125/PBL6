@@ -32,7 +32,7 @@ export class UpdateUserDto {
     expertise: string;
 }
 
-export class PaginationMentorDto {
+export class PaginationUserDto {
     page: number;
     limit: number;
 }

@@ -7,11 +7,13 @@ const CourseSchema = new Schema(
         description: String,
         price: Number,
         discount: Number,
+        duration: Number,
         users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         image: String,
         creator: { type: Schema.Types.ObjectId, ref: 'User' }
     },
     {
+        toObject: {virtuals: true},
         timestamps: true,
         collection: 'courses',
     }
@@ -30,6 +32,7 @@ export interface Course extends Document {
     description: string;
     price: number;
     discount: number;
+    duration: number;
     users: [User];
     image: string;
     creator: User;

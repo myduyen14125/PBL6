@@ -79,7 +79,6 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 63, 143, 125),
         elevation: 0,
-        centerTitle: true,
         title: const Text(
           'Chi tiết blog',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -103,12 +102,13 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    authorName,
+                    'Tác giả: $authorName',
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 6,),
                   Text(
                     'Ngày viết: $formattedDateTime',
                     style: const TextStyle(

@@ -1,21 +1,21 @@
 <template>
   <div class="table-wrapper w-100">
-    <div class="table-header d-flex align-items-center justify-content-between mb-2">
-      <h1 class="title">News </h1>
-      <ComboBox 
-        v-if="categories.length > 0" 
+    <div
+      class="table-header d-flex align-items-center justify-content-between mb-2"
+    >
+      <h1 class="title">News</h1>
+      <ComboBox
+        v-if="categories.length > 0"
         :options-prop="categories"
         :placeholder="'Select category'"
         @selection-change="handleSelect"
       />
-      <SearchInput @search="handleSearch"/>
+      <SearchInput @search="handleSearch" />
       <nuxt-link to="/news/create">
-        <button class="btn-custom btn-blue" >
-          Create news
-        </button>
+        <button class="btn-custom btn-blue">Create news</button>
       </nuxt-link>
     </div>
-    <hr class="mt-2 mb-0">
+    <hr class="mt-2 mb-0" />
     <div ref="table" class="table-overflow overflow-auto d-block h-90">
       <div class="layer-block"></div>
       <table class="table table-striped overflow-auto">
@@ -31,26 +31,39 @@
           <tr v-for="(item, index) in data" :key="index" class="table-row">
             <td class="color-primary d-flex justify-content-center">
               <span class="td-content">
-                <nuxt-link :to="`/news/${item.id}`" class="cursor-pointer color-primary" @click="handleRouting(item.id)">{{ item.title.trim() }}</nuxt-link>
+                <nuxt-link
+                  :to="`/news/${item.id}`"
+                  class="cursor-pointer color-primary"
+                  @click="handleRouting(item.id)"
+                  >{{ item.title.trim() }}</nuxt-link
+                >
               </span>
             </td>
             <td class="color-secondary w-25 pt-16px">
               <div class="mx-auto">
                 <span class="td-content">
-                  <span :class="item.category_id ? 'category' : ''">{{ getCategoryName(item.category_id) }}</span>
+                  <span :class="item.category_id ? 'category' : ''">{{
+                    getCategoryName(item.category_id)
+                  }}</span>
                 </span>
               </div>
             </td>
-            <td class="color-secondary w-25 pt-18px">{{ formatDateTime(item.created_at) }}</td>
+            <td class="color-secondary w-25 pt-18px">
+              {{ formatDateTime(item.created_at) }}
+            </td>
             <td class="color-secondary w-25">
               <div class="switch-toggle">
                 <label class="switch">
-                  <input 
-                    v-model="item.published" 
-                    type="checkbox" 
-                    :disabled="item.category_id == null" 
-                    @click="markPublic(item.id)">
-                  <span class="slider round" :class="item.category_id ? '' : 'cursor-default'"></span>
+                  <input
+                    v-model="item.published"
+                    type="checkbox"
+                    :disabled="item.category_id == null"
+                    @click="markPublic(item.id)"
+                  />
+                  <span
+                    class="slider round"
+                    :class="item.category_id ? '' : 'cursor-default'"
+                  ></span>
                 </label>
               </div>
             </td>
@@ -61,68 +74,65 @@
   </div>
 </template>
 <script>
-import moment from 'moment';
-import { mapActions, mapGetters } from 'vuex';
-import SearchInput from '../uncommon/SearchInput.vue';
-import ComboBox from '../uncommon/ComboBox.vue';
+import moment from "moment";
+import { mapActions, mapGetters } from "vuex";
+import SearchInput from "../uncommon/SearchInput.vue";
+import ComboBox from "../uncommon/ComboBox.vue";
 
 export default {
   components: {
     SearchInput,
-    ComboBox
+    ComboBox,
   },
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
   computed: {
     ...mapGetters({
-      categories: 'newsCategory/getCategories'
-    })
+      categories: "newsCategory/getCategories",
+    }),
   },
   mounted() {
     this.fetchCategoryList();
   },
   methods: {
     ...mapActions({
-      fetchCategoryList: 'newsCategory/fetchList'
+      fetchCategoryList: "newsCategory/fetchList",
     }),
     handleRouting(id) {
       this.$router.push(`/news/${id}`);
     },
     getCategoryName(id) {
       // console.log("id", id)
-      const category = this.categories.find(item => item.id === id);
-      return category ? category.title : '-';
+      const category = this.categories.find((item) => item.id === id);
+      return category ? category.title : "-";
     },
     formatDateTime(date) {
-      return moment(date).format('DD.MM.YYYY HH:mm');
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     markPublic(id) {
-      this.$api.news.markPublicNews(id)
-        .then((res) => {
-          this.$toast.success('Change status public successfully!', {
-            className: 'my-toast',
-          })
-        })
+      this.$api.news.markPublicNews(id).then((res) => {
+        this.$toast.success("Change status public successfully!", {
+          className: "my-toast",
+        });
+      });
     },
     handleSearch(content) {
-      this.$emit('searchContent', content);
+      this.$emit("searchContent", content);
     },
     handleSelect(id) {
-      this.$emit('selectCategory', id);
+      this.$emit("selectCategory", id);
     },
     scrollToTop() {
       this.$refs.table.scrollTop = 0;
-    }
-  }
-   
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-
 @import "@/assets/scss/toggle.scss";
 .td-content {
   white-space: nowrap;

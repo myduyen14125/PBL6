@@ -76,8 +76,12 @@ export class ScheduleService {
     }
 
     async getAllSchedulesByUserId(id: string) {
+        const currentDate = new Date();
+        currentDate.setHours(currentDate.getHours() +7);
         return await this.scheduleRepository.getByCondition({
-            user: id
+            user: id,
+            deleted: false,
+            start_at: { $gte: currentDate}
         })
     }
 

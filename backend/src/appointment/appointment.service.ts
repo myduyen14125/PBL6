@@ -6,7 +6,6 @@ import { UserService } from "src/user/user.service";
 import { CreateAppointmentDto, UpdateAppointmentDto } from "./appointment.dto";
 import { AppointmentRepository } from "./appointment.repository";
 
-
 @Injectable()
 export class AppointmentService {
     constructor(
@@ -16,27 +15,29 @@ export class AppointmentService {
         private mailerService: MailerService
     ) { }
 
-    formatUtcDate(date: Date): string {
-        const formattedDate = new Intl.DateTimeFormat("en-GB", {
-          timeStyle: "short",
-          dateStyle: "short",
-          timeZone: "UTC",
-        }).format(date);
-        return formattedDate;
+    private formatUtcDate(date: Date): any {
+        const hours = date.getUTCHours();
+        const minutes = date.getUTCMinutes();
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        
+        const day = date.getUTCDate();
+        const month = date.getUTCMonth() + 1; // months are zero-based
+        const year = date.getUTCFullYear();
+    
+        const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+    
+        return {formattedTime, formattedDate};
     }
 
-    async createAppointment(mentee: User, dto: CreateAppointmentDto) {
-        const mentor = await this.userService.checkMentor(dto.mentor)
+    async createAppointment(mentee: User, dto: CreateAppointmentDto) {      
         const schedule = await this.scheduleService.getScheduleById(dto.schedule)
 
-        if(!mentor) throw new HttpException('Mentor with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule) throw new HttpException('Schedule with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule.status) throw new HttpException('Schedule is already taken', HttpStatus.BAD_REQUEST);
         if(schedule.deleted) throw new HttpException('Schedule is already deleted', HttpStatus.BAD_REQUEST);
-        if(dto.mentor != schedule.user.toString()) throw new HttpException('Mentor and Schedule Mismatched', HttpStatus.BAD_REQUEST);
 
         dto.mentee = mentee._id;
-        dto.mentor = dto.mentor;
+        dto.mentor = schedule.user._id;
         dto.status = "pending";
 
         const newAppointment = await this.appointmentRepository.create(dto);
@@ -55,8 +56,9 @@ export class AppointmentService {
             context: {
                 mentee: newAppointment.mentee.name,
                 mentor: newAppointment.mentor.name,
-                start_at: this.formatUtcDate(newAppointment.schedule.start_at),
-                end_at: this.formatUtcDate(newAppointment.schedule.end_at),
+                start_at: this.formatUtcDate(newAppointment.schedule.start_at).formattedTime,
+                end_at: this.formatUtcDate(newAppointment.schedule.end_at).formattedTime,
+                date: this.formatUtcDate(newAppointment.schedule.end_at).formattedDate,
                 note: newAppointment.note,
                 expertise: newAppointment.mentor.expertise.name
             }
@@ -182,7 +184,7 @@ export class AppointmentService {
 
     async getAppointmentById(user: User, id: string) {
         const appointment = await this.appointmentRepository.findById(id);
-        if (appointment.mentee.equals(user._id) || appointment.mentor.equals(user._id)) {
+        if (appointment.mentee.equals(user._id) || appointment.mentor.equals(user._id) || user.role === 'admin' ) {
             await appointment.populate({ path: 'mentee', select: 'name avatar' });
             await appointment.populate({ path: 'mentor', select: 'name avatar skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
             await appointment.populate({ path: 'schedule' });
@@ -227,7 +229,7 @@ export class AppointmentService {
     async confirmAppointment(mentor: User, id: string) {
         const tempAppointment = await this.appointmentRepository.findById(id)
         if (tempAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
-        if (tempAppointment.mentor != mentor.id) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+        if (tempAppointment.mentor != mentor.id && mentor.role !== 'admin') throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
 
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {status: "confirmed"})
         await updatedAppointment.populate({ path: 'mentee', select: 'name avatar email' });
@@ -242,8 +244,9 @@ export class AppointmentService {
             context: {
                 mentee: updatedAppointment.mentee.name,
                 mentor: updatedAppointment.mentor.name,
-                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at),
-                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at),
+                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at).formattedTime,
+                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedTime,
+                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedDate,
                 note: updatedAppointment.note,
                 link: updatedAppointment.mentor.skype_link,
                 expertise: updatedAppointment.mentor.expertise.name
@@ -256,7 +259,7 @@ export class AppointmentService {
     async cancelAppointment(user: User, id: string) {
         const tempAppointment = await this.appointmentRepository.findById(id)
         if (tempAppointment.status !== "pending") throw new HttpException('Status must be pending', HttpStatus.BAD_REQUEST);
-        if (tempAppointment.mentee != user.id && tempAppointment.mentor != user.id) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+        if (tempAppointment.mentee != user.id && tempAppointment.mentor != user.id && user.role !== 'admin') throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
 
         const updatedAppointment = await this.appointmentRepository.findByIdAndUpdate(id, {
             status: "canceled"
@@ -279,8 +282,9 @@ export class AppointmentService {
             context: {
                 mentee: updatedAppointment.mentee.name,
                 mentor: updatedAppointment.mentor.name,
-                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at),
-                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at),
+                start_at: this.formatUtcDate(updatedAppointment.schedule.start_at).formattedTime,
+                end_at: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedTime,
+                date: this.formatUtcDate(updatedAppointment.schedule.end_at).formattedDate,
                 note: updatedAppointment.note,
                 expertise: updatedAppointment.mentor.expertise.name
             }
@@ -289,7 +293,7 @@ export class AppointmentService {
         return updatedAppointment;
     }
 
-    // legacy function
+    // Legacy function
     async finishAppointment(mentor: User, id: string) {
         const oldAppointment = await this.appointmentRepository.findById(id)
         if (oldAppointment.status !== "confirmed") throw new HttpException('Status must be confirmed', HttpStatus.BAD_REQUEST);
@@ -429,19 +433,31 @@ export class AppointmentService {
         }
     }
 
-    async getAllUserPendingAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "pending")
-    }
+    // Admin access
+    async getAllAppointments(page:number, limit:number = 6, status: string) {
+        let query = null;
+        if(status) query = {status: status}
+        const count = await this.appointmentRepository.countDocuments(query)
+        const countPage = Math.ceil(count / limit)
+        const appointments = await this.appointmentRepository.getByCondition(
+            query,
+            null,
+            {
+                sort: {
+                    createdAt: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            [
+                { path: 'mentor', select: 'name avatar email phone gender skype_link facebook_link', populate: { path: 'expertise', select: 'name' }},
+                { path: 'mentee', select: 'name avatar email phone gender'},
+                { path: 'schedule'}
+            ]
+        )
 
-    async getAllUserCanceledAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "canceled")
-    }
-
-    async getAllUserConfirmedAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "confirmed")
-    }
-
-    async getAllUserFinishedAppointments(user_id: string, page:number, limit:number = 6) {
-        return await this.getAllUsersStatusAppointments(user_id, page, limit, "finished")
+        return {
+            count, countPage, appointments
+        }
     }
 }

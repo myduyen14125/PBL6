@@ -1,10 +1,13 @@
 <template>
   <div>
-    <TopNavbar :is-navbar-white="true" @toggle="toggleNavbar"/>
+    <TopNavbar :is-navbar-white="true" @toggle="toggleNavbar" />
     <div class="d-flex pt-80 bg-gray vh-100">
-      <Sidebar :is-toggle-navbar="isToggleNavbar"/>
-      <transition name="fade">
-        <div class="nuxt-wrapper mt-4 mr-4 w-100 bg-white" :class="!isToggleNavbar ? 'nuxt-wrapper-main' : 'nuxt-wrapper-full'">
+      <Sidebar :is-toggle-navbar="isToggleNavbar" />
+      <transition appear name="fade">
+        <div
+          class="nuxt-wrapper mt-4 mr-4 w-100 bg-white"
+          :class="!isToggleNavbar ? 'nuxt-wrapper-main' : 'nuxt-wrapper-full'"
+        >
           <nuxt key="$route.fullPath" />
         </div>
       </transition>
@@ -13,14 +16,14 @@
 </template>
 
 <script>
-import TopNavbar from '~/components/common/TopNavbar.vue';
-import Sidebar from '~/components/common/Sidebar.vue';
+import TopNavbar from "~/components/common/TopNavbar.vue";
+import Sidebar from "~/components/common/Sidebar.vue";
 
 export default {
-  name: 'DefaultLayout',
+  name: "DefaultLayout",
   components: {
     TopNavbar,
-    Sidebar
+    Sidebar,
   },
   data() {
     return {
@@ -30,9 +33,9 @@ export default {
   methods: {
     toggleNavbar(isToggleNavbar) {
       this.isToggleNavbar = isToggleNavbar;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .fade-enter-active,

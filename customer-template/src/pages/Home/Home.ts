@@ -15,12 +15,22 @@ import SwalPopup from "@/ultils/swalPopup";
 import { GetPaginationParams, Mentor } from "@/types/mentor";
 import { Blog } from "@/types/blog";
 import { SearchMentorsParams } from "../../types/mentor";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Home",
-  components: { GuestLayout, MentorCard, MentorPost, MentorMarquee, SearchBar, HiddenBackground, IntroductionText, ProcessSection },
+  components: {
+    GuestLayout,
+    MentorCard,
+    MentorPost,
+    MentorMarquee,
+    SearchBar,
+    HiddenBackground,
+    IntroductionText,
+    ProcessSection,
+  },
   setup() {
+    const router = useRouter();
     const mentorsStore = useMentors();
     const blogStore = useBlog();
     const mentors = ref<Mentor[]>([]);
@@ -44,7 +54,7 @@ export default defineComponent({
       mentorsStore.requestGetMentors({
         params: { page: 1, limit: 8 } as GetPaginationParams,
         callback: {
-          onSuccess: (res) => {
+          onSuccess: (res: any) => {
             isLoadingMentor.value = false;
             mentors.value = res.mentors;
           },
@@ -64,7 +74,7 @@ export default defineComponent({
       blogStore.requestGetBlogs({
         params: { page: 1, limit: 3 } as GetPaginationParams,
         callback: {
-          onSuccess: (res) => {
+          onSuccess: (res: any) => {
             isLoadingBlog.value = false;
             blogs.value = res.blogs;
           },

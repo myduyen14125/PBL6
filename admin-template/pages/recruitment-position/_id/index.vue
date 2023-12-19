@@ -2,16 +2,25 @@
   <div class="h-100 position-relative">
     <div class="header d-flex justify-content-between">
       <div class="d-flex align-items-center">
-        <img src="@/assets/icons/icon-back.svg" alt="" width="20px" height="20px" class="mr-1 cursor-pointer" @click="goBack()">
+        <img
+          src="@/assets/icons/icon-back.svg"
+          alt=""
+          width="20px"
+          height="20px"
+          class="mr-1 cursor-pointer"
+          @click="goBack()"
+        />
         <h1 class="title">Application position detail</h1>
       </div>
     </div>
-    <hr class="my-2">
+    <hr class="my-2" />
     <div class="content">
-     <ul>
+      <ul>
         <li class="list-item px-3 py-2 d-flex">
           <div class="content-title mr-3">Position:</div>
-          <div v-if="position.title" class="content-desc">{{ position.title.trim() }}</div>
+          <div v-if="position.title" class="content-desc">
+            {{ position.title.trim() }}
+          </div>
         </li>
         <li class="list-item px-3 py-2 d-flex">
           <div class="content-title mr-3">ID:</div>
@@ -19,7 +28,9 @@
         </li>
         <li class="list-item px-3 py-2 d-flex">
           <div class="content-title mr-3">Created at:</div>
-          <div class="content-desc">{{ formatDateTime(position.created_at) }}</div>
+          <div class="content-desc">
+            {{ formatDateTime(position.created_at) }}
+          </div>
         </li>
       </ul>
       <button class="btn-custom btn-white mt-4 mr-2-5" @click="openModal">
@@ -41,56 +52,56 @@
   </div>
 </template>
 <script>
-import moment from 'moment';
-import BaseModal from '~/components/modal/BaseModal.vue';
+import moment from "moment";
+import BaseModal from "~/components/modal/BaseModal.vue";
 
 export default {
-  name: 'Contact',
+  name: "RecruitmentPositionDetail",
   components: {
-    BaseModal
+    BaseModal,
   },
-  layout: 'secret',
+  layout: "secret",
   data() {
     return {
       position: {},
-      showModal: false
-    }
+      showModal: false,
+    };
   },
   created() {
-    this.$api.position.getPositionById(this.$route.params.id)
-    .then((res) => {
-      this.position = res.data.data
-    })
+    this.$api.position.getPositionById(this.$route.params.id).then((res) => {
+      this.position = res.data.data;
+    });
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
     goToUpdate(id) {
-      this.$router.push(`/recruitment-position/${id}/update`)
+      this.$router.push(`/recruitment-position/${id}/update`);
     },
     formatDateTime(date) {
-      return moment(date).format('DD.MM.YYYY HH:mm');
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     openModal() {
-      this.showModal = true; 
+      this.showModal = true;
     },
     closeModal() {
-      this.showModal = false; 
+      this.showModal = false;
     },
     removeItem(id) {
-      this.$api.position.deletePosition(id)
+      this.$api.position
+        .deletePosition(id)
         .then((res) => {
-          this.$toast.success('Delete recruitment position successfully!', {
-            className: 'my-toast',
-          })
+          this.$toast.success("Delete recruitment position successfully!", {
+            className: "my-toast",
+          });
         })
         .then((res) => {
-          this.$router.push('/recruitment-position')
-        })
+          this.$router.push("/recruitment-position");
+        });
     },
-  }
-}
+  },
+};
 </script>
 <style lang="scss" scoped>
 .content {

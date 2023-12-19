@@ -10,7 +10,6 @@ export class CreateLessonDto {
     @IsNotEmpty()
     video: string
     order: Number
-    archived: boolean
     @IsNotEmpty()
     course: string
 }
@@ -21,8 +20,6 @@ export class UpdateLessonDto {
     image: string
     video: string
     order: Number
-    archived: boolean
-    course: string
 }
 
 export class PaginationLessonDto {

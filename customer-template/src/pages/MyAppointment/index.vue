@@ -33,9 +33,11 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import { useSchedule } from "../../stores/schedule";
+import { useUser } from "../../stores/user";
 import { formatDate } from "../../ultils/date";
 import SwalPopup from "../../ultils/swalPopup";
 import Swal from "sweetalert2";
+import router from "../../router";
 
 export default {
   components: { GuestLayout, FullCalendar },
@@ -64,6 +66,7 @@ export default {
       existSchedules: [],
       newSchedules: [],
       isSubmitting: false,
+      skype_link: "",
     };
   },
   watch: {
@@ -115,13 +118,25 @@ export default {
     },
 
     submit: function () {
-      const params = this.newSchedules.map((item) => {
-        return {
-          start_at: formatDate(item.start, "YYYY-MM-DDTHH:mm:ss"),
-          end_at: formatDate(item.end, "YYYY-MM-DDTHH:mm:ss"),
-        };
-      });
-      this.createSchedule(params);
+      if (this.skype_link) {
+        const params = this.newSchedules.map((item) => {
+          return {
+            start_at: formatDate(item.start, "YYYY-MM-DDTHH:mm:ss"),
+            end_at: formatDate(item.end, "YYYY-MM-DDTHH:mm:ss"),
+          };
+        });
+        this.createSchedule(params);
+      } else {
+        SwalPopup.swalResultPopup(
+          "Vui lòng cập nhật link Google Meet của bạn trước khi đặt lịch rảnh. Cuộc hẹn giữa bạn và mentee sẽ diễn ra tại link Google Meet này.",
+          "success",
+          {
+            onConfirmed: () => {
+              router.push({ path: "/personal-info" });
+            },
+          }
+        );
+      }
     },
 
     showToast: function () {
@@ -213,9 +228,27 @@ export default {
         },
       });
     },
+
+    getUserInformation: function (params) {
+      const userStore = useUser();
+      userStore.requestMyProfile({
+        callback: {
+          onSuccess: (res) => {
+            this.skype_link = res?.skype_link || "";
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    },
   },
   mounted() {
     this.getMySchedule();
+    this.getUserInformation();
   },
 };
 </script>

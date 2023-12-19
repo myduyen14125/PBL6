@@ -7,12 +7,13 @@ import MessageCard from "../MessageCard/MessageCard.vue";
 import { getUserInfo } from "../../ultils/cache/cookies";
 import { useUser } from "../../stores/user";
 import SwalPopup from "../../ultils/swalPopup";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Header",
   components: { MessageCard, SvgIcon },
   setup() {
+    const router = useRouter();
     const authStore = useAuth();
     const isLogin = ref(authStore.userInfo.value ? true : false);
     const userStore = useUser();

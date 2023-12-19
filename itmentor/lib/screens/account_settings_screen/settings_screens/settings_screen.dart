@@ -4,7 +4,8 @@ import 'package:itmentor/screens/account_settings_screen/settings_screens/settin
 import 'package:itmentor/services/auth_services.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  final String token;
+  const SettingsScreen({super.key, required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: ((context) {
-                    return const SettingsHome();
+                    return SettingsHome(token: token);
                   }),
                 ),
               );

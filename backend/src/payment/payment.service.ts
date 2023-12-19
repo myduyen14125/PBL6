@@ -2,13 +2,14 @@ import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from "@nest
 import { CourseService } from "src/course/services/course.service";
 import { User } from "src/user/user.model";
 import { v4 as uuidv4 } from 'uuid';
-import { RequestPaymentDto } from "./payment.dto";
+import { PaymentDto, RequestPaymentDto } from "./payment.dto";
+import { PaymentRepository } from "./payment.repository";
 
 
 @Injectable()
 export class PaymentService {
     constructor(
-        // private readonly paymentRepository: PaymentRepository,
+        private readonly paymentRepository: PaymentRepository,
         @Inject(forwardRef(() => CourseService)) private readonly courseService: CourseService,
     ) { }
 
@@ -97,14 +98,48 @@ export class PaymentService {
             return "Success"
         }
         if(ipnData.resultCode != '0') throw new HttpException('Fail transaction', HttpStatus.BAD_REQUEST);
-        const regex = /user:([^c]+)course:([^c]+)/;
-        const match = ipnData.extraData.match(regex);
-        if(!match) console.log("no match")
-        const user = match[1];
-        const course = match[2];
-        console.log(user);
-        console.log(course);
+
+        const parts = ipnData.extraData.split(":");
+        const user = parts[1].slice(0, -6);
+        const course = parts[2].split("course:").toString();
+    
+        let dto = new PaymentDto
+        dto.user = user
+        dto.partnerCode= ipnData.partnerCode;
+        dto.orderId= ipnData.orderId;
+        dto.orderInfo= ipnData.orderInfo;
+        dto.amount= ipnData.amount.toString();
+        dto.requestId= ipnData.requestId;
+        dto.requestType= ipnData.requestType;
+        dto.signature= ipnData.signature;
+        dto.transId= ipnData.transId;
+        dto.payType= ipnData.payType;
+        
+        await this.paymentRepository.create(dto)
         await this.courseService.registerCourse(user, course)
         return "Purchase Complete"
+    }
+
+    async getPaymentLog(sort: string, page: number, limit: number = 10) {
+        let option = null
+        if(sort === 'newest') option = { createdAt: -1}
+        if(sort === 'oldest') option = { createdAt: 1}
+        if(sort === 'highest') option = { amount: -1}
+        if(sort === 'lowest') option = { amount: 1}
+        const count = await this.paymentRepository.countDocuments({})
+        const countPage = Math.ceil(count / limit)
+        const payments = await this.paymentRepository.getByCondition(
+            {},
+            null,
+            {
+                sort: option,
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            { path: 'user', select: 'name avatar phone email gender date_of_birth'}
+        );
+        return {
+            count, countPage, payments
+        }
     }
 } 

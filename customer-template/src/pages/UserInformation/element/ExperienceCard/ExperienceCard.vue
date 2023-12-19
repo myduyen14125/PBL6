@@ -5,12 +5,28 @@
         <img :src="logo" class="avatar mx-md-4" />
         <div>
           <p class="title mb-0">
+            <strong>
+              {{
+                data?.name ? 'Tên: ' :
+                (data?.place ? 'Trường học: ' :
+                (data?.company ? 'Công ty:  ' : ""))
+              }}</strong>
             {{ data?.name || data?.place || data?.company || "" }}
           </p>
           <p class="sub-title mb-0">
+            <strong>
+              {{
+                data?.major ? 'Chuyên ngành: ' :
+                (data?.position ? 'Vị trí: ' : "")
+              }}</strong>
             {{ data?.major || data?.position || "" }}
           </p>
           <p class="content">
+            <strong>
+              {{
+                data?.content ? 'Chuyên ngành: ' :
+                (data?.description ? 'Chi tiết: ' : "")
+              }}</strong>
             {{ data?.content || data?.description || "" }}
           </p>
         </div>

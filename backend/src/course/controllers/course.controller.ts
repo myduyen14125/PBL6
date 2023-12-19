@@ -17,10 +17,20 @@ export class CourseController {
         return this.courseService.createCourse(req.user, courseDto);
     }
 
+    @Get('by-user/:id')
+    getAllCoursesByCreatorId(@Param('id') id: string, @Query() { page, limit }: PaginationCourseDto) {
+        return this.courseService.getAllCoursesByCreatorId(id, page, limit);
+    }
+
     @Get('my-courses')
     @UseGuards(AuthGuard("jwt"))
     getCurrentUserAllCourses(@Req() req: any, @Query() {page, limit}: PaginationCourseDto) {
         return this.courseService.getCurrentUserAllCourses(req.user, page, limit);
+    }
+
+    @Get('search')
+    searchCourse(@Query('title') keyword: string, @Query() {page, limit}: PaginationCourseDto) {
+        return this.courseService.searchCourse(keyword, page, limit);
     }
 
     @Get(':id')
@@ -34,12 +44,6 @@ export class CourseController {
         return this.courseService.deleteCourse(req.user, id)
     }
 
-    // @UseGuards(AuthGuard("jwt"))
-    // @Patch('register-course/:id')
-    // async registerCourse(@Req() req: any, @Param('id') id: string) {
-    //     return this.courseService.registerCourse(req.user, id)
-    // }
-
     @Get()
     getAllCourses(@Query() {page, limit}: PaginationCourseDto) {
         return this.courseService.getAllCourses(page, limit);
@@ -50,10 +54,4 @@ export class CourseController {
     async updateCourse(@Req() req: any, @Param('id') id: string, @Body() course: UpdateCourseDto) {
         return this.courseService.updateCourse(req.user, id, course)
     }
-
-
-
-
-
-
 }

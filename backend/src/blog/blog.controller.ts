@@ -11,6 +11,16 @@ export class BlogController {
     getAllBlogs(@Query() { page, limit }: PaginationBlogDto) {
         return this.blogService.getAllBlogs(page, limit);
     }
+    
+    @Get('by-user/:id')
+    getAllBlogsByUserId(@Param('id') id: string, @Query() { page, limit }: PaginationBlogDto) {
+        return this.blogService.getAllBlogsByUserId(id, page, limit);
+    }
+
+    @Get('search')
+    searchBlog(@Query('title') keyword: string, @Query() { page, limit }: PaginationBlogDto) {
+        return this.blogService.searchBlog(keyword, page, limit);
+    }
 
     @Get(':id')
     getBlogById(@Param('id') id: string) {
@@ -22,7 +32,6 @@ export class BlogController {
     async createBlog(@Req() req: any, @Body() dto: CreateBlogDto) {
         return this.blogService.createBlog(req.user, dto);
     }
-
 
     @UseGuards(AuthGuard("jwt"))
     @Delete(':id')
@@ -36,4 +45,5 @@ export class BlogController {
         return this.blogService.updateBlog(req.user, id, dto)
     }
 
+    
 }

@@ -50,7 +50,7 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
   }
 
   Future<void> fetchData() async {
-    final uri = Uri.https(Constants.uri, '/user/${widget.mentorId}/schedules');
+    final uri = Uri.https(Constants.uri, '/schedule/by-user/${widget.mentorId}');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -75,7 +75,6 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 94, 157, 144),
         elevation: 0,
-        centerTitle: true,
         title: const Text(
           'Chọn lịch',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

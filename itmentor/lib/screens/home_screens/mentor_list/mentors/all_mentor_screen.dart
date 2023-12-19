@@ -182,7 +182,9 @@ class _AllMentorsScreenState extends State<AllMentorsScreen> {
                                                 width: 10,
                                               ),
                                               Text(
-                                                mentor['expertise'] != null ? 'Chuyên môn: ${mentor['expertise']['name']}' : 'Chuyên môn: Không hiển thị',
+                                                mentor['expertise'] != null
+                                                    ? 'Chuyên môn: ${mentor['expertise']['name']}'
+                                                    : 'Chuyên môn: Chưa thiết lập',
                                               ),
                                             ],
                                           ),

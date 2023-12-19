@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Role } from 'src/auth/role.decorator';
 import { RoleGuard } from 'src/auth/role.guard';
@@ -29,14 +29,20 @@ export class ScheduleController {
         return this.scheduleService.getUserSchedule(req.user);
     }
 
+    
+    @Get('by-user/:id')
+    getAllSchedulesByUserId(@Param('id') id: string) {
+        return this.scheduleService.getAllSchedulesByUserId(id);
+    }
+
     @UseGuards(AuthGuard("jwt"))
-    @Patch('delete-schedules')
+    @Delete('delete-schedules')
     async deleteManySchedules(@Req() req: any, @Body() schedules: string[]) {
         return this.scheduleService.deleteManySchedules(req.user, schedules)
     }
 
     @UseGuards(AuthGuard("jwt"))
-    @Patch(':id')
+    @Delete(':id')
     async deleteSchedule(@Req() req: any, @Param('id') id: string) {
         return this.scheduleService.deleteSchedule(req.user, id)
     }

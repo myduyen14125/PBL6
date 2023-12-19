@@ -13,8 +13,15 @@ export class AppointmentController {
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @Role('mentee')
     async createAppointment(@Req() req: any, @Body() appointment: CreateAppointmentDto) {
-
         return this.appointmentService.createAppointment(req.user, appointment);
+    }
+
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @Role('admin')
+    @Get('all')
+    @UseGuards(AuthGuard('jwt'))
+    async getAllAppointments(@Query('status') status: string, @Query() { page, limit }: PaginationAppointmentDto) {
+        return this.appointmentService.getAllAppointments(page, limit, status)
     }
 
     @Get()
@@ -26,37 +33,40 @@ export class AppointmentController {
     @Get('pending')
     @UseGuards(AuthGuard('jwt'))
     async getAllUsersPendingAppointments(@Req() req: any, @Query() { page, limit }: PaginationAppointmentDto) {
-        return this.appointmentService.getAllUserPendingAppointments(req.user._id, page, limit )
+        return this.appointmentService.getAllUsersStatusAppointments(req.user._id, page, limit, 'pending')
     }
 
     @Get('canceled')
     @UseGuards(AuthGuard('jwt'))
     async getAllUsersCanceledAppointments(@Req() req: any, @Query() { page, limit }: PaginationAppointmentDto) {
-        return this.appointmentService.getAllUserCanceledAppointments(req.user._id, page, limit )
+        return this.appointmentService.getAllUsersStatusAppointments(req.user._id, page, limit, 'canceled' )
     }
 
     @Get('confirmed')
     @UseGuards(AuthGuard('jwt'))
     async getAllUsersConfirmedAppointments(@Req() req: any, @Query() { page, limit }: PaginationAppointmentDto) {
-        return this.appointmentService.getAllUserConfirmedAppointments(req.user._id, page, limit )
+        return this.appointmentService.getAllUsersStatusAppointments(req.user._id, page, limit, 'confirmed')
     }
 
     @Get('finished')
     @UseGuards(AuthGuard('jwt'))
     async getAllUsersFinishedAppointments(@Req() req: any, @Query() { page, limit }: PaginationAppointmentDto) {
-        return this.appointmentService.getAllUserFinishedAppointments(req.user._id, page, limit )
+        return this.appointmentService.getAllUsersStatusAppointments(req.user._id, page, limit, 'finished' )
+    }
+
+    @Get('rated')
+    @UseGuards(AuthGuard('jwt'))
+    async getAllUserRatedAppointments(@Req() req: any, @Query() { page, limit }: PaginationAppointmentDto) {
+        return this.appointmentService.getAllUsersStatusAppointments(req.user._id, page, limit, 'rated')
     }
 
     @Get(':id')
     @UseGuards(AuthGuard('jwt'))
     getAppointmentById(@Req() req: any, @Param('id') id: string) {
-        console.log(req.user);
-
         return this.appointmentService.getAppointmentById(req.user, id);
     }
 
-    @UseGuards(AuthGuard('jwt'), RoleGuard)
-    @Role('mentor')
+    @UseGuards(AuthGuard('jwt'))
     @Patch(':id/confirm')
     async confirmAppointment(@Req() req: any, @Param('id') id: string) {
         return this.appointmentService.confirmAppointment(req.user, id)
@@ -68,8 +78,7 @@ export class AppointmentController {
         return this.appointmentService.cancelAppointment(req.user, id)
     }
 
-    @UseGuards(AuthGuard('jwt'), RoleGuard)
-    @Role('mentor')
+    @UseGuards(AuthGuard('jwt'))
     @Patch(':id/finish')
     async finishAppointment(@Req() req: any, @Param('id') id: string) {
         return this.appointmentService.finishAppointment(req.user, id)

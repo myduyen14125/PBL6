@@ -25,8 +25,14 @@
               @focus="isLoginError = true"
             />
             <div v-if="errors[0]" class="d-flex mt-1">
-              <img src="@/assets/icons/warning-red.svg" alt="icon red" class="mr-1 mt-1">
-              <span class="text-danger __label validate-text">{{ errors[0] }}</span>
+              <img
+                src="@/assets/icons/warning-red.svg"
+                alt="icon red"
+                class="mr-1 mt-1"
+              />
+              <span class="text-danger __label validate-text">{{
+                errors[0]
+              }}</span>
             </div>
           </ValidationProvider>
         </div>
@@ -50,25 +56,42 @@
                 required
                 @focus="isLoginError = true"
               />
-              <font-awesome-icon 
+              <font-awesome-icon
                 v-if="!showPassword && password && !errors[0]"
                 class="icon-eye"
-                icon="fa-solid fa-eye"  
-                @click="showPassword = !showPassword"/>
-              <font-awesome-icon 
-              v-if="showPassword && password && !errors[0]"
+                icon="fa-solid fa-eye"
+                @click="showPassword = !showPassword"
+              />
+              <font-awesome-icon
+                v-if="showPassword && password && !errors[0]"
                 class="icon-eye"
-                icon="fa-solid fa-eye-slash"  
-                @click="showPassword = !showPassword"/>
+                icon="fa-solid fa-eye-slash"
+                @click="showPassword = !showPassword"
+              />
             </div>
             <div v-if="errors[0]" class="d-flex mt-1">
-              <img src="@/assets/icons/warning-red.svg" alt="icon red" class="mr-1 mt-1">
-              <span class="text-danger __label validate-text">{{ errors[0] }}</span>
+              <img
+                src="@/assets/icons/warning-red.svg"
+                alt="icon red"
+                class="mr-1 mt-1"
+              />
+              <span class="text-danger __label validate-text">{{
+                errors[0]
+              }}</span>
             </div>
           </ValidationProvider>
-          <div v-if="isLoginError === false" class="d-flex align-items-center mt-1">
-            <img src="@/assets/icons/warning-red.svg" alt="icon red" class="mr-1 mt-1">
-            <span class="text-danger __label validate-text">{{ loginError }}</span>
+          <div
+            v-if="isLoginError === false"
+            class="d-flex align-items-center mt-1"
+          >
+            <img
+              src="@/assets/icons/warning-red.svg"
+              alt="icon red"
+              class="mr-1 mt-1"
+            />
+            <span class="text-danger __label validate-text">{{
+              loginError
+            }}</span>
           </div>
         </div>
         <div class="form-group">
@@ -87,22 +110,22 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
-  name: 'LoginForm',
+  name: "LoginForm",
   components: {
     ValidationObserver,
     ValidationProvider,
   },
   data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       isLoginError: true,
-      loginError: '',
+      loginError: "",
       showPassword: false,
-    }
+    };
   },
   computed: {
     isFormInvalid() {
@@ -115,37 +138,36 @@ export default {
 
   methods: {
     handleLogin() {
-      this.$router.push('/mentor')
-      // try {
-      //   this.$refs.form.validate()
-      //   this.$auth
-      //     .loginWith('local', {
-      //       data: {
-      //         email: this.email,
-      //         password: this.password,
-      //       },
-      //     })
-      //     .then((res) => {
-      //       this.$router.push('/contact')
-      //     })
-      //     .catch((err) => {
-      //       console.log("err", err.response.data.error.message)
-      //       this.isLoginError = false 
-      //       this.loginError = err.response.data.error.message ? err.response.data.error.message : "Sorry, an error has occurred. Please try again"
-      //     })
-      //     .catch((err) => {
-      //       console.log("catch function", err)
-      //       this.isLoginError = false
-      //       this.loginError = "Sorry, an error has occurred. Please try again"
-      //     })
-      // } catch (err) {
-      //   this.isLoginError = false
-      //   this.loginError = "Sorry, an error has occurred. Please try again"
-      // }
+      try {
+        this.$refs.form.validate();
+        this.$auth
+          .loginWith("local", {
+            data: {
+              email: this.email,
+              password: this.password,
+            },
+          })
+          .then((res) => {
+            sessionStorage.setItem(
+              "IT_MENTOR_accessToken",
+              res?.data?.accessToken
+            );
+            this.$router.push("/mentor");
+          })
+          .catch((err) => {
+            console.log("err", err.response?.data?.message);
+            this.isLoginError = false;
+            this.loginError = err.response?.data?.message
+              ? err.response?.data?.message
+              : "Sorry, an error has occurred. Please try again";
+          });
+      } catch (err) {
+        this.isLoginError = false;
+        this.loginError = "Sorry, an error has occurred. Please try again";
+      }
     },
-  }
-
-}
+  },
+};
 </script>
 <style lang="scss" scoped>
 .form {

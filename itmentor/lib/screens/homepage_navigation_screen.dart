@@ -82,7 +82,7 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
             label: 'Lịch hẹn',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: Icon(Icons.school),
             label: 'Khoá học',
           ),
           BottomNavigationBarItem(

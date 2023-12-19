@@ -1,9 +1,20 @@
 <template>
-  <div class="search-wrapper color-gray position-relative ml-4">
+  <div class="search-wrapper color-gray position-relative">
     <form @submit.prevent="handleSubmit">
-      <input v-model="content" maxlength="200" class="search-input" type="text" placeholder="Search..."/>
+      <input
+        v-model="content"
+        maxlength="200"
+        class="search-input"
+        type="text"
+        placeholder="Search..."
+      />
       <div class="search-icon d-flex justify-content-center align-items-center">
-        <img src="~/assets/icons/Search.svg" alt="icon search" class="cursor-pointer" @click="handleSubmit">
+        <img
+          src="~/assets/icons/Search.svg"
+          alt="icon search"
+          class="cursor-pointer"
+          @click="handleSubmit"
+        />
       </div>
     </form>
   </div>
@@ -17,7 +28,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.content = this.content.trim()
+      this.content = this.content.trim();
       this.$emit("search", encodeURIComponent(this.content.trim()));
     },
   },

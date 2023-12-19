@@ -2,22 +2,159 @@
 // axios2: no token
 export default (axios1, axios2) => ({
   getListMentor: async (queryObj = {}) => {
-    const { page = 1, paging = 10, subject = '', content = '', status = ''} = queryObj
-    return await axios1.get(`/mentor?page=${page}&paging=${paging}&subject_id=${subject ?? ""}&content=${content ?? ""}&status=${status ?? ""}`)
+    const { page = 1 } = queryObj;
+    return await axios1.get(`/mentor?page=${page}`);
   },
-  getContactById: async (id) => {
-    return await axios1.get(`/contacts/${id}`)
+
+  getListSearchMentor: async (queryObj = {}) => {
+    const { page = 1, name = "", expertise = "" } = queryObj;
+    return await axios1.get(
+      `/mentor/search?page=${page}&name=${name ?? ""}&expertise=${
+        expertise ?? ""
+      }`
+    );
   },
-  createNewContact: async (data) => {
-    return await axios2.post(`/contacts`, data)
+
+  getListSearchExpertise: async () => {
+    return await axios1.get("/expertise");
   },
-  markDoneContact: async (id) => {
-    return await axios1.patch(`/contacts/${id}/mark-done`)
+
+  addExpertise: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    await axios1.post("/expertise", data, config);
   },
-  markDoingContact: async (id) => {
-    return await axios1.patch(`/contacts/${id}/mark-doing`)
+
+  deleteExpertise: async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.delete(`/expertise/${id}`, config);
   },
-  // getNotificationCount: async () => {
-  //   return await axios1.get(`/contacts/count`)
-  // }
-})
+
+  updateExpertise: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    console.log("data name:", data.name);
+    let name = {
+      name: data.name,
+    };
+    return await axios1.patch(`/expertise/${data._id}`, name, config);
+  },
+
+  getListMentee: async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get("/user/mentees", config);
+  },
+
+  getListSearchMentee: async (queryObj = {}) => {
+    const { page = 1, name = "" } = queryObj;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(
+      `/user/search?page=${page}&name=${name ?? ""}`,
+      config
+    );
+  },
+
+  getListBlog: async (queryObj = {}) => {
+    const { page = 1, title = "" } = queryObj;
+    return await axios1.get(`/blog/search?page=${page}&title=${title ?? ""}`);
+  },
+
+  createBlog: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.post("/blog", data, config);
+  },
+
+  updateBlog: async (data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.patch(`/blog/${data?._id}`, data, config);
+  },
+
+  deleteBlog: async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.delete(`/blog/${id}`, config);
+  },
+
+  getBlogById: async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(`/blog/${id}`, config);
+  },
+
+  getListCourse: async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(`/course`, config);
+  },
+
+  getListSearchCourse: async (queryObj = {}) => {
+    const { page = 1, title } = queryObj;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(
+          "IT_MENTOR_accessToken"
+        )}`,
+      },
+    };
+    return await axios1.get(
+      `/course/search?page=${page}&title=${title ?? ""}`,
+      config
+    );
+  },
+});

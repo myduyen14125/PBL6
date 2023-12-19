@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { User } from "src/user/user.model";
 import { CreateCourseDto, UpdateCourseDto } from "../dtos/course.dto";
 import { CourseRepository } from "../repositories/course.repository";
-import { LessonService } from "./lesson.service";
 
 @Injectable()
 export class CourseService {
@@ -11,89 +10,53 @@ export class CourseService {
     ) { }
 
     async createCourse(user: User, dto: CreateCourseDto) {
+        if(!dto.discount) dto.discount = 0
         dto.creator = user.id
+        dto.duration = 0
         return await this.courseRepository.create(dto)
     }
 
     async getAllCourses(page: number, limit: number = 10) {
         const count = await this.courseRepository.countDocuments({})
         const countPage = Math.ceil(count / limit)
-        const skip = (page - 1) * limit || 0
-        const courses = await this.courseRepository.aggregate([
+        const tempCourses = await this.courseRepository.getByCondition(
+            null,
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
             {
-                $lookup: {
-                    from: 'users',
-                    localField: 'creator',
-                    foreignField: '_id',
-                    as: 'creator'
-                }
-            }, 
-            {
-                $unwind: '$creator'
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
             },
-            {
-                $skip: skip
-            },
-            {
-                $limit: Number(limit)
-            },
-            {
-                $lookup: {
-                    from: 'expertises', 
-                    localField: 'creator.expertise',
-                    foreignField: '_id',
-                    as: 'creator.expertise'
-                }
-            },
-            {
-                $unwind: '$creator.expertise'
-            },
-            {
-                $lookup: {
-                    from: 'lessons', 
-                    localField: '_id',
-                    foreignField: 'course',
-                    as: 'lessons'
-                }
-            },
-            {
-                $unwind: '$lessons'
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    title: { $first: '$title' },
-                    discount: { $first: '$discount' },
-                    lesson_count: { $sum: 1 },
-                    description: { $first: '$description' },
-                    price: { $first: '$price' },
-                    user_count: { $first: { $size: '$users' } },
-                    image: { $first: '$image' },
-                    creator: {
-                        $first: {
-                            name: '$creator.name',
-                            avatar: '$creator.avatar',
-                            expertise: {
-                                name: '$creator.expertise.name'
-                            }
-                        }
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
                     }
+                },
+                {
+                    path: 'lessons',
                 }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    title: 1,
-                    lesson_count: 1,
-                    description: 1,
-                    price: 1,
-                    discount: 1,
-                    user_count: 1,
-                    image: 1,
-                    creator: 1
-                }
-            },
-        ])    
+            ]
+        );
+        
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
+    
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
 
         return {
             count, countPage, courses
@@ -101,167 +64,95 @@ export class CourseService {
     }
 
     async getCourseById(id: string) {
-        const course = await this.courseRepository.findById(id);
-        if (!course) { 
+        const courseCheck = await this.courseRepository.findById(id);
+        if (!courseCheck) { 
             throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);
         }
-    
-        var mongoose = require('mongoose');
-        return await this.courseRepository.aggregate([
+        const course = await this.courseRepository.getByCondition(
             {
-                $match: { _id: new mongoose.Types.ObjectId(id) }
+                _id: id
             },
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'creator',
-                    foreignField: '_id',
-                    as: 'creator'
+            null,
+            null,
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
+                    }
+                },
+                {
+                    path: 'lessons',
                 }
-            },
-            {
-                $unwind: '$creator'
-            },
-            {
-                $lookup: {
-                    from: 'expertises',
-                    localField: 'creator.expertise',
-                    foreignField: '_id',
-                    as: 'creator.expertise'
-                }
-            },
-            {
-                $unwind: '$creator.expertise'
-            },
-            {
-                $lookup: {
-                    from: 'lessons',
-                    localField: '_id',
-                    foreignField: 'course',
-                    as: 'lessons'
-                }
-            },
-            {
-                $unwind: '$lessons'
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    title: { $first: '$title' },
-                    description: { $first: '$description' },
-                    price: { $first: '$price' },
-                    user_count: { $first: { $size: '$users' } },
-                    image: { $first: '$image' },
-                    creator: {
-                        $first: {
-                            name: '$creator.name',
-                            avatar: '$creator.avatar',
-                            expertise: {
-                                name: '$creator.expertise.name'
-                            }
-                        }
-                    },
-                    lessons: { $push: '$lessons' }
-                }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    title: 1,
-                    description: 1,
-                    price: 1,
-                    user_count: 1,
-                    image: 1,
-                    creator: 1,
-                    lessons: 1
-                }
-            },
-            {
-                $sort: { 'lessons.order': 1 }
+            ]
+        )
+
+        const { getVideoDurationInSeconds } = require('get-video-duration')
+        const courseObj = course[0].toObject();
+        const updatedLessons = await Promise.all(courseObj.lessons.map(async (lesson) => {
+            try {
+                await getVideoDurationInSeconds(
+                    lesson.video
+                  ).then((duration) => {
+                    lesson.duration = duration
+                  })
+                delete lesson.video
+                return lesson;
+            } catch (error) {
+                console.error(`Error fetching duration for lesson ${lesson._id}: ${error.message}`);
+                return lesson;
             }
-        ]);
+        }));
+
+        courseObj.lessons = updatedLessons;
+        return courseObj
     }    
 
     async getAllCoursesByCreatorId(id: string, page: number, limit: number = 10) {
-        const count = await this.courseRepository.countDocuments({})
+        const count = await this.courseRepository.countDocuments({creator: id})
         const countPage = Math.ceil(count / limit)
-        const skip = (page - 1) * limit || 0
-        const courses = await this.courseRepository.aggregate([
+        const tempCourses = await this.courseRepository.getByCondition(
             {
-                $match: {creator: id}
+                creator: id
             },
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
             {
-                $lookup: {
-                    from: 'users',
-                    localField: 'creator',
-                    foreignField: '_id',
-                    as: 'creator'
-                }
-            }, 
-            {
-                $unwind: '$creator'
+                sort: {
+                    _id: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
             },
-            {
-                $skip: skip
-            },
-            {
-                $limit: Number(limit)
-            },
-            {
-                $lookup: {
-                    from: 'expertises', 
-                    localField: 'creator.expertise',
-                    foreignField: '_id',
-                    as: 'creator.expertise'
-                }
-            },
-            {
-                $unwind: '$creator.expertise'
-            },
-            {
-                $lookup: {
-                    from: 'lessons', 
-                    localField: '_id',
-                    foreignField: 'course',
-                    as: 'lessons'
-                }
-            },
-            {
-                $unwind: '$lessons'
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    title: { $first: '$title' },
-                    lesson_count: { $sum: 1 },
-                    description: { $first: '$description' },
-                    price: { $first: '$price' },
-                    user_count: { $first: { $size: '$users' } },
-                    image: { $first: '$image' },
-                    creator: {
-                        $first: {
-                            name: '$creator.name',
-                            avatar: '$creator.avatar',
-                            expertise: {
-                                name: '$creator.expertise.name'
-                            }
-                        }
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
                     }
+                },
+                {
+                    path: 'lessons',
                 }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    title: 1,
-                    lesson_count: 1,
-                    description: 1,
-                    price: 1,
-                    user_count: 1,
-                    image: 1,
-                    creator: 1
-                }
-            },
-        ])    
+            ]
+        );
+        
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
+    
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
 
         return {
             count, countPage, courses
@@ -269,10 +160,7 @@ export class CourseService {
     }
 
     async deleteCourse(user: User, id: string) {
-        const course = await this.courseRepository.findById(id)
-        if (!course.creator.equals(user._id)) {
-            throw new HttpException('Only creator has permission', HttpStatus.UNAUTHORIZED);
-        }
+        await this.checkOwnership(user, id);
         return await this.courseRepository.deleteOne(id);
     }
 
@@ -301,7 +189,7 @@ export class CourseService {
 
     async checkOwnership(user: User, id: string) {
         const course = await this.courseRepository.findById(id)
-        if (!course.creator.equals(user._id)) throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
+        if (!course.creator.equals(user._id) && user.role !== 'admin') throw new HttpException('No Permission', HttpStatus.UNAUTHORIZED);
         return true
     }
 
@@ -315,13 +203,13 @@ export class CourseService {
     }
 
     async getCurrentUserAllCourses(user: User, page: number, limit: number = 10) {
-        const count = await this.courseRepository.countDocuments({$or: [{ users: { $in: user.id } }, { creator: user.id }]})
+        let query =  { $or: [{ users: { $in: user.id } }, { creator: user.id }]}
+        if(user.role === "admin") query = null
+        const count = await this.courseRepository.countDocuments(query)
         const countPage = Math.ceil(count / limit)
         const tempCourses = await this.courseRepository.getByCondition(
-            {
-                $or: [{ users: { $in: user.id } }, { creator: user.id }]
-            },
-            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users'],
+            query,
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
             {
                 sort: {
                     _id: -1,
@@ -329,25 +217,34 @@ export class CourseService {
                 skip: (page - 1) * limit,
                 limit: limit
             },
-            {
-                path: 'creator',
-                select: 'name avatar expertise',
-                populate: {
-                    path: 'expertise',
-                    select: 'name',
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
+                    }
+                },
+                {
+                    path: 'lessons',
                 }
-            });
+            ]
+        );
         
-            const courses = tempCourses.map(course => {
-                const courseObj = course.toObject();
-                const user_count = courseObj.users ? courseObj.users.length : 0;
-                delete courseObj.users
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
     
-                return {
-                    ...courseObj,
-                    user_count,
-                };
-            });
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
 
         return {
             count, countPage, courses
@@ -363,5 +260,58 @@ export class CourseService {
         const course = await this.courseRepository.findById(id);
         if (!course) { throw new HttpException('No course with this id', HttpStatus.BAD_REQUEST);}
         return course
+    }
+
+    async updateDuration(id: string, option: boolean, change: number) {
+        if(option) return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: change } })
+        return await this.courseRepository.findByIdAndUpdate(id, { $inc: { duration: -change } })
+    }
+
+    async searchCourse(keyword: string, page: number, limit: number = 10) {
+        let query = { title: { $regex: new RegExp(keyword, 'i') } }
+        const count = await this.courseRepository.countDocuments(query)
+        const countPage = Math.ceil(count / limit)
+        const tempCourses = await this.courseRepository.getByCondition(
+            query,
+            ['image', 'title', 'creator', 'description', 'price', 'discount', 'users', 'duration'],
+            {
+                sort: {
+                    createdAt: -1,
+                },
+                skip: (page - 1) * limit,
+                limit: limit
+            },
+            [
+                {
+                    path: 'creator',
+                    select: 'name avatar expertise',
+                    populate: {
+                        path: 'expertise',
+                        select: 'name',
+                    }
+                },
+                {
+                    path: 'lessons',
+                }
+            ]
+        );
+        
+        const courses = tempCourses.map(course => {
+            const courseObj = course.toObject();
+            const user_count = courseObj.users ? courseObj.users.length : 0;
+            const lesson_count = courseObj.lessons ? courseObj.lessons.length : 0;
+            delete courseObj.users
+            delete courseObj.lessons
+    
+            return {
+                ...courseObj,
+                user_count,
+                lesson_count
+            };
+        });
+
+        return {
+            count, countPage, courses
+        }
     }
 } 

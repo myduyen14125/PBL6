@@ -9,7 +9,6 @@ import { AuthService } from './auth.service';
 
 @Module({
     imports: [
-
         PassportModule.register({
             defaultStrategy: 'jwt',
             property: 'user',

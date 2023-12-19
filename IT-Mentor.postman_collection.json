@@ -11,13 +11,34 @@
 			"item": [
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Person is Nga\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.name).to.eql(\"Trần Thị Ngà\");\r",
+									"});\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 600ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRlZUBnbWFpbC5jb20iLCJpYXQiOjE2OTcwMzE0OTMsImV4cCI6MTY5NzAzNDA4NX0.TSe8SDerDBZWwXFc0QbAtSKjAYKDlNdKIFb4ZcuJorY",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5nb2NodW5nbGUxMzMxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjcxMTkzMiwiZXhwIjoxNzAyNzE0NTI0fQ.qr8f8P3F4S7x6NAX3jUuY73JJb5kLaXzQt3g9sGzKKo",
 									"type": "string"
 								}
 							]
@@ -26,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"email\": \"phvntiendat+0@gmail.com\",\r\n    \"password\": \"GNR25a&t2O\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -54,7 +75,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTY5OTExNzU0MSwiZXhwIjoxNjk5MTIwMTMzfQ.877f4UW0bNvwVP2XTjbs3ul55tqqUKIW0jUXmQt_SOQ",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRyYW5uZ2FkbjAyQGdtYWlsLmNvbSIsImlhdCI6MTcwMDkyOTAzNywiZXhwIjoxNzAwOTMxNjI5fQ.jxi8w95OxAtCP3R62F4xsRZMWJm3NKt3w50SrrHGZt8",
 									"type": "string"
 								}
 							]
@@ -63,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"old_password\": \"123456\",\r\n    \"new_password\": \"phvntiendat\"\r\n}",
+							"raw": "{\r\n    \"old_password\": \"12346\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -71,9 +92,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/user/change-password",
+							"raw": "{{deploy}}/user/change-password",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"user",
@@ -108,9 +129,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/auth/forgot-password",
+							"raw": "{{deploy}}/auth/forgot-password",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"auth",
@@ -145,9 +166,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/auth/logout",
+							"raw": "{{deploy}}/auth/logout",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"auth",
@@ -165,7 +186,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjEwMDc4OCwiZXhwIjoxNzAyMTAzMzgwfQ.iWilk8xCrrXNuMpk_7rixHUNoqcymZHFDsMI-V1uJmE",
 									"type": "string"
 								}
 							]
@@ -174,7 +195,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Phan Dat\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"phone\": \"0911343888\",\r\n    \"gender\": false\r\n}",
+							"raw": "{\r\n    \"skype_link\": \"https://www.skype.com/phvntiendat2/\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -182,9 +203,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/user",
+							"raw": "{{deploy}}/user",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"user"
@@ -275,7 +296,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"tiendatphan21@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"name\": \"Phan Dat\",\r\n    \"gender\": \"false\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"role\": \"mentee\"\r\n}",
+							"raw": "{\r\n    \"email\": \"admin001@gmail.com\",\r\n    \"password\": \"@Alter12345\",\r\n    \"name\": \"Admin 001\",\r\n    \"gender\": \"false\",\r\n    \"date_of_birth\": \"2002-02-21\",\r\n    \"role\": \"mentee\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -283,9 +304,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/auth/register",
+							"raw": "{{deploy}}/auth/register",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"auth",
@@ -481,6 +502,41 @@
 					"response": []
 				},
 				{
+					"name": "Search Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/blog/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CurrentUser/Blogs",
 					"request": {
 						"auth": {
@@ -570,17 +626,13 @@
 							}
 						},
 						"url": {
-							"raw": "https://pbl6-test-production.up.railway.app/blog/6538e03ba2f3c81cd4670c6a",
-							"protocol": "https",
+							"raw": "{{host}}/blog/657e68da41847a714b42b15f",
 							"host": [
-								"pbl6-test-production",
-								"up",
-								"railway",
-								"app"
+								"{{host}}"
 							],
 							"path": [
 								"blog",
-								"6538e03ba2f3c81cd4670c6a"
+								"657e68da41847a714b42b15f"
 							]
 						}
 					},
@@ -594,7 +646,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmdob2FpcGh1b25nQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQwNjA4NiwiZXhwIjoxNjk2NDA4Njc4fQ.3syFcOrIbKMmJxSHnc0_sacZe1isLlvg5JnIuMRSd5I",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4MzkwMCwiZXhwIjoxNzAyNzg2NDkyfQ.OZ3anGJzPBIw90uXnLhzuj0xJI_80NsK4xlvZFOKuiU",
 									"type": "string"
 								}
 							]
@@ -603,7 +655,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"Updated post\",\r\n    \"title\": \"Modified\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Modified\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -611,13 +663,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/blog/651d1b1479b9b2797396164c",
+							"raw": "{{host}}/blog/657e68da41847a714b42b15f",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"blog",
-								"651d1b1479b9b2797396164c"
+								"657e68da41847a714b42b15f"
 							]
 						}
 					},
@@ -639,7 +691,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRpZW5kYXRwaGFuMjFAZ21haWwuY29tIiwiaWF0IjoxNzAwMjkxMTkwLCJleHAiOjE3MDAyOTM3ODJ9.KRdfOElJ-eFYdNgVLXH71icz9DLuA5NDeKoe5IrJmNE",
 									"type": "string"
 								}
 							]
@@ -656,9 +708,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment?page=1&limit=6",
+							"raw": "{{deploy}}/appointment?page=1&limit=6",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"appointment"
@@ -805,13 +857,63 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/appointment/canceled?page=1&limit=2",
+							"raw": "{{host}}/appointment/canceled?page=2&limit=2",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"appointment",
 								"canceled"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Finished Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{mentor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/appointment/finished?page=1&limit=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"appointment",
+								"finished"
 							],
 							"query": [
 								{
@@ -828,7 +930,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Finished Appointments",
+					"name": "Get Rated Appointments",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -894,7 +996,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mentor\": \"6551a1a8a44daf1d5c95ddf5\",\r\n    \"schedule\": \"6556435b84ff31eac89daeb4\",\r\n    \"note\": \"Mail tester\"\r\n}",
+							"raw": "{\r\n    \"mentor\": \"6551a1a8a44daf1d5c95ddf5\",\r\n    \"schedule\": \"655834c629b94a16440a39e4\",\r\n    \"note\": \"Mail tester\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1076,9 +1178,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/schedule",
+							"raw": "{{deploy}}/schedule",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"schedule"
@@ -1100,7 +1202,7 @@
 								}
 							]
 						},
-						"method": "PATCH",
+						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "{{host}}/schedule/655643ed84ff31eac89daee7",
@@ -1128,7 +1230,7 @@
 								}
 							]
 						},
-						"method": "PATCH",
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -1585,14 +1687,14 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/PC/Downloads/The_Durban_University_of_Technology_new_log.jpg"
+									"src": "/C:/Users/PC/Downloads/intro2.mp4"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{host}}/media/upload",
+							"raw": "{{deploy}}/media/upload",
 							"host": [
-								"{{host}}"
+								"{{deploy}}"
 							],
 							"path": [
 								"media",
@@ -2162,11 +2264,21 @@
 				{
 					"name": "Request Payment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4OTI4MSwiZXhwIjoxNzAzMDQ4NDgxfQ.9rewflgAK6oV0SrSBZn4Dd5u8XcsOiD5S2j1u3VAUpo",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amount\": 15000\r\n}",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2174,12 +2286,87 @@
 							}
 						},
 						"url": {
-							"raw": "{{deploy}}/payment",
+							"raw": "{{deploy}}/payment/",
 							"host": [
 								"{{deploy}}"
 							],
 							"path": [
-								"payment"
+								"payment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Payment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4OTI4MSwiZXhwIjoxNzAzMDQ4NDgxfQ.9rewflgAK6oV0SrSBZn4Dd5u8XcsOiD5S2j1u3VAUpo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{deploy}}/payment/",
+							"host": [
+								"{{deploy}}"
+							],
+							"path": [
+								"payment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Payment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5nb2NodW5nbGUxMzMxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjcxMTk0MCwiZXhwIjoxNzAyNzE0NTMyfQ.8FBFIAHXOVJaGiWBQOojPVUJxiLGb3YXThJpiBD3KvY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"extraData\": \"user:6551a85fa44daf1d5c95e0fecourse:657a8e14ab8c14698af386bd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/payment/ipn",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"payment",
+								"ipn"
 							]
 						}
 					},
@@ -2198,7 +2385,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2207,7 +2394,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"New Course\",\r\n    \"description\": \"No\",\r\n    \"price\": 1000,\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Python Programming Basics\",\r\n    \"description\": \"Master the basics of Python programming in this concise course. Learn fundamental concepts, syntax, and application development. Perfect for beginners looking to establish a strong foundation in Python for web development, data analysis, and automation.\",\r\n    \"price\": 100000,\r\n    \"image\": \"https://www.freecodecamp.org/news/content/images/2022/02/Banner-10.png\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2254,75 +2441,18 @@
 					"response": []
 				},
 				{
-					"name": "Add User To Course",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{mentee}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/course/register-course/6548a4b82caceacf96ff1e31",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"course",
-								"register-course",
-								"6548a4b82caceacf96ff1e31"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get Course By Id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/course/6548a4b82caceacf96ff1e31",
+							"raw": "{{host}}/course/657a8e14ab8c14698af386bd",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"course",
-								"6548a4b82caceacf96ff1e31"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "User/Id/Courses",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/user/6537803f0a03d311350aca11/courses",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"user",
-								"6537803f0a03d311350aca11",
-								"courses"
+								"657a8e14ab8c14698af386bd"
 							]
 						}
 					},
@@ -2336,7 +2466,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentee}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2357,7 +2487,36 @@
 					"response": []
 				},
 				{
-					"name": "Delete Course [ chua lam ]",
+					"name": "Courses By Mentor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/6551a1a8a44daf1d5c95ddf5/courses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"6551a1a8a44daf1d5c95ddf5",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Course",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2414,7 +2573,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": \"Updated course\",\r\n    \"title\": \"Modified\",\r\n    \"price\": 20000,\r\n    \"discount\": 10\r\n}",
+							"raw": "{\r\n    \"description\": \"Updated course\",\r\n    \"title\": \"Modified\",\r\n    \"price\": 200000,\r\n    \"discount\": 10\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2447,7 +2606,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2456,7 +2615,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\",\r\n    \"title\": \"Lesson No3\",\r\n    \"description\": \"RestAPI Forming\",\r\n    \"image\": \"https://www.freecodecamp.org/news/content/images/2022/02/Banner-10.png\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/6573374a32378fb625527bd8/intro.mp4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2464,26 +2623,64 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/lesson",
+							"raw": "{{host}}/lesson/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"lesson"
+								"lesson",
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update Lesson [ chua lam ]",
+					"name": "Delete Lesson",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/lesson/657a86447aa39f04bdde71a6",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"lesson",
+								"657a86447aa39f04bdde71a6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Lesson",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjUyNzk2MywiZXhwIjoxNzAyNzg3MTYzfQ.muXIe_ZpGKnfNQaywMe453It4F0h8CH-16aoykeGgnA",
 									"type": "string"
 								}
 							]
@@ -2492,7 +2689,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Lesson Modified\",\r\n    \"description\": \"RestAPI Forming\",\r\n    \"image\": \"https://www.freecodecamp.org/news/content/images/2022/02/Banner-10.png\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/657a8d424bdaa5345e99c42b/intro2.mp4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2500,48 +2697,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/lesson",
+							"raw": "{{host}}/lesson/657a8e1dab8c14698af386c3",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"lesson"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Archive Lesson [ chua lam ]",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{mentor}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"course\": \"6548a4b82caceacf96ff1e31\",\r\n    \"title\": \"New Lesson 2\",\r\n    \"description\": \"No\",\r\n    \"image\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\",\r\n    \"video\": \"https://itmentor.s3.ap-southeast-1.amazonaws.com/65463e2ecf6e83762cc49c2d/1470060202862985-ukwd.webp\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/lesson",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"lesson"
+								"lesson",
+								"657a8e1dab8c14698af386c3"
 							]
 						}
 					},
@@ -2558,7 +2720,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{mentor}}",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBodm50aWVuZGF0QGdtYWlsLmNvbSIsImlhdCI6MTcwMjEyMTYwMywiZXhwIjoxNzAyMTI0MTk1fQ.Edac4hH2NslFX12uaNqRbt7TT-NCUlKmr2pwwFhRB7o",
 									"type": "string"
 								}
 							]
@@ -2575,13 +2737,412 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/lesson/6548f4810d94f8cca7bfb8e7",
+							"raw": "{{host}}/lesson/655adbb31af3dea1a1477ed2",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"lesson",
-								"6548f4810d94f8cca7bfb8e7"
+								"655adbb31af3dea1a1477ed2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get All Mentors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "Ha",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/mentor",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mentor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Blogs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjEwODM1OCwiZXhwIjoxNzAyMTEwOTUwfQ.z-_h-gHMYojLqjveY7qknCcfDvF2sb6TUCHd7sa2m5E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/blog",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"blog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Mentees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjEzMTAxMSwiZXhwIjoxNzAyMTMzNjAzfQ.ubDNA2u-zE8TdCP81OdEQ-i61IQK9B0EjmcPUwDIEB8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/search?name=Dat",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Dat"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Mentees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjEzMTAxMSwiZXhwIjoxNzAyMTMzNjAzfQ.ubDNA2u-zE8TdCP81OdEQ-i61IQK9B0EjmcPUwDIEB8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/mentees",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"mentees"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Expertise",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Game Development\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Expertise",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjc4NjE3NSwiZXhwIjoxNzAzMDQ1Mzc1fQ.XmKlqW6S8-EVyMG_tlUAM5yioEmRl0p7gaZ1MGJA9wo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Networking\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise/6551a272a44daf1d5c95de2e",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise",
+								"6551a272a44daf1d5c95de2e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Expertise",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise/12312312132",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise",
+								"12312312132"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Expertises",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlbjFtZW50ZWUxQGdtYWlsLmNvbSIsImlhdCI6MTY5ODA1ODA1OSwiZXhwIjoxNjk4MDYwNjUxfQ.Eewm4ewmRtkW-mBcVAew7T3WpnRUxL_NUKTzTaFeCas",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/expertise",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"expertise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Log",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMDAxQGdtYWlsLmNvbSIsImlhdCI6MTcwMjc5MDMxMywiZXhwIjoxNzAzMDQ5NTEzfQ.dkfi5ZPI7EipF5rZOdPjJqa0u13Pf9b3hbmIHhjUFGU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"course\": \"657a8e14ab8c14698af386bd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/payment/?sort=highest&sort=lowest&sort=newest&sort=oldest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"payment",
+								""
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "highest"
+								},
+								{
+									"key": "sort",
+									"value": "lowest"
+								},
+								{
+									"key": "sort",
+									"value": "newest"
+								},
+								{
+									"key": "sort",
+									"value": "oldest"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/course",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lbnRvcnRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjk3OTM2OTc3LCJleHAiOjE2OTc5Mzk1Njl9.XZKDLdJlNhWVosGIqATdrcxp4P9JLkS5sj7pzAfi32k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/course/search",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"course",
+								"search"
 							]
 						}
 					},

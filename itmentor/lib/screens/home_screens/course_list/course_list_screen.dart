@@ -34,6 +34,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
     final response = await http.get(apiUrl);
 
     if (response.statusCode == 200) {
+      debugPrint(response.body);
       final Map<String, dynamic> data = json.decode(response.body);
 
       setState(() {
@@ -65,6 +66,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
                 padding: const EdgeInsets.all(16.0),
                 itemBuilder: (context, index) {
                   final course = courses[index];
+                  debugPrint(course);
                   return Card(
                     elevation: 10.0,
                     shape: RoundedRectangleBorder(
@@ -166,7 +168,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
         Icon(icon, size: 16.0),
         const SizedBox(width: 4),
         Text(
-          'Giá: \$${price}',
+          'Giá: ${price} VND',
           style: TextStyle(
             fontSize: 16.0,
             color: price == 0

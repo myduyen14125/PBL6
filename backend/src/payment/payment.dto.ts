@@ -18,3 +18,7 @@ export class RequestPaymentDto {
     @IsNotEmpty() course: string
 }
 
+export class PaginationPaymentDto {
+    page: number; 
+    limit: number;
+}

@@ -10,25 +10,25 @@
       >
         <div class="mb-4">
           <img
-            :src="userInfo.avatar || avatar"
+            :src="userInfo?.avatar || avatar"
             class="w-40 h-40 rounded-full mx-auto object-cover"
           />
         </div>
         <p class="text-lg">
           <span class="font-bold inline-block w-40">Tên mentor: </span>
-          {{ userInfo.name }}
+          {{ userInfo?.name }}
         </p>
         <p class="text-lg">
           <span class="font-bold inline-block w-40">Lĩnh vực: </span>
-          {{ userInfo.expertise.name }}
+          {{ userInfo?.expertise?.name }}
         </p>
         <p class="text-lg">
           <span class="font-bold inline-block w-40">Email liên lạc: </span>
-          {{ userInfo.email }}
+          {{ userInfo?.email }}
         </p>
         <p class="text-lg">
           <span class="font-bold inline-block w-40">Số điện thoại: </span>
-          {{ userInfo.phone }}
+          {{ userInfo?.phone }}
         </p>
       </div>
       <div
@@ -36,12 +36,12 @@
       >
         <p class="text-lg">
           <span class="font-bold inline-block w-40">Ngày hẹn: </span>
-          {{ selectedSchedule.start.split(" ")[0] }}
+          {{ selectedSchedule?.start?.split(" ")[0] }}
         </p>
         <p class="text-lg">
           <span class="font-bold inline-block w-40">Thời gian hẹn: </span>
-          {{ selectedSchedule.start.split(" ")[1] }} -
-          {{ selectedSchedule.end.split(" ")[1] }}
+          {{ selectedSchedule?.start?.split(" ")[1] }} -
+          {{ selectedSchedule?.end?.split(" ")[1] }}
         </p>
         <p class="text-lg">
           <span class="font-bold inline-block w-40">Hình thức kết nối: </span>
