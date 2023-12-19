@@ -3,14 +3,8 @@
   <div class="h-100 position-relative pb-5">
     <div class="header d-flex justify-content-between">
       <div class="d-flex align-items-center">
-        <img
-          src="@/assets/icons/icon-back.svg"
-          alt=""
-          width="20px"
-          height="20px"
-          class="mr-1 cursor-pointer"
-          @click="$router.go(-1)"
-        />
+        <img src="@/assets/icons/icon-back.svg" alt="" width="20px" height="20px" class="mr-1 cursor-pointer"
+          @click="$router.go(-1)" />
         <h1 class="title">Blog detail</h1>
       </div>
       <button class="btn-custom btn-blue" @click="goToUpdate(blog.id)">
@@ -28,19 +22,14 @@
         <img :src="blog?.user?.avatar || ''" class="avatar-img mx-3" />
         <div>
           <p class="author mb-0">{{ blog?.user?.name || "" }}</p>
-          <p class="job mb-1">CEO tại Babylux Viet Nam</p>
+          <p class="job mb-1">Mentor tại IT Mentor</p>
           <p class="mb-0">
             {{ `Đăng ngày ${formatDate(blog?.createdAt) || ""}` }}
           </p>
         </div>
       </div>
       <div class="mb-5">
-        <img
-          v-if="blog.image"
-          class="content-image w-100"
-          :src="blog.image"
-          alt=""
-        />
+        <img v-if="blog.image" class="content-image w-100" :src="blog.image" alt="" />
       </div>
       <div v-html="blog.content"></div>
     </div>
@@ -60,7 +49,7 @@ export default {
   created() {
     this.getBlogDetail();
   },
-  mounted() {},
+  mounted() { },
   methods: {
     getBlogDetail() {
       this.$api.contact.getBlogById(this.$route.params.id).then((res) => {
@@ -82,11 +71,13 @@ export default {
 .content {
   overflow: auto;
   height: 90%;
+
   &-image {
     width: 263px;
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
+
     &-detail {
       width: 780px;
       height: 248.38px;
@@ -94,11 +85,13 @@ export default {
       border-radius: 10px;
     }
   }
+
   &-title {
     font-weight: 500;
     color: $color-primary;
     width: 296px;
   }
+
   &-desc {
     color: $color-secondary;
     // width: calc(100% - 236px - 50px);
@@ -110,11 +103,13 @@ export default {
 
 ::v-deep .html-content {
   padding: 0;
+
   img {
     max-width: 100%;
     height: auto;
   }
 }
+
 .w-90px {
   width: 120px;
 }
