@@ -234,8 +234,11 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                           mentorId: userData['_id'],
                                           mentorName: userData['name'],
                                           mentorAvatar: userData['avatar'],
-                                          mentorExpertise: userData['expertise'] != null ?
-                                              userData['expertise']['name'] : '`',
+                                          mentorExpertise:
+                                              userData['expertise'] != null
+                                                  ? userData['expertise']
+                                                      ['name']
+                                                  : '`',
                                         ),
                                       ),
                                     )
@@ -654,66 +657,69 @@ class _MentorProfileDetailState extends State<MentorProfileDetail> {
                                         );
                                       },
                                     ),
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                child: const Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Blogs',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              const SizedBox(
+                                height: 20,
                               ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: blogs.length,
-                                itemBuilder: (context, index) {
-                                  final blog = blogs[index];
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: ((context) {
-                                            return BlogDetailScreen(
-                                              blogId: blog['_id'],
-                                              blogContent: blog['content'],
-                                            );
-                                          }),
-                                        ),
-                                      );
-                                    },
-                                    child: Card(
-                                      margin: const EdgeInsets.all(10),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        side: const BorderSide(
-                                          color: Colors.grey,
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: ListTile(
-                                        title: Text(blog['title']),
-                                        subtitle: Text(
-                                          stripHtmlTags(blog['content'])
-                                                      .length <=
-                                                  300
-                                              ? stripHtmlTags(blog['content'])
-                                              : '${stripHtmlTags(blog['content']).substring(0, 300)}...',
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                              // Container(
+                              //   padding: const EdgeInsets.all(10),
+                              //   child: const Row(
+                              //     mainAxisAlignment:
+                              //         MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       Text(
+                              //         'Blogs',
+                              //         style: TextStyle(
+                              //           color: Colors.black,
+                              //           fontSize: 18,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // ListView.builder(
+                              //   shrinkWrap: true,
+                              //   physics: const NeverScrollableScrollPhysics(),
+                              //   itemCount: blogs.length,
+                              //   itemBuilder: (context, index) {
+                              //     final blog = blogs[index];
+                              //     return InkWell(
+                              //       onTap: () {
+                              //         Navigator.of(context).push(
+                              //           MaterialPageRoute(
+                              //             builder: ((context) {
+                              //               return BlogDetailScreen(
+                              //                 blogId: blog['_id'],
+                              //                 blogContent: blog['content'],
+                              //               );
+                              //             }),
+                              //           ),
+                              //         );
+                              //       },
+                              //       child: Card(
+                              //         margin: const EdgeInsets.all(10),
+                              //         shape: RoundedRectangleBorder(
+                              //           borderRadius:
+                              //               BorderRadius.circular(10.0),
+                              //           side: const BorderSide(
+                              //             color: Colors.grey,
+                              //             width: 1.0,
+                              //           ),
+                              //         ),
+                              //         child: ListTile(
+                              //           title: Text(blog['title']),
+                              //           subtitle: Text(
+                              //             stripHtmlTags(blog['content'])
+                              //                         .length <=
+                              //                     300
+                              //                 ? stripHtmlTags(blog['content'])
+                              //                 : '${stripHtmlTags(blog['content']).substring(0, 300)}...',
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              // ),
                             ],
                           ),
                         ),

@@ -92,6 +92,8 @@ class _CreateBlogState extends State<CreateBlog> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            const Text('Khuyến cáo: Nên tạo bài viết ở phiên bản web để thao tác đầy đủ hơn!', style: TextStyle(fontSize: 16),),
+            const SizedBox(height: 10,),
             TextFormField(
               controller: _titleController,
               decoration: const InputDecoration(labelText: 'Tên bài viết'),

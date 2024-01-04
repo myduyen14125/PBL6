@@ -298,6 +298,7 @@ class _SearchMentorState extends State<SearchMentor> {
                                 horizontal: 16, vertical: 8),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(color: Colors.black, width: 1),
                             ),
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(16),

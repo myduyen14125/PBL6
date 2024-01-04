@@ -231,7 +231,7 @@ class _BioScreenState extends State<BioScreen> {
                       ),
                     ),
                     title: Text(
-                      experience['position'],
+                      'Vị trí làm việc: ${experience['position']}',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -242,7 +242,7 @@ class _BioScreenState extends State<BioScreen> {
                       children: [
                         const SizedBox(height: 5,),
                         Text(
-                          experience['company'],
+                          'Công ty: ${experience['company']}',
                           style: const TextStyle(
                             color: Colors.grey,
                           ),
@@ -472,7 +472,7 @@ class _BioScreenState extends State<BioScreen> {
                       ),
                     ),
                     title: Text(
-                      award['name'],
+                      'Tên giải thưởng: ${award['name']}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -483,7 +483,7 @@ class _BioScreenState extends State<BioScreen> {
                       children: [
                         const SizedBox(height: 5,),
                         Text(
-                          'Description: ${award['description']}',
+                          'Mô tả: ${award['description']}',
                           style: TextStyle(
                             color: Colors.grey,
                           ),

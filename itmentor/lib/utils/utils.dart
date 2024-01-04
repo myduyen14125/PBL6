@@ -34,10 +34,10 @@ void httpErrorHandle({
         final message = jsonResponse['message'] as String;
         showSnackBar(context, message);
       } catch (e) {
-        showSnackBar(context, 'Không thể đăng ký');
+        showSnackBar(context, 'Lỗi hệ thống. Không thể đăng ký');
       }
       break;
     default:
-      showSnackBar(context, 'Lỗi hệ thống');
+      // showSnackBar(context, 'Lỗi hệ thống');
   }
 }

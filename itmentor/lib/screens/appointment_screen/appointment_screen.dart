@@ -449,7 +449,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   Future<void> confirmAppointment(
       String appointmentId, dynamic appointment) async {
-    final apiUrl = Uri.https('pbl6-production.up.railway.app',
+    final apiUrl = Uri.https(Constants.uri,
         '/appointment/$appointmentId/confirm');
 
     final headers = {
@@ -483,7 +483,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   Future<void> finishAppointment(
       String appointmentId, dynamic appointment) async {
     final apiUrl = Uri.https(
-        'pbl6-production.up.railway.app', '/appointment/$appointmentId/finish');
+        Constants.uri, '/appointment/$appointmentId/finish');
     final headers = {
       'Connection': 'keep-alive',
       'Authorization': 'Bearer ${widget.token}',

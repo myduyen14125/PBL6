@@ -82,8 +82,8 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     },
   ];
 
-  Future<void> _launchUrl() async {
-    if (!await launchUrl(Uri.parse('https://flutter.dev'),
+  Future<void> _launchUrl(String meetingLink) async {
+    if (!await launchUrl(Uri.parse(meetingLink),
         mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch ');
     }
@@ -235,7 +235,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                                         ),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            _launchUrl();
+                                            _launchUrl(meetingLink);
                                             print('Meeting link tapped!');
                                           },
                                       ),

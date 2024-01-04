@@ -42,12 +42,12 @@ class _ChooseScheduleDetailScreenState
   List<String> connectChoices = ['Google Meet', 'Skype'];
   String selectedConnectChoice = 'Chọn hình thức kết nối';
 
-  List<String> subjectChoices = [
-    'Định hướng nghề nghiệp',
-    'Nghiên cứu khoa học',
-    'Kỹ năng mềm',
-    'Bất kì',
-  ];
+  // List<String> subjectChoices = [
+  //   'Định hướng nghề nghiệp',
+  //   'Nghiên cứu khoa học',
+  //   'Kỹ năng mềm',
+  //   'Bất kì',
+  // ];
   String selectedSubjectChoice = 'Chọn chủ đề';
 
   TextEditingController _messageController = TextEditingController();
@@ -244,42 +244,42 @@ class _ChooseScheduleDetailScreenState
               const SizedBox(
                 height: 10,
               ),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    'Chủ đề',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Card(
-                margin: const EdgeInsets.only(left: 10, right: 20, top: 10),
-                child: ExpansionTile(
-                    key: GlobalKey(),
-                    initiallyExpanded: formOpenFlag,
-                    onExpansionChanged: (val) {
-                      formOpenFlag = val;
-                    },
-                    title: Text(selectedSubjectChoice),
-                    backgroundColor: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.025),
-                    children: subjectChoices.map((choice) {
-                      return ListTile(
-                        title: Text(choice),
-                        onTap: () {
-                          setState(() {
-                            selectedSubjectChoice = choice;
-                            formOpenFlag = !formOpenFlag;
-                          });
-                        },
-                      );
-                    }).toList()),
-              ),
+              // const Row(
+              //   children: [
+              //     SizedBox(
+              //       width: 15,
+              //     ),
+              //     Text(
+              //       'Chủ đề',
+              //       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              //     ),
+              //   ],
+              // ),
+              // Card(
+              //   margin: const EdgeInsets.only(left: 10, right: 20, top: 10),
+              //   child: ExpansionTile(
+              //       key: GlobalKey(),
+              //       initiallyExpanded: formOpenFlag,
+              //       onExpansionChanged: (val) {
+              //         formOpenFlag = val;
+              //       },
+              //       title: Text(selectedSubjectChoice),
+              //       backgroundColor: Theme.of(context)
+              //           .colorScheme
+              //           .secondary
+              //           .withOpacity(0.025),
+              //       children: subjectChoices.map((choice) {
+              //         return ListTile(
+              //           title: Text(choice),
+              //           onTap: () {
+              //             setState(() {
+              //               selectedSubjectChoice = choice;
+              //               formOpenFlag = !formOpenFlag;
+              //             });
+              //           },
+              //         );
+              //       }).toList()),
+              // ),
               const SizedBox(
                 height: 15,
               ),
@@ -324,8 +324,7 @@ class _ChooseScheduleDetailScreenState
                   width: 130,
                   child: ElevatedButton(
                     onPressed:
-                        (selectedConnectChoice != 'Chọn hình thức kết nối' &&
-                                selectedSubjectChoice != 'Chọn chủ đề')
+                        (selectedConnectChoice != 'Chọn hình thức kết nối')
                             ? () {
                                 sendAppointmentRequest(
                                     mentorId: widget.mentorId,

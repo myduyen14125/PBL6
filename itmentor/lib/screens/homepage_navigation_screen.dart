@@ -47,11 +47,9 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
 
     final List<Widget> _pages = [
       const HomepageScreen(),
-      AppointmentScreen(
-        token: accessToken,
-      ),
-      // const CommunicationScreen(),
-      const CourseListScreen(),
+      AppointmentScreen(token: accessToken),
+      CourseListScreen(token: accessToken),
+      CommunicationScreen(),
       const ProfileScreen(),
     ];
 
@@ -84,6 +82,10 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
             label: 'Khoá học',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Nhắn tin',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
