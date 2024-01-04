@@ -149,11 +149,19 @@ export default {
           isShowTitle: false,
         },
         {
-          title: "Appointment",
+          title: "Appointments",
           // icon: 'fa-solid fa-shield',
           iconSrc: "/icons/product-gray.svg",
           iconSrcActive: "/icons/product-white.svg",
-          link: "/product",
+          link: "/appointment",
+          isShowTitle: false,
+        },
+        {
+          title: "Course",
+          // icon: 'fa-solid fa-shield',
+          iconSrc: "/icons/product-gray.svg",
+          iconSrcActive: "/icons/product-white.svg",
+          link: "/course",
           isShowTitle: false,
         },
         {

@@ -10,51 +10,58 @@
           class="mr-1 cursor-pointer"
           @click="goBack()"
         />
-        <h1 class="title">Contact detail</h1>
+        <h1 class="title">Course detail</h1>
       </div>
     </div>
     <hr class="mt-2 mb-1" />
     <div class="content overflow-auto h-90">
       <ul>
         <li class="list-item px-4 py-2 d-flex min-h-48">
-          <div class="content-title mr-3">Avatar</div>
-          <div v-if="person.avatar" class="content-desc">
-            <img v-if="person?.avatar" class="avatar" :src="person?.avatar" />
+          <div class="content-title mr-3">Image</div>
+          <div v-if="course.image" class="content-desc">
+            <img v-if="course?.image" class="avatar" :src="course?.image" />
           </div>
         </li>
         <li class="list-item px-4 py-2 d-flex min-h-48">
-          <div class="content-title mr-3">Name</div>
-          <div v-if="person.name" class="content-desc">
-            {{ person.name.trim() }}
+          <div class="content-title mr-3">Title</div>
+          <div v-if="course.title" class="content-desc">
+            {{ course.title.trim() }}
           </div>
         </li>
         <li class="list-item px-4 py-2 d-flex min-h-48">
-          <div class="content-title mr-3">Email</div>
-          <div class="content-desc">{{ person.email }}</div>
+          <div class="content-title mr-3">Description</div>
+          <div class="content-desc">{{ course.description }}</div>
         </li>
         <li class="list-item px-4 py-2 d-flex h-48">
-          <div class="content-title mr-3">Phone</div>
-          <div class="content-desc">{{ person.phone }}</div>
+          <div class="content-title mr-3">Price</div>
+          <div class="content-desc">{{ course.price }}</div>
         </li>
         <li class="list-item px-4 py-2 d-flex min-h-48">
-          <div class="content-title mr-3">Date of birth</div>
-          <div class="content-desc w-60">{{ person.date_of_birth }}</div>
+          <div class="content-title mr-3">Duration</div>
+          <div class="content-desc w-60">{{ course.duration }}</div>
         </li>
-        <li class="list-item px-4 py-2 d-flex h-48">
-          <div class="content-title mr-3">Gender</div>
-          <div class="content-desc">
-            {{ person?.gender ? "Female" : "Male" }}
-          </div>
+        <li class="list-item px-4 py-2 d-flex min-h-48">
+          <div class="content-title mr-3">Creator</div>
+          <div class="content-desc w-60">{{ name }}</div>
         </li>
+        <li class="list-item px-4 py-2 d-flex min-h-48">
+          <div class="content-title mr-3">Number of students</div>
+          <div class="content-desc w-60">{{ course.user_count }}</div>
+        </li>
+        <li class="list-item px-4 py-2 d-flex min-h-48">
+          <div class="content-title mr-3">Number of lessons</div>
+          <div class="content-desc w-60">{{ course.lesson_count }}</div>
+        </li>
+
         <button
-          v-if="person.status === 'TODO'"
+          v-if="course.status === 'TODO'"
           class="btn-custom btn-blue mt-4 ml-4"
           @click="openModal"
         >
           Mark DOING
         </button>
         <button
-          v-if="person.status === 'DOING'"
+          v-if="course.status === 'DOING'"
           class="btn-custom btn-blue mt-4 ml-4"
           @click="openModal"
         >
@@ -66,12 +73,12 @@
       v-if="showModal"
       :title="'Confirm'"
       :description="
-        person.status === 'TODO'
+        course.status === 'TODO'
           ? 'Would you like to confirm doing status?'
           : 'Would you like to confirm done status?'
       "
       :function-text="'Confirm'"
-      @function-action="changeStatus(person.status)"
+      @function-action="changeStatus(course.status)"
       @close="closeModal"
     >
     </BaseModal>
@@ -83,39 +90,37 @@ import { mapActions, mapGetters } from "vuex";
 import BaseModal from "~/components/modal/BaseModal.vue";
 
 export default {
-  name: "MenteeDetail",
+  name: "CourseDetail",
   components: {
     BaseModal,
   },
   layout: "secret",
   data() {
     return {
-      person: {},
+      course: {},
+      name: "",
       showModal: false,
     };
   },
   computed: {
-    ...mapGetters({
-      subjectList: "subject/getSubjects",
-    }),
+    // ...mapGetters({
+    //   subjectList: "subject/getSubjects",
+    // }),
   },
   created() {
     // this.$api.contact.getListMentee().then((res) => {
-    //   this.person = res.data.data;
+    //   this.course = res.data.data;
     // });
     // let menteeList;
-    this.$api.contact.getListMentee().then((res) => {
+    this.$api.contact.getListCourse().then((res) => {
       console.log("res", res.data.mentees);
-      for (const mentee of res.data.mentees) {
-        console.log("mentee", mentee);
-        if (mentee._id == this.$route.params.id) {
-          this.person = mentee;
-          this.person.date_of_birth = moment(this.person.date_of_birth).format(
-            "DD-MM-YYYY"
-          );
+      for (const course of res.data.courses) {
+        if (course._id == this.$route.params.id) {
+          this.course = course;
+          this.name = course.creator.name;
           break;
         } else {
-          this.person = [];
+          this.course = [];
         }
       }
     });
@@ -133,7 +138,7 @@ export default {
         this.$api.contact
           .markDoingContact(this.$route.params.id)
           .then((res) => {
-            this.person.status = "DOING";
+            this.course.status = "DOING";
             this.showModal = false;
           })
           .then((res) => {
@@ -145,7 +150,7 @@ export default {
         this.$api.contact
           .markDoneContact(this.$route.params.id)
           .then((res) => {
-            this.person.status = "DONE";
+            this.course.status = "DONE";
             this.showModal = false;
           })
           .then((res) => {
@@ -159,7 +164,7 @@ export default {
       this.$router.go(-1);
     },
     formatDateTime(date) {
-      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
+      return moment(date).format("DD.MM.YYYY HH:mm");
     },
     openModal() {
       this.showModal = true;

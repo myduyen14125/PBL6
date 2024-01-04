@@ -1,15 +1,15 @@
 <template>
   <div class="table-wrapper w-100">
-    <div class="table-header d-flex align-items-center justify-content-between mb-2">
-      <h1 class="title">Products </h1>
-      <SearchInput @search="handleSearch"/>
+    <div
+      class="table-header d-flex align-items-center justify-content-between mb-2"
+    >
+      <h1 class="title">Products</h1>
+      <SearchInput @search="handleSearch" />
       <nuxt-link to="/product/create">
-        <button class="btn-custom btn-blue" >
-          Create product
-        </button>
+        <button class="btn-custom btn-blue">Create product</button>
       </nuxt-link>
     </div>
-    <hr class="mt-2 mb-0">
+    <hr class="mt-2 mb-0" />
     <div ref="table" class="table-overflow overflow-auto d-block h-90">
       <div class="layer-block"></div>
       <table class="table table-striped">
@@ -26,23 +26,33 @@
           <tr v-for="(item, index) in data" :key="index" class="table-row">
             <td class="color-primary">
               <span class="td-content">
-                <nuxt-link :to="`/product/${item.id}`" class="cursor-pointer color-primary" @click="handleRouting(item.id)">{{ item.title.trim() }}</nuxt-link>
+                <nuxt-link
+                  :to="`/product/${item.id}`"
+                  class="cursor-pointer color-primary"
+                  @click="handleRouting(item.id)"
+                  >{{ item.title.trim() }}</nuxt-link
+                >
               </span>
             </td>
             <td v-if="item.description" class="color-secondary">
-              <span class="td-content">{{ formatDescription(item.description.trim()) }}</span>
+              <span class="td-content">{{
+                formatDescription(item.description.trim())
+              }}</span>
             </td>
             <td class="color-secondary">
               <span class="td-link">{{ item.link }}</span>
             </td>
-            <td class="color-secondary w-20 pt-18px">{{ formatDateTime(item.created_at) }}</td>
+            <td class="color-secondary w-20 pt-18px">
+              {{ formatDateTime(item.created_at) }}
+            </td>
             <td class="color-secondary w-15">
               <div class="switch-toggle">
                 <label class="switch">
-                  <input 
-                    v-model="item.published" 
-                    type="checkbox" 
-                    @click="markPublic(item.id)">
+                  <input
+                    v-model="item.published"
+                    type="checkbox"
+                    @click="markPublic(item.id)"
+                  />
                   <span class="slider round"></span>
                 </label>
               </div>
@@ -54,8 +64,8 @@
   </div>
 </template>
 <script>
-import moment from 'moment';
-import SearchInput from '../uncommon/SearchInput.vue';
+import moment from "moment";
+import SearchInput from "../uncommon/SearchInput.vue";
 
 export default {
   components: {
@@ -64,7 +74,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
   methods: {
@@ -72,33 +82,30 @@ export default {
       this.$router.push(`/product/${id}`);
     },
     formatDateTime(date) {
-      return moment(date).format('DD.MM.YYYY HH:mm');
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     formatDescription(description) {
       if (description.length > 100) {
-        return description.slice(0, 100) + '...';
-      }
-      else {
+        return description.slice(0, 100) + "...";
+      } else {
         return description;
       }
     },
     markPublic(id) {
-      this.$api.product.markPublicProduct(id)
-        .then((res) => {
-          this.$toast.success('Change status public successfully!', {
-            className: 'my-toast',
-          })
-        })
+      this.$api.product.markPublicProduct(id).then((res) => {
+        this.$toast.success("Change status public successfully!", {
+          className: "my-toast",
+        });
+      });
     },
     handleSearch(content) {
-      this.$emit('searchContent', content);
+      this.$emit("searchContent", content);
     },
     scrollToTop() {
       this.$refs.table.scrollTop = 0;
-    }
-  }
-   
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/toggle.scss";

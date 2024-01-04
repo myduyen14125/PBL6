@@ -8,10 +8,10 @@ export const getUserInfo = async (id: string): Promise<any> =>
 export const getUserBlogs = async (
   id: string,
   params: GetPaginationParams
-): Promise<any> => httpRequest.get<any>(`/user/${id}/blogs`, { params });
+): Promise<any> => httpRequest.get<any>(`/blog/by-user/${id}`, { params });
 
 export const getUserSchedules = async (id: string): Promise<any> =>
-  httpRequest.get<any>(`/user/${id}/schedules`);
+  httpRequest.get<any>(`/schedule/by-user/${id}`);
 
 export const updateUser = async (params: User): Promise<any> =>
   httpRequest.patch<any>("/user", params);

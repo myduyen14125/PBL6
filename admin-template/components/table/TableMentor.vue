@@ -42,7 +42,7 @@
               @click="handleRouting(item?._id)"
             >
               <td>
-                <img v-if="item?.avatar" class="avatar" :src="item?.avatar" />
+                <img v-if="item?.avatar" class="avatar" :src="item?.avatar != '' ? item?.avatar : 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'" />
               </td>
               <td class="color-primary text-start">
                 <span class="td-content">

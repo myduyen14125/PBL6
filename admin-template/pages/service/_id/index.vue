@@ -154,7 +154,7 @@ export default {
       this.$router.go(-1);
     },
     formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     openModal() {
       this.showModal = true;

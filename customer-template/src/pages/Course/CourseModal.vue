@@ -139,6 +139,7 @@
 </template>
 <script lang="ts">
 import { useCourse } from "../../stores/course";
+import { useMedia } from "../../stores/media";
 import { ref, defineComponent, watch, onMounted, type Ref } from "vue";
 import SvgIcon from "../../components/BUI/SvgIcon/SvgIcon.vue";
 import { PropType } from "vue";
@@ -176,6 +177,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const modal = ref(false);
     const courseStore = useCourse();
+    const mediaStore = useMedia();
+
     const initialForm: Form = {
       price: "",
       description: "",
@@ -338,6 +341,22 @@ export default defineComponent({
 
     const uploadAvatar = () => {
       form.value.image = URL.createObjectURL(fileImage.value);
+
+      mediaStore.requestUploadMedia({
+        file: fileImage.value,
+        callback: {
+          onSuccess: (res) => {
+            form.value.image = res.url;
+          },
+          onFailure: () => {
+            form.value.image = res.url;
+            // SwalPopup.swalResultPopup(
+            //   "Sorry, looks like there are some errors detected, please try again.",
+            //   "error"
+            // );
+          },
+        },
+      });
     };
 
     const getAvatar = () => {

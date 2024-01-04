@@ -1,7 +1,7 @@
 import httpRequest from "../ultils/httpRequest";
 
-export const uploadMedia = async (media: any): Promise<any> => {
+export const uploadMedia = async (file: any): Promise<any> => {
   const formData = new FormData();
-  formData.append("media", media);
+  formData.append("file", file);
   return httpRequest.post<any>("/media/upload", formData);
 }

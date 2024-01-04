@@ -30,17 +30,14 @@ export class AppointmentService {
     }
 
     async createAppointment(mentee: User, dto: CreateAppointmentDto) {      
-        const mentor = await this.userService.checkMentor(dto.mentor)
         const schedule = await this.scheduleService.getScheduleById(dto.schedule)
 
-        if(!mentor) throw new HttpException('Mentor with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule) throw new HttpException('Schedule with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule.status) throw new HttpException('Schedule is already taken', HttpStatus.BAD_REQUEST);
         if(schedule.deleted) throw new HttpException('Schedule is already deleted', HttpStatus.BAD_REQUEST);
-        if(dto.mentor != schedule.user.toString()) throw new HttpException('Mentor and Schedule Mismatched', HttpStatus.BAD_REQUEST);
 
         dto.mentee = mentee._id;
-        dto.mentor = dto.mentor;
+        dto.mentor = schedule.user._id;
         dto.status = "pending";
 
         const newAppointment = await this.appointmentRepository.create(dto);
@@ -187,7 +184,7 @@ export class AppointmentService {
 
     async getAppointmentById(user: User, id: string) {
         const appointment = await this.appointmentRepository.findById(id);
-        if (appointment.mentee.equals(user._id) || appointment.mentor.equals(user._id)) {
+        if (appointment.mentee.equals(user._id) || appointment.mentor.equals(user._id) || user.role === 'admin' ) {
             await appointment.populate({ path: 'mentee', select: 'name avatar' });
             await appointment.populate({ path: 'mentor', select: 'name avatar skype_link facebook_link expertise',populate: {path: 'expertise',select: 'name'}, });
             await appointment.populate({ path: 'schedule' });
@@ -454,7 +451,8 @@ export class AppointmentService {
             },
             [
                 { path: 'mentor', select: 'name avatar email phone gender skype_link facebook_link', populate: { path: 'expertise', select: 'name' }},
-                { path: 'mentee', select: 'name avatar email phone gender'}
+                { path: 'mentee', select: 'name avatar email phone gender'},
+                { path: 'schedule'}
             ]
         )
 

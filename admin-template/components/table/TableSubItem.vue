@@ -1,14 +1,14 @@
 <template>
   <div class="table-wrapper w-100">
-    <div class="table-header d-flex align-items-center justify-content-between mb-2">
-      <h1 class="title">{{ title }} </h1>
+    <div
+      class="table-header d-flex align-items-center justify-content-between mb-2"
+    >
+      <h1 class="title">{{ title }}</h1>
       <nuxt-link :to="`/${path}/create`">
-        <button class="btn-custom btn-blue" >
-          Create
-        </button>
+        <button class="btn-custom btn-blue">Create</button>
       </nuxt-link>
     </div>
-    <hr class="mt-2 mb-0">
+    <hr class="mt-2 mb-0" />
     <div class="table-overflow overflow-auto d-block h-90">
       <div class="layer-block"></div>
       <table class="table table-striped overflow-auto">
@@ -24,18 +24,33 @@
         <tbody>
           <tr v-for="(item, index) in data" :key="index" class="table-row">
             <td class="color-primary w-25">
-              <nuxt-link :to="`/${path}/${item.id}`" class="cursor-pointer color-primary" @click="handleRouting(item.id)">{{ item.title.trim() }}</nuxt-link>
+              <nuxt-link
+                :to="`/${path}/${item.id}`"
+                class="cursor-pointer color-primary"
+                @click="handleRouting(item.id)"
+                >{{ item.title.trim() }}</nuxt-link
+              >
             </td>
             <td class="color-secondary w-25">{{ item.id }}</td>
-            <td class="color-secondary w-25">{{ formatDateTime(item.created_at) }}</td>
-            <td class="color-secondary pl-4 w-25-2" @mouseover="item.isHoverIcon = true" @mouseleave="item.isHoverIcon = false">
+            <td class="color-secondary w-25">
+              {{ formatDateTime(item.created_at) }}
+            </td>
+            <td
+              class="color-secondary pl-4 w-25-2"
+              @mouseover="item.isHoverIcon = true"
+              @mouseleave="item.isHoverIcon = false"
+            >
               <nuxt-link :to="`/${path}/${item.id}/update`">
                 <!-- <font-awesome-icon class="icon color-secondary" icon="fa-solid fa-pen-clip" /> -->
-                <img :src="item.isHoverIcon ? imgSrcHover : imgSrc"/>
+                <img :src="item.isHoverIcon ? imgSrcHover : imgSrc" />
               </nuxt-link>
             </td>
             <td class="color-secondary pl-4 w-25-2">
-              <font-awesome-icon class="icon cursor-pointer" icon="fa-solid fa-trash-alt" @click="deleteItem(item)"/>
+              <font-awesome-icon
+                class="icon cursor-pointer"
+                icon="fa-solid fa-trash-alt"
+                @click="deleteItem(item)"
+              />
             </td>
           </tr>
         </tbody>
@@ -50,63 +65,61 @@
       >
       </BaseModal>
     </div>
-    
   </div>
 </template>
 <script>
-import moment from 'moment';
-import BaseModal from '~/components/modal/BaseModal.vue';
+import moment from "moment";
+import BaseModal from "~/components/modal/BaseModal.vue";
 
 export default {
   components: {
-    BaseModal
+    BaseModal,
   },
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     path: {
       type: String,
-      default: ''
+      default: "",
     },
     title: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
   data() {
     return {
       currentItemDelete: null,
       showModal: false,
       isHoverIcon: false,
-      imgSrc: require('~/static/icons/penclip-gray.svg'),
-      imgSrcHover: require('~/static/icons/penclip-blue.svg'),
-    }
+      imgSrc: require("~/static/icons/penclip-gray.svg"),
+      imgSrcHover: require("~/static/icons/penclip-blue.svg"),
+    };
   },
   methods: {
     handleRouting(id) {
       this.$router.push(`/${this.path}/${id}`);
     },
     removeItem(id) {
-      console.log("id", id)
-      this.$emit('remove-item', id);
-      this.closeModal()
+      console.log("id", id);
+      this.$emit("remove-item", id);
+      this.closeModal();
     },
     formatDateTime(date) {
-      return moment(date).format('DD.MM.YYYY HH:mm');
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     closeModal() {
-      this.currentItemDelete = null
-      this.showModal = false
+      this.currentItemDelete = null;
+      this.showModal = false;
     },
     deleteItem(item) {
-      this.currentItemDelete = item
-      this.showModal = true
-    }
-  }
-   
-}
+      this.currentItemDelete = item;
+      this.showModal = true;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .table {
@@ -133,5 +146,4 @@ hr {
 .w-25-2 {
   width: calc(25% / 2);
 }
-
 </style>

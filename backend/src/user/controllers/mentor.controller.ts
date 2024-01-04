@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { UserService } from '../user.service';
 import { PaginationUserDto } from '../dto/user.dto';
+import { UserService } from '../user.service';
 
 @Controller('mentor')
 export class MentorController {
@@ -12,7 +12,7 @@ export class MentorController {
     }
 
     @Get('search')
-    async searchMentors(@Query('name') keyword: string, @Query('expertise') keyword2: string, @Query() { page, limit }: PaginationUserDto) {
-        return await this.userService.searchMentor(keyword, keyword2, page, limit);
+    async searchMentors(@Query('name') name: string, @Query('expertise') expertise: string, @Query() { page, limit }: PaginationUserDto) {
+        return await this.userService.searchMentor(name, expertise, page, limit);
     }
 }

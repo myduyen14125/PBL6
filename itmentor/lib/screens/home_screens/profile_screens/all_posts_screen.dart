@@ -33,7 +33,7 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
     setState(() {
       isLoading = true;
     });
-    final uri = Uri.https(Constants.uri, '/user/blogs');
+    final uri = Uri.https(Constants.uri, '/blog/by-user/${widget.mentorId}');
     final response = await http.get(uri, headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Authorization': 'Bearer ${widget.mentorToken}'

@@ -123,7 +123,7 @@ export default {
       this.$router.push(`/news/${id}/update`);
     },
     formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
   },
 };

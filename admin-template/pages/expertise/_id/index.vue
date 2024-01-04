@@ -45,7 +45,7 @@
 
         <button
           type="submit"
-          class="btn-custom btn-danger"
+          class="btn-custom"
           @click="delExpertise()"
         >
           Delete
@@ -120,7 +120,7 @@ export default {
       this.$router.go(-1);
     },
     formatDateTime(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return moment(new Date(date)).format("DD.MM.YYYY HH:mm");
     },
     openModal() {
       this.showModal = true;
