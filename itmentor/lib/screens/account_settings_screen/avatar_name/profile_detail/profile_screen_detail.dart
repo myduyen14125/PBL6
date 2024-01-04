@@ -84,7 +84,6 @@ class _ProfileScreenState extends State<ProfileScreenDetail> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 94, 157, 144),
         elevation: 0,
-        centerTitle: true,
         title: const Text(
           'Thông tin cá nhân',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

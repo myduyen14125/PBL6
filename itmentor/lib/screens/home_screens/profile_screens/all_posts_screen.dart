@@ -40,11 +40,13 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
     });
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      final List<dynamic> blogs = responseData['blogs'];
+      // final Map<String, dynamic> responseData = json.decode(response.body);
+      // final List<dynamic> blogs = responseData['blogs'];
+      final List<dynamic> data = json.decode(response.body);
 
       setState(() {
-        blogData = blogs.cast<Map<String, dynamic>>();
+        // blogData = blogs.cast<Map<String, dynamic>>();
+        blogData = List<Map<String, dynamic>>.from(data);
         isLoading = false;
       });
     } else {

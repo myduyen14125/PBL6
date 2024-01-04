@@ -68,6 +68,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(
+                                  color: Color.fromARGB(255, 197, 189, 189),
+                                  width: 1),
                             ),
                             child: ListTile(
                               leading: CircleAvatar(
