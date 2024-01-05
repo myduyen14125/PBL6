@@ -5,10 +5,12 @@ import postImg from "../../assets/image/post-img.png";
 import { formatDate } from "../../ultils/date";
 import { useRouter } from "vue-router";
 import { getUserInfo } from "../../ultils/cache/cookies";
+import { VideoPlayer } from "@videojs-player/vue";
+import SwalPopup from "../../ultils/swalPopup";
 
 export default defineComponent({
   name: "LessonCard",
-  components: { SvgIcon },
+  components: { SvgIcon, VideoPlayer },
   emits: ["deleteLesson", "editLesson"],
   props: {
     lesson: {
@@ -26,11 +28,24 @@ export default defineComponent({
     const router = useRouter();
 
     const deleteLesson = () => {
-      emit("deleteLesson", props.lesson?._id, props.lesson?.title);
+      SwalPopup.swalDeletePopup(
+        "",
+        {
+          onConfirmed: () => {
+            emit("deleteLesson", props.lesson?._id);
+          },
+        },
+        {
+          html:
+            "Bạn có chắc chắn xóa khóa học " +
+            `<span class="color-primary">${props?.lesson?.title}</span>` +
+            " ?",
+        }
+      );
     };
 
     const editLesson = () => {
-      emit("editLesson", props.lesson?._id);
+      emit("editLesson", props.lesson);
     };
 
     // Compute the content of the first <p> tag in the lesson content

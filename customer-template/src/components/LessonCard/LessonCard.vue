@@ -6,10 +6,13 @@
         @click="() => router.push(`/lessons/${lesson._id}`)"
       >
         <div class="lesson-img d-flex justify-content-center w-100">
-          <img
-            :src="lesson?.image || `https://picsum.photos/200/300`"
-            alt="Post"
+          <VideoPlayer
+            :src="lesson?.video || undefined"
+            controls
+            :loop="false"
+            :volume="0.6"
             style="width: 300px; height: 250px; object-fit: cover"
+            alt="video"
           />
         </div>
       </div>
@@ -45,10 +48,11 @@
         </div>
         <div class="px-3 d-flex align-items-center lesson-info my-4">
           <img
-            :src="lesson?.user?.avatar || avatar"
+            :src="lesson?.image || avatar"
             alt="Mentor avatar"
             class="rounded-circle w-[50px] h-[50px]"
           />
+
           <span class="color-primary mx-3">{{ lesson?.user?.name || "" }}</span>
           <SvgIcon icon="birthdayIcon" />
           <span class="color-primary ml-2">{{
@@ -56,7 +60,7 @@
           }}</span>
         </div>
         <div>
-          <span v-if="lesson?.content" v-html="demoContent"></span>
+          <span>{{ lesson?.description }}</span>
         </div>
       </div>
       <div :class="`col-12 ${showEdit ? 'col-sm-2' : 'hidden'}`">

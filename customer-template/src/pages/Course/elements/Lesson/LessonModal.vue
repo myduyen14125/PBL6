@@ -106,7 +106,7 @@
 
           <div class="p-3 avatar-img">
             <VideoPlayer
-              :src="form.video"
+              :src="form.video || undefined"
               controls
               :loop="false"
               :volume="0.6"
@@ -143,24 +143,16 @@
   </BModal>
 </template>
 <script lang="ts">
-import { useCourse } from "../../../../stores/course";
 import { useLesson } from "../../../../stores/lesson";
 import { useMedia } from "../../../../stores/media";
-import {
-  ref,
-  defineComponent,
-  watch,
-  onMounted,
-  type Ref,
-  PropType,
-} from "vue";
+import { ref, defineComponent, type Ref } from "vue";
 import SvgIcon from "../../../../components/BUI/SvgIcon/SvgIcon.vue";
 import BModal from "../../../../components/BUI/BModal/BModal.vue";
 import BButton from "../../../../components/BUI/BButton/BButton.vue";
-import { valueEquals } from "element-plus";
 import { validate } from "../../../../ultils/validators";
 import SwalPopup from "../../../../ultils/swalPopup";
 import { VideoPlayer } from "@videojs-player/vue";
+import { data } from "cypress/types/jquery";
 
 interface Form {
   course: string;
@@ -179,16 +171,15 @@ export default defineComponent({
       required: true,
       default: "",
     },
-    data: {
-      type: Object || String,
-      required: false,
+    loadPage: {
+      type: Function,
+      required: true,
     },
   },
 
-  emits: ["updatedMLesson"],
+  emits: ["updatedLesson"],
   setup(props, { emit }) {
     const modal = ref(false);
-    const courseStore = useCourse();
     const mediaStore = useMedia();
     const lessonStore = useLesson();
     const loadingVideo = ref(false);
@@ -212,22 +203,7 @@ export default defineComponent({
     const isSubmitting = ref(false);
     const imageRef: Ref<HTMLDivElement | null> = ref(null);
     const videoRef: Ref<any> = ref(null);
-
-    watch(modal, () => {
-      if (modal.value == true && props?.data) {
-        if (props?.data) {
-          form.value = {
-            course: props?.courseId,
-            title: props?.data?.title,
-            description: props?.data?.description,
-            image: props?.data?.image,
-            video: props?.data?.video,
-          };
-        } else {
-          form.value = { ...initialForm };
-        }
-      }
-    });
+    const data = ref<any>(null);
 
     const show = () => {
       modal.value = true;
@@ -235,6 +211,7 @@ export default defineComponent({
 
     const hide = () => {
       resetData();
+      data.value = null;
       modal.value = false;
     };
 
@@ -267,8 +244,12 @@ export default defineComponent({
     const submitForm = () => {
       if (!validateForm()) return;
 
-      if (props?.data) {
-        // updateCourse(params);
+      if (data.value) {
+        updateLesson({
+          ...form?.value,
+          course: props?.courseId,
+          _id: data?.value?._id,
+        });
       } else {
         createLesson({ ...form?.value, course: props?.courseId });
       }
@@ -282,6 +263,33 @@ export default defineComponent({
           onSuccess: (res) => {
             isSubmitting.value = false;
             hide();
+            if (props?.loadPage) {
+              props?.loadPage();
+            }
+          },
+          onFailure: () => {
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+            isSubmitting.value = false;
+          },
+        },
+      });
+    };
+
+    const updateLesson = (params: any) => {
+      isSubmitting.value = true;
+      lessonStore.requestUpdateLesson({
+        id: params?._id,
+        params: params,
+        callback: {
+          onSuccess: (res) => {
+            isSubmitting.value = false;
+            hide();
+            if (props?.loadPage) {
+              props?.loadPage();
+            }
           },
           onFailure: () => {
             SwalPopup.swalResultPopup(
@@ -357,14 +365,19 @@ export default defineComponent({
       });
     };
 
-    // const getAvatar = () => {
-    //   if (fileImage.value) {
-    //     return URL.createObjectURL(fileImage.value);
-    //   }
-    //   return "";
-    // };
+    const setData = (value: any) => {
+      data.value = value;
+      form.value = {
+        course: value?.courseId,
+        title: value?.title,
+        description: value?.description,
+        image: value?.image,
+        video: value?.video,
+      };
+    };
 
     return {
+      data,
       form,
       error,
       modal,
@@ -373,6 +386,7 @@ export default defineComponent({
       videoRef,
       isSubmitting,
       submitForm,
+      setData,
       validateRequired,
       show,
       hide,
@@ -380,7 +394,6 @@ export default defineComponent({
       clickInputVideo,
       toggleAvatar,
       toggleVideo,
-      //   getAvatar
     };
   },
 });

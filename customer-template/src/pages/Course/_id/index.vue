@@ -16,34 +16,48 @@
           </div>
         </div>
         <div class="row my-5 px-4">
-          <div class="flex flex-wrap gap-4">
-            <LessonCard
+          <div
+            v-if="loading"
+            class="col-12 d-flex align-items-center justify-content-center min-h-[250px]"
+          >
+            <div class="spinner-border text-info" role="status"></div>
+          </div>
+          <div v-else class="flex flex-wrap gap-4">
+            <div
+              class="w-100"
               v-for="lesson in lessonDetails?.lessons"
-              :key="course?._id"
-              :lesson="lesson"
-              showEdit
-              @deleteLesson="() => {}"
-              @editLesson="() => {}"
-            />
+              :key="lesson?._id"
+            >
+              <LessonCard
+                :lesson="lesson"
+                showEdit
+                @deleteLesson="deleteLesson"
+                @editLesson="editLesson"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <LessonModal ref="lessonModal" :courseId="id" />
+    <LessonModal
+      ref="lessonModal"
+      :courseId="id"
+      :loadPage="getCourseDetails"
+    />
   </GuestLayout>
 </template>
 
 <script lang="ts">
-import { ref, onMounted, watch, type Ref } from "vue";
+import { ref, onMounted, type Ref } from "vue";
 import SvgIcon from "../../../components/BUI/SvgIcon/SvgIcon.vue";
 import GuestLayout from "../../../layout/GuestLayout/GuestLayout.vue";
 import LessonCard from "../../../components/LessonCard/LessonCard.vue";
-import { useLesson } from "../../../stores/lesson";
 import { useCourse } from "../../../stores/course";
 import SwalPopup from "../../../ultils/swalPopup";
 import { formatDate } from "../../../ultils/date";
 import { useRoute } from "vue-router";
 import LessonModal from "../elements/Lesson/LessonModal.vue";
+import { useLesson } from "../../../stores/lesson";
 
 export default {
   components: {
@@ -54,8 +68,9 @@ export default {
   },
   setup(props) {
     const route = useRoute();
-    const courseStore = useCourse();
+
     const lessonStore = useLesson();
+    const courseStore = useCourse();
     const id = route.params.id.toString();
     const loading = ref(false);
     const lessonDetails = ref();
@@ -63,34 +78,19 @@ export default {
 
     onMounted(() => {
       getCourseDetails();
-      // getLessonList();
     });
 
     const getCourseDetails = () => {
+      loading.value = true;
       courseStore.requestGetCourseById({
         id: id,
         callback: {
           onSuccess: (res) => {
             lessonDetails.value = res;
+            loading.value = false;
           },
           onFailure: () => {
-            SwalPopup.swalResultPopup(
-              "Sorry, looks like there are some errors detected, please try again.",
-              "error"
-            );
-          },
-        },
-      });
-    };
-
-    const getLessonList = () => {
-      lessonStore.requestGetLessons({
-        id: id,
-        callback: {
-          onSuccess: (res) => {
-            console.log(res);
-          },
-          onFailure: () => {
+            loading.value = false;
             SwalPopup.swalResultPopup(
               "Sorry, looks like there are some errors detected, please try again.",
               "error"
@@ -104,6 +104,30 @@ export default {
       lessonModal?.value?.show();
     };
 
+    const editLesson = (lesson: any) => {
+      lessonModal?.value?.setData(lesson);
+      lessonModal?.value?.show();
+    };
+
+    const deleteLesson = (lessonId: any) => {
+      loading.value = true;
+      lessonStore.requestDeleteLesson({
+        id: lessonId,
+        callback: {
+          onSuccess: (res) => {
+            getCourseDetails();
+          },
+          onFailure: () => {
+            loading.value = false;
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
     return {
       id,
       loading,
@@ -111,6 +135,9 @@ export default {
       lessonDetails,
       formatDate,
       createLesson,
+      editLesson,
+      deleteLesson,
+      getCourseDetails,
     };
   },
 };
