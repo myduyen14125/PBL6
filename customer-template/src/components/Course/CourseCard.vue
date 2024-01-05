@@ -1,37 +1,18 @@
 <template>
   <div class="card p-0 border-0 relative">
-    <div
-      v-if="getUserInfo()?.role == 'mentor'"
-      class="position-absolute top-0 end-0 translate-middle-y d-flex align-items-center justify-content-center z-20"
-    >
-      <SvgIcon
-        icon="edit"
-        class="p-2 mr-2 bg-edit button cursor-pointer"
-        @click="updateCourse()"
-      />
-      <SvgIcon
-        icon="delete"
-        class="p-2 bg-delete button cursor-pointer"
-        @click="deleteCourse()"
-      />
+    <div v-if="getUserInfo()?.role == 'mentor'"
+      class="position-absolute top-0 end-0 translate-middle-y d-flex align-items-center justify-content-center z-20">
+      <SvgIcon icon="edit" class="p-2 mr-2 bg-edit button cursor-pointer" @click="updateCourse()" />
+      <SvgIcon icon="delete" class="p-2 bg-delete button cursor-pointer" @click="deleteCourse()" />
     </div>
 
-    <div
-      class="card-image relative"
-      @mouseover="changeIsHover(true)"
-      @mouseout="changeIsHover(false)"
-    >
+    <div class="card-image relative" @mouseover="changeIsHover(true)" @mouseout="changeIsHover(false)">
       <img :src="course.image" :alt="course.title" class="rounded" />
-      <div
-        class="absolute top-0 left-0 bg-dark rounded transition-all w-100 h-100"
-        :class="isHover ? 'opacity-40' : 'opacity-0'"
-      ></div>
-      <router-link
-        :to="`/course/${course?._id}`"
-        ref="btnCouse"
+      <div class="absolute top-0 left-0 bg-dark rounded transition-all w-100 h-100"
+        :class="isHover ? 'opacity-40' : 'opacity-0'"></div>
+      <router-link :to="`/course/${course?._id}`" ref="btnCouse"
         class="btn btn-white btn-course !font-[600] !rounded-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        :class="isHover ? 'opacity-100' : 'opacity-0'"
-      >
+        :class="isHover ? 'opacity-100' : 'opacity-0'">
         Xem khóa học
       </router-link>
     </div>
@@ -48,16 +29,13 @@
             </p>
           </div>
           <div v-if="getUserInfo()?.role !== 'mentor'" class="flex items-center">
-            <button class="absolute right-0 bottom-4 btn btn-primary btn-course" @click="buyCourse()">Mua ngay</button>
-            <img
-              :src="course?.creator?.avatar"
-              :alt="course?.creator?.name"
-              class="rounded-full w-8 h-8"
-            />
+            <button class="absolute right-0 bottom-4 btn btn-primary btn-course" @click="buyCourse(course._id)">Mua
+              ngay</button>
+            <img :src="course?.creator?.avatar" :alt="course?.creator?.name" class="rounded-full w-8 h-8" />
             <p class="subtitle text-gray-500 ml-2 mt-3">
               {{ course.creator.name }}
             </p>
-            
+
           </div>
           <div v-else>
             <p class="subtitle text-gray-500 my-0">
@@ -75,6 +53,8 @@ import { getUserInfo } from "../../ultils/cache/cookies";
 import CourseModal from "../../pages/Course/CourseModal.vue";
 import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import SwalPopup from "../../ultils/swalPopup";
+import { Course } from "../../types/course";
+import { useCourse } from "../../stores/course";
 
 export default {
   name: "CourseCard",
@@ -91,6 +71,8 @@ export default {
   emits: ["updateCourse", "deleteCourse"],
   setup(props, { emit }) {
     const isHover = ref(false);
+    const urlPayment = ref("");
+
     const changeIsHover = (value: boolean) => {
       isHover.value = value;
     };
@@ -116,8 +98,35 @@ export default {
       );
     };
 
-    const buyCourse = () => {
-      emit("buyCourse", props?.course);
+    const buyCourse = (couseId) => {
+      SwalPopup.swalDeletePopup(
+        "",
+        {
+          onConfirmed: () => {
+            useCourse().requestBuyCourse({
+              params: {
+                course: couseId,
+              },
+              callback: {
+                onSuccess: (response) => {
+                  urlPayment.value = response.url;
+                  console.log(urlPayment.value);
+                  window.open(urlPayment.value, "_blank");
+                },
+                onFailure: () => {
+                  console.log("err");
+                },
+              },
+            });
+          },
+        },
+        {
+          html:
+            "Bạn có chắc chắn mua khóa học " +
+            `<span class="color-primary">${props?.course?.title}</span>` +
+            " ?",
+        }
+      );
     };
 
     return {
@@ -126,6 +135,7 @@ export default {
       updateCourse,
       changeIsHover,
       getUserInfo,
+      buyCourse,
     };
   },
 };

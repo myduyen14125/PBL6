@@ -155,8 +155,8 @@ export const useCourse = () => {
     const onFinish = get(callback, "onFinish", noop);
 
     try {
-      await buyCourse(params);
-      onSuccess();
+      const response = await buyCourse(params);
+      onSuccess(response);
     } catch (error) {
       onFailure(error);
     } finally {
