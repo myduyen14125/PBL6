@@ -82,7 +82,7 @@ import { getUserInfo } from "../../ultils/cache/cookies";
 import CourseModal from "../../pages/Course/CourseModal.vue";
 import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import SwalPopup from "../../ultils/swalPopup";
-import { Course } from "../../types/course";
+import { Course, BuyCourseParams } from "../../types/course";
 import { useCourse } from "../../stores/course";
 
 export default {
@@ -133,7 +133,7 @@ export default {
         {
           onConfirmed: () => {
             useCourse().requestBuyCourse({
-              params: {
+              params: BuyCourseParams = {
                 course: couseId,
               },
               callback: {
