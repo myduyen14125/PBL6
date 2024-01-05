@@ -15,3 +15,7 @@ export interface CreateCourseParams {
   discount?: number;
   image: string;
 }
+
+export interface BuyCourseParams {
+  course: string;
+}
