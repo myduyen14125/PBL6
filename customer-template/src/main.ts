@@ -4,6 +4,8 @@ import router from "./router";
 import App from "./App.vue";
 
 import ElementPlus from "element-plus";
+import VueVideoPlayer from "@videojs-player/vue";
+import "video.js/dist/video-js.css";
 
 import SvgIcon from "./components/BUI/SvgIcon/SvgIcon.vue";
 import "./assets/css/button.css";
@@ -24,5 +26,6 @@ app.component("SvgIcon", SvgIcon);
 app.use(router);
 app.use(ElementPlus);
 app.use(Vue3Marquee);
+app.use(VueVideoPlayer);
 
 app.mount("#app");

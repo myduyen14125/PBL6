@@ -25,13 +25,14 @@
         class="absolute top-0 left-0 bg-dark rounded transition-all w-100 h-100"
         :class="isHover ? 'opacity-40' : 'opacity-0'"
       ></div>
-      <button
+      <router-link
+        :to="`/course/${course?._id}`"
         ref="btnCouse"
         class="btn btn-white btn-course !font-[600] !rounded-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         :class="isHover ? 'opacity-100' : 'opacity-0'"
       >
         Xem khóa học
-      </button>
+      </router-link>
     </div>
     <div class="card-content mt-2">
       <div class="media">
@@ -87,7 +88,7 @@ export default {
   emits: ["updateCourse", "deleteCourse"],
   setup(props, { emit }) {
     const isHover = ref(false);
-    const changeIsHover = (value) => {
+    const changeIsHover = (value: boolean) => {
       isHover.value = value;
     };
 
