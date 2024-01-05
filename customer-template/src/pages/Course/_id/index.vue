@@ -6,8 +6,9 @@
           <div
             class="d-flex justify-content-between align-items-center border-bottom"
           >
-            <h3 class="pb-3">Các bài học của bạn</h3>
+            <h3 class="pb-3">{{ lessonDetails?.title || "" }}</h3>
             <span
+              v-if="showEdit"
               class="btn btn-primary px-4 action-button my-2"
               @click="createLesson"
             >
@@ -30,7 +31,7 @@
             >
               <LessonCard
                 :lesson="lesson"
-                showEdit
+                :showEdit="showEdit"
                 @deleteLesson="deleteLesson"
                 @editLesson="editLesson"
               />
@@ -58,6 +59,7 @@ import { formatDate } from "../../../ultils/date";
 import { useRoute } from "vue-router";
 import LessonModal from "../elements/Lesson/LessonModal.vue";
 import { useLesson } from "../../../stores/lesson";
+import { getUserInfo } from "../../../ultils/cache/cookies";
 
 export default {
   components: {
@@ -68,13 +70,13 @@ export default {
   },
   setup(props) {
     const route = useRoute();
-
     const lessonStore = useLesson();
     const courseStore = useCourse();
     const id = route.params.id.toString();
     const loading = ref(false);
     const lessonDetails = ref();
     const lessonModal: Ref<any> = ref<typeof LessonModal | null>(null);
+    const showEdit = ref(false);
 
     onMounted(() => {
       getCourseDetails();
@@ -88,6 +90,7 @@ export default {
           onSuccess: (res) => {
             lessonDetails.value = res;
             loading.value = false;
+            showEdit.value = res?.creator?._id == getUserInfo()?._id;
           },
           onFailure: () => {
             loading.value = false;
@@ -131,6 +134,7 @@ export default {
     return {
       id,
       loading,
+      showEdit,
       lessonModal,
       lessonDetails,
       formatDate,

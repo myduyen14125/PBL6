@@ -129,7 +129,7 @@
                 >
               </p>
             </li>
-            <li v-if="userInfo?.role == 'mentor'">
+            <li>
               <SvgIcon icon="bookIcon" />
               <p class="mb-0 ml-4">
                 <router-link to="/course">Quản lý khóa học</router-link>

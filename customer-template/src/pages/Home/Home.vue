@@ -46,11 +46,9 @@
           </div>
           <div class="row">
             <Carousel v-bind="settings" :breakpoints="breakpoints">
-              <Slide v-for="course in courses" :key="slide">
+              <Slide v-for="course in courses" :key="course?._id">
                 <div class="carousel__item">
-                  <CourseCard
-                    :course="course"
-                  />
+                  <CourseCard :course="course" />
                 </div>
               </Slide>
 
