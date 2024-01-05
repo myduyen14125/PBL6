@@ -8,7 +8,10 @@ import {
   deleteCourse,
   updateCourse,
 } from "./../api/course";
-import { CreateCourseParams } from "../types/course";
+import {
+  buyCourse
+} from "./../api/payment";
+import { CreateCourseParams, BuyCourseParams } from "../types/course";
 import { GetPaginationParams } from "../types/mentor";
 
 export const useCourse = () => {
@@ -140,6 +143,27 @@ export const useCourse = () => {
     }
   };
 
+  const requestBuyCourse = async ({
+    params,
+    callback,
+  }: {
+    params: BuyCourseParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      await buyCourse(params);
+      onSuccess();
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  }
+
   return {
     requestGetAllCourses,
     requestGetCourses,
@@ -147,5 +171,6 @@ export const useCourse = () => {
     requestGetCourseById,
     requestDeleteCourse,
     requestUpdateCourse,
+    requestBuyCourse,
   };
 };
