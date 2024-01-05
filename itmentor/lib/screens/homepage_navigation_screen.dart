@@ -49,7 +49,7 @@ class _HomepageNavigationScreenState extends State<HomepageNavigationScreen> {
       const HomepageScreen(),
       AppointmentScreen(token: accessToken),
       CourseListScreen(token: accessToken),
-      CommunicationScreen(),
+      CommunicationScreen(token: accessToken),
       const ProfileScreen(),
     ];
 

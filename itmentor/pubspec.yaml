@@ -56,6 +56,8 @@ dependencies:
   chewie: ^1.5.0
   video_player: ^2.6.0
   flutter_launcher_icons: ^0.13.1
+  socket_io_client: ^2.0.3+1
+  web_socket_channel: ^2.4.0
 
 dev_dependencies:
   flutter_test:
