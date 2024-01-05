@@ -10,7 +10,7 @@
           @selection-change="handleSelect"
         />
       </div> -->
-      <div class="ml-auto d-flex align-items-center">
+      <div class="ml-auto d-flex">
         <SearchInput @search="handleSearch" class="mr-3" />
         <nuxt-link to="/blogs/create">
           <button class="btn-custom btn-blue">Create blog</button>
@@ -185,8 +185,8 @@ hr {
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 80px;
 }
 
 .text-start {
