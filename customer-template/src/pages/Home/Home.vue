@@ -11,7 +11,7 @@
         <HiddenBackground />
         <MentorMarquee :mentors="mentors" />
       </section>
-      <section class="banner-section min-h-[80vh]">
+      <section class="banner-section min-h-[90vh]">
         <div class="container">
           <div class="row">
             <div class="col-lg-6 p-5">
@@ -43,6 +43,21 @@
             >
               <img :src="heroImg" alt="Image" class="w-50" />
             </div>
+          </div>
+          <div class="row">
+            <Carousel v-bind="settings" :breakpoints="breakpoints">
+              <Slide v-for="course in courses" :key="slide">
+                <div class="carousel__item">
+                  <CourseCard
+                    :course="course"
+                  />
+                </div>
+              </Slide>
+
+              <template #addons>
+                <Navigation />
+              </template>
+            </Carousel>
           </div>
         </div>
       </section>

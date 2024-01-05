@@ -1,5 +1,5 @@
 <template>
-  <Vue3Marquee :pause-on-hover="true" class="my-24">
+  <Vue3Marquee :pause-on-hover="false" class="my-24">
     <div v-for="mentor in mentors" :key="mentor._id">
       <div class="m-2 w-[250px] h-[200px]">
         <div

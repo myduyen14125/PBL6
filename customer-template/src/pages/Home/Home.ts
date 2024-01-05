@@ -7,6 +7,8 @@ import HiddenBackground from "@/components/Homepage/HiddenBackground.vue";
 import IntroductionText from "@/components/Homepage/IntroductionText.vue";
 import SearchBar from "@/components/SearchBar/SearchBar.vue";
 import ProcessSection from "@/components/Homepage/ProcessSection.vue";
+import { Carousel, Navigation, Slide } from "vue3-carousel";
+import "vue3-carousel/dist/carousel.css";
 
 import GuestLayout from "@/layout/GuestLayout/GuestLayout.vue";
 import { useMentors } from "@/stores/mentors";
@@ -16,6 +18,10 @@ import { GetPaginationParams, Mentor } from "@/types/mentor";
 import { Blog } from "@/types/blog";
 import { SearchMentorsParams } from "../../types/mentor";
 import { useRouter } from "vue-router";
+import { Course } from "../../types/course";
+import { useCourse } from "../../stores/course";
+import CourseCard from "@/components/Course/CourseCard.vue";
+
 
 export default defineComponent({
   name: "Home",
@@ -28,6 +34,10 @@ export default defineComponent({
     HiddenBackground,
     IntroductionText,
     ProcessSection,
+    Carousel,
+    Slide,
+    Navigation,
+    CourseCard
   },
   setup() {
     const router = useRouter();
@@ -37,6 +47,9 @@ export default defineComponent({
     const blogs = ref<Blog[]>([]);
     const isLoadingMentor = ref(false);
     const isLoadingBlog = ref(false);
+    const courses = ref<Course[]>([]);
+    const totalCourses = ref(0);
+
     const searchValue = ref<SearchMentorsParams>({
       page: 1,
       name: "",
@@ -47,6 +60,7 @@ export default defineComponent({
     onMounted(() => {
       getMentors();
       getBlogs();
+      getCourses();
     });
 
     const getMentors = () => {
@@ -89,6 +103,28 @@ export default defineComponent({
       });
     };
 
+    const getCourses = () => {
+      useCourse().requestGetAllCourses({
+        params: {
+          page: 1,
+          limit: 100,
+        } as GetPaginationParams,
+        callback: {
+          onSuccess: (res) => {
+            courses.value = res.courses;
+            totalCourses.value = res.count;
+          },
+          onFailure: () => {
+            console.log("err");
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
+          },
+        },
+      });
+    };
+
     const getSearchParams = (params: SearchMentorsParams) => {
       searchValue.value = {
         ...searchValue.value,
@@ -96,6 +132,24 @@ export default defineComponent({
         page: 1,
       };
       router.push(`/mentors`);
+    };
+
+    const settings = {
+      itemsToShow: 1,
+      snapAlign: "center",
+    };
+
+    const breakpoints = {
+      // 700px and up
+      700: {
+        itemsToShow: 2.5,
+        snapAlign: "center",
+      },
+      // 1024 and up
+      1024: {
+        itemsToShow: 4,
+        snapAlign: "start",
+      },
     };
 
     return {
@@ -106,6 +160,10 @@ export default defineComponent({
       isLoadingMentor,
       searchValue,
       getSearchParams,
+      settings,
+      breakpoints,
+      courses,
+      totalCourses
     };
   },
 });
