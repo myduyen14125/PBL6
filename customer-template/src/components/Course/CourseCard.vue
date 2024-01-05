@@ -1,6 +1,7 @@
 <template>
   <div class="card p-0 border-0 relative">
     <div
+      v-if="getUserInfo()?.role == 'mentor'"
       class="position-absolute top-0 end-0 translate-middle-y d-flex align-items-center justify-content-center z-20"
     >
       <SvgIcon
@@ -37,7 +38,7 @@
     <div class="card-content mt-2">
       <div class="media">
         <div class="media-content">
-          <p class="title font-bold m-0">{{ course.title }}</p>
+          <p class="title font-bold m-0 text-left">{{ course.title }}</p>
           <div class="price flex items-center">
             <p class="subtitle text-gray-500 line-through my-0">
               {{ course.price ? course.price : 0 }}đ
@@ -46,10 +47,10 @@
               {{ course.discount ? course.discount : course?.price || 0 }}đ
             </p>
           </div>
-          <div v-if="getUserInfo().role == 'mentee'" class="flex items-center">
+          <div v-if="getUserInfo()?.role !== 'mentor'" class="flex items-center">
             <img
-              :src="course.creator.avatar"
-              :alt="course.creator.name"
+              :src="course?.creator?.avatar"
+              :alt="course?.creator?.name"
               class="rounded-full w-8 h-8"
             />
             <p class="subtitle text-gray-500 ml-2 mt-3">

@@ -1,6 +1,7 @@
 import { get, noop } from "lodash";
 
 import {
+  getAllCourses,
   getCoursePagination,
   createCourse,
   getCourseById,
@@ -11,6 +12,27 @@ import { CreateCourseParams } from "../types/course";
 import { GetPaginationParams } from "../types/mentor";
 
 export const useCourse = () => {
+  const requestGetAllCourses = async ({
+    params,
+    callback,
+  }: {
+    params: GetPaginationParams;
+    callback: App.Callback;
+  }): Promise<void> => {
+    const onSuccess = get(callback, "onSuccess", noop);
+    const onFailure = get(callback, "onFailure", noop);
+    const onFinish = get(callback, "onFinish", noop);
+
+    try {
+      const response = await getAllCourses(params);
+      onSuccess(response);
+    } catch (error) {
+      onFailure(error);
+    } finally {
+      onFinish();
+    }
+  }
+
   const requestGetCourses = async ({
     params,
     callback,
@@ -119,6 +141,7 @@ export const useCourse = () => {
   };
 
   return {
+    requestGetAllCourses,
     requestGetCourses,
     requestCreateCourse,
     requestGetCourseById,
