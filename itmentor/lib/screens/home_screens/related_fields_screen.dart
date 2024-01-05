@@ -34,7 +34,7 @@ class _RelatedFieldScreenState extends State<RelatedFieldScreen> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return NetworkingScreen(
-                        networkingId: widget.expertiseId[0],
+                        networkingId: widget.expertiseId[1],
                       );
                     }));
                   },
@@ -69,7 +69,7 @@ class _RelatedFieldScreenState extends State<RelatedFieldScreen> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return WebMentorsScreen(
-                          webDevelopmentId: widget.expertiseId[3]);
+                          webDevelopmentId: widget.expertiseId[4]);
                     }));
                   },
                   child: Column(
@@ -103,7 +103,7 @@ class _RelatedFieldScreenState extends State<RelatedFieldScreen> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return MobileMentorsScreen(
-                          mobileDevelopmentId: widget.expertiseId[4]);
+                          mobileDevelopmentId: widget.expertiseId[5]);
                     }));
                   },
                   child: Column(
@@ -145,7 +145,7 @@ class _RelatedFieldScreenState extends State<RelatedFieldScreen> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return GameMentorsScreen(
-                          gameDevelopmentId: widget.expertiseId[5]);
+                          gameDevelopmentId: widget.expertiseId[0]);
                     }));
                   },
                   child: Column(
@@ -178,7 +178,7 @@ class _RelatedFieldScreenState extends State<RelatedFieldScreen> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return SecurityScreen(securityId: widget.expertiseId[1]);
+                      return SecurityScreen(securityId: widget.expertiseId[2]);
                     }));
                   },
                   child: Column(
@@ -212,7 +212,7 @@ class _RelatedFieldScreenState extends State<RelatedFieldScreen> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return BlockchainMentors(
-                          blockchainId: widget.expertiseId[2]);
+                          blockchainId: widget.expertiseId[3]);
                     }));
                   },
                   child: Column(

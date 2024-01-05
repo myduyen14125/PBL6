@@ -17,6 +17,11 @@ export class CourseController {
         return this.courseService.createCourse(req.user, courseDto);
     }
 
+    @Get('by-user/:id')
+    getAllCoursesByCreatorId(@Param('id') id: string, @Query() { page, limit }: PaginationCourseDto) {
+        return this.courseService.getAllCoursesByCreatorId(id, page, limit);
+    }
+
     @Get('my-courses')
     @UseGuards(AuthGuard("jwt"))
     getCurrentUserAllCourses(@Req() req: any, @Query() {page, limit}: PaginationCourseDto) {

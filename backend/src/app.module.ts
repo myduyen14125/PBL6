@@ -18,8 +18,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { PaymentModule } from './payment/payment.module';
 import { CourseModule } from './course/course.module';
 
-
-
 @Module({
   imports: [
     BioModule,

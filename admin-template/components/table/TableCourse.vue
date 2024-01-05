@@ -1,13 +1,8 @@
 <template>
   <div>
-    <div
-      class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4"
-    >
+    <div class="table-header d-flex flex-wrap align-items-center justify-content-between mb-2 gap-4">
       <h1 class="title">{{ title }}</h1>
       <SearchInput @search="handleSearch" />
-      <!-- <nuxt-link to="/mentor/create">
-            <button class="btn-custom btn-blue">Create mentor</button>
-          </nuxt-link> -->
     </div>
     <div class="table-wrapper w-100 position-relative">
       <div class="layer-new-block"></div>
@@ -17,31 +12,23 @@
             <tr>
               <th scope="col" class="text-start">Image</th>
               <th scope="col" class="text-start">Title</th>
-              <th scope="col" class="text-start col-6">Description</th>
+              <th scope="col" class="text-start col-4">Description</th>
               <th scope="col" class="text-start col-2">Price</th>
-              <!-- <th scope="col" class="text-start">Duration</th> -->
+              <th scope="col" class="text-start">Discount</th>
               <th scope="col" class="text-start">Creator</th>
               <!-- <th scope="col" class="text-start">Number of students</th> -->
               <!-- <th scope="col" class="text-start">Number of lessons</th> -->
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(item, index) in data"
-              :key="index"
-              class="cursor-pointer"
-              @click="handleRouting(item?._id)"
-            >
+            <tr v-for="(item, index) in data" :key="index" class="cursor-pointer" @click="handleRouting(item?._id)">
               <td class="text-start">
                 <img v-if="item?.image" class="avatar" :src="item?.image" />
               </td>
               <td class="color-primary text-start">
                 <span class="td-content">
-                  <nuxt-link
-                    :to="`/course/${item?._id}`"
-                    class="cursor-pointer color-primary text-break"
-                    >{{ item?.title }}</nuxt-link
-                  >
+                  <nuxt-link :to="`/course/${item?._id}`" class="cursor-pointer color-primary text-break">{{ item?.title
+                  }}</nuxt-link>
                 </span>
               </td>
               <td class="color-secondary text-start">
@@ -50,16 +37,16 @@
                 }}</span>
               </td>
               <td class="color-secondary text-start">
-                <span class="td-content text-break">{{ item?.price }} VNĐ</span>
+                <span class="td-content text-break">{{ item?.price ? item?.price : 0 }} VNĐ</span>
+              </td>
+              <td class="color-secondary text-start">
+                <span class="td-content text-break">{{ item?.discount ? item?.discount : 0 }} VNĐ</span>
               </td>
               <td class="color-secondary text-start">
                 <span class="td-content text-break">{{
                   item?.creator.name
                 }}</span>
               </td>
-              <!-- <td class="color-secondary">
-                  <span class="td-content">{{ item?.expertise?.name }}</span>
-                </td> -->
             </tr>
           </tbody>
         </table>
@@ -122,18 +109,23 @@ export default {
 
 .table {
   font-size: 14px;
+
   &-head {
     font-weight: 600;
   }
+
   &-row {
     margin: 8px 0;
+
     &:hover {
       background-color: $color-blue-hover !important;
     }
+
     &:first-child {
       margin-top: 0;
     }
   }
+
   td {
     word-break: break-all;
   }

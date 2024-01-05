@@ -96,10 +96,6 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                'Chủ đề: Nghề nghiệp',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(
                 height: 10,
               ),
@@ -114,7 +110,10 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text('$selectedDate', style: TextStyle(fontSize: 17),),
+                      Text(
+                        '$selectedDate',
+                        style: TextStyle(fontSize: 17),
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -129,10 +128,15 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text('$duration phút', style: TextStyle(fontSize: 17),),
+                      Text(
+                        '$duration phút',
+                        style: TextStyle(fontSize: 17),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8,),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   Row(
                     children: [
                       const SizedBox(
@@ -142,7 +146,10 @@ class ChooseScreenCompletionScreen extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text('Hình thức kết nối: $connectionChoice', style: TextStyle(fontSize: 17),),
+                      Text(
+                        'Hình thức kết nối: $connectionChoice',
+                        style: TextStyle(fontSize: 17),
+                      ),
                     ],
                   ),
                 ],

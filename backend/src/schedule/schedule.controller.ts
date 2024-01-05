@@ -29,6 +29,12 @@ export class ScheduleController {
         return this.scheduleService.getUserSchedule(req.user);
     }
 
+    
+    @Get('by-user/:id')
+    getAllSchedulesByUserId(@Param('id') id: string) {
+        return this.scheduleService.getAllSchedulesByUserId(id);
+    }
+
     @UseGuards(AuthGuard("jwt"))
     @Delete('delete-schedules')
     async deleteManySchedules(@Req() req: any, @Body() schedules: string[]) {

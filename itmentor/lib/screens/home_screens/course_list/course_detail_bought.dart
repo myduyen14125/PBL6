@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:itmentor/utils/constant.dart';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -11,16 +13,17 @@ import 'package:itmentor/utils/utils.dart';
 import 'package:video_player/video_player.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
-class CourseDetail extends StatefulWidget {
+class CourseDetailBought extends StatefulWidget {
   final String courseId;
   final String token;
-  const CourseDetail({super.key, required this.courseId, required this.token});
+  const CourseDetailBought(
+      {super.key, required this.courseId, required this.token});
 
   @override
-  State<CourseDetail> createState() => _CourseDetailState();
+  State<CourseDetailBought> createState() => _CourseDetailBoughtState();
 }
 
-class _CourseDetailState extends State<CourseDetail> {
+class _CourseDetailBoughtState extends State<CourseDetailBought> {
   // late List<dynamic> courseDetails;
   Map<String, dynamic> course = {};
   bool isLoading = false;
@@ -84,53 +87,6 @@ class _CourseDetailState extends State<CourseDetail> {
     return Chewie(
       controller: _chewieController!,
     );
-  }
-
-  Future<void> requestPayment(String courseId, String token) async {
-    // final String apiUrl = 'https://pbl6-production.up.railway.app/payment/';
-    final uri = Uri.https(Constants.uri, '/payment/');
-
-    // Prepare the request body
-    final Map<String, dynamic> requestBody = {
-      "course": courseId,
-    };
-
-    // Prepare headers
-    final Map<String, String> headers = {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    };
-
-    try {
-      // Make the API call
-      final response = await http.post(
-        uri,
-        headers: headers,
-        body: jsonEncode(requestBody),
-      );
-
-      // Handle the response
-      if (response.statusCode == 201) {
-        // Request successful, handle the response as needed
-        print('API Call successful');
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-        final String paymentUrl = responseData['url'];
-        debugPrint(paymentUrl);
-
-        _launchUrl(paymentUrl);
-      } else {
-        print('API Call failed with status code: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error during API call: $error');
-    }
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launcher.launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 
   @override
@@ -208,68 +164,52 @@ class _CourseDetailState extends State<CourseDetail> {
                               NumberFormat.decimalPattern()
                                       .format(course['price']) +
                                   ' VND',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
-                                color: course['price'] != 0 ?  Color.fromARGB(255, 213, 29, 109) : Colors.green,
+                                color: Color.fromARGB(255, 213, 29, 109),
                               ),
                             ),
                           ),
-                          course['price'] == 0
-                              ? Container(
-                                  margin: const EdgeInsets.only(left: 16),
-                                  child: Text(
-                                    'Danh sách bài học:',
-                                    style: TextStyle(fontSize: 15),
-                                  ))
-                              : SizedBox(),
-                          (course['price'] == 0)
-                              ? Column(
+                          Container(
+                              margin: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                'Danh sách bài học:',
+                                style: TextStyle(fontSize: 15),
+                              )),
+                          // ListView.builder(
+                          //   shrinkWrap: true,
+                          //   itemCount: course['lessons'].length,
+                          //   itemBuilder: (context, index) {
+                          //     return ListTile(
+                          //       title: Text(course['lessons'][index]['title']),
+                          //       subtitle:
+                          //           Text(course['lessons'][index]['description']),
+                          //       // Add more information or customize the UI as needed
+                          //     );
+                          //   },
+                          // ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (var lesson in course['lessons'])
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    for (var lesson in course['lessons'])
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ListTile(
-                                            title: const Text('Tên bài học'),
-                                            subtitle: Text(lesson['title']),
-                                          ),
-                                          ListTile(
-                                            title: const Text('Mô tả bài học'),
-                                            subtitle:
-                                                Text(lesson['description']),
-                                          ),
-                                          const Divider(),
-                                          if (lesson['video'] != null)
-                                            _buildVideoPlayer(lesson['video']),
-                                        ],
-                                      ),
-                                  ],
-                                )
-                              : Center(
-                                  child: ElevatedButton(
-                                    key: const Key('ButtonAddExperience'),
-                                    // onPressed: () {
-                                    //   // requestPayment(
-                                    //   //     widget.courseId, widget.token);
-                                    //   _launchUrl();
-                                    // },
-                                    onPressed: () {
-                                      requestPayment(
-                                          widget.courseId, widget.token);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 63, 143, 125),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                      ),
+                                    ListTile(
+                                      title: const Text('Tên bài học'),
+                                      subtitle: Text(lesson['title']),
                                     ),
-                                    child: const Text('Mua khoá học'),
-                                  ),
+                                    ListTile(
+                                      title: const Text('Mô tả bài học'),
+                                      subtitle: Text(lesson['description']),
+                                    ),
+                                    const Divider(),
+                                    if (lesson['video'] != null)
+                                      _buildVideoPlayer(lesson['video']),
+                                  ],
                                 ),
+                            ],
+                          )
                         ],
                       ),
                     ),

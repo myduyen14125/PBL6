@@ -30,11 +30,7 @@ import { CourseModule } from 'src/course/course.module';
         forwardRef(() => BioModule),
         forwardRef(() => MediaModule),
         forwardRef(() => BlogModule),
-        forwardRef(() => ScheduleModule),
-        forwardRef(() => RatingModule),
-        forwardRef(() => BlogModule),
         forwardRef(() => AppointmentModule),
-        forwardRef(() => CourseModule),
     ],
 
     controllers: [UserController, MentorController],

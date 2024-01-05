@@ -40,7 +40,7 @@
 
         <!-- <button
           type="submit"
-          class="btn-custom btn-danger"
+          class="btn-custom"
           @click="delExpertise()"
         >
           Delete

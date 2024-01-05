@@ -2,28 +2,16 @@
   <div class="h-100 position-relative">
     <div class="table-header d-flex align-items-center">
       <div class="d-flex align-items-center">
-        <img
-          src="@/assets/icons/icon-back.svg"
-          alt=""
-          width="20px"
-          height="20px"
-          class="mr-1 cursor-pointer"
-          @click="$router.go(-1)"
-        />
+        <img src="@/assets/icons/icon-back.svg" alt="" width="20px" height="20px" class="mr-1 cursor-pointer"
+          @click="$router.go(-1)" />
         <h1 class="title">Update blog detail</h1>
       </div>
     </div>
     <hr class="my-2" />
     <!-- @mark-public="markPublic" -->
     <FormBlog :blog="blog" @submit="onSubmit" />
-    <BaseModal
-      v-if="showModal"
-      :title="'Update Blog'"
-      :description="'Are you sure you want to update this blog?'"
-      :function-text="'Update'"
-      @function-action="updateBlog"
-      @close="closeModal"
-    >
+    <BaseModal v-if="showModal" :title="'Update Blog'" :description="'Are you sure you want to update this blog?'"
+      :function-text="'Update'" @function-action="updateBlog" @close="closeModal">
     </BaseModal>
   </div>
 </template>

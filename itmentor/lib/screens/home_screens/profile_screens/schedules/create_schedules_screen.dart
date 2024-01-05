@@ -140,6 +140,8 @@ class _CreateSchedulesState extends State<CreateSchedules> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tạo lịch rảnh'),
+        backgroundColor: Color.fromARGB(255, 94, 157, 144),
+        elevation: 0,
       ),
       body: isLoading
           ? const Center(
@@ -280,10 +282,9 @@ class ScheduleDataSource extends CalendarDataSource {
   ScheduleDataSource(List<Map<String, dynamic>> source) {
     appointments = source
         .map((data) => Appointment(
-              startTime: DateTime.parse(data['start_at']),
-              endTime: DateTime.parse(data['end_at']),
-              color: Colors.green
-            ))
+            startTime: DateTime.parse(data['start_at']),
+            endTime: DateTime.parse(data['end_at']),
+            color: Colors.green))
         .toList();
   }
 }

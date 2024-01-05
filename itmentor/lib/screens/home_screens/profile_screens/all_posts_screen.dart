@@ -33,18 +33,20 @@ class _AllPostsScreenState extends State<AllPostsScreen> {
     setState(() {
       isLoading = true;
     });
-    final uri = Uri.https(Constants.uri, '/user/${widget.mentorId}/blogs');
+    final uri = Uri.https(Constants.uri, '/blog/by-user/${widget.mentorId}');
     final response = await http.get(uri, headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Authorization': 'Bearer ${widget.mentorToken}'
     });
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      final List<dynamic> blogs = responseData['blogs'];
+      // final Map<String, dynamic> responseData = json.decode(response.body);
+      // final List<dynamic> blogs = responseData['blogs'];
+      final List<dynamic> data = json.decode(response.body);
 
       setState(() {
-        blogData = blogs.cast<Map<String, dynamic>>();
+        // blogData = blogs.cast<Map<String, dynamic>>();
+        blogData = List<Map<String, dynamic>>.from(data);
         isLoading = false;
       });
     } else {

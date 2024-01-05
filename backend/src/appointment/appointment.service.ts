@@ -30,17 +30,14 @@ export class AppointmentService {
     }
 
     async createAppointment(mentee: User, dto: CreateAppointmentDto) {      
-        const mentor = await this.userService.checkMentor(dto.mentor)
         const schedule = await this.scheduleService.getScheduleById(dto.schedule)
 
-        if(!mentor) throw new HttpException('Mentor with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule) throw new HttpException('Schedule with the provided ID does not exist', HttpStatus.BAD_REQUEST);
         if(!schedule.status) throw new HttpException('Schedule is already taken', HttpStatus.BAD_REQUEST);
         if(schedule.deleted) throw new HttpException('Schedule is already deleted', HttpStatus.BAD_REQUEST);
-        if(dto.mentor != schedule.user.toString()) throw new HttpException('Mentor and Schedule Mismatched', HttpStatus.BAD_REQUEST);
 
         dto.mentee = mentee._id;
-        dto.mentor = dto.mentor;
+        dto.mentor = schedule.user._id;
         dto.status = "pending";
 
         const newAppointment = await this.appointmentRepository.create(dto);
