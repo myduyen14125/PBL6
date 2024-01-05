@@ -14,7 +14,7 @@
       <section class="banner-section min-h-[90vh]">
         <div class="container">
           <div class="row">
-            <div class="col-lg-6 p-5">
+            <div class="col-lg-8 p-5">
               <div class="mx-lg-5">
                 <h1 class="mb-5">
                   IT Mentor - Nền tảng Kết nối Cố vấn và Học cùng Chuyên gia
@@ -26,20 +26,28 @@
                 <p class="mt-3">Các dịch vụ đến từ IT Mentor:</p>
                 <div class="mt-3">
                   <button
-                    class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3"
+                    class="btn btn-white !text-lg border-10 px-3 py-2 mr-4 mb-3"
+                    @click="() => router.push(`/mentors`)"
                   >
                     Tư vấn trực tiếp
                   </button>
                   <button
-                    class="btn btn-primary !text-lg border-10 px-3 py-2 mb-3"
+                    class="btn btn-white !text-lg border-10 px-3 py-2 mr-4 mb-3"
+                    @click="() => router.push(`/course`)"
                   >
                     Khóa học cùng chuyên gia
+                  </button>
+                  <button
+                    class="btn btn-white !text-lg border-10 px-3 py-2 mb-3"
+                    @click="() => router.push(`/blogs`)"
+                  >
+                    Blog chia sẻ kiến thức
                   </button>
                 </div>
               </div>
             </div>
             <div
-              class="col-lg-6 d-flex align-items-center justify-content-center"
+              class="col-lg-4 d-flex align-items-center justify-content-center"
             >
               <img :src="heroImg" alt="Image" class="w-50" />
             </div>

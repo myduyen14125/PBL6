@@ -80,11 +80,11 @@
           </ul>
 
           <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-            <button class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3">
-              Tư vấn trực tiếp
-            </button>
-            <button class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3">
-              Tư vấn trực tiếp
+            <button 
+              class="btn btn-primary !text-lg border-10 px-3 py-2 mr-6 mb-3"
+              @click = "() => router.push(`/mentors`)"
+            >
+              Lựa chọn mentor ngay!
             </button>
 
           </div>
@@ -100,3 +100,18 @@
   background-color: #004b5c;
 }
 </style>
+<script lang="ts">
+import { computed, defineComponent, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+
+export default defineComponent({
+  name: "ProcessSection",
+  setup() {
+    const router = useRouter();
+
+    return {
+      router,
+    };
+  },
+});
+</script>

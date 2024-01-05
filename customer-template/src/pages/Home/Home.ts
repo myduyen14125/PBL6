@@ -163,7 +163,8 @@ export default defineComponent({
       settings,
       breakpoints,
       courses,
-      totalCourses
+      totalCourses,
+      router,
     };
   },
 });

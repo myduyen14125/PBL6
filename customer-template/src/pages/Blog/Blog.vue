@@ -2,9 +2,9 @@
   <GuestLayout>
     <div class="blogs-page">
       <div class="container">
-        <a href="#" target="_blank">
+        <div>
           <img class="wall-paper-img my-3 mt-lg-5" :src="wallPaper" />
-        </a>
+        </div>
         <div class="row mt-5">
           <div class="col-lg-9">
             <h3 class="border-bottom pb-2">Tin tức nổi bật</h3>

@@ -1,7 +1,7 @@
 <template>
   <Vue3Marquee :pause-on-hover="false" class="my-24">
     <div v-for="mentor in mentors" :key="mentor._id">
-      <div class="m-2 w-[250px] h-[200px]">
+      <div class="m-2 w-[250px] h-[200px]" @click="() => router.push(`/user/${mentor._id}`)">
         <div
           class="drop-shadow-lg rounded-lg p-6 bg-white h-full w-full overflow-hidden"
         >
@@ -30,6 +30,7 @@
 import { defineComponent } from "vue";
 import { Vue3Marquee } from "vue3-marquee";
 import avatar from "../../assets/image/avatar.png";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -42,8 +43,11 @@ export default defineComponent({
     },
   },
   setup() {
+    const router = useRouter();
+
     return {
       avatar,
+      router
     };
   },
 });

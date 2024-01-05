@@ -1,5 +1,5 @@
 <template>
-  <div class="card p-0 border-0 relative">
+  <div class="card p-2 border-0 relative shadow-md hover:shadow-lg">
     <div
       v-if="getUserInfo()?.role == 'mentor'"
       class="position-absolute top-0 end-0 translate-middle-y d-flex align-items-center justify-content-center z-20"
@@ -52,7 +52,7 @@
             class="flex items-center"
           >
             <button
-              class="absolute right-0 bottom-4 btn btn-primary btn-course"
+              class="absolute right-2 bottom-4 btn btn-primary btn-course"
               @click="buyCourse(course._id)"
             >
               Mua ngay
