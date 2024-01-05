@@ -12,11 +12,11 @@ export class LessonService {
 
     async createLesson(user: User, lesson: CreateLessonDto) {
         await this.courseService.checkOwnership(user, lesson.course)
-        const { getVideoDurationInSeconds } = require('get-video-duration')
+        // const { getVideoDurationInSeconds } = require('get-video-duration')
 
-        await getVideoDurationInSeconds(lesson.video).then((duration) => {
-            this.courseService.updateDuration(lesson.course, true, duration) 
-        })
+        // await getVideoDurationInSeconds(lesson.video).then((duration) => {
+        //     this.courseService.updateDuration(lesson.course, true, duration) 
+        // })
         
         const lastLesson = await this.lessonRepository.getByCondition(
             {
@@ -60,18 +60,18 @@ export class LessonService {
         if(!lesson) throw new HttpException('No lesson with this id', HttpStatus.BAD_REQUEST);
         await this.courseService.checkOwnership(user, lesson.course._id)
         
-        if(dto.video != lesson.video) {
-            const { getVideoDurationInSeconds } = require('get-video-duration')
-            await getVideoDurationInSeconds(lesson.video).then((duration) => {
-                this.courseService.updateDuration(lesson.course._id, false, duration) 
-                // console.log(duration);
-            })
+        // if(dto.video != lesson.video) {
+        //     const { getVideoDurationInSeconds } = require('get-video-duration')
+        //     await getVideoDurationInSeconds(lesson.video).then((duration) => {
+        //         this.courseService.updateDuration(lesson.course._id, false, duration) 
+        //         // console.log(duration);
+        //     })
             
-            await getVideoDurationInSeconds(dto.video).then((duration) => {
-                this.courseService.updateDuration(lesson.course._id, true, duration) 
-                // console.log(duration);
-            })
-        }
+        //     await getVideoDurationInSeconds(dto.video).then((duration) => {
+        //         this.courseService.updateDuration(lesson.course._id, true, duration) 
+        //         // console.log(duration);
+        //     })
+        // }
         
         return await this.lessonRepository.findByIdAndUpdate(id, dto)
     }
@@ -81,10 +81,10 @@ export class LessonService {
         if(!lesson) throw new HttpException('No lesson with this id', HttpStatus.BAD_REQUEST);
         await this.courseService.checkOwnership(user, lesson.course._id)
 
-        const { getVideoDurationInSeconds } = require('get-video-duration')
-        await getVideoDurationInSeconds(lesson.video).then((duration) => {
-            this.courseService.updateDuration(lesson.course._id, false, duration) 
-        })
+        // const { getVideoDurationInSeconds } = require('get-video-duration')
+        // await getVideoDurationInSeconds(lesson.video).then((duration) => {
+        //     this.courseService.updateDuration(lesson.course._id, false, duration) 
+        // })
 
         return await this.lessonRepository.deleteOne(id)
     }
