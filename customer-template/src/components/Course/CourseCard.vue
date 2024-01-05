@@ -127,20 +127,19 @@ export default {
       );
     };
 
-    const buyCourse = (couseId) => {
+    const buyCourse = (courseId) => {
       SwalPopup.swalDeletePopup(
         "",
         {
           onConfirmed: () => {
             useCourse().requestBuyCourse({
               params: {
-                course: couseId,
+                course: courseId,
               },
               callback: {
                 onSuccess: (response) => {
                   urlPayment.value = response.url;
-                  console.log(urlPayment.value);
-                  window.open(urlPayment.value, "_blank");
+                  window.open(response.url, "_blank");
                 },
                 onFailure: () => {
                   console.log("err");
