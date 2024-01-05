@@ -1,5 +1,20 @@
 <template>
-  <div class="card p-0 border-0">
+  <div class="card p-0 border-0 relative">
+    <div
+      class="position-absolute top-0 end-0 translate-middle-y d-flex align-items-center justify-content-center z-20"
+    >
+      <SvgIcon
+        icon="edit"
+        class="p-2 mr-2 bg-edit button cursor-pointer"
+        @click="updateCourse()"
+      />
+      <SvgIcon
+        icon="delete"
+        class="p-2 bg-delete button cursor-pointer"
+        @click="deleteCourse()"
+      />
+    </div>
+
     <div
       class="card-image relative"
       @mouseover="changeIsHover(true)"
@@ -14,9 +29,8 @@
         ref="btnCouse"
         class="btn btn-white btn-course !font-[600] !rounded-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         :class="isHover ? 'opacity-100' : 'opacity-0'"
-        @click="updateCourse()"
       >
-        Sửa khóa học
+        Xem khóa học
       </button>
     </div>
     <div class="card-content mt-2">
@@ -52,14 +66,17 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, type Ref } from "vue";
+import { ref } from "vue";
 import { getUserInfo } from "../../ultils/cache/cookies";
 import CourseModal from "../../pages/Course/CourseModal.vue";
+import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
+import SwalPopup from "../../ultils/swalPopup";
 
 export default {
   name: "CourseCard",
   components: {
     CourseModal,
+    SvgIcon,
   },
   props: {
     course: {
@@ -67,7 +84,7 @@ export default {
       required: true,
     },
   },
-  emits: ["updateCourse"],
+  emits: ["updateCourse", "deleteCourse"],
   setup(props, { emit }) {
     const isHover = ref(false);
     const changeIsHover = (value) => {
@@ -78,8 +95,26 @@ export default {
       emit("updateCourse", props?.course);
     };
 
+    const deleteCourse = () => {
+      SwalPopup.swalDeletePopup(
+        "",
+        {
+          onConfirmed: () => {
+            emit("deleteCourse", props?.course?._id);
+          },
+        },
+        {
+          html:
+            "Bạn có chắc chắn xóa khóa học " +
+            `<span class="color-primary">${props?.course?.title}</span>` +
+            " ?",
+        }
+      );
+    };
+
     return {
       isHover,
+      deleteCourse,
       updateCourse,
       changeIsHover,
       getUserInfo,
@@ -107,5 +142,13 @@ export default {
 .btn-course {
   animation-duration: 1s;
   animation-fill-mode: forwards;
+}
+
+.bg-edit {
+  background-color: #17a2b8;
+}
+
+.bg-delete {
+  background-color: #dc3545;
 }
 </style>
