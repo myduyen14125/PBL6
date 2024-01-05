@@ -48,6 +48,7 @@
             </p>
           </div>
           <div v-if="getUserInfo()?.role !== 'mentor'" class="flex items-center">
+            <button class="absolute right-0 bottom-4 btn btn-primary btn-course" @click="buyCourse()">Mua ngay</button>
             <img
               :src="course?.creator?.avatar"
               :alt="course?.creator?.name"
@@ -56,6 +57,7 @@
             <p class="subtitle text-gray-500 ml-2 mt-3">
               {{ course.creator.name }}
             </p>
+            
           </div>
           <div v-else>
             <p class="subtitle text-gray-500 my-0">
@@ -112,6 +114,10 @@ export default {
             " ?",
         }
       );
+    };
+
+    const buyCourse = () => {
+      emit("buyCourse", props?.course);
     };
 
     return {
