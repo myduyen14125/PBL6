@@ -11,7 +11,7 @@
         <HiddenBackground />
         <MentorMarquee :mentors="mentors" />
       </section>
-      <section class="banner-section">
+      <section class="banner-section min-h-[80vh]">
         <div class="container">
           <div class="row">
             <div class="col-lg-6 p-5">
