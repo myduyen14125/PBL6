@@ -7,6 +7,7 @@
       >
         <div class="lesson-img d-flex justify-content-center w-100">
           <VideoPlayer
+            v-if="showEdit"
             :src="lesson?.video || undefined"
             controls
             :loop="false"
@@ -14,6 +15,13 @@
             style="width: 300px; height: 250px; object-fit: cover"
             alt="video"
           />
+          <div v-else>
+            <img
+              :src="lesson?.image || avatar"
+              style="width: 300px; height: 250px; object-fit: cover"
+              alt="course image"
+            />
+          </div>
         </div>
       </div>
       <div
