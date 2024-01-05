@@ -210,18 +210,17 @@ export default defineComponent({
     const fileRef: Ref<HTMLDivElement | null> = ref(null);
     const avatarModal: Ref<any> = ref<typeof AvatarModal | null>(null);
 
-    watch(
-      () => props.data,
-      (newData, oldData) => {
+    watch(modal, () => {
+      if (modal.value == true && props?.data) {
         form.value = {
-          price: newData?.price,
-          title: newData?.title,
-          description: newData?.description,
-          discount: newData?.discount,
-          image: newData?.image,
+          price: props?.data?.price,
+          title: props?.data?.title,
+          description: props?.data?.description,
+          discount: props?.data?.discount,
+          image: props?.data?.image,
         };
       }
-    );
+    });
 
     const show = () => {
       modal.value = true;
@@ -348,7 +347,7 @@ export default defineComponent({
           onSuccess: (res) => {
             form.value.image = res.url;
           },
-          onFailure: () => {
+          onFailure: (res) => {
             form.value.image = res.url;
             // SwalPopup.swalResultPopup(
             //   "Sorry, looks like there are some errors detected, please try again.",

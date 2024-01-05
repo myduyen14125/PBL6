@@ -12,9 +12,6 @@
         />
         <h1 class="title">Mentor detail</h1>
       </div>
-      <button class="btn-custom btn-blue" @click="goToUpdate(blog.id)">
-        Update
-      </button>
     </div>
     <div>
       <div class="card mb-3 w-100">
@@ -44,6 +41,84 @@
                 <span class="w-25">Expertise:</span>
                 <span class="w-75">{{ mentor?.expertise?.name }}</span>
               </p>
+              <div>
+                <div>Experiences:</div>
+                <div class="d-flex flex-column">
+                  <ul>
+                    <li
+                      v-for="item in mentor?.bio?.experiences"
+                      :key="item?._id"
+                      class="pl-5 mb-3"
+                    >
+                      <div>{{ item?.company }}</div>
+                      <div>{{ item?.description }}</div>
+                      <div>
+                        {{
+                          `${formatDate(item?.start_date)} -  ${formatDate(
+                            item?.end_date
+                          )}`
+                        }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div>
+                <div>Educations:</div>
+                <div class="d-flex flex-column">
+                  <ul>
+                    <li
+                      v-for="item in mentor?.bio?.educations"
+                      :key="item?._id"
+                      class="pl-5 mb-3"
+                    >
+                      <div>{{ item?.major }}</div>
+                      <div>{{ item?.place }}</div>
+                      <div>{{ item?.description }}</div>
+                      <div>
+                        {{
+                          `${formatDate(item?.start_date)} -  ${formatDate(
+                            item?.end_date
+                          )}`
+                        }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div>
+                <div>Skills:</div>
+                <div class="d-flex flex-column">
+                  <ul>
+                    <li
+                      v-for="item in mentor?.bio?.skills"
+                      :key="item?._id"
+                      class="pl-5 mb-3"
+                    >
+                      <div>{{ item?.name }}</div>
+                      <div>{{ item?.description }}</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div>
+                <div>Awards:</div>
+                <div class="d-flex flex-column">
+                  <ul>
+                    <li
+                      v-for="item in mentor?.bio?.awards"
+                      :key="item?._id"
+                      class="pl-5 mb-3"
+                    >
+                      <div>{{ item?.name }}</div>
+                      <div>{{ item?.description }}</div>
+                      <div>
+                        {{ formatDate(item?.date) }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
