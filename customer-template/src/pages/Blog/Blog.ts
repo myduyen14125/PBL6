@@ -1,6 +1,6 @@
 import { defineComponent, ref, onMounted } from "vue";
 import GuestLayout from "../../layout/GuestLayout/GuestLayout.vue";
-import wallPaper from "../../assets/image/blog-wallpaper.jpg";
+import wallPaper from "../../assets/image/blog-cover.jpg";
 import advertisementImg from "../../assets/image/advertisement.jpg";
 import avatar from "../../assets/image/avatar.png";
 import MentorPost from "../../components/MentorPost/MentorPost.vue";

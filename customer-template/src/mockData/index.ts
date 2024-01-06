@@ -56,35 +56,35 @@ export const mentors = [
 ];
 
 export const majors = [
-  {
-    name: "IT",
-    thumbnail:
-      "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
-  },
-  {
-    name: "Business",
-    thumbnail:
-      "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
-  },
-  {
-    name: "Marketing",
-    thumbnail:
-      "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
-  },
-  {
-    name: "Accounting",
-    thumbnail:
-      "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
-  },
-  {
-    name: "Finance",
-    thumbnail:
-      "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
-  },
-  {
-    name: "Economics",
-    thumbnail:
-      "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
-  },
+  // {
+  //   name: "IT",
+  //   thumbnail:
+  //     "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
+  // },
+  // {
+  //   name: "Business",
+  //   thumbnail:
+  //     "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
+  // },
+  // {
+  //   name: "Marketing",
+  //   thumbnail:
+  //     "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
+  // },
+  // {
+  //   name: "Accounting",
+  //   thumbnail:
+  //     "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
+  // },
+  // {
+  //   name: "Finance",
+  //   thumbnail:
+  //     "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
+  // },
+  // {
+  //   name: "Economics",
+  //   thumbnail:
+  //     "https://cdn-icons-png.flaticon.com/512/4882/4882992.png",
+  // },
 ];
 

@@ -77,6 +77,7 @@
             <p class="label">Giá khuyến mãi</p>
             <input
               type="number"
+              max="100"
               v-model="form.discount"
               name="title"
               :className="
@@ -84,7 +85,7 @@
                   .filter(Boolean)
                   .join(' ')
               "
-              placeholder="Nhập giá khuyến mãi"
+              placeholder="Nhập giá khuyến mãi (%)"
             />
             <p v-if="error.discount" class="error-message mt-1">
               {{ error.discount }}
@@ -346,13 +347,14 @@ export default defineComponent({
         callback: {
           onSuccess: (res) => {
             form.value.image = res.url;
+            console.log(form.value.image);
           },
           onFailure: (res) => {
             form.value.image = res.url;
-            // SwalPopup.swalResultPopup(
-            //   "Sorry, looks like there are some errors detected, please try again.",
-            //   "error"
-            // );
+            SwalPopup.swalResultPopup(
+              "Sorry, looks like there are some errors detected, please try again.",
+              "error"
+            );
           },
         },
       });

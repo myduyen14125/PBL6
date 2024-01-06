@@ -3,7 +3,7 @@
     <div class="blogs-page">
       <div class="container">
         <div>
-          <img class="wall-paper-img my-3 mt-lg-5" :src="wallPaper" />
+          <img class="wall-paper-img my-3 mt-lg-5 w-100 h-80 object-cover rounded-lg" :src="wallPaper" />
         </div>
         <div class="row mt-5">
           <div class="col-lg-9">
@@ -35,13 +35,13 @@
           </div>
           <div class="col-lg-3">
             <div>
-              <a href="#" target="_blank">
+              <div>
                 <img
-                  class="w-100 px-2"
+                  class="w-100 px-2 rounded-lg"
                   :src="advertisementImg"
                   alt="Advertisement"
                 />
-              </a>
+              </div>
             </div>
             <div class="my-4">
               <h5>Tác giả nổi bật</h5>

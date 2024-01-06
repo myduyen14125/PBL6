@@ -31,13 +31,13 @@
         </div>
       </section>
       <section class="mentor-section">
-        <section class="majors">
+        <!-- <section class="majors">
           <div class="container flex flex-wrap justify-center gap-8">
             <div v-for="major in majors" :key="major.name">
               <MajorCard :major="major"></MajorCard>
             </div>
           </div>
-        </section>
+        </section> -->
         <section class="mentors">
           <div class="container">
             <div class="row">

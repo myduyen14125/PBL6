@@ -2,16 +2,16 @@
   <div class="card p-2 border-0 relative shadow-md hover:shadow-lg">
     <div
       v-if="getUserInfo()?.role == 'mentor'"
-      class="position-absolute top-0 end-0 translate-middle-y d-flex align-items-center justify-content-center z-20"
+      class="position-absolute top-8 right-4 translate-middle-y d-flex align-items-center justify-content-center z-20"
     >
       <SvgIcon
         icon="edit"
-        class="p-2 mr-2 bg-edit button cursor-pointer"
+        class="p-2 mr-2 bg-edit button cursor-pointer rounded-md"
         @click="updateCourse()"
       />
       <SvgIcon
         icon="delete"
-        class="p-2 bg-delete button cursor-pointer"
+        class="p-2 bg-delete button cursor-pointer rounded-md"
         @click="deleteCourse()"
       />
     </div>
@@ -21,7 +21,7 @@
       @mouseover="changeIsHover(true)"
       @mouseout="changeIsHover(false)"
     >
-      <img :src="course.image" :alt="course.title" class="rounded" />
+      <img :src="course.image ? course.image : 'https://www.masaischool.com/blog/content/images/2023/03/Object-oriented-programming-blog.png'" :alt="course.title" class="rounded" />
       <div
         class="absolute top-0 left-0 bg-dark rounded transition-all w-100 h-100"
         :class="isHover ? 'opacity-40' : 'opacity-0'"
@@ -44,7 +44,7 @@
               {{ course.price ? formatMoney(course.price) : 0 }}đ
             </p>
             <p class="subtitle text-red-700 my-0 ml-2">
-              {{ course.discount ? formatMoney(course.discount * course.price) : formatMoney(course?.price) || 0 }}đ
+              {{ course.discount ? formatMoney((100 - course.discount) * course.price / 100) : formatMoney(course?.price) || 0 }}đ
             </p>
           </div>
           <div
@@ -53,7 +53,7 @@
           >
             <button
               class="absolute right-2 bottom-4 btn btn-primary btn-course"
-              @click="buyCourse(course._id)"
+              @click="buyCourse(course._id, course.price, course.discount)"
             >
               {{ course.price > 0 ? "Mua khóa học" : "Free" }}
             </button>
@@ -84,6 +84,7 @@ import SvgIcon from "../BUI/SvgIcon/SvgIcon.vue";
 import SwalPopup from "../../ultils/swalPopup";
 import { Course } from "../../types/course";
 import { useCourse } from "../../stores/course";
+import { useRouter } from "vue-router";
 
 export default {
   name: "CourseCard",
@@ -101,6 +102,7 @@ export default {
   setup(props, { emit }) {
     const isHover = ref(false);
     const urlPayment = ref("");
+    const router = useRouter();
 
     const changeIsHover = (value: boolean) => {
       isHover.value = value;
@@ -127,7 +129,13 @@ export default {
       );
     };
 
-    const buyCourse = (courseId) => {
+    const buyCourse = (courseId, price, discount) => {
+      if (price == 0 || discount == 100) {
+        SwalPopup.swalResultPopup("Bạn đã đăng ký khóa học thành công!", "success");
+        router.push(`/course/${courseId}`);
+        
+        return;
+      }
       SwalPopup.swalDeletePopup(
         "",
         {

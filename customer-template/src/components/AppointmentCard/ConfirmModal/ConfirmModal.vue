@@ -86,6 +86,10 @@
               <span class="text-[#139896]">Online</span>
             </p>
             <p class="text-lg">
+              <span class="font-bold block w-40">Link meeting: </span>
+              <span class="text-[#139896]">{{ appointment?.mentor?.skype_link }}</span>
+            </p>
+            <p class="text-lg">
               <span class="font-bold block w-40">Ghi chú: </span>
               {{ appointment?.note || "" }}
             </p>
