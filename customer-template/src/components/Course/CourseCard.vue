@@ -41,10 +41,10 @@
           <p class="title font-bold m-0 text-left">{{ course.title }}</p>
           <div class="price flex items-center">
             <p class="subtitle text-gray-500 line-through my-0">
-              {{ course.price ? course.price : 0 }}đ
+              {{ course.price ? formatMoney(course.price) : 0 }}đ
             </p>
             <p class="subtitle text-red-700 my-0 ml-2">
-              {{ course.discount ? course.discount : course?.price || 0 }}đ
+              {{ course.discount ? formatMoney(course.discount * course.price) : formatMoney(course?.price) || 0 }}đ
             </p>
           </div>
           <div
@@ -55,7 +55,7 @@
               class="absolute right-2 bottom-4 btn btn-primary btn-course"
               @click="buyCourse(course._id)"
             >
-              Mua ngay
+              {{ course.price > 0 ? "Mua khóa học" : "Free" }}
             </button>
             <img
               :src="course?.creator?.avatar"
@@ -158,6 +158,10 @@ export default {
       );
     };
 
+    const formatMoney = (money: number) => {
+      return money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    };
+
     return {
       isHover,
       deleteCourse,
@@ -165,6 +169,7 @@ export default {
       changeIsHover,
       getUserInfo,
       buyCourse,
+      formatMoney,
     };
   },
 };
